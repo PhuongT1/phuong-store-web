@@ -1,0 +1,93 @@
+fragment OrderLine on OrderLine {
+	id
+	quantity
+	variant {
+		name
+		attributes(variantSelection: ALL) {
+			values {
+				name
+				dateTime
+				boolean
+				translation(languageCode: $languageCode) {
+					name
+				}
+			}
+		}
+	}
+	totalPrice {
+		gross {
+			...Money
+		}
+	}
+	undiscountedUnitPrice {
+		gross {
+			...Money
+		}
+	}
+	unitPrice {
+		gross {
+			...Money
+		}
+	}
+	productName
+	variantName
+	thumbnail(size: 128, format: WEBP) {
+		alt
+		url
+	}
+}
+
+fragment Order on Order {
+	id
+	number
+	userEmail
+	isPaid
+	discounts {
+		type
+		name
+		amount {
+			...Money
+		}
+	}
+	chargeStatus
+	authorizeStatus
+	shippingAddress {
+		...Address
+	}
+	billingAddress {
+		...Address
+	}
+	deliveryMethod {
+		...Shipping
+	}
+	total {
+		gross {
+			...Money
+		}
+		tax {
+			...Money
+		}
+	}
+	voucher {
+		code
+	}
+	shippingPrice {
+		gross {
+			...Money
+		}
+	}
+	subtotal {
+		gross {
+			...Money
+		}
+	}
+	lines {
+		...OrderLine
+	}
+	totalBalance {
+		...Money
+	}
+	totalCaptured {
+		...Money
+	}
+}

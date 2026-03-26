@@ -1,0 +1,266 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React, { useEffect, useState } from "react";
+import { type AddressFormProps } from "@/checkout/components/AddressForm";
+import { type AddressFragment } from "@/checkout/graphql";
+import { useTransactionInitializeState } from "@/checkout/state/checkoutTransactionStateStore";
+import {
+	anyFormsValidating,
+	areAllFormsValid,
+	useCheckoutValidationActions,
+	useCheckoutValidationState
+} from "@/checkout/state/checkoutValidationStateStore";
+import { useUser } from "@/checkout/hooks/useUser";
+import { useCheckoutUpdateState, useCheckoutUpdateStateActions } from "@/checkout/state/updateStateStore";
+import { Button } from "@ui";
+import { useTransactionProcess } from "@/hooks/checkout/mutations/useTransaction";
+import { useCheckout } from "@hooks/checkout";
+import { openPaymentPopup } from "@/checkout/lib/paymentPopup";
+import { useCheckoutPolling } from "@/checkout/hooks/useCheckoutPolling";
+import { PaymentProcessingModal } from "@/checkout/components/PaymentProcessingModal";
+
+export interface AddressCreateFormProps extends Pick<AddressFormProps, "availableCountries"> {
+	onSuccess?: (address: AddressFragment) => void;
+	onClose?: () => void;
+}
+
+export const PayButton: React.FC<AddressCreateFormProps> = () => {
+	const { transaction, paymentSectionSelectedId } = useTransactionInitializeState();
+	const { authenticated } = useUser();
+	const { checkout } = useCheckout();
+
+	console.log("🔘 PayButton render - Payment selected:", paymentSectionSelectedId);
+	console.log("🔘 Transaction state:", transaction);
+	console.log("🔘 Checkout:", checkout);
+
+	const checkoutUpdateState = useCheckoutUpdateState();
+	const { validationState } = useCheckoutValidationState();
+
+	const { setSubmitInProgress, setShouldRegisterUser, setLoadingCheckout } = useCheckoutUpdateStateActions();
+
+	const { validateAllForms } = useCheckoutValidationActions();
+
+	// Payment processing state
+	const [showProcessingModal, setShowProcessingModal] = useState(false);
+	const [pollingEnabled, setPollingEnabled] = useState(false);
+	const [currentTransactionId, setCurrentTransactionId] = useState<string | undefined>();
+
+	const { trigger } = useTransactionProcess({
+		onError: () => {
+			setLoadingCheckout(false);
+		}
+	});
+
+	// Polling hook - waits for VNPay webhook to create order
+	const { isPolling, timeElapsed } = useCheckoutPolling({
+		enabled: pollingEnabled,
+		checkoutId: checkout?.id || "",
+		transactionId: currentTransactionId,
+		interval: 2000, // Poll every 2 seconds
+		timeout: 60000, // Timeout after 60 seconds
+		onOrderCreated: (orderId) => {
+			console.log("✅ Order créated detected:", orderId);
+			setPollingEnabled(false);
+			setShowProcessingModal(false);
+			setLoadingCheckout(false);
+
+			void import("sonner").then(({ toast }) => {
+				toast.success("Thanh toán thành công!");
+			});
+
+			// Redirect to order confirmation
+			if (orderId !== "unknown") {
+				window.location.href = `/order-confirmation?order=${orderId}`;
+			} else {
+				// Order created but ID unknown - redirect to orders list
+				window.location.href = "/account/orders";
+			}
+		},
+		onTimeout: () => {
+			console.warn("⏱️ Polling timeout - payment verification took too long");
+			setShowProcessingModal(false);
+			setLoadingCheckout(false);
+
+			void import("sonner").then(({ toast }) => {
+				toast.error("Không thể xác nhận thanh toán. Vui lòng kiểm tra đơn hàng của bạn hoặc liên hệ hỗ trợ.");
+			});
+		},
+		onError: (error) => {
+			console.error("❌ Polling error:", error);
+		}
+	});
+
+	useEffect(() => {
+		handleValidate();
+	}, [validationState, setSubmitInProgress, checkoutUpdateState.submitInProgress, transaction]);
+
+	const handleSubmit = async () => {
+		console.log("🔥 PayButton handleSubmit called");
+		console.log("Transaction state:", {
+			paymentSectionSelectedId,
+			hasTransaction: !!transaction,
+			transactionData: transaction?.[paymentSectionSelectedId],
+			transactionId: transaction?.[paymentSectionSelectedId]?.transaction?.id
+		});
+
+		if (!transaction) {
+			console.error("❌ No transaction object");
+			setLoadingCheckout(false);
+			return;
+		}
+
+		if (!transaction[paymentSectionSelectedId]) {
+			console.error("❌ No transaction for selected payment method:", paymentSectionSelectedId);
+			setLoadingCheckout(false);
+			return;
+		}
+
+		const txData = transaction[paymentSectionSelectedId];
+		const txId = txData?.transaction?.id;
+
+		if (!txId) {
+			console.error("❌ No transaction ID");
+			setLoadingCheckout(false);
+			return;
+		}
+
+		// Check if payment requires action (e.g., redirect to VNPay)
+		const needsAction =
+			txData.transactionEvent?.type === "CHARGE_ACTION_REQUIRED" ||
+			txData.transactionEvent?.type === "AUTHORIZATION_ACTION_REQUIRED";
+
+		if (needsAction && txData.data) {
+			console.log("💳 Payment requires action - opening payment popup");
+
+			// Show currency conversion info if available
+			const currencyConversion = (txData.data as any).currencyConversion;
+			if (currencyConversion) {
+				console.log("💱 Currency Conversion Applied:", {
+					original: `${currencyConversion.originalAmount} ${currencyConversion.originalCurrency}`,
+					converted: `${currencyConversion.convertedAmount} ${currencyConversion.convertedCurrency}`,
+					message: `You will be charged ${currencyConversion.convertedAmount} ${currencyConversion.convertedCurrency} (≈ ${currencyConversion.originalAmount} ${currencyConversion.originalCurrency})`
+				});
+			}
+
+			const paymentUrl = (txData.data as any).paymentUrl || (txData.data as any).payment_url;
+
+			if (paymentUrl) {
+				console.log("✅ Opening payment popup:", paymentUrl);
+
+				// Open payment in popup instead of redirect
+				// Store transaction ID for polling
+				setCurrentTransactionId(txId);
+
+				openPaymentPopup({
+					url: paymentUrl,
+					width: 800,
+					height: 700,
+					onSuccess: (data) => {
+						console.log("✅ Payment successful from popup:", data);
+						console.log("🔄 Starting polling for order creation (waiting for VNPay IPN webhook)");
+
+						// DON'T call transactionProcess here!
+						// VNPay IPN webhook will update transaction status
+						// We just poll until order is created
+
+						// Show processing modal
+						setShowProcessingModal(true);
+
+						// Start polling for order
+						setPollingEnabled(true);
+					},
+					onError: (error) => {
+						console.error("❌ Payment failed from popup:", error);
+						setLoadingCheckout(false);
+						setShowProcessingModal(false);
+						setPollingEnabled(false);
+
+						void import("sonner").then(({ toast }) => {
+							toast.error("Thanh toán không thành công. Vui lòng thử lại.");
+						});
+					},
+					onClose: () => {
+						console.log("⚠️ Payment popup closed by user");
+
+						// Don't immediately cancel - user might have paid
+						// Show processing modal and poll for a bit
+						setShowProcessingModal(true);
+						setPollingEnabled(true);
+
+						// If no order after 10 seconds, assume user cancelled
+						setTimeout(() => {
+							if (isPolling) {
+								console.log("⏱️ Popup closed and no order detected - user likely cancelled");
+								setPollingEnabled(false);
+								setShowProcessingModal(false);
+								setLoadingCheckout(false);
+
+								void import("sonner").then(({ toast }) => {
+									toast.info("Thanh toán đã bị hủy.");
+								});
+							}
+						}, 10000);
+					}
+				});
+				return;
+			} else {
+				console.warn("⚠️ Action required but no payment URL found in data:", txData.data);
+			}
+		}
+
+		// For COD or if no action required, proceed with transactionProcess
+		console.log("✅ Calling transactionProcess with ID:", txId);
+		void trigger({ id: txId });
+	};
+
+	const handleValidate = () => {
+		const validating = anyFormsValidating(validationState);
+		const allFormsValid = areAllFormsValid(validationState);
+
+		console.log("🔍 PayButton validation:", {
+			submitInProgress: checkoutUpdateState.submitInProgress,
+			allFormsValid,
+			validating,
+			validationStateDetails: Object.entries(validationState).map(([key, value]) => ({
+				form: key,
+				valid: (value as any)?.valid,
+				validating: (value as any)?.validating,
+				errors: (value as any)?.errors
+			}))
+		});
+
+		if (!checkoutUpdateState.submitInProgress) {
+			return;
+		}
+
+		if (!allFormsValid) {
+			return;
+		}
+
+		if (validating) {
+			return;
+		}
+
+		console.log("✅ All validations passed, proceeding to submit");
+		setLoadingCheckout(true);
+		setSubmitInProgress(false);
+		void handleSubmit();
+	};
+
+	return (
+		<Button
+			className="w-full"
+			variant={"default"}
+			size={"lg"}
+			loading={checkoutUpdateState.loadingCheckout}
+			onClick={() => {
+				console.log("🖱️ Đặt hàng button clicked");
+				setSubmitInProgress(true);
+				setShouldRegisterUser(true);
+				validateAllForms(authenticated);
+				console.log("🔄 Validation triggered, authenticated:", authenticated);
+			}}
+		>
+			Đặt hàng
+		</Button>
+	);
+};

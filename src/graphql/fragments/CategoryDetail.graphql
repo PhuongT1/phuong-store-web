@@ -1,0 +1,7 @@
+fragment CategoryDetail on Category {
+	id
+	name
+	description
+	seoDescription
+	seoTitle
+}

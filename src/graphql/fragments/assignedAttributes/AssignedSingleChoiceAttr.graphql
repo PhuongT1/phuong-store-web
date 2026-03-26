@@ -1,0 +1,21 @@
+fragment AssignedSingleChoiceAttr on AssignedSingleChoiceAttribute {
+	__typename
+	attribute {
+		name
+		id
+		choices(first: 10) {
+			edges {
+				node {
+					value
+					name
+					id
+					slug
+				}
+			}
+		}
+	}
+	value {
+		name
+		slug
+	}
+}

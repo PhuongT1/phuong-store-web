@@ -1,0 +1,28 @@
+query ProductListByCategory($slug: String!, $channel: String!) {
+	category(slug: $slug) {
+		...CategoryDetail
+		products(first: 100, channel: $channel) {
+			edges {
+				node {
+					...Product
+				}
+			}
+		}
+	}
+}
+
+query ProductListByCategoryPaginated(
+	$slug: String!
+	$first: Int!
+	$after: String
+	$channel: String!
+	$sortBy: ProductOrder
+	$filter: ProductFilterInput
+) {
+	category(slug: $slug) {
+		...CategoryDetail
+		products(first: $first, after: $after, channel: $channel, sortBy: $sortBy, filter: $filter) {
+			...ProductListItemPaginated
+		}
+	}
+}

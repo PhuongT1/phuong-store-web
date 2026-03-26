@@ -1,0 +1,27 @@
+{
+	"common": {
+		"login": "Sign in",
+		"register": "Sign up",
+		"noAccount": "Don't have an account?"
+	},
+
+	"login": {
+		"title": "Sign in to look up your order information",
+
+		"email": {
+			"label": "Email",
+			"placeholder": "Enter your email"
+		},
+
+		"password": {
+			"label": "Password",
+			"placeholder": "Enter your password"
+		}
+	},
+
+	"formValidation": {
+		"required": "{field} is required",
+		"invalidFormat": "{field} has an invalid format",
+		"minLength": "{field} must be at least {minimum} characters"
+	}
+}

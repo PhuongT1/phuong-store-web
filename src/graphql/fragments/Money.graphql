@@ -1,0 +1,19 @@
+fragment Money on Money {
+	currency
+	amount
+	fractionalAmount
+	fractionDigits
+}
+
+fragment TaxedMoney on TaxedMoney {
+	currency
+	gross {
+		...Money
+	}
+	net {
+		...Money
+	}
+	tax {
+		...Money
+	}
+}

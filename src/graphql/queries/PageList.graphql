@@ -1,0 +1,9 @@
+query PageList($first: Int, $filter: PageFilterInput) {
+	pages(first: $first, filter: $filter) {
+		edges {
+			node {
+				...Page
+			}
+		}
+	}
+}

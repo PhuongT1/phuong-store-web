@@ -1,0 +1,17 @@
+@layer components {
+	.title {
+		@apply mb-3 text-xl font-semibold md:mb-7 md:text-3xl;
+	}
+
+	.detail-grid {
+		@apply grid grid-cols-1 gap-2 lg:grid-cols-10 lg:gap-16;
+	}
+
+	.detail-content {
+		@apply md:col-span-6;
+	}
+
+	.detail-sidebar {
+		@apply md:col-span-4;
+	}
+}

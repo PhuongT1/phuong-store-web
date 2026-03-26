@@ -1,0 +1,47 @@
+mutation userAddressCreate($address: AddressInput!, $type: AddressTypeEnum) {
+	accountAddressCreate(type: $type, input: $address) {
+		user {
+			...UserDetails
+		}
+		errors {
+			field
+			message
+			code
+		}
+		address {
+			...Address
+		}
+	}
+}
+
+mutation userAddressUpdate($id: ID!, $address: AddressInput!) {
+	accountAddressUpdate(id: $id, input: $address) {
+		user {
+			...UserDetails
+		}
+		errors {
+			field
+			message
+			code
+		}
+		address {
+			...Address
+		}
+	}
+}
+
+mutation userAddressDelete($id: ID!) {
+	accountAddressDelete(id: $id) {
+		user {
+			...UserDetails
+		}
+		errors {
+			field
+			message
+			code
+		}
+		address {
+			...Address
+		}
+	}
+}

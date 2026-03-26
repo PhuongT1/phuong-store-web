@@ -1,0 +1,76 @@
+query CheckoutFind($id: ID!) {
+	checkout(id: $id) {
+		...Checkout
+		# id
+		# email
+		# discount {
+		# 	...Money
+		# }
+		# voucherCode
+		# discountName
+		# translatedDiscountName
+		# giftCards {
+		# 	...GiftCard
+		# }
+		# channel {
+		# 	id
+		# 	slug
+		# }
+		# shippingAddress {
+		# 	...Address
+		# }
+		# billingAddress {
+		# 	...Address
+		# }
+		# authorizeStatus
+		# chargeStatus
+		# isShippingRequired
+		# user {
+		# 	id
+		# 	email
+		# }
+		# availablePaymentGateways {
+		# 	...PaymentGateway
+		# }
+		# deliveryMethod {
+		# 	# ... on ShippingMethod {
+		# 	# 	id
+		# 	# }
+		# 	# ... on Warehouse {
+		# 	# 	id
+		# 	# }
+		# 	...Shipping
+		# 	...Warehouse
+		# }
+		# shippingMethods {
+		# 	id
+		# 	name
+		# 	price {
+		# 		...Money
+		# 	}
+		# 	maximumDeliveryDays
+		# 	minimumDeliveryDays
+		# }
+		# totalPrice {
+		# 	gross {
+		# 		...Money
+		# 	}
+		# 	tax {
+		# 		...Money
+		# 	}
+		# }
+		# shippingPrice {
+		# 	gross {
+		# 		...Money
+		# 	}
+		# }
+		# subtotalPrice {
+		# 	gross {
+		# 		...Money
+		# 	}
+		# }
+		# lines {
+		# 	...CheckoutLine
+		# }
+	}
+}

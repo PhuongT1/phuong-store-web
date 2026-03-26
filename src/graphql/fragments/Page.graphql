@@ -1,0 +1,11 @@
+fragment Page on Page {
+	id
+	slug
+	title
+	seoTitle
+	seoDescription
+	content
+	attributes {
+		...SelectedAttribute
+	}
+}

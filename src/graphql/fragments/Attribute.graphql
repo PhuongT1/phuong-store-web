@@ -1,0 +1,33 @@
+fragment Attribute on Attribute {
+	id
+	name
+	slug
+	choices(first: 10) {
+		edges {
+			node {
+				name
+				id
+				value
+			}
+		}
+	}
+}
+
+fragment values on AttributeValue {
+	id
+	name
+	value
+	richText
+	externalReference
+	reference
+	slug
+}
+
+fragment SelectedAttribute on SelectedAttribute {
+	attribute {
+		...Attribute
+	}
+	values {
+		...values
+	}
+}

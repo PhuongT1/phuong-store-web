@@ -1,0 +1,89 @@
+"use client";
+
+import { ArrowRight } from "lucide-react";
+import { Button } from "@components/ui";
+import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
+
+type CategoryHeroProps = {
+	category: ProductListByCategoryPaginatedQuery["category"];
+};
+
+const CategoryHero = ({ category }: CategoryHeroProps) => {
+	if (!category) return null;
+
+	return (
+		<section className="relative h-[400px] w-full overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 md:h-[500px]">
+			{/* Background Pattern */}
+			<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDEzNGg3di03aC03djd6bTE0IDBINDd2LTdoN3Y3em0tMjggMGg3di03aC03djd6bTE0IDBIMzN2LTdoN3Y3em0tMTQgMTRoN3YtN2gtN3Y3em0xNCAwaDd2LTdoLTd2N3ptLTE0IDE0aDd2LTdoLTd2N3ptMTQgMGg3di03aC03djd6bS0xNCAxNGg3di03aC03djd6bTE0IDBoN3YtN2gtN3Y3eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
+
+			{/* Gradient Overlay */}
+			<div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30"></div>
+
+			{/* Content */}
+			<div className="relative mx-auto flex h-full max-w-[1920px] items-center px-4 sm:px-6 lg:px-8">
+				<div className="max-w-2xl">
+					<div className="mb-4 inline-block rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold tracking-wider text-white/90 uppercase backdrop-blur-sm">
+						Bộ sưu tập mới
+					</div>
+
+					<h1 className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
+						{category.name}
+					</h1>
+
+					{category.description && (
+						<p className="mb-8 max-w-lg text-base leading-relaxed text-white/90 md:text-lg">
+							{category.description}
+						</p>
+					)}
+
+					{!category.description && (
+						<p className="mb-8 max-w-lg text-base leading-relaxed text-white/90 md:text-lg">
+							Khám phá bộ sưu tập {category.name.toLowerCase()} với{" "}
+							<span className="font-semibold text-white">{category.products?.totalCount || 0} sản phẩm</span>{" "}
+							chất lượng cao, phong cách hiện đại và giá cả cạnh tranh.
+						</p>
+					)}
+
+					<div className="flex flex-wrap items-center gap-4">
+						<Button
+							size="lg"
+							className="group rounded-lg bg-white px-8 py-6 font-semibold text-gray-900 shadow-xl transition-all hover:bg-gray-100 hover:shadow-2xl"
+						>
+							Khám phá ngay
+							<ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+						</Button>
+
+						<div className="flex items-center gap-3 rounded-lg bg-white/10 px-6 py-4 backdrop-blur-sm">
+							<div className="text-center">
+								<div className="text-3xl font-bold text-white">{category.products?.totalCount || 0}</div>
+								<div className="text-xs font-medium tracking-wider text-white/80 uppercase">Sản phẩm</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Decorative Elements */}
+				<div className="absolute top-1/2 right-8 hidden -translate-y-1/2 lg:block">
+					<div className="relative h-80 w-80">
+						<div className="absolute inset-0 animate-pulse rounded-full bg-white/5 blur-3xl"></div>
+						<div className="absolute inset-4 animate-pulse rounded-full bg-white/10 blur-2xl"></div>
+					</div>
+				</div>
+			</div>
+
+			<style jsx>{`
+				@keyframes pulse {
+					0%,
+					100% {
+						opacity: 1;
+					}
+					50% {
+						opacity: 0.5;
+					}
+				}
+			`}</style>
+		</section>
+	);
+};
+
+export { CategoryHero };

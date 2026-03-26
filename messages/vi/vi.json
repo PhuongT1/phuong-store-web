@@ -1,0 +1,27 @@
+{
+	"common": {
+		"login": "Đăng nhập",
+		"register": "Đăng ký",
+		"noAccount": "Bạn chưa có tài khoản?"
+	},
+
+	"login": {
+		"title": "Đăng nhập để tra cứu thông tin đơn hàng",
+
+		"email": {
+			"label": "Email",
+			"placeholder": "Nhập email của bạn"
+		},
+
+		"password": {
+			"label": "Mật khẩu",
+			"placeholder": "Nhập mật khẩu"
+		}
+	},
+
+	"formValidation": {
+		"required": "{field} là bắt buộc",
+		"invalidFormat": "{field} không đúng định dạng",
+		"minLength": "{field} phải có ít nhất {minimum} ký tự"
+	}
+}

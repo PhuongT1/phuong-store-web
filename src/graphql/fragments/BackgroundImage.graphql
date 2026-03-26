@@ -1,0 +1,4 @@
+fragment BackgroundImage on Image {
+	url
+	alt
+}

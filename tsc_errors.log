@@ -1,0 +1,53 @@
+src/checkout/components/AddressForm/addressFieldConfig.ts(6,45): error TS2552: Cannot find name 'createAddressFieldConfigs'. Did you mean 'useAddressFieldConfigs'?
+src/checkout/components/AddressForm/AddressForm.tsx(122,7): error TS2322: Type 'District[] | { province_name: string; province_id: string; province_type: string; }[] | { label: string; value: string; }[]' is not assignable to type 'Option[] | undefined'.
+  Type 'District[]' is not assignable to type 'Option[]'.
+    Type 'District' has no properties in common with type 'Option'.
+src/checkout/sections/AddressCreateForm/AddressCreateForm.tsx(47,16): error TS2345: Argument of type '{ __typename?: "AccountError" | undefined; field?: string | null | undefined; message?: string | null | undefined; code: AccountErrorCode; }[]' is not assignable to parameter of type 'ApiErrors<any>'.
+  Type '{ __typename?: "AccountError" | undefined; field?: string | null | undefined; message?: string | null | undefined; code: AccountErrorCode; }' is not assignable to type 'ApiError<any, string>'.
+    Types of property 'field' are incompatible.
+      Type 'string | null | undefined' is not assignable to type 'string | number | symbol'.
+        Type 'undefined' is not assignable to type 'string | number | symbol'.
+src/checkout/sections/AddressEditForm/AddressEditForm.tsx(32,76): error TS2304: Cannot find name 'CountryCode'.
+src/checkout/sections/AddressEditForm/AddressEditForm.tsx(45,34): error TS2322: Type '{ city?: InputMaybe<Scalars["String"]>; cityArea?: InputMaybe<Scalars["String"]>; companyName?: InputMaybe<Scalars["String"]>; ... 7 more ...; streetAddress2?: InputMaybe<Scalars["String"]>; }' is not assignable to type 'AddressInput'.
+  Types of property 'country' are incompatible.
+    Type 'import("/Users/paco/Documents/Projects/Saleor_user_web-main/src/checkout/graphql/index").InputMaybe<import("/Users/paco/Documents/Projects/Saleor_user_web-main/src/checkout/graphql/index").CountryCode> | undefined' is not assignable to type 'import("/Users/paco/Documents/Projects/Saleor_user_web-main/src/gql/graphql").InputMaybe<import("/Users/paco/Documents/Projects/Saleor_user_web-main/src/gql/graphql").CountryCode> | undefined'.
+      Type '"ID"' is not assignable to type 'InputMaybe<CountryCode> | undefined'.
+src/checkout/sections/AddressEditForm/AddressEditForm.tsx(49,16): error TS2345: Argument of type '{ __typename?: "AccountError" | undefined; field?: string | null | undefined; message?: string | null | undefined; code: AccountErrorCode; }[]' is not assignable to parameter of type 'ApiErrors<any>'.
+  Type '{ __typename?: "AccountError" | undefined; field?: string | null | undefined; message?: string | null | undefined; code: AccountErrorCode; }' is not assignable to type 'ApiError<any, string>'.
+    Types of property 'field' are incompatible.
+      Type 'string | null | undefined' is not assignable to type 'string | number | symbol'.
+        Type 'undefined' is not assignable to type 'string | number | symbol'.
+src/checkout/sections/AddressEditForm/AddressEditForm.tsx(70,16): error TS2345: Argument of type '{ __typename?: "AccountError" | undefined; field?: string | null | undefined; message?: string | null | undefined; code: AccountErrorCode; }[]' is not assignable to parameter of type 'ApiErrors<any>'.
+  Type '{ __typename?: "AccountError" | undefined; field?: string | null | undefined; message?: string | null | undefined; code: AccountErrorCode; }' is not assignable to type 'ApiError<any, string>'.
+    Types of property 'field' are incompatible.
+      Type 'string | null | undefined' is not assignable to type 'string | number | symbol'.
+        Type 'undefined' is not assignable to type 'string | number | symbol'.
+src/checkout/sections/OrderInfo/PaymentSection.tsx(28,41): error TS2345: Argument of type 'Order | null' is not assignable to parameter of type '{ chargeStatus: "FULL" | "NONE" | "PARTIAL" | "OVERCHARGED"; authorizeStatus: "FULL" | "NONE" | "PARTIAL"; }'.
+  Type 'null' is not assignable to type '{ chargeStatus: "FULL" | "NONE" | "PARTIAL" | "OVERCHARGED"; authorizeStatus: "FULL" | "NONE" | "PARTIAL"; }'.
+src/checkout/sections/PaymentSection/AdyenDropIn/types.ts(3,38): error TS2307: Cannot find module '@adyen/adyen-web/dist/types/components/Card/types' or its corresponding type declarations.
+src/checkout/sections/PaymentSection/AdyenDropIn/types.ts(4,32): error TS2307: Cannot find module '@adyen/adyen-web/dist/types/components/Dropin' or its corresponding type declarations.
+src/checkout/sections/PaymentSection/AdyenDropIn/types.ts(5,45): error TS2307: Cannot find module '@adyen/adyen-web/dist/types/core/ProcessResponse/PaymentMethodsResponse/types' or its corresponding type declarations.
+src/checkout/sections/PaymentSection/AdyenDropIn/types.ts(6,38): error TS2307: Cannot find module '@adyen/adyen-web/dist/types/components/types' or its corresponding type declarations.
+src/checkout/sections/PaymentSection/AdyenDropIn/useAdyenDropin.ts(3,32): error TS2307: Cannot find module '@adyen/adyen-web/dist/types/components/Dropin' or its corresponding type declarations.
+src/checkout/sections/Summary/index.tsx(2,15): error TS2306: File '/Users/paco/Documents/Projects/Saleor_user_web-main/src/checkout/sections/Summary/SummarySkeleton.tsx' is not a module.
+src/checkout/sections/Summary/SummaryItemMoneyInfo.tsx(26,6): error TS2739: Type '{ currency: string; amount: number; }' is missing the following properties from type 'Money': fractionDigits, fractionalAmount
+src/checkout/views/EmptyCartPage/EmptyCartPage.tsx(2,10): error TS2305: Module '"@/checkout/components"' has no exported member 'Title'.
+src/checkout/views/EmptyCartPage/EmptyCartPage.tsx(3,30): error TS2306: File '/Users/paco/Documents/Projects/Saleor_user_web-main/src/checkout/components/LinkAsButton.tsx' is not a module.
+src/checkout/views/OrderConfirmation/OrderConfirmation.tsx(5,33): error TS2306: File '/Users/paco/Documents/Projects/Saleor_user_web-main/src/checkout/sections/Summary/SummarySkeleton.tsx' is not a module.
+src/checkout/views/OrderConfirmation/OrderConfirmationSkeleton.tsx(1,33): error TS2306: File '/Users/paco/Documents/Projects/Saleor_user_web-main/src/checkout/sections/Summary/SummarySkeleton.tsx' is not a module.
+src/components/cart/line-item/MoneyInfo.tsx(23,6): error TS2739: Type '{ currency: string; amount: number; }' is missing the following properties from type 'Money': fractionDigits, fractionalAmount
+src/hooks/auth/login/useLogin.ts(29,3): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Object literal may only specify known properties, and 'showLoading' does not exist in type 'SWRMutationConfiguration<SignInResponse | undefined, any, string, LoginForm, SignInResponse | undefined> & { ...; }'.
+src/hooks/useRelatedPage.ts(11,4): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Type '([document, variables]: ArgumentsTuple) => Promise<unknown>' is not assignable to type 'BareFetcher<PageListQuery>'.
+      Type 'Promise<unknown>' is not assignable to type 'FetcherResponse<PageListQuery>'.
+        Type 'Promise<unknown>' is not assignable to type 'Promise<PageListQuery>'.
+          Type 'unknown' is not assignable to type 'PageListQuery'.
+src/hooks/useRelatedProduct.ts(11,4): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Type '([document, variables]: ArgumentsTuple) => Promise<unknown>' is not assignable to type 'BareFetcher<ProductListQuery>'.
+      Type 'Promise<unknown>' is not assignable to type 'FetcherResponse<ProductListQuery>'.
+        Type 'Promise<unknown>' is not assignable to type 'Promise<ProductListQuery>'.
+          Type 'unknown' is not assignable to type 'ProductListQuery'.

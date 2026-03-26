@@ -1,0 +1,7 @@
+// In tsx file:  import "@assets/styles/swiper.scss";
+
+@use "swiper/scss" as *;
+@use "swiper/scss/free-mode";
+@use "swiper/scss/navigation";
+@use "swiper/scss/thumbs";
+@use "swiper/scss/pagination";

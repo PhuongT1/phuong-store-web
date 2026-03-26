@@ -1,0 +1,8 @@
+fragment ProductMedia on ProductMedia {
+	url
+	alt
+	id
+	sortOrder
+	type
+	oembedData
+}

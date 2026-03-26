@@ -1,0 +1,8 @@
+mutation TokenRefresh($refreshToken: String!, $csrfToken: String) {
+	tokenRefresh(refreshToken: $refreshToken, csrfToken: $csrfToken) {
+		token
+		errors {
+			...AccountError
+		}
+	}
+}

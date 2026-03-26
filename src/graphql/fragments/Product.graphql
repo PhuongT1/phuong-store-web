@@ -1,0 +1,52 @@
+fragment Product on Product {
+	id
+	name
+	slug
+	description
+	seoTitle
+	seoDescription
+	rating
+	media {
+		...ProductMedia
+	}
+	thumbnail(size: 1024, format: WEBP) {
+		url
+		alt
+	}
+	attributes {
+		...SelectedAttribute
+	}
+	category {
+		id
+		name
+	}
+	variants {
+		...VariantDetails
+	}
+	pricing {
+		displayGrossPrices
+		onSale
+		priceRange {
+			start {
+				gross {
+					amount
+					currency
+				}
+				net {
+					amount
+					currency
+				}
+			}
+			stop {
+				gross {
+					amount
+					currency
+				}
+				net {
+					amount
+					currency
+				}
+			}
+		}
+	}
+}

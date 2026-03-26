@@ -1,0 +1,9 @@
+fragment PaymentGateway on PaymentGateway {
+	id
+	name
+	currencies
+	config {
+		field
+		value
+	}
+}

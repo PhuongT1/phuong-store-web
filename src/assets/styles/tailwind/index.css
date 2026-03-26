@@ -1,0 +1,33 @@
+/*
+  index.css – Tailwind CSS Entry Point
+
+  This file serves as the main entry point for Tailwind CSS in the project.
+  It aggregates all the Tailwind layers, plugins, and custom styles into a single file.
+
+  Contents:
+
+  1. Core Tailwind Imports:
+     - @import "tailwindcss": loads the Tailwind base, components, and utilities.
+     - @import "tailwindcss-animated": adds animation utilities for Tailwind.
+     - @plugin "tailwindcss-animate": registers the Tailwind animation plugin.
+
+  2. Custom Plugin Styles:
+     - @import "./plugin.css": any custom plugin styles for the project.
+
+  3. Theme and Component Styles:
+     - @import "./theme.css": project-wide theme variables (colors, radii, etc.).
+     - @import "./components.css": reusable component classes like buttons, cards, grids.
+     - @import "./base.css": global resets and base styles (e.g., body, universal selector).
+
+  Usage:
+  - Import this file once in your main project entry (e.g., _app.tsx or layout.tsx) 
+    to include all Tailwind and custom styles.
+*/
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@import "./plugin.css";
+@import "./theme.css";
+@import "./components.css";
+@import "./base.css";

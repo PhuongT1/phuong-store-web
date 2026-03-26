@@ -1,0 +1,5 @@
+query Order($id: ID!, $languageCode: LanguageCodeEnum!) {
+	order(id: $id) {
+		...Order
+	}
+}

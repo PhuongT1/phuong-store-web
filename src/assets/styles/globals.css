@@ -1,0 +1,23 @@
+@import "./tailwind/index.css";
+
+body {
+	overflow-x: hidden;
+	font-family: var(--font-inter);
+}
+
+[data-rmiz-modal-overlay="hidden"] + [data-rmiz-modal-content] > [data-rmiz-modal-img] {
+	transition: transform 0.00001s !important;
+}
+
+[data-rmiz-modal-overlay="visible"] + [data-rmiz-modal-content] > [data-rmiz-modal-img] {
+	transform: none !important;
+	position: static !important;
+	width: auto !important;
+	height: 100vh !important;
+	margin: auto;
+	transition: transform 0.5s !important;
+}
+
+.PopoverContent {
+	/* width: var(--radix-popover-trigger-width); */
+}

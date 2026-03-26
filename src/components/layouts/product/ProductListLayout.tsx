@@ -1,0 +1,31 @@
+import React from "react";
+import { ProductFilter } from "@components/product";
+import { Typography } from "@ui";
+import { cn } from "@/lib/utils";
+
+type ProductListLayoutProps = {
+	children: React.ReactNode;
+	className?: string;
+	title?: React.ReactNode;
+	textHeading?: React.ReactNode;
+};
+
+const ProductListLayout = ({ children, className, title, textHeading }: ProductListLayoutProps) => (
+	<div className="min-h-screen bg-[#f8fafc] px-4 py-12 sm:px-6 lg:px-8">
+		{textHeading && (
+			<Typography component={"h1"} variant={"h1"}>
+				{textHeading}
+			</Typography>
+		)}
+		{title}
+		<div className={cn("mt-6 flex w-full gap-6 md:gap-8 lg:gap-10", className)}>
+			<div className="hidden w-1/4 max-w-[280px] md:block">
+				<ProductFilter />
+			</div>
+			<div className="flex-1">{children}</div>
+		</div>
+	</div>
+);
+ProductListLayout.displayName = "ProductListLayout";
+
+export { ProductListLayout };

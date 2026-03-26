@@ -1,0 +1,13 @@
+fragment ProductListItemPaginated on ProductCountableConnection {
+	totalCount
+	edges {
+		node {
+			...Product
+		}
+		cursor
+	}
+	pageInfo {
+		endCursor
+		hasNextPage
+	}
+}

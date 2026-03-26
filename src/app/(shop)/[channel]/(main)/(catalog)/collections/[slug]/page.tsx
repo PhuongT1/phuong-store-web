@@ -1,0 +1,75 @@
+import { notFound } from "next/navigation";
+import { ProductListLayout } from "@components/layouts";
+import { ProductListByCollection } from "../ProductListByCollection";
+import {
+	ProductListByCollectionPaginatedDocument,
+	type ProductListByCollectionPaginatedQueryVariables
+} from "@/gql/graphql";
+import { executeGraphQL } from "@/lib/api";
+import { PRODUCTS_PER_PAGE } from "@/constants";
+import { type ResolvedQueryProps, parseParams, resolvePageQuery } from "@/lib/utils";
+import { type PageQueryProps } from "@/types";
+
+const variables = ({
+	resolvedParams,
+	resolvedSearchParams
+}: ResolvedQueryProps): ProductListByCollectionPaginatedQueryVariables => {
+	const { channel, slug } = resolvedParams;
+	const data = parseParams(resolvedSearchParams);
+	return {
+		slug,
+		channel,
+		first: PRODUCTS_PER_PAGE,
+		after: null,
+		...data
+	};
+};
+
+const fetchCollectionData = async (params: ResolvedQueryProps) => {
+	const result = await executeGraphQL(ProductListByCollectionPaginatedDocument, {
+		variables: variables(params)
+	});
+
+	if (!result.collection || !result.collection.products) {
+		throw new Error("Collection data or products are missing");
+	}
+
+	return result;
+};
+
+export const generateMetadata = async (props: ResolvedQueryProps) => {
+	try {
+		const { collection } = await fetchCollectionData(props);
+		if (!collection) return {};
+
+		return {
+			title: `${collection.name || "Collection"}${collection.seoTitle ? ` | ${collection.seoTitle}` : ""}`,
+			description:
+				collection.seoDescription || collection.description || collection.seoTitle || collection.name
+		};
+	} catch (error) {}
+};
+
+export default async function Page(props: PageQueryProps) {
+	const pageQuery = await resolvePageQuery(props);
+	const {
+		resolvedParams: { channel, slug }
+	} = pageQuery;
+	try {
+		const data = await fetchCollectionData(pageQuery);
+		const { collection } = data;
+
+		if (collection && !collection.products) {
+			return <></>;
+		}
+		return (
+			<>
+				<ProductListLayout textHeading={collection?.name}>
+					<ProductListByCollection products={data} channel={channel} slug={slug} />
+				</ProductListLayout>
+			</>
+		);
+	} catch (error) {
+		notFound();
+	}
+}

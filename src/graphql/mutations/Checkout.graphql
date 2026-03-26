@@ -1,0 +1,104 @@
+mutation CheckoutLinesAdd($id: ID!, $lines: [CheckoutLineInput!]!) {
+	checkoutLinesAdd(id: $id, lines: $lines) {
+		checkout {
+			...Checkout
+		}
+		errors {
+			...CheckoutError
+		}
+	}
+}
+
+mutation CheckoutCreate($input: CheckoutCreateInput!) {
+	checkoutCreate(input: $input) {
+		checkout {
+			...Checkout
+		}
+		errors {
+			...CheckoutError
+		}
+	}
+}
+
+mutation checkoutLinesUpdate($checkoutId: ID!, $lines: [CheckoutLineUpdateInput!]!) {
+	checkoutLinesUpdate(id: $checkoutId, lines: $lines) {
+		checkout {
+			...Checkout
+		}
+		errors {
+			...CheckoutError
+		}
+	}
+}
+
+mutation CheckoutDeleteLines($checkoutId: ID!, $lineIds: [ID!]!) {
+	checkoutLinesDelete(id: $checkoutId, linesIds: $lineIds) {
+		checkout {
+			id
+		}
+		errors {
+			...CheckoutError
+		}
+	}
+}
+
+mutation CheckoutComplete($checkoutId: ID!) {
+	checkoutComplete(id: $checkoutId) {
+		order {
+			id
+			# ...OrderDetails
+		}
+		errors {
+			...CheckoutError
+		}
+	}
+}
+
+mutation CheckoutAddPromoCode($checkoutId: ID!, $promoCode: String!) {
+	checkoutAddPromoCode(id: $checkoutId, promoCode: $promoCode) {
+		checkout {
+			...Checkout
+		}
+		errors {
+			...CheckoutError
+		}
+	}
+}
+
+mutation CheckoutShippingAddressUpdate(
+	$checkoutId: ID!
+	$shippingAddress: AddressInput!
+	$validationRules: CheckoutAddressValidationRules
+) {
+	checkoutShippingAddressUpdate(
+		id: $checkoutId
+		shippingAddress: $shippingAddress
+		validationRules: $validationRules
+	) {
+		errors {
+			...CheckoutError
+		}
+		checkout {
+			...Checkout
+		}
+	}
+}
+
+mutation CheckoutBillingAddressUpdate(
+	$checkoutId: ID!
+	$billingAddress: AddressInput!
+	$validationRules: CheckoutAddressValidationRules
+) {
+	checkoutBillingAddressUpdate(
+		id: $checkoutId
+		billingAddress: $billingAddress
+		validationRules: $validationRules
+	) {
+		errors {
+			...CheckoutError
+		}
+		checkout {
+			...Checkout
+		}
+	}
+}

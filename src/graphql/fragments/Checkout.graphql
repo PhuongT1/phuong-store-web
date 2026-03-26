@@ -1,0 +1,116 @@
+fragment Checkout on Checkout {
+	# id
+	# email
+	# lines {
+	# 	id
+	# 	quantity
+	# 	totalPrice {
+	# 		gross {
+	# 			amount
+	# 			currency
+	# 		}
+	# 	}
+	# 	variant {
+	# 		product {
+	# 			id
+	# 			name
+	# 			slug
+	# 			thumbnail {
+	# 				url
+	# 				alt
+	# 			}
+	# 			category {
+	# 				name
+	# 			}
+	# 		}
+	# 		pricing {
+	# 			price {
+	# 				gross {
+	# 					amount
+	# 					currency
+	# 				}
+	# 			}
+	# 		}
+	# 		name
+	# 		id
+	# 	}
+	# }
+	# totalPrice {
+	# 	gross {
+	# 		amount
+	# 		currency
+	# 	}
+	# }
+
+	id
+	email
+	discount {
+		...Money
+	}
+	voucherCode
+	discountName
+	translatedDiscountName
+	giftCards {
+		...GiftCard
+	}
+	channel {
+		id
+		slug
+	}
+	shippingAddress {
+		...Address
+	}
+	billingAddress {
+		...Address
+	}
+	authorizeStatus
+	chargeStatus
+	isShippingRequired
+	user {
+		id
+		email
+	}
+	availablePaymentGateways {
+		...PaymentGateway
+	}
+	deliveryMethod {
+		# ... on ShippingMethod {
+		# 	id
+		# }
+		# ... on Warehouse {
+		# 	id
+		# }
+		...Shipping
+		...Warehouse
+	}
+	shippingMethods {
+		id
+		name
+		price {
+			...Money
+		}
+		maximumDeliveryDays
+		minimumDeliveryDays
+	}
+	totalPrice {
+		gross {
+			...Money
+		}
+		tax {
+			...Money
+		}
+	}
+	shippingPrice {
+		gross {
+			...Money
+		}
+	}
+	subtotalPrice {
+		gross {
+			...Money
+		}
+	}
+	lines {
+		...CheckoutLine
+	}
+}

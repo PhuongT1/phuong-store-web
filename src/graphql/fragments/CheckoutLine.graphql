@@ -1,0 +1,106 @@
+fragment CheckoutLine on CheckoutLine {
+	__typename
+	id
+	quantity
+	totalPrice {
+		...TaxedMoney
+	}
+	unitPrice {
+		...TaxedMoney
+	}
+	undiscountedUnitPrice {
+		...Money
+	}
+	undiscountedTotalPrice {
+		...Money
+	}
+	variant {
+		product {
+			productVariants(first: 10) {
+				edges {
+					node {
+						quantityAvailable
+						name
+						id
+						assignedAttributes {
+							...AssignedAttributeUnion
+						}
+						media {
+							...ProductMedia
+						}
+					}
+				}
+			}
+		}
+		assignedAttributes {
+			attribute {
+				slug
+				name
+				choices(first: 10) {
+					edges {
+						node {
+							id
+							value
+							name
+							inputType
+							slug
+						}
+					}
+				}
+			}
+			... on AssignedSingleChoiceAttribute {
+				__typename
+				attribute {
+					name
+					id
+					inputType
+					slug
+				}
+				value {
+					name
+					slug
+				}
+			}
+		}
+		# attributes(variantSelection: ALL) {
+		# 	values {
+		# 		name
+		# 		dateTime
+		# 		boolean
+		# 		translation(languageCode: $languageCode) {
+		# 			name
+		# 		}
+		# 	}
+		# }
+		id
+		name
+		# translation(languageCode: $languageCode) {
+		# 	name
+		# }
+		product {
+			id
+			name
+			slug
+			# translation(languageCode: $languageCode) {
+			# 	language {
+			# 		code
+			# 	}
+			# 	id
+			# 	name
+			# }
+			media {
+				...ProductMedia
+			}
+			thumbnail {
+				url
+				alt
+			}
+		}
+		media {
+			...ProductMedia
+		}
+		pricing {
+			...VariantPricingInfo
+		}
+	}
+}

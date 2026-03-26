@@ -1,0 +1,3 @@
+fragment AssignedAttributeUnion on AssignedAttribute {
+	...AssignedSingleChoiceAttr
+}
