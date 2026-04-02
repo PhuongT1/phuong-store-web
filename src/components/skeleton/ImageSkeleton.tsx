@@ -1,8 +1,8 @@
-import { Image as ImageIcon } from "lucide-react";
 import React from "react";
-import { Skeleton } from "./Skeleton";
-import { cn } from "@/lib/utils";
+import { Image as ImageIcon } from "lucide-react";
 import { type ProductDetailsQuery } from "@/gql/graphql";
+import { cn } from "@/lib/utils";
+import { Skeleton } from "./Skeleton";
 
 type ImageSkeletonProps = {
 	skeletonProps?: React.ComponentPropsWithoutRef<typeof Skeleton>;
@@ -19,7 +19,7 @@ const ImageSkeleton = ({ skeletonProps, imageProps }: ImageSkeletonProps) => {
 				size={120}
 				strokeWidth={0.3}
 				{...imageProps}
-				className={cn("fill-neutral-300 stroke-gray-200", imageProps?.className)}
+				className={cn("fill-muted-foreground/30 stroke-border", imageProps?.className)}
 			/>
 		</Skeleton>
 	);

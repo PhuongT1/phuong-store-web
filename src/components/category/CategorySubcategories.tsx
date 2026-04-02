@@ -1,8 +1,8 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
-import { LinkWithChannel } from "@components/navigation";
 import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
+import { LinkWithChannel } from "@components/navigation";
 
 type CategorySubcategoriesProps = {
 	category: ProductListByCategoryPaginatedQuery["category"];
@@ -23,8 +23,8 @@ const CategorySubcategories = ({ category }: CategorySubcategoriesProps) => {
 	return (
 		<section className="py-8">
 			<div className="mb-6">
-				<h2 className="text-xl font-semibold tracking-tight text-gray-900">Shop by Category</h2>
-				<p className="mt-1 text-sm text-gray-600">Browse our collection by style</p>
+				<h2 className="text-foreground text-xl font-semibold tracking-tight">Shop by Category</h2>
+				<p className="text-muted-foreground mt-1 text-sm">Browse our collection by style</p>
 			</div>
 
 			<div className="scrollbar-hide flex gap-3 overflow-x-auto pb-4">
@@ -32,17 +32,17 @@ const CategorySubcategories = ({ category }: CategorySubcategoriesProps) => {
 					<LinkWithChannel
 						key={subcategory.id}
 						href={`/categories/${subcategory.slug}`}
-						className="group min-w-[180px] flex-shrink-0"
+						className="group min-w-[180px] shrink-0"
 					>
-						<div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 ease-out will-change-transform hover:-translate-y-1 hover:shadow-md">
+						<div className="border-border bg-card flex h-full flex-col rounded-xl border p-5 shadow-sm transition-all duration-200 ease-out will-change-transform hover:-translate-y-1 hover:shadow-md">
 							<div className="mb-3 flex items-center justify-between">
-								<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
-									<div className="h-5 w-5 rounded-sm bg-gray-400" />
+								<div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+									<div className="bg-muted-foreground/40 h-5 w-5 rounded-sm" />
 								</div>
-								<ChevronRight className="h-4 w-4 text-gray-400 transition-transform group-hover:translate-x-1" />
+								<ChevronRight className="text-muted-foreground h-4 w-4 transition-transform group-hover:translate-x-1" />
 							</div>
-							<h3 className="font-semibold text-gray-900">{subcategory.name}</h3>
-							<p className="mt-1 text-xs text-gray-500">{subcategory.count} items</p>
+							<h3 className="text-foreground font-semibold">{subcategory.name}</h3>
+							<p className="text-muted-foreground mt-1 text-xs">{subcategory.count} items</p>
 						</div>
 					</LinkWithChannel>
 				))}

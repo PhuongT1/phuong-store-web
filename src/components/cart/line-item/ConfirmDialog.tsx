@@ -1,12 +1,14 @@
 import { Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button, ConfirmDialog } from "@components/ui";
 
 type ConfirmDeleteDialogProps = React.ComponentPropsWithoutRef<typeof ConfirmDialog>;
 const ConfirmDeleteDialog = ({ confirmButtonProps, ...rest }: ConfirmDeleteDialogProps) => {
+	const t = useTranslations("cart");
 	return (
 		<ConfirmDialog
 			{...rest}
-			dialogDescriptionContent="Bạn chắc chắn muốn xóa sản phẩm này?"
+			dialogDescriptionContent={t("confirmDelete")}
 			showConfirmButton
 			dialogTriggerProps={{
 				children: (
@@ -16,11 +18,11 @@ const ConfirmDeleteDialog = ({ confirmButtonProps, ...rest }: ConfirmDeleteDialo
 				)
 			}}
 			confirmButtonProps={{
-				children: "Xoá",
+				children: t("delete"),
 				...confirmButtonProps
 			}}
 			cancelButtonProps={{
-				children: "Không xoá"
+				children: t("cancelDelete")
 			}}
 		/>
 	);

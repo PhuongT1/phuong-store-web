@@ -1,11 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useForm, useWatch, type UseFormReturn } from "react-hook-form";
-import { useCheckout } from "@hooks/checkout";
-import { type CountryCode, useCheckoutDeliveryMethodUpdateMutation } from "@/checkout/graphql";
-import { useDebouncedSubmit } from "@/checkout/hooks/useDebouncedSubmit";
 import { useSubmit } from "@/checkout/hooks/useSubmit/useSubmit";
 import { type MightNotExist } from "@/checkout/lib/globalTypes";
+import { useMutation } from "@/checkout/lib/useMutation";
 import { getById } from "@/checkout/lib/utils/common";
+import {
+	type CountryCode,
+	type CheckoutDeliveryMethodUpdateMutation,
+	type CheckoutDeliveryMethodUpdateMutationVariables,
+	CheckoutDeliveryMethodUpdateDocument
+} from "@/gql/graphql";
+import { useCheckout } from "@hooks/checkout";
 
 interface DeliveryMethodsFormData {
 	selectedMethodId: string | undefined;
@@ -14,7 +19,10 @@ interface DeliveryMethodsFormData {
 export const useDeliveryMethodsForm = (): UseFormReturn<DeliveryMethodsFormData> => {
 	const { checkout, mutate } = useCheckout();
 	const { shippingMethods, shippingAddress, deliveryMethod } = checkout;
-	const [, updateDeliveryMethod] = useCheckoutDeliveryMethodUpdateMutation();
+	const [, updateDeliveryMethod] = useMutation<
+		CheckoutDeliveryMethodUpdateMutation,
+		CheckoutDeliveryMethodUpdateMutationVariables
+	>(CheckoutDeliveryMethodUpdateDocument);
 
 	const previousShippingCountry = useRef<MightNotExist<CountryCode>>(
 		shippingAddress?.country?.code as CountryCode | undefined
@@ -61,9 +69,10 @@ export const useDeliveryMethodsForm = (): UseFormReturn<DeliveryMethodsFormData>
 				onSuccess: ({ data }) => {
 					// Update SWR cache immediately so checkout.deliveryMethod reflects
 					// the selection before user clicks "Đặt hàng".
-					const updatedCheckout = (data as any)?.checkout;
+					const result = data as Record<string, unknown>;
+					const updatedCheckout = result?.checkout;
 					if (updatedCheckout) {
-						void mutate({ checkout: updatedCheckout }, { revalidate: false });
+						void mutate({ checkout: updatedCheckout } as Parameters<typeof mutate>[0], { revalidate: false });
 					} else {
 						void mutate();
 					}
@@ -76,15 +85,14 @@ export const useDeliveryMethodsForm = (): UseFormReturn<DeliveryMethodsFormData>
 		)
 	);
 
-	const debouncedSubmit = useDebouncedSubmit(onSubmit);
-
+	// Fire immediately — radio selection is a single deliberate action, no debounce needed.
 	useEffect(() => {
-		void debouncedSubmit({ selectedMethodId });
-	}, [debouncedSubmit, selectedMethodId]);
+		if (!selectedMethodId) return;
+		void onSubmit({ selectedMethodId });
+	}, [selectedMethodId, onSubmit]);
 
 	useEffect(() => {
 		const hasShippingCountryChanged = shippingAddress?.country?.code !== previousShippingCountry.current;
-
 		const hasValidMethodSelected = selectedMethodId && shippingMethods?.some(getById(selectedMethodId));
 
 		if (hasValidMethodSelected) {

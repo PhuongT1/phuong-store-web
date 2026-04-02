@@ -1,6 +1,5 @@
 import React from "react";
-
-import { Skeleton } from "@/checkout/components";
+import { Skeleton } from "@components/skeleton";
 
 export const AddressSectionSkeleton = () => (
 	<div className="py-4">

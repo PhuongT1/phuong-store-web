@@ -1,14 +1,15 @@
 import { type FC } from "react";
-import { MoneyDisplay, getFormattedMoney } from "@components/ui";
-import { PromoCodeAdd } from "../../../checkout/sections/Summary/PromoCodeAdd";
-import { SummaryMoneyRow } from "../../../checkout/sections/Summary/SummaryMoneyRow";
-import { SummaryPromoCodeRow } from "../../../checkout/sections/Summary/SummaryPromoCodeRow";
-import { type CartLine } from "../Cart.type";
-import { SummaryCard } from "./SummaryCard";
-import { Divider } from "@/checkout/components";
+import { useTranslations } from "next-intl";
+import { PromoCodeAdd } from "@/checkout/sections/order-summary/Summary/PromoCodeAdd";
+import { SummaryMoneyRow } from "@/checkout/sections/order-summary/Summary/SummaryMoneyRow";
+import { SummaryPromoCodeRow } from "@/checkout/sections/order-summary/Summary/SummaryPromoCodeRow";
+import { Skeleton } from "@/components/skeleton/Skeleton";
 import { type Checkout } from "@/gql/graphql";
 import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 import { cn } from "@/lib/utils";
+import { MoneyDisplay, getFormattedMoney , Separator } from "@components/ui";
+import { type CartLine } from "../Cart.type";
+import { SummaryCard } from "./SummaryCard";
 
 type SummaryProps = {
 	editable?: boolean;
@@ -26,6 +27,7 @@ const Summary: FC<SummaryProps> = ({
 	discount
 }) => {
 	const { isValidating } = useCheckout();
+	const t = useTranslations("cart");
 
 	if (!totalPrice) return null;
 	return (
@@ -33,22 +35,22 @@ const Summary: FC<SummaryProps> = ({
 			{editable && (
 				<>
 					<PromoCodeAdd />
-					<Divider />
+					<Separator />
 				</>
 			)}
 			<div className="flex max-w-full flex-col">
 				<SummaryMoneyRow
-					label="Tổng tiền"
+					label={t("subtotal")}
 					money={subtotalPrice?.gross}
 					aria-label="subtotal price"
-					className={cn(isValidating && "animate-pulse")}
+					isLoading={isValidating}
 				/>
 				{voucherCode && (
 					<SummaryPromoCodeRow
 						editable={editable}
 						promoCode={voucherCode}
 						aria-label="voucher"
-						label={`Mã giảm giá: ${voucherCode}`}
+						label={`${t("voucherCode")}: ${voucherCode}`}
 						money={discount}
 						negative
 					/>
@@ -65,25 +67,29 @@ const Summary: FC<SummaryProps> = ({
 					/>
 				))}
 				<SummaryMoneyRow
-					label="Phí vận chuyển"
+					label={t("shipping")}
 					aria-label="shipping cost"
 					money={shippingPrice?.gross}
-					className={cn(isValidating && "animate-pulse")}
+					isLoading={isValidating}
 				/>
-				<Divider className="my-4" />
+				<Separator className="my-4" />
 				<div className="flex flex-row items-baseline justify-between pb-4">
 					<div className="flex flex-row items-baseline">
-						<p className="font-bold">Cần thanh toán</p>
+						<p className="font-bold">{t("total")}</p>
 						<p color="secondary" className="ml-2">
-							đã có {getFormattedMoney(totalPrice?.tax)} thuế
+							{t("taxIncluded", { tax: getFormattedMoney(totalPrice?.tax) })}
 						</p>
 					</div>
-					<MoneyDisplay
-						aria-label="total price"
-						money={totalPrice?.gross}
-						data-testid="totalOrderPrice"
-						className={cn("font-bold", isValidating && "animate-pulse")}
-					/>
+					{isValidating ? (
+						<Skeleton className="h-6 w-24 rounded" />
+					) : (
+						<MoneyDisplay
+							aria-label="total price"
+							money={totalPrice?.gross}
+							data-testid="totalOrderPrice"
+							className="font-bold"
+						/>
+					)}
 				</div>
 			</div>
 		</SummaryCard>

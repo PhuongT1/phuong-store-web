@@ -1,46 +1,31 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { User, Package, MapPin, Settings, LogOut } from "lucide-react";
-
-import { LinkWithChannel } from "@/components/navigation/LinkWithChannel";
+import { useTranslations } from "next-intl";
 import { signOutUser } from "@/auth/authActions";
-
-const sidebarLinks = [
-	{
-		title: "Hồ sơ của tôi",
-		href: "/account/profile",
-		icon: User
-	},
-	{
-		title: "Đơn hàng của tôi",
-		href: "/account/orders",
-		icon: Package
-	},
-	{
-		title: "Sổ địa chỉ",
-		href: "/account/address",
-		icon: MapPin
-	},
-	{
-		title: "Cài đặt",
-		href: "/account/settings",
-		icon: Settings
-	}
-];
 
 export default function AccountLayout({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
+	const t = useTranslations("account");
+
+	const sidebarLinks = [
+		{ title: t("profile"), href: "/account/profile", icon: User },
+		{ title: t("myOrders"), href: "/account/orders", icon: Package },
+		{ title: t("addresses"), href: "/account/address", icon: MapPin },
+		{ title: t("settings"), href: "/account/settings", icon: Settings }
+	];
 
 	return (
-		<div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
+		<div className="mx-auto w-full max-w-[1440px] px-3 py-8 md:px-6 lg:px-8">
 			<div className="flex flex-col gap-8 lg:flex-row">
 				{/* Sidebar */}
 				<aside className="w-full shrink-0 lg:w-64">
-					<div className="rounded-2xl border border-gray-200 bg-white p-4">
+					<div className="border-border bg-card rounded-2xl border p-4">
 						<div className="mb-6 hidden px-4 py-2 lg:block">
-							<h3 className="text-sm font-semibold tracking-wider text-gray-500 uppercase">
-								Quản lý tài khoản
+							<h3 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
+								{t("manage")}
 							</h3>
 						</div>
 
@@ -51,30 +36,30 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
 								const Icon = link.icon;
 
 								return (
-									<LinkWithChannel
+									<Link
 										key={link.title}
 										href={link.href}
 										className={`flex shrink-0 items-center justify-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors lg:justify-start ${
 											isActive
-												? "bg-primary/10 text-primary"
-												: "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+												? "bg-info/10 text-info"
+												: "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
 										}`}
 									>
-										<Icon className={`h-5 w-5 ${isActive ? "text-primary" : "text-gray-400"}`} />
+										<Icon className={`h-5 w-5 ${isActive ? "text-info" : "text-muted-foreground"}`} />
 										<span>{link.title}</span>
-									</LinkWithChannel>
+									</Link>
 								);
 							})}
 
 							<div className="hidden pt-4 lg:block">
-								<hr className="mb-4 border-gray-100" />
+								<hr className="border-border mb-4" />
 								<button
 									type="button"
 									onClick={() => signOutUser()}
-									className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+									className="text-destructive hover:bg-destructive/10 flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors"
 								>
 									<LogOut className="h-5 w-5" />
-									<span>Đăng xuất</span>
+									<span>{t("logout")}</span>
 								</button>
 							</div>
 						</nav>

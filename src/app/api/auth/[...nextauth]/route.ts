@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
 import { type NextRequest, type NextResponse } from "next/server";
+import NextAuth from "next-auth";
 import { authConfig } from "@/auth/authConfig";
 
 const handler = NextAuth(authConfig) as (req: NextRequest) => Promise<NextResponse>;

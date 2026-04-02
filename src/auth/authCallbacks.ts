@@ -1,74 +1,58 @@
 import { type CallbacksOptions } from "next-auth";
-import { type JWT } from "next-auth/jwt";
-import { getAccessTokenFromRefresh } from "@/action/auth/token";
-import { isTokenExpired } from "@/lib/auth/token";
 import { CONFIG } from "@/constants";
+import { refreshSaleorToken } from "@/lib/auth/refreshSaleorToken";
+import { isTokenExpired } from "@/lib/auth/token";
 
 const { accessToken, refreshToken } = CONFIG.COOKIE_KEY;
-let refreshTokenPromise: ReturnType<typeof fetchNewAccessToken> | null = null;
-
-/**
- * Fetches a new access token using the provided refresh token.
- * @param currentRefreshToken The current refresh token.
- * @returns A promise resolving to the new access token or null if the refresh fails.
- */
-async function fetchNewAccessToken(token: JWT) {
-	console.log("🔄 Token expired, attempting to refresh...");
-	try {
-		const data = await getAccessTokenFromRefresh(token[refreshToken] as string);
-		console.log("✅ Token refreshed successfully");
-		return data.token;
-	} catch (error) {
-		console.log("🔒 Token refresh failed. Invalidating tokens.");
-		return null;
-	}
-}
-
-/**
- * Manages the token refresh process, ensuring only one refresh request is made at a time.
- * @param currentAccessToken The current access token.
- * @param currentRefreshToken The current refresh token.
- * @returns A promise resolving to the new access token or null if the refresh fails.
- */
-async function refreshAccessToken(token: JWT) {
-	if (!refreshTokenPromise) {
-		refreshTokenPromise = fetchNewAccessToken(token).finally(() => {
-			refreshTokenPromise = null;
-		});
-	}
-	return refreshTokenPromise;
-}
 
 export const authCallbacks: Partial<CallbacksOptions> = {
+	/**
+	 * JWT callback runs on every getServerSession() call.
+	 * Handles proactive token refresh with a 60-second buffer before actual expiry.
+	 * Distinguishes transient failures (keep refreshToken, retry next request)
+	 * from permanent failures (clear both tokens, force re-login).
+	 */
 	async jwt({ token, user, account }) {
-		// On initial sign-in, store tokens in the JWT.
+		// Initial sign-in: store Saleor tokens from the credentials provider.
 		if (account && user) {
 			token[accessToken] = user.token;
 			token[refreshToken] = user.refreshToken;
+			return token;
 		}
 
-		// If the access token has expired, attempt to refresh it.
-		if (token[accessToken] && isTokenExpired(token[accessToken] as string)) {
-			const newAccessToken = await refreshAccessToken(token);
-			if (newAccessToken) {
-				token[accessToken] = newAccessToken;
-			} else {
-				// Wipe the tokens gracefully if refresh completely fails
-				delete token[accessToken];
-				delete token[refreshToken];
-				token.error = "RefreshAccessTokenError";
-			}
+		// isTokenExpired returns true when exp < now + 60s (60-second proactive buffer).
+		if (!isTokenExpired(token[accessToken])) return token;
+
+		const rt = token[refreshToken];
+		if (typeof rt !== "string") {
+			token["error"] = "RefreshAccessTokenError";
+			return token;
+		}
+
+		const result = await refreshSaleorToken(rt);
+		if (result.token) {
+			// Success: store new access token, clear any previous error flag.
+			token[accessToken] = result.token;
+			delete token["error" as keyof typeof token];
+		} else if (result.failureKind === "permanent") {
+			// Saleor explicitly rejected the refresh token → force re-login.
+			token[accessToken] = undefined;
+			token[refreshToken] = undefined;
+			token["error"] = "RefreshAccessTokenError";
+		} else {
+			// Transient failure (network hiccup, Saleor temporarily down).
+			// Clear the expired access token so it is never forwarded to Saleor
+			// ("Signature has expired"), but KEEP refreshToken for the next request.
+			// Do NOT set error — the user stays logged in; serverFetchWithAuth retries.
+			token[accessToken] = undefined;
 		}
 
 		return token;
 	},
 
 	async session({ session, token }) {
-		session[accessToken] = token[accessToken] as string | undefined;
-		const tok = token as unknown as Record<string, string>;
-		if (tok.error) {
-			(session as unknown as Record<string, string>).error = tok.error;
-		}
+		const t = token[accessToken];
+		session[accessToken] = typeof t === "string" ? t : undefined;
 		return session;
 	}
 };

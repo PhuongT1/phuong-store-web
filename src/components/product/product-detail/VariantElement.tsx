@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, useWatch } from "react-hook-form";
 import { FormProvider, RadioList } from "@ui";
+import { useForm, useWatch } from "react-hook-form";
 import { type ProductDetailsQuery } from "@/gql/graphql";
 import { getHrefForVariant } from "@/lib/utils";
 import { type Pages } from "@/types";

@@ -1,9 +1,9 @@
 "use client";
 
-import { useSignatureProduct } from "@hooks/useProductListByCategory";
+import { SignatureProductSwiper } from "@/components/swiper";
 import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
 import { type Pages } from "@/types";
-import { SignatureProductSwiper } from "@/components/swiper";
+import { useSignatureProduct } from "@hooks/useProductListByCategory";
 
 type ProductListLoadMoreProps = { category: ProductListByCategoryPaginatedQuery } & Pages;
 

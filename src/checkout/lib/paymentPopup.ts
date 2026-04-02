@@ -36,9 +36,13 @@ export const preOpenPaymentPopup = (width = 800, height = 700): Window | null =>
 	const popup = window.open("about:blank", "VNPayPayment", features);
 	if (popup) {
 		popup.document.write(`<!DOCTYPE html><html><head><title>Đang xử lý...</title>
-<style>body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f8f9fa;font-family:system-ui,sans-serif}
-.loader{text-align:center}.spinner{width:48px;height:48px;border:4px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}p{color:#6b7280;font-size:15px}</style></head>
+<style>
+:root{--bg:#f8f9fa;--track:#e5e7eb;--spin:#3b82f6;--text:#6b7280}
+@media(prefers-color-scheme:dark){:root{--bg:#0d0f14;--track:#2d3548;--spin:#38bdf8;--text:#8892a4}}
+body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);font-family:system-ui,sans-serif}
+.loader{text-align:center}.spinner{width:48px;height:48px;border:4px solid var(--track);border-top-color:var(--spin);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}p{color:var(--text);font-size:15px}
+</style></head>
 <body><div class="loader"><div class="spinner"></div><p>Đang kết nối VNPay...</p></div></body></html>`);
 		popup.document.close();
 	}

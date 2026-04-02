@@ -1,6 +1,5 @@
  
  
-import { type CombinedError } from "urql";
 import { compact } from "lodash-es";
 import { type FormDataBase } from "@/checkout/hooks/useForm";
 import { type ApiErrors } from "@/checkout/hooks/useGetParsedErrors";
@@ -53,7 +52,7 @@ export const extractMutationData = <TMutationFn extends MutationBaseFn>(
 export type ExtractedMutationErrors<TData extends FormDataBase, TErrorCodes extends string = string> = {
 	hasErrors: boolean;
 	apiErrors: ApiErrors<TData, TErrorCodes>;
-	graphqlErrors: CombinedError[];
+	graphqlErrors: unknown[];
 	customErrors: any[];
 };
 

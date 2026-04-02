@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from "react";
-import { type FormikProps } from "formik";
 import { type UseFormReturn } from "react-hook-form";
 import { type FormDataBase } from "@/checkout/hooks/useForm";
 import { useSetCheckoutFormValidationState } from "@/checkout/hooks/useSetCheckoutFormValidationState";
@@ -8,10 +7,11 @@ import {
 	useCheckoutValidationActions,
 	useCheckoutValidationState
 } from "@/checkout/state/checkoutValidationStateStore";
+import { type FormikCompatForm } from "@checkout/hooks/useForm";
 
 interface UseCheckoutFormValidationTriggerProps<TData extends FormDataBase> {
 	scope: CheckoutFormScope;
-	form: FormikProps<TData> | UseFormReturn<TData>;
+	form: FormikCompatForm<TData> | UseFormReturn<TData>;
 	skip?: boolean;
 }
 
@@ -30,7 +30,6 @@ export const useCheckoutFormValidationTrigger = <TData extends FormDataBase>({
 	const handleGlobalValidationTrigger = useCallback(async () => {
 		if (validating) {
 			if (skip) {
-				// we don't validate this form, so just set valid
 				setValidationState(scope, "valid");
 				return;
 			}

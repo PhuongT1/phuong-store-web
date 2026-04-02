@@ -1,11 +1,11 @@
 "use client";
 
-import { useProductListInfinite } from "@hooks/useProductList";
-import { ProductListLoadMore } from "@components/product";
-import { useAddQueryParams } from "@lib/hooks";
-import { type Channel } from "@/types";
 import { ProductListLayout } from "@/components/layouts";
 import { SearchEmptyState, SearchResultsHeader, ProductSortBar } from "@/components/search";
+import { type Channel } from "@/types";
+import { ProductListLoadMore } from "@components/product";
+import { useProductListInfinite } from "@hooks/useProductList";
+import { useAddQueryParams } from "@lib/hooks";
 
 const ProductListByChannel = ({ channel }: Channel) => {
 	const { products, ...rest } = useProductListInfinite({ channel });

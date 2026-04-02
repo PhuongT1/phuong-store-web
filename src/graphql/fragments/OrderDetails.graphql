@@ -2,9 +2,7 @@ fragment OrderDetails on Order {
 	id
 	number
 	created
-	channel {
-		name
-	}
+	status
 	total {
 		gross {
 			amount

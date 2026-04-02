@@ -1,7 +1,7 @@
-import { type SignOutParams, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { isServer } from "@/lib/utils";
+import { type SignOutParams, signOut } from "next-auth/react";
 import { clearAuthCookies, clearSessionToken } from "@/action/auth";
+import { isServer } from "@/lib/utils";
 
 const signOutUser = async <R extends boolean = true>(options?: SignOutParams<R>) => {
 	if (isServer()) {

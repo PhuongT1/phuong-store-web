@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { getProductPrice } from "@/lib/utils";
 import { type Product } from "@/gql/graphql";
+import { getProductPrice } from "@/lib/utils";
 
 const STORAGE_KEY = "recentlyViewedProducts";
 const MAX_ITEMS = 12;

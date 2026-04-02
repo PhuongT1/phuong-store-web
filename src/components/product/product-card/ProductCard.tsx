@@ -1,16 +1,14 @@
 "use client";
 
 import { ShoppingCart } from "lucide-react";
-
+import { useTranslations } from "next-intl";
+import { type ProductDetailsQuery } from "@/gql/graphql";
+import { cn } from "@/lib/utils";
 import { LinkWithChannel } from "@components/navigation";
-
 import { ProductCardImage } from "./ProductCardImage";
 import { ProductCardPrice } from "./ProductCardPrice";
 import { ProductCardVariants } from "./ProductCardVariants";
-import { PRODUCT_CARD_STRINGS } from "./productCard.constants";
 import { useProductCard } from "./useProductCard";
-import { cn } from "@/lib/utils";
-import { type ProductDetailsQuery } from "@/gql/graphql";
 
 type ProductCardProps = {
 	loading: "eager" | "lazy";
@@ -32,6 +30,7 @@ const ProductCardInner = ({
 	priority?: boolean;
 	className?: string;
 }) => {
+	const t = useTranslations("product");
 	const {
 		variants,
 		selectedVariantId,
@@ -54,7 +53,7 @@ const ProductCardInner = ({
 		<li
 			data-testid="ProductElement"
 			className={cn(
-				"group relative flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-100 transition-all duration-300 hover:shadow-md hover:ring-gray-200",
+				"group bg-card relative flex flex-col overflow-hidden rounded-xl border border-border shadow-sm transition-all duration-300 hover:shadow-lg",
 				className
 			)}
 		>
@@ -67,7 +66,7 @@ const ProductCardInner = ({
 					variantImage={variantImage}
 				/>
 
-				<div className="flex flex-1 flex-col gap-2 p-2.5">
+				<div className="flex flex-1 flex-col gap-2 p-3">
 					<ProductCardPrice
 						name={product.name}
 						price={price}
@@ -91,14 +90,14 @@ const ProductCardInner = ({
 						onClick={handleAddToCart}
 						disabled={isAddingToCart || !isInStock}
 						className={cn(
-							"mt-auto flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-semibold transition-all duration-200 active:scale-[0.98]",
+							"mt-auto flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all duration-200 active:scale-[0.98]",
 							isInStock
-								? "bg-zinc-800 text-white hover:bg-zinc-900 disabled:opacity-50"
-								: "cursor-not-allowed bg-gray-100 text-gray-400"
+								? "border border-info/30 bg-info/5 text-info hover:border-info hover:bg-info/10 disabled:opacity-50"
+								: "bg-muted text-muted-foreground cursor-not-allowed opacity-50"
 						)}
 					>
 						{!isInStock ? (
-							PRODUCT_CARD_STRINGS.outOfStock
+							t("outOfStock")
 						) : isAddingToCart ? (
 							<>
 								<svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
@@ -117,12 +116,12 @@ const ProductCardInner = ({
 										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
 									/>
 								</svg>
-								{PRODUCT_CARD_STRINGS.adding}
+								{t("adding")}
 							</>
 						) : (
 							<>
 								<ShoppingCart className="h-4 w-4" />
-								{PRODUCT_CARD_STRINGS.addToCart}
+								{t("addToCart")}
 							</>
 						)}
 					</button>

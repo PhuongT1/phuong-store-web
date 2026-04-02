@@ -1,36 +1,33 @@
-import {
-	type FormikHandlers,
-	type FormikConfig,
-	type FormikErrors,
-	type FormikHelpers,
-	type FormikValues,
-	type FormikProps
-} from "formik";
 import { type DebouncedFunc } from "lodash-es";
 import { type FormSubmitFn } from "@/checkout/hooks/useFormSubmit";
 
-export type FormDataBase = FormikValues;
-export type FormErrors<TData extends FormikValues> = FormikErrors<TData>;
+export type FormDataBase = Record<string, any>;
+export type FormErrors<TData extends FormDataBase> = Partial<Record<keyof TData, string>>;
 export type FormDataField<TData extends FormDataBase> = Extract<keyof TData, string>;
-export type FormProps<TData extends FormDataBase> = Omit<
-	FormikConfig<TData>,
-	"validationSchema" | "onSubmit"
-> & {
+
+export type FormProps<TData extends FormDataBase> = {
+	initialValues: TData;
 	onSubmit?:
 		| FormSubmitFn<TData>
 		| ((data: TData, helpers?: FormHelpers<TData>) => Promise<void>)
 		| DebouncedFunc<(data: TData, helpers?: FormHelpers<TData>) => Promise<void>>;
 	initialDirty?: boolean;
-	// FIXME: because there seems to be something weird going on with the type
-	// yup returns when schema has some uncommon typings
-	validationSchema?: any; // Schema<TData> | ObjectSchema<TData>;
+	validationSchema?: any;
 };
 
-export type FormHelpers<TData extends FormDataBase> = Omit<
-	FormikHelpers<TData>,
-	"validateForm" | "setTouched"
-> &
-	Pick<FormikProps<TData>, "validateForm" | "setTouched">;
+export type FormHelpers<TData extends FormDataBase> = {
+	setErrors: (errors: Partial<Record<keyof TData, string>>) => void;
+	setTouched: (touched: Partial<Record<keyof TData, boolean>>) => Promise<void>;
+	setValues: (values: TData) => void;
+	setSubmitting: (isSubmitting: boolean) => void;
+	setFieldValue: (field: keyof TData & string, value: any) => void;
+	setFieldTouched: (field: keyof TData & string, isTouched?: boolean) => void;
+	setFieldError: (field: keyof TData & string, message: string) => void;
+	validateForm: (values?: TData) => Promise<FormErrors<TData>>;
+	validateField: (field: keyof TData & string) => Promise<void>;
+	resetForm: (nextValues?: { values?: TData }) => void;
+	submitForm: () => Promise<void>;
+};
 
-export type ChangeHandler = FormikHandlers["handleChange"];
-export type BlurHandler = FormikHandlers["handleBlur"];
+export type ChangeHandler = (e: React.ChangeEvent<any>) => void;
+export type BlurHandler = (e: React.FocusEvent<any>) => void;

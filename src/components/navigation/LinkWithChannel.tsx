@@ -1,8 +1,8 @@
 "use client";
 
+import { type ComponentProps, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { type ComponentProps, useEffect, useState } from "react";
 import { DEFAULT_CHANNEL } from "@/constants";
 
 export type LinkWithHref = { href: string };

@@ -35,7 +35,38 @@ export default [
 			...importPlugin.configs.typescript.rules,
 
 			// Import rules
-			"import/order": "error",
+			"import/order": [
+				"error",
+				{
+					groups: ["builtin", "external", "internal", "parent", "sibling", "index", "type"],
+					pathGroups: [
+						{
+							pattern: "react",
+							group: "builtin",
+							position: "before"
+						},
+						{
+							pattern: "next/**",
+							group: "builtin",
+							position: "after"
+						},
+						{
+							pattern: "@/**",
+							group: "internal",
+							position: "before"
+						},
+						{
+							pattern:
+								"@{components,hooks,lib,config,constants,types,styles,store,action,services,checkout,auth,providers,gql,i18n,modules}/**",
+							group: "internal",
+							position: "before"
+						}
+					],
+					pathGroupsExcludedImportTypes: ["react"],
+					"newlines-between": "never",
+					alphabetize: { order: "asc", caseInsensitive: true }
+				}
+			],
 			"import/no-mutable-exports": "error",
 			"import/no-cycle": "error",
 			"import/no-default-export": "error",

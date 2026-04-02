@@ -1,7 +1,7 @@
-import { MainProductLayout } from "@components/layouts";
-import { ProductList } from "@components/product";
 import { ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api";
+import { MainProductLayout } from "@components/layouts";
+import { ProductList } from "@components/product";
 
 const ProductListFeature = async ({ params }: { params: { channel: string } }) => {
 	const data = await executeGraphQL(ProductListByCollectionDocument, {

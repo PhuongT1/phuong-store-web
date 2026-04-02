@@ -1,8 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useDeviceSize } from "@hooks/useDeviceSize";
 import { ProductElementSkeleton } from "./ProductElementSkeleton";
-import { cn } from "@/lib/utils";
 
 const ProductListSkeleton = () => {
 	const { isMobile, isTablet } = useDeviceSize();

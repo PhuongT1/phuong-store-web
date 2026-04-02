@@ -1,14 +1,15 @@
 import { useEffect, useMemo } from "react";
-import { useCheckoutCustomerAttachMutation } from "@/checkout/graphql";
 import { useSubmit } from "@/checkout/hooks/useSubmit/useSubmit";
 import { useUser } from "@/checkout/hooks/useUser";
+import { useMutation } from "@/checkout/lib/useMutation";
+import { type CheckoutCustomerAttachMutation, type CheckoutCustomerAttachMutationVariables, CheckoutCustomerAttachDocument } from "@/gql/graphql";
 import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 
 export const useCustomerAttach = () => {
 	const { checkout, isValidating: fetchingCheckout, mutate } = useCheckout();
 	const { authenticated } = useUser();
 
-	const [{ fetching: fetchingCustomerAttach }, customerAttach] = useCheckoutCustomerAttachMutation();
+	const [{ fetching: fetchingCustomerAttach }, customerAttach] = useMutation<CheckoutCustomerAttachMutation, CheckoutCustomerAttachMutationVariables>(CheckoutCustomerAttachDocument);
 
 	const onSubmit = useSubmit<{}, typeof customerAttach>(
 		useMemo(

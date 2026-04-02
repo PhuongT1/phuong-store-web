@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import clsx from "clsx";
-import { MoneyDisplay } from "@components/ui";
+import { clsx } from "clsx";
 import { type CheckoutLine } from "@/gql/graphql";
+import { MoneyDisplay } from "@components/ui";
 
 type MoneyInfoBasic = Pick<CheckoutLine, "unitPrice" | "quantity">;
 type MoneyInfoProps<T> = T;

@@ -1,19 +1,20 @@
+import { parsePhoneNumberWithError, ParseError } from "libphonenumber-js";
 import { isEqual, omit, pick, reduce, uniq } from "lodash-es";
-import {
-	type OptionalAddress,
-	type AddressField,
-	type AddressFormData,
-	type ApiAddressField
-} from "../../components/AddressForm/types";
 import { getCountryName } from "@/checkout/lib/utils/locale";
+import { COUNTRY_CODE_DEFAULT } from "@/constants";
 import {
 	type AddressFragment,
 	type AddressInput,
 	type CheckoutAddressValidationRules,
 	type CountryCode,
 	type CountryDisplay
-} from "@/checkout/graphql";
-import { COUNTRY_CODE_DEFAULT } from "@/constants";
+} from "@/gql/graphql";
+import {
+	type OptionalAddress,
+	type AddressField,
+	type AddressFormData,
+	type ApiAddressField
+} from "../../components/AddressForm/types";
 
 export const getEmptyAddressFormData = (): AddressFormData => ({
 	firstName: "",
@@ -59,6 +60,23 @@ export const ADDRESS_FIELD_KEYS = [
 
 export const getAllAddressFieldKeys = () => ADDRESS_FIELD_KEYS as unknown as string[];
 
+/**
+ * Normalize a phone number to E.164 format using the given country code.
+ * Returns undefined when the number is empty or cannot be parsed — callers
+ * should omit the field rather than send an invalid value to Saleor.
+ */
+const normalizePhone = (phone: string | undefined | null, countryCode: string): string | undefined => {
+	if (!phone?.trim()) return undefined;
+	try {
+		return parsePhoneNumberWithError(phone, countryCode as import("libphonenumber-js").CountryCode).format(
+			"E.164"
+		);
+	} catch (e) {
+		if (e instanceof ParseError) return undefined;
+		throw e;
+	}
+};
+
 export const getAddressInputData = (
 	values: Partial<
 		AddressFormData & {
@@ -70,14 +88,19 @@ export const getAddressInputData = (
 	const { countryCode, country, ...rest } = values;
 
 	const input: AddressInput = {};
+	const inputRecord = input as Record<string, string | undefined>;
+	const restRecord = rest as Record<string, string | undefined>;
 
 	for (const key of ADDRESS_FIELD_KEYS) {
+		if (key === "phone") continue;
 		if (key in rest) {
-			(input as any)[key] = (rest as any)[key] || "";
+			inputRecord[key] = restRecord[key] || "";
 		}
 	}
 
 	input.country = countryCode || (country?.code as CountryCode);
+	const normalizedPhone = normalizePhone(restRecord["phone"], input.country ?? "VN");
+	if (normalizedPhone) input.phone = normalizedPhone;
 
 	return input;
 };
@@ -89,18 +112,22 @@ export const getAddressInputDataFromAddress = (
 		return {};
 	}
 
-	const { country, phone, ...rest } = address;
+	const { country, ...rest } = address;
 
 	const input: AddressInput = {};
+	const inputRecord = input as Record<string, string | undefined>;
+	const restRecord = rest as Record<string, string | undefined>;
 
 	for (const key of ADDRESS_FIELD_KEYS) {
+		if (key === "phone") continue;
 		if (key in rest) {
-			(input as any)[key] = (rest as any)[key] || "";
+			inputRecord[key] = restRecord[key] || "";
 		}
 	}
 
 	input.country = country?.code as CountryCode;
-	input.phone = phone || "";
+	const normalizedPhone = normalizePhone(restRecord["phone"], input.country ?? "VN");
+	if (normalizedPhone) input.phone = normalizedPhone;
 
 	return input;
 };
@@ -141,8 +168,10 @@ export const isMatchingAddressData = (
 	const addressKeys = getAllAddressFieldKeys();
 	const matchesFields = isEqual(pick(address, addressKeys), pick(addressToMatch, addressKeys));
 
-	const countryCode = address.country?.code || (address as any).countryCode;
-	const countryCodeToMatch = addressToMatch.country?.code || (addressToMatch as any).countryCode;
+	const addressWithCode = address as Partial<AddressFragment> & { countryCode?: CountryCode };
+	const matchWithCode = addressToMatch as Partial<AddressFragment> & { countryCode?: CountryCode };
+	const countryCode = addressWithCode.country?.code || addressWithCode.countryCode;
+	const countryCodeToMatch = matchWithCode.country?.code || matchWithCode.countryCode;
 
 	return matchesFields && countryCode === countryCodeToMatch;
 };

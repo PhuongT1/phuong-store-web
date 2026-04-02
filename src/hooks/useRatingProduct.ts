@@ -1,9 +1,9 @@
 "use client";
 
-import useSWRMutation from "swr/mutation";
 import useSWRInfinite from "swr/infinite";
-import { type PaginatedRating, type Rating, type RatingVariables } from "@/types";
+import useSWRMutation from "swr/mutation";
 import { getRatingList, postData } from "@/services/rating.service";
+import { type PaginatedRating, type Rating, type RatingVariables } from "@/types";
 
 const useRatingInfinite = (variables: RatingVariables) => {
 	const getKey = (_pageIndex: number, previousPageData: PaginatedRating<Rating> | null) => {

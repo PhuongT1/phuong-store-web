@@ -1,6 +1,5 @@
 "use client";
 
-import { MenuIcon } from "lucide-react";
 import {
 	Accordion,
 	Button,
@@ -11,18 +10,21 @@ import {
 	Sheet,
 	SheetContent
 } from "@ui";
-import { useMobileMenu } from "./useMobileMenu";
-import { getObjTypeMenu, renderMenu } from "./NavLink";
-import { type NavigationMenuProps } from "./NavigationLinks";
-import { CloseButton } from "./CloseButton";
-import { LinkWithChannel } from "@/components/navigation/LinkWithChannel";
-import { cn } from "@/lib/utils";
-import { ALL_PRODUCTS_SLUG, CLASS_BG_HEADER, CLASS_HOVER_ICON } from "@/constants";
+import { MenuIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Logo } from "@/components/layouts/Logo";
+import { LinkWithChannel } from "@/components/navigation/LinkWithChannel";
+import { ALL_PRODUCTS_SLUG, CLASS_BG_HEADER, CLASS_HOVER_ICON } from "@/constants";
+import { cn } from "@/lib/utils";
+import { CloseButton } from "./CloseButton";
+import { type NavigationMenuProps } from "./NavigationLinks";
+import { getObjTypeMenu, renderMenu } from "./NavLink";
+import { useMobileMenu } from "./useMobileMenu";
 
 type MobileMenuProps = NavigationMenuProps;
 
 export const MobileMenu = ({ navLinks }: MobileMenuProps) => {
+	const t = useTranslations("nav");
 	const { openMenu, isOpen, closeMenu } = useMobileMenu();
 
 	if (!navLinks) return <></>;
@@ -49,7 +51,7 @@ export const MobileMenu = ({ navLinks }: MobileMenuProps) => {
 						<AccordionItem value={`item-0`} onClick={closeMenu}>
 							<AccordionTrigger isHiddenIcon>
 								<LinkWithChannel className="w-full text-left" href={ALL_PRODUCTS_SLUG}>
-									Tất cả sản phẩm
+									{t("allProducts")}
 								</LinkWithChannel>
 							</AccordionTrigger>
 						</AccordionItem>

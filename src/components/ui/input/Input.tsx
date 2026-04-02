@@ -2,9 +2,9 @@
 
 import { type ReactNode, type AllHTMLAttributes } from "react";
 import { NumericFormat, type NumericFormatProps } from "react-number-format";
+import { type FieldErrorProps } from "../FieldError";
 import { FieldWrapper } from "../FieldWrapper";
 import { type FieldRenderProps } from "../form/FormControl.type";
-import { type FieldErrorProps } from "../FieldError";
 import { InputWrapper, type InputPrimitivesProps, type InputWrapperProps } from "./InputBase";
 
 interface TextInputProps<TName extends string> extends Omit<AllHTMLAttributes<HTMLInputElement>, "label"> {

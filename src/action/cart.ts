@@ -11,7 +11,8 @@ const revalidateCart = async (checkoutId: string) => {
 const setCheckoutIdCookie = async (id: string) => {
 	(await cookies()).set(CONFIG.COOKIE_KEY.checkoutId, id, {
 		maxAge: CONFIG.COOKIE_MAX_AGE.checkout,
-		httpOnly: true
+		httpOnly: true,
+		path: "/"
 	});
 };
 

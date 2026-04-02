@@ -2,10 +2,10 @@
 
 import React, { type ComponentPropsWithoutRef, useRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { CONFIG } from "@config/config";
-import { type FieldErrorProps } from "../FieldError";
-import { AffixWrapper } from "../display/AffixWrapper";
 import { cn } from "@/lib/utils";
+import { CONFIG } from "@config/config";
+import { AffixWrapper } from "../display/AffixWrapper";
+import { type FieldErrorProps } from "../FieldError";
 
 type Addon = React.ComponentProps<"div">["children"];
 type InputProps = Omit<React.ComponentPropsWithoutRef<"input">, "size">;
@@ -33,21 +33,23 @@ type UseValueTrackerProps<T> = {
 const inputVariants = cva(
 	[
 		"group",
-		"relative z-0 inline-flex items-center w-full min-w-0 overflow-hidden rounded-md border bg-transparent text-sm focus-within:z-20",
-		"border-input placeholder:text-muted-foreground",
-		"transition-[color,box-shadow]",
+		"relative z-0 inline-flex items-center w-full min-w-0 overflow-hidden rounded-lg border text-sm focus-within:z-20",
+		// bg-input: recessed page-gray on white card (light) / raised above card (dark)
+		"bg-input border-border placeholder:text-muted-foreground",
+		"transition-all duration-200",
 		"selection:bg-primary selection:text-primary-foreground",
-		"dark:bg-input/30",
-		// focus — ring outside the border using ring-offset so it's always visible
-		"focus-within:border-focus-ring focus-within:ring-focus-ring/40 focus-within:ring-2 focus-within:ring-inset",
+		// focus — border strengthens, subtle halo ring
+		"focus-within:border-foreground/50 focus-within:ring-1 focus-within:ring-foreground/20 focus-within:ring-inset",
+		// hover
+		"hover:border-foreground/40",
 		// disabled
 		"disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
 		// error
 		"group-aria-[invalid=true]:border-destructive",
-		"group-aria-[invalid=true]:ring-destructive/20",
-		"dark:group-aria-[invalid=true]:ring-destructive/40",
+		"group-aria-[invalid=true]:ring-destructive/15",
+		"dark:group-aria-[invalid=true]:ring-destructive/20",
 		"group-aria-[invalid=true]:focus-within:border-destructive",
-		"group-aria-[invalid=true]:focus-within:ring-destructive/20 group-aria-[invalid=true]:focus-within:ring-inset"
+		"group-aria-[invalid=true]:focus-within:ring-destructive/15 group-aria-[invalid=true]:focus-within:ring-inset"
 	],
 	{
 		variants: {

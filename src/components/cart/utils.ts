@@ -1,15 +1,24 @@
 import compact from "lodash-es/compact";
+import { type MightNotExist } from "@/checkout/lib/globalTypes";
+import { type CheckoutLineFragment, type OrderLineFragment } from "@/gql/graphql";
 import { type CartLine, type CheckoutLineItem } from "./Cart.type";
 import { type SummaryLineEditProps } from "./summary/SummaryLineEdit";
-import { type CheckoutLineFragment, type OrderLineFragment } from "@/checkout/graphql";
-import { type MightNotExist } from "@/checkout/lib/globalTypes";
 
 export const isCheckoutLine = (line: CartLine): line is CheckoutLineItem =>
 	line.__typename === "CheckoutLine";
 
 export const getThumbnailFromLine = ({ line }: Pick<SummaryLineEditProps, "line">) => {
 	const variant = line.variant;
-	return variant.media?.length === 0 ? variant.product.thumbnail : variant.media?.[0];
+	// CheckoutLine: prefer variant media, then variant.product.thumbnail
+	if (variant?.media && variant.media.length > 0) {
+		return variant.media[0];
+	}
+	if (variant?.product?.thumbnail) {
+		return variant.product.thumbnail;
+	}
+	// OrderLine: thumbnail is at the top-level of the line (not inside variant)
+	const lineFallback = line as unknown as { thumbnail?: { alt?: string | null; url: string } | null };
+	return lineFallback.thumbnail ?? undefined;
 };
 
 // export const getSummaryLineProps = (line: CartLine) => {
@@ -31,11 +40,7 @@ export const useSummaryLineLineAttributesText = (line: CheckoutLineFragment | Or
 		line.variant?.attributes?.reduce<Array<MightNotExist<string>>>(
 			(result, { values }) => [
 				...result,
-				...values.map(({ name, dateTime, translation }) => {
-					if (translation?.name) {
-						return translation.name;
-					}
-
+				...values.map(({ name, dateTime }) => {
 					if (dateTime) {
 						return new Intl.DateTimeFormat("EN-US", { dateStyle: "medium" }).format(new Date(dateTime));
 					}

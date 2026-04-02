@@ -29,8 +29,8 @@
 // describe("Validation", () => {});
 
 import { render , screen } from "@testing-library/react";
-import { describe, it, expect, beforeEach , vi } from "vitest";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
+import { describe, it, expect, beforeEach , vi } from "vitest";
 import { SignIn } from "../../../sign-in/SignIn";
 import { LoginScreen } from "../../screens/SignIn.screen";
 

@@ -1,7 +1,12 @@
-import { type OperationResult } from "urql";
-import { type LanguageCodeEnum } from "@/checkout/graphql";
 import { type FormDataBase } from "@/checkout/hooks/useForm";
 import { type ExtractedMutationErrors } from "@/checkout/hooks/useSubmit/utils";
+import { type LanguageCodeEnum } from "@/gql/graphql";
+
+/** Shape returned by useMutation execute fn — replaces urql OperationResult */
+export interface MutationOperationResult<TData = any> {
+	data: TData | null;
+	error?: unknown;
+}
 
 export type MutationVars<MutationFn> = MutationFn extends (vars: infer Vars) => any ? Vars : never;
 export type MutationData<MutationFn> = MutationFn extends (vars: any) => Promise<infer Data> ? Data : never;
@@ -15,7 +20,7 @@ export type SubmitReturnWithErrors<TData extends FormDataBase, TErrorCodes exten
 	ExtractedMutationErrors<TData, TErrorCodes>
 >;
 
-export type MutationBaseFn = (vars: any) => Promise<Pick<OperationResult<any, any>, "data" | "error">>;
+export type MutationBaseFn = (vars: any) => Promise<MutationOperationResult>;
 
 export type ParserProps<TData> = TData & CommonVars;
 
@@ -30,9 +35,8 @@ export type SimpleSubmitFn<
 	? () => SubmitReturnWithErrors<TData, TErrorCodes>
 	: (formData: TData) => SubmitReturnWithErrors<TData, TErrorCodes>;
 
-type ResultOf<TMutationFn extends MutationBaseFn> = MutationData<TMutationFn> extends OperationResult<
-	infer TData,
-	any
+type ResultOf<TMutationFn extends MutationBaseFn> = MutationData<TMutationFn> extends MutationOperationResult<
+	infer TData
 >
 	? TData
 	: never;
@@ -44,7 +48,7 @@ export type OperationName<TMutationFn extends MutationBaseFn> = Exclude<
 
 export type MutationReturn<TMutationFn extends MutationBaseFn> = TMutationFn extends (
 	vars: any,
-) => Promise<OperationResult<infer TData>>
+) => Promise<MutationOperationResult<infer TData>>
 	? TData
 	: never;
 

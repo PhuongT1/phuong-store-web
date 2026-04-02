@@ -1,7 +1,6 @@
 "use client";
 
 import { Heart } from "lucide-react";
-
 import { type ProductDetailsQuery } from "@/gql/graphql";
 import { cn } from "@/lib/utils";
 import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
@@ -27,11 +26,11 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 		: null;
 
 	return (
-		<div className="relative aspect-square overflow-hidden bg-[#f5f6f7]">
+		<div className="bg-product-image-bg border-border relative aspect-square overflow-hidden border-b">
 			{/* Sale badge */}
 			{isOnSale && (
 				<div className="absolute top-2 left-2 z-10">
-					<span className="inline-flex items-center rounded-md bg-red-500 px-2 py-0.5 text-[9px] font-bold tracking-wide text-white uppercase shadow">
+					<span className="bg-destructive text-destructive-foreground inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-bold tracking-wide uppercase shadow-md">
 						SALE
 					</span>
 				</div>
@@ -39,14 +38,14 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 
 			{/* Wishlist button */}
 			<button
-				aria-label="Yêu thích"
-				className="absolute top-2 right-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-md transition hover:scale-110"
+				aria-label="Wishlist"
+				className="bg-card/80 absolute top-2 right-2 z-10 flex h-9 w-9 items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-card hover:shadow-lg"
 				onClick={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
 				}}
 			>
-				<Heart className="h-4 w-4 text-gray-400 transition-colors group-hover:text-rose-400" />
+				<Heart className="text-muted-foreground h-4 w-4 transition-colors group-hover:text-badge-recommended" />
 			</button>
 
 			{/* Primary image (product thumbnail or selected variant image) */}
@@ -65,7 +64,7 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 					)}
 				/>
 			) : (
-				<div className="flex h-full items-center justify-center text-gray-300">
+				<div className="text-muted-foreground flex h-full items-center justify-center">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="h-12 w-12">
 						<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
 					</svg>

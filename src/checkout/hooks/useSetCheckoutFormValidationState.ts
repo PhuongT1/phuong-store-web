@@ -1,11 +1,11 @@
 import { useCallback } from "react";
-import { type FormikProps } from "formik";
-import { type UseFormReturn } from "react-hook-form";
+import { type FieldPath, type UseFormReturn } from "react-hook-form";
 import { type FormDataBase, hasErrors } from "@/checkout/hooks/useForm";
 import {
 	type CheckoutFormScope,
 	useCheckoutValidationActions
 } from "@/checkout/state/checkoutValidationStateStore";
+import { type FormikCompatForm } from "@checkout/hooks/useForm";
 
 export const useSetCheckoutFormValidationState = (scope: CheckoutFormScope) => {
 	const { setValidationState } = useCheckoutValidationActions();
@@ -13,11 +13,11 @@ export const useSetCheckoutFormValidationState = (scope: CheckoutFormScope) => {
 	const setCheckoutFormValidationState = useCallback(
 		async <TData extends FormDataBase>(
 			form:
-				| Pick<FormikProps<TData>, "validateForm" | "setTouched" | "values">
+				| Pick<FormikCompatForm<TData>, "validateForm" | "setTouched" | "values">
 				| Pick<UseFormReturn<TData>, "trigger" | "formState" | "setFocus">
 		) => {
-			if ("validateForm" in form) {
-				const { validateForm, setTouched, values } = form;
+			if ("validateForm" in form && "setTouched" in form && "values" in form) {
+				const { validateForm, setTouched, values } = form as FormikCompatForm<TData>;
 				if (!validateForm) return;
 
 				const formErrors = await validateForm(values);
@@ -43,7 +43,7 @@ export const useSetCheckoutFormValidationState = (scope: CheckoutFormScope) => {
 				const errors = form.formState.errors as Record<string, unknown> | undefined;
 				const firstErrorKey = errors ? Object.keys(errors)[0] : undefined;
 				if (firstErrorKey && form.setFocus) {
-					form.setFocus(firstErrorKey as any);
+					form.setFocus(firstErrorKey as FieldPath<TData>);
 				}
 			}
 		},

@@ -1,10 +1,10 @@
 "use client";
 
-import { SwiperProduct } from "@components/swiper";
-import { MainProductLayout } from "@components/layouts";
+import { RELATED_PRODUCT_SLUG } from "@/constants";
 import { useRelatedProduct } from "@/hooks/useRelatedProduct";
 import { type Attributes, type Channel } from "@/types";
-import { RELATED_PRODUCT_SLUG } from "@/constants";
+import { MainProductLayout } from "@components/layouts";
+import { SwiperProduct } from "@components/swiper";
 
 type RelatedProductProps = Channel & Attributes;
 
@@ -23,7 +23,7 @@ const RelatedProduct = ({ channel, attributes }: RelatedProductProps) => {
 
 	return (
 		<MainProductLayout>
-			<div className="md:rounded-lg md:bg-white md:p-5">
+			<div className="md:rounded-lg md:bg-card md:p-5">
 				<h3 className="title">{attributeRelated?.attribute.name}</h3>
 				<SwiperProduct products={data} />
 			</div>

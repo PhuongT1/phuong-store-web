@@ -1,8 +1,8 @@
 "use client";
 
-import { Swiper } from "swiper/react";
-import { FreeMode, Navigation, Pagination } from "swiper/modules";
 import React from "react";
+import { FreeMode, Navigation, Pagination } from "swiper/modules";
+import { Swiper } from "swiper/react";
 import { type SwiperOptions } from "swiper/types";
 import { cn } from "@/lib/utils";
 import "@assets/styles/_swiper.scss";
@@ -29,7 +29,7 @@ const SwiperSlider = ({ children, className, ...restSlider }: SwiperSliderProps)
 			className={cn("max-w-full [&_.swiper-button-disabled]:hidden", className)}
 			navigation
 			loop={false}
-			autoHeight
+			grabCursor
 			watchSlidesProgress
 			observeParents
 			observer

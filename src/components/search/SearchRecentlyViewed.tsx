@@ -1,81 +1,101 @@
 "use client";
 
-import { LinkWithChannel } from "@components/navigation";
-import { Button } from "@components/ui";
-import { ProductElement } from "@components/product";
-import { cn } from "@/lib/utils";
+import { SwiperSlide } from "swiper/react";
 import { useRecentlyViewedProducts } from "@/lib/hooks/useRecentlyViewedProducts";
-import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
 import { type ProductListProps } from "@/types";
+import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
+import { LinkWithChannel } from "@components/navigation";
+import { ProductElement } from "@components/product";
+import { SwiperSlider } from "@components/swiper";
+import { Button } from "@components/ui";
 
 const SearchRecentlyViewed = ({ products }: ProductListProps) => {
 	const { items, clearAll } = useRecentlyViewedProducts();
 
 	const hasStoredItems = items.length > 0;
-	const fallbackProducts = products?.slice(0, 6) ?? [];
+	const fallbackProducts = products?.slice(0, 8) ?? [];
 
 	if (!hasStoredItems && fallbackProducts.length === 0) return null;
 
 	return (
 		<section>
-			<div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-				<div className="mb-8 flex items-center justify-between">
+			<div className="border-border bg-card rounded-xl border p-6 shadow-sm">
+				<div className="mb-5 flex items-center justify-between">
 					<div>
-						<p className="mb-2 text-xs font-medium tracking-wider text-gray-500 uppercase">Recently viewed</p>
-						<h3 className="text-2xl font-semibold tracking-tight text-gray-900">Continue Shopping</h3>
+						<p className="text-muted-foreground mb-1 text-xs font-medium tracking-wider uppercase">
+							Recently viewed
+						</p>
+						<h3 className="text-foreground text-2xl font-semibold tracking-tight">Continue Shopping</h3>
 					</div>
 					<Button
 						variant="ghost"
-						className="rounded-lg text-sm font-medium text-gray-700 hover:text-gray-900"
+						className="text-muted-foreground hover:text-foreground rounded-lg text-sm font-medium"
 						onClick={clearAll}
 					>
 						Clear history
 					</Button>
 				</div>
-				<div className="scrollbar-hide flex gap-6 overflow-x-auto pb-4">
+				<SwiperSlider
+					spaceBetween={12}
+					slidesPerView={1.3}
+					className="-my-2 overflow-visible py-2"
+					breakpoints={{
+						640: { slidesPerView: 2.3 },
+						768: { slidesPerView: 3 },
+						992: { slidesPerView: 4 },
+						1280: { slidesPerView: 5 }
+					}}
+				>
 					{hasStoredItems
 						? items.map((item) => (
-								<LinkWithChannel key={item.id} href={`/products/${item.slug}`} className="min-w-[220px]">
-									<div className="flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-200 ease-out will-change-transform hover:-translate-y-1 hover:shadow-md">
-										<div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
-											{item.imageUrl ? (
-												<ProductImageWrapper
-													alt={item.imageAlt ?? item.name}
-													src={item.imageUrl}
-													width={360}
-													height={450}
-													sizes="360px"
-													className="h-full w-full object-cover"
-													loading="lazy"
-												/>
-											) : (
-												<div className="flex h-full items-center justify-center text-xs text-gray-400">
-													No image
-												</div>
-											)}
-										</div>
-										<div className="flex-1 p-4">
-											<p className="line-clamp-2 text-sm font-semibold text-gray-900">{item.name}</p>
-											<div className="mt-2 flex items-baseline gap-2">
-												<span className="text-base font-semibold text-gray-900">{item.price}</span>
-												{item.onSale && (
-													<span className="text-xs text-gray-500 line-through">{item.priceUndiscounted}</span>
+								<SwiperSlide key={item.id}>
+									<LinkWithChannel href={`/products/${item.slug}`} className="block h-full">
+										<div className="border-border bg-card flex h-full flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+											<div className="bg-muted relative aspect-square overflow-hidden">
+												{item.imageUrl ? (
+													<ProductImageWrapper
+														alt={item.imageAlt ?? item.name}
+														src={item.imageUrl}
+														width={360}
+														height={360}
+														sizes="360px"
+														className="h-full w-full object-contain"
+														loading="lazy"
+													/>
+												) : (
+													<div className="text-muted-foreground flex h-full items-center justify-center text-xs">
+														No image
+													</div>
 												)}
 											</div>
+											<div className="flex flex-1 flex-col gap-1 p-3">
+												<p className="text-foreground line-clamp-2 text-sm leading-snug font-semibold">
+													{item.name}
+												</p>
+												<div className="mt-auto flex items-baseline gap-2 pt-2">
+													<span className="text-foreground text-base font-bold">{item.price}</span>
+													{item.onSale && (
+														<span className="text-muted-foreground text-xs line-through">
+															{item.priceUndiscounted}
+														</span>
+													)}
+												</div>
+											</div>
 										</div>
-									</div>
-								</LinkWithChannel>
+									</LinkWithChannel>
+								</SwiperSlide>
 							))
 						: fallbackProducts.map((product, index) => (
-								<ProductElement
-									key={product?.id ?? index}
-									product={product}
-									priority={index < 2}
-									loading={index < 3 ? "eager" : "lazy"}
-									className="min-w-[220px]"
-								/>
+								<SwiperSlide key={product?.id ?? index}>
+									<ProductElement
+										className="h-full"
+										product={product}
+										priority={index < 2}
+										loading={index < 3 ? "eager" : "lazy"}
+									/>
+								</SwiperSlide>
 							))}
-				</div>
+				</SwiperSlider>
 			</div>
 		</section>
 	);

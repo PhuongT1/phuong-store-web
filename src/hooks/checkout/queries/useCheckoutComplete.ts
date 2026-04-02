@@ -1,12 +1,11 @@
 "use client";
 
 import useSWRMutation from "swr/mutation";
-import { useFetcher } from "../../useFetcher";
-import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
-import { replaceUrl } from "@/checkout/lib/utils/url";
-import { CheckoutCompleteDocument, type CheckoutCompleteMutationVariables } from "@/gql/graphql";
 import { removeCheckoutIdCookie } from "@/action";
 import { CONFIG } from "@/constants";
+import { CheckoutCompleteDocument, type CheckoutCompleteMutationVariables } from "@/gql/graphql";
+import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
+import { useFetcher } from "../../useFetcher";
 
 const useCheckoutComplete = () => {
 	const {
@@ -44,13 +43,7 @@ const useCheckoutComplete = () => {
 			void removeCheckoutIdCookie();
 			const order = data?.checkoutComplete?.order;
 			if (order) {
-				const newUrl = replaceUrl({
-					query: {
-						order: order.id
-					},
-					replaceWholeQuery: true
-				});
-				window.location.href = newUrl;
+				window.location.href = `/order-confirmation?order=${order.id}`;
 			} else {
 				onError?.();
 			}

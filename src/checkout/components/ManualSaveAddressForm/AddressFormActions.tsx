@@ -1,5 +1,6 @@
+import { Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
-import { TrashIcon } from "@/checkout/ui-kit/icons";
 
 interface AddressFormActionsProps {
 	onDelete?: () => void;
@@ -14,37 +15,35 @@ export const AddressFormActions: React.FC<AddressFormActionsProps> = ({
 	onCancel,
 	loading
 }) => {
+	const t = useTranslations("checkout");
 	return (
 		<div className="flex flex-row items-center justify-end gap-3">
 			{onDelete && (
 				<div className="mr-auto flex">
 					<Button
 						variant="outline"
-						className="border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600"
+						className="border-destructive/30 text-destructive hover:bg-destructive/10 hover:text-destructive"
 						onClick={onDelete}
 					>
-						<TrashIcon className="mr-2 h-4 w-4" aria-hidden /> Xóa địa chỉ
+						<Trash2 className="mr-2 h-4 w-4" aria-hidden /> {t("deleteAddress")}
 					</Button>
 				</div>
 			)}
 
 			<Button
 				variant="outline"
-				className="rounded-lg border-gray-200 px-6 font-medium text-gray-600 hover:bg-gray-50"
+				className="border-border text-muted-foreground hover:bg-muted rounded-lg px-6 font-medium"
 				onClick={onCancel}
 			>
-				Hủy
+				{t("cancel")}
 			</Button>
 			{loading ? (
-				<Button disabled className="rounded-lg bg-blue-600 px-6 font-medium text-white opacity-70">
-					Đang xử lý…
+				<Button disabled variant="info" className="px-6" loading>
+					{t("processing")}
 				</Button>
 			) : (
-				<Button
-					className="rounded-lg bg-blue-600 px-6 font-medium text-white shadow-sm transition-colors hover:bg-blue-700"
-					onClick={onSubmit}
-				>
-					Lưu địa chỉ
+				<Button variant="info" className="px-6" onClick={onSubmit}>
+					{t("saveAddress")}
 				</Button>
 			)}
 		</div>

@@ -1,7 +1,5 @@
 import { createNavigation } from "next-intl/navigation";
 import { defineRouting } from "next-intl/routing";
-
-// import { type Locale, SUPPORTED_LOCALES } from "@/regions/types";
 import { locales } from "./config";
 
 // export const localePrefixes: Record<Locale, string> = {

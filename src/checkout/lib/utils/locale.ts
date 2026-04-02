@@ -1,4 +1,4 @@
-import { type CountryCode } from "@/checkout/graphql";
+import { type CountryCode } from "@/gql/graphql";
 
 export const getCurrentHref = () => location.href;
 

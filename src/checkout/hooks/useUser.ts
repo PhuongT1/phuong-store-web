@@ -1,5 +1,5 @@
-import { useSWRGraphQl } from "@/hooks/swr/useSWR";
 import { CurrentUserDocument, type User } from "@/gql/graphql";
+import { useSWRGraphQl } from "@/hooks/swr/useSWR";
 import { executeGraphQL } from "@/lib/api";
 
 export const useUser = () => {

@@ -1,25 +1,25 @@
 "use client";
 
 import React, { type ReactNode } from "react";
+import { ImageIcon, Minus, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { type FieldArrayWithId, type Path, useFormContext } from "react-hook-form";
-import { Minus, Plus } from "lucide-react";
+import { FormCombobox } from "@/components/ui/combobox/FormCombobox";
+import { FormInput } from "@/components/ui/input/FormInput";
+import { type AssignedSingleChoiceAttribute, type OrderLine } from "@/gql/graphql";
+import { useCheckoutLines } from "@/hooks/checkout";
+import { cn } from "@/lib/utils";
+import { type Option } from "@/types";
 import { Button, ImageItem } from "@components/ui";
 import { type CheckoutLineForm } from "../Cart.type";
 import { ConfirmDeleteDialog } from "../line-item/ConfirmDialog";
 import { getThumbnailFromLine } from "../utils";
-import { type AssignedSingleChoiceAttribute, type OrderLine } from "@/gql/graphql";
-import { useCheckoutLines } from "@/hooks/checkout";
-import { cn } from "@/lib/utils";
-import { FormCombobox } from "@/components/ui/combobox/FormCombobox";
-import { FormInput } from "@/components/ui/input/FormInput";
-import { PhotoIcon } from "@/checkout/ui-kit/icons";
-import { type Option } from "@/types";
 
 export type SummaryLines = {
 	summaryList: CheckoutLineForm[];
 };
 
-type SummaryLineEditProps = {
+export type SummaryLineEditProps = {
 	line: FieldArrayWithId<SummaryLines, "summaryList", "id">;
 	children: ReactNode;
 	isBottomBorder?: boolean;
@@ -29,6 +29,7 @@ type SummaryLineEditProps = {
 
 const SummaryLineEdit = React.memo(
 	({ line, children, index: indexLine, editable = true }: SummaryLineEditProps) => {
+		const t = useTranslations("cart");
 		const { control, watch, setError, setValue } = useFormContext<SummaryLines>();
 
 		const {
@@ -87,7 +88,7 @@ const SummaryLineEdit = React.memo(
 			const variantSelected = findMatchedVariant();
 
 			if (!(Number(variantSelected?.node.quantityAvailable) > 0)) {
-				return setError(name, { message: "Sản phẩm này hiện đã hết hàng" });
+				return setError(name, { message: t("outOfStock") });
 			}
 			if (variantSelected && variantSelected?.node.id) {
 				checkoutAdd([
@@ -109,13 +110,13 @@ const SummaryLineEdit = React.memo(
 			<li
 				key={line.id}
 				className={cn(
-					"flex flex-wrap items-center gap-2 border-b border-gray-100 py-4 transition-opacity duration-300 last:border-none",
+					"border-border flex flex-wrap items-center gap-2 border-b py-4 transition-opacity duration-300 last:border-none",
 					isUpdating && "pointer-events-none"
 				)}
 				data-testid="SummaryItem"
 			>
-				<div className="aspect-square h-16 w-16 shrink-0 overflow-hidden rounded border bg-neutral-50 md:h-[72px] md:w-[72px] md:bg-white">
-					{productImage ? <ImageItem src={productImage.url} alt={productImage.alt} /> : <PhotoIcon />}
+				<div className="bg-muted aspect-square h-16 w-16 shrink-0 overflow-hidden rounded border md:h-[72px] md:w-[72px]">
+					{productImage ? <ImageItem src={productImage.url} alt={productImage.alt} /> : <ImageIcon className="h-8 w-8 text-muted-foreground" />}
 				</div>
 				<div className="relative flex flex-1 flex-col justify-between gap-2">
 					<div className="flex justify-between justify-items-start gap-1">
@@ -133,7 +134,7 @@ const SummaryLineEdit = React.memo(
 
 										return (
 											<div key={index} className="flex flex-col gap-1">
-												<p className="text-xs font-medium text-neutral-500">{attribute.name}</p>
+												<p className="text-muted-foreground text-xs font-medium">{attribute.name}</p>
 												<FormCombobox
 													control={control}
 													name={name}
@@ -169,7 +170,7 @@ const SummaryLineEdit = React.memo(
 										);
 									})}
 								{!editable && line.variant?.name && (
-									<p className="text-sm text-neutral-500">{line.variant.name}</p>
+									<p className="text-muted-foreground text-sm">{line.variant.name}</p>
 								)}
 							</div>
 						</div>
@@ -224,7 +225,6 @@ const SummaryLineEdit = React.memo(
 		);
 	}
 );
-
 SummaryLineEdit.displayName = "SummaryLineEdit";
 
-export { SummaryLineEdit, type SummaryLineEditProps };
+export { SummaryLineEdit };

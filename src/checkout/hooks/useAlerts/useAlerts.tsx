@@ -1,6 +1,12 @@
  
-import { camelCase } from "lodash-es";
 import { useCallback } from "react";
+import { camelCase } from "lodash-es";
+import { type ExternalToast } from "sonner";
+import { useGetParsedErrors } from "@/checkout/hooks/useGetParsedErrors";
+import { type ApiErrors } from "@/checkout/hooks/useGetParsedErrors/types";
+import { type ErrorCode } from "@/checkout/lib/globalTypes";
+import { apiErrorMessages } from "@/checkout/sections/payment/PaymentSection/errorMessages";
+import { notify } from "@/components/ui";
 import {
 	type Alert,
 	type AlertType,
@@ -8,11 +14,6 @@ import {
 	type CheckoutScope,
 	type CustomError
 } from "./types";
-import { type ErrorCode } from "@/checkout/lib/globalTypes";
-import { type ApiErrors } from "@/checkout/hooks/useGetParsedErrors/types";
-import { useGetParsedErrors } from "@/checkout/hooks/useGetParsedErrors";
-import { apiErrorMessages } from "@/checkout/sections/PaymentSection/errorMessages";
-import { notify } from "@/components/ui";
 
 function useAlerts(scope: CheckoutScope): {
 	showErrors: (errors: ApiErrors<any>) => void;
@@ -26,8 +27,8 @@ function useAlerts(): {
 	showSuccess: (message: string) => void;
 };
 
-function useAlerts(globalScope?: any): any {
-	const { getParsedApiErrors } = useGetParsedErrors<any>();
+function useAlerts(globalScope?: CheckoutScope) {
+	const { getParsedApiErrors } = useGetParsedErrors<Record<string, string>>();
 
 	const getMessageKey = ({ scope, field, code }: AlertErrorData, { error } = { error: false }) => {
 		const keyBase = `${scope}-${field}-${code}`;
@@ -65,12 +66,13 @@ function useAlerts(globalScope?: any): any {
 
 	const showAlert = useCallback(
 		({ message, type = "error", ...rest }: Pick<Alert, "message"> & { type?: AlertType; id?: string }) => {
+			const toastOptions: ExternalToast = { ...rest };
 			if (type === "error") {
-				notify.error(message, { ...rest } as any);
+				notify.error(message, toastOptions);
 			} else if (type === "success") {
-				notify.success(message, { ...rest } as any);
+				notify.success(message, toastOptions);
 			} else {
-				notify.info(message, { ...rest } as any);
+				notify.info(message, toastOptions);
 			}
 		},
 		[]
@@ -85,13 +87,13 @@ function useAlerts(globalScope?: any): any {
 	);
 
 	const showErrors = useCallback(
-		(errors: ApiErrors<any>, scope: CheckoutScope = globalScope) =>
+		(errors: ApiErrors<Record<string, string>>, scope: CheckoutScope = globalScope!) =>
 			getParsedApiErrors(errors).forEach((error) => showDefaultAlert({ ...error, scope } as AlertErrorData)),
 		[getParsedApiErrors, showDefaultAlert, globalScope]
 	);
 
 	const showCustomErrors = useCallback(
-		(errors: CustomError[], scope: CheckoutScope = globalScope) => {
+		(errors: CustomError[], scope: CheckoutScope = globalScope!) => {
 			const parsedErrors = errors.map((error) => ({ field: "", message: "", code: "", ...error }));
 
 			parsedErrors.forEach(({ field, message, code }) => {

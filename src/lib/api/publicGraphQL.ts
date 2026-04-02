@@ -17,15 +17,7 @@ const fetchPublicGraphQL = async <Result, Variables>(
 	return responseData(response);
 };
 
-const executePublicGraphQLRequest = async <Result, Variables>(
-	operation: GraphQLDocument<Result, Variables>,
-	options: GraphQLRequestOptions<Variables>
-): Promise<Result> => {
-	try {
-		return await fetchPublicGraphQL(operation, options);
-	} catch (error) {
-		throw error;
-	}
-};
+// Backward-compatible alias
+const executePublicGraphQLRequest = fetchPublicGraphQL;
 
 export { fetchPublicGraphQL, executePublicGraphQLRequest };

@@ -1,19 +1,21 @@
 "use client";
 
-import { SearchIcon } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { usePathname, useRouter } from "next/navigation";
 import { Button, FormProvider, InputField } from "@ui";
+import { SearchIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useForm, useWatch } from "react-hook-form";
+import { SearchSuggestionsPanel } from "@/components/search/SearchSuggestionsPanel";
 import { ALL_PRODUCTS_SLUG } from "@/constants";
 import { useAddQueryParams } from "@/lib/hooks";
-import { SearchSuggestionsPanel } from "@/components/search/SearchSuggestionsPanel";
 
 type SearchProduct = {
 	search?: string;
 };
 
 export const SearchBar = ({ channel }: { channel: string }) => {
+	const t = useTranslations("nav");
 	const router = useRouter();
 	const pathname = usePathname();
 	const { setParams } = useAddQueryParams();
@@ -87,7 +89,7 @@ export const SearchBar = ({ channel }: { channel: string }) => {
 				}}
 				inputProps={{
 					...methods.register("search"),
-					placeholder: "Nhập tên điện thoại, máy tính, phụ kiện... cần tìm",
+					placeholder: t("searchPlaceholder"),
 					sizeVariant: "medium",
 					onFocus: () => {
 						if (blurTimeout.current) clearTimeout(blurTimeout.current);

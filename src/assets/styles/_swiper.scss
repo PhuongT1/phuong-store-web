@@ -5,3 +5,57 @@
 @use "swiper/scss/navigation";
 @use "swiper/scss/thumbs";
 @use "swiper/scss/pagination";
+
+/* ── Equal-height slides ── */
+.swiper {
+	.swiper-wrapper {
+		align-items: stretch;
+	}
+	/* Must be display:flex so inner h-full children can stretch */
+	.swiper-slide {
+		height: auto;
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+/* ── Polished navigation arrows ── */
+.swiper-button-next,
+.swiper-button-prev {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: var(--card);
+	border: 1px solid var(--border);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+	transition: all 0.18s ease;
+
+	&::after {
+		font-size: 13px;
+		font-weight: 800;
+		color: var(--foreground);
+	}
+
+	&:hover {
+		background: var(--accent);
+		box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+		transform: scale(1.1);
+	}
+
+	&:active {
+		transform: scale(0.95);
+	}
+}
+
+/* ── Pagination dots ── */
+.swiper-pagination-bullet {
+	background: var(--muted-foreground);
+	opacity: 0.4;
+	transition: all 0.2s ease;
+
+	&-active {
+		background: var(--primary);
+		opacity: 1;
+		transform: scale(1.2);
+	}
+}

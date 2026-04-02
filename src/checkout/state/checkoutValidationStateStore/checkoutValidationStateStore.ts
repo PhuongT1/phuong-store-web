@@ -1,8 +1,8 @@
+import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
 
-import { shallow } from "zustand/shallow";
 
-export type CheckoutFormScope = "shippingAddress" | "guestUser";
+export type CheckoutFormScope = "shippingAddress" | "billingAddress" | "guestUser";
 type CheckoutFormValidationStatus = "valid" | "invalid" | "validating";
 
 export type ValidationState = Record<CheckoutFormScope, CheckoutFormValidationStatus>;
@@ -20,12 +20,12 @@ interface UseCheckoutValidationStateStore extends CheckoutValidationState {
 
 const useCheckoutValidationStateStore = createWithEqualityFn<UseCheckoutValidationStateStore>(
 	(set) => ({
-		validationState: { shippingAddress: "valid", guestUser: "valid" },
+		validationState: { shippingAddress: "valid", billingAddress: "valid", guestUser: "valid" },
 		actions: {
 			validateAllForms: (signedIn: boolean) =>
 				set((state) => {
 					const keysToValidate = Object.keys(state.validationState).filter(
-						(val) => !signedIn || val !== "guestUser"
+						(val) => val !== "billingAddress" && (!signedIn || val !== "guestUser")
 					) as CheckoutFormScope[];
 
 					return {

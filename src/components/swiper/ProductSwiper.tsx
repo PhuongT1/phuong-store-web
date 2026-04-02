@@ -1,17 +1,17 @@
 "use client";
 
 import { SwiperSlide } from "swiper/react";
+import { type ProductListProps } from "@/types";
 import { ProductElement } from "@components/product";
 import { SwiperSlider } from "./SwiperSlider";
-import { type ProductListProps } from "@/types";
 
 const SwiperProduct = ({ products }: ProductListProps) => {
 	if (!products) return <></>;
 
 	return (
-		<SwiperSlider spaceBetween={10} slidesPerView={2}>
+		<SwiperSlider spaceBetween={10} slidesPerView={2} className="-my-2 overflow-visible py-2">
 			{products?.map((product, index) => (
-				<SwiperSlide key={product?.id} className="!h-full">
+				<SwiperSlide key={product?.id}>
 					<ProductElement
 						className="h-full"
 						product={product}

@@ -1,13 +1,12 @@
+import { type Metadata } from "next";
+import { PRODUCTS_PER_PAGE } from "@/constants";
+import { ProductListPaginatedDocument, type ProductListPaginatedQueryVariables } from "@/gql/graphql";
+import { generatePageMetadata } from "@/lib/metadata";
+import { type PageQueryProps } from "@/types";
 import { executeGraphQL } from "@lib/api/fetchGraphQL";
 import { HomePageSections } from "./HomePageSections";
-import { ProductListPaginatedDocument, type ProductListPaginatedQueryVariables } from "@/gql/graphql";
-import { PRODUCTS_PER_PAGE } from "@/constants";
-import { type PageQueryProps } from "@/types";
 
-export const metadata = {
-	title: "Trang chủ",
-	description: "Trang chủ của trang web thương mại điện tử"
-};
+export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("home");
 
 export default async function Page({ params }: PageQueryProps) {
 	const { channel } = await params;

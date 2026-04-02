@@ -1,8 +1,8 @@
 "use client";
 
-import { VariantElement } from "./VariantElement";
 import { type ProductDetailsQuery, type VariantDetailsFragment } from "@/gql/graphql";
 import { type ProductItem } from "@/types";
+import { VariantElement } from "./VariantElement";
 
 export function VariantSelector({
 	variants,

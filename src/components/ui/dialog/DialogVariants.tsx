@@ -1,5 +1,6 @@
 import React, { type ReactNode } from "react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { cn } from "@/lib/utils";
 import { Button } from "../Button";
 import {
 	Dialog,
@@ -11,7 +12,6 @@ import {
 	DialogTitle,
 	DialogTrigger
 } from "./Dialog";
-import { cn } from "@/lib/utils";
 
 export interface AccessibleContentProps {
 	fallbackText?: string;

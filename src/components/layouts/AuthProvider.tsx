@@ -1,9 +1,9 @@
 "use client";
 
+import { useState, type ReactNode } from "react";
+import { createSaleorAuthClient } from "@saleor/auth-sdk";
 import { SaleorAuthProvider, useAuthChange } from "@saleor/auth-sdk/react";
 import { invariant } from "ts-invariant";
-import { createSaleorAuthClient } from "@saleor/auth-sdk";
-import { useState, type ReactNode } from "react";
 import {
 	type Client,
 	Provider as UrqlProvider,

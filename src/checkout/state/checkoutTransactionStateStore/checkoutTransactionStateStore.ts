@@ -1,9 +1,9 @@
 import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
-import { type TransactionInitializeData } from "@/checkout/graphql";
-import { type PaymentGatewayId } from "@/checkout/sections/PaymentSection/types";
+import { type PaymentGatewayId } from "@/checkout/sections/payment/PaymentSection/types";
+import { type TransactionInitialize } from "@/gql/graphql";
 
-export type TransactionInitializePayment = Partial<Record<PaymentGatewayId, TransactionInitializeData>>;
+export type TransactionInitializePayment = Partial<Record<PaymentGatewayId, TransactionInitialize>>;
 
 export interface CheckoutTransactionStateStore {
 	transaction?: TransactionInitializePayment;

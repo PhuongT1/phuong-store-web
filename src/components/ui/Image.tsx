@@ -1,8 +1,8 @@
 "use client";
 
 import Image, { type ImageProps as NextImageProps } from "next/image";
-import { cn } from "@/lib/utils";
 import { type Image as ImageProps } from "@/gql/graphql";
+import { cn } from "@/lib/utils";
 
 interface ImageItemProps extends Omit<NextImageProps, "alt">, Pick<ImageProps, "alt"> {
 	size?: number;

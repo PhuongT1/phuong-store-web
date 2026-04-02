@@ -14,4 +14,15 @@
 	.detail-sidebar {
 		@apply md:col-span-4;
 	}
+
+	/* ── Sonner toast close button — visible in both light & dark mode ── */
+	[data-close-button] {
+		background: var(--muted) !important;
+		border-color: var(--border) !important;
+		color: var(--foreground) !important;
+	}
+	[data-close-button] svg {
+		color: var(--foreground) !important;
+		stroke: var(--foreground) !important;
+	}
 }

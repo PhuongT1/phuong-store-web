@@ -1,5 +1,5 @@
-mutation userAddressCreate($address: AddressInput!, $type: AddressTypeEnum) {
-	accountAddressCreate(type: $type, input: $address) {
+mutation userAddressCreate($input: AddressInput!, $type: AddressTypeEnum) {
+	accountAddressCreate(type: $type, input: $input) {
 		user {
 			...UserDetails
 		}
@@ -14,8 +14,8 @@ mutation userAddressCreate($address: AddressInput!, $type: AddressTypeEnum) {
 	}
 }
 
-mutation userAddressUpdate($id: ID!, $address: AddressInput!) {
-	accountAddressUpdate(id: $id, input: $address) {
+mutation userAddressUpdate($id: ID!, $input: AddressInput!) {
+	accountAddressUpdate(id: $id, input: $input) {
 		user {
 			...UserDetails
 		}

@@ -19,8 +19,8 @@
  * - Any additional props will be forwarded to the underlying `Slot`.
  */
 
-import { Slot } from "@radix-ui/react-slot";
 import { type PropsWithChildren } from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { type FieldErrorProps } from "./FieldError";
 
 type FieldStateProps<BaseType extends Record<string, unknown> = Record<string, unknown>> = Pick<

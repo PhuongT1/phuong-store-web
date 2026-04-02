@@ -1,6 +1,5 @@
-import { Cross2Icon } from "@radix-ui/react-icons";
-
 import { type HTMLAttributes } from "react";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 
 type Props = {

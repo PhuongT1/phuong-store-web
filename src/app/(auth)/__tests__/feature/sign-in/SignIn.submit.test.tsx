@@ -8,13 +8,13 @@
 
 // describe("Submit Form", () => {});
 
-import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import mockRouter from "next-router-mock";
-import { LoginScreen } from "../../screens/SignIn.screen";
-import { validUser } from "../../fixtures/user";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { SignIn } from "../../../sign-in/SignIn";
+import { validUser } from "../../fixtures/user";
+import { LoginScreen } from "../../screens/SignIn.screen";
 
 const triggerMock = vi.fn();
 const phuong = vi.fn();

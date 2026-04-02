@@ -1,0 +1,64 @@
+query GetOrderDetail($id: ID!) {
+	order(id: $id) {
+		id
+		number
+		userEmail
+		isPaid
+		status
+		chargeStatus
+		created
+		total {
+			gross {
+				amount
+				currency
+			}
+		}
+		subtotal {
+			gross {
+				amount
+				currency
+			}
+		}
+		shippingPrice {
+			gross {
+				amount
+				currency
+			}
+		}
+		shippingAddress {
+			...Address
+		}
+		billingAddress {
+			...Address
+		}
+		deliveryMethod {
+			__typename
+			... on ShippingMethod {
+				id
+				name
+			}
+		}
+		lines {
+			id
+			quantity
+			productName
+			variantName
+			thumbnail(size: 128, format: WEBP) {
+				url
+				alt
+			}
+			unitPrice {
+				gross {
+					amount
+					currency
+				}
+			}
+			totalPrice {
+				gross {
+					amount
+					currency
+				}
+			}
+		}
+	}
+}

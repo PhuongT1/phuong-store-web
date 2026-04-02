@@ -5,8 +5,8 @@ import {
 	addressFieldMessages,
 	useAddressFormUtils
 } from "@/checkout/components/AddressForm/useAddressFormUtils";
-import { type CountryCode } from "@/checkout/graphql";
 import { useErrorMessages } from "@/checkout/hooks/useErrorMessages";
+import { type CountryCode } from "@/gql/graphql";
 
 /** Fields that must be filled for VN addresses */
 const VN_REQUIRED_FIELDS: AddressField[] = ["countryArea", "city"];

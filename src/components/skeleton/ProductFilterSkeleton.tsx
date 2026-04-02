@@ -2,8 +2,8 @@ import { Skeleton } from "./Skeleton";
 
 const ProductFilterSkeleton = () => {
 	return (
-		<aside className="h-full overflow-hidden md:sticky md:top-[72px]">
-			<div className="flex flex-col gap-6 rounded-lg bg-white p-6 shadow-sm">
+		<aside className="h-full overflow-hidden md:sticky md:top-[var(--header-height)]">
+			<div className="bg-card flex flex-col gap-6 rounded-lg p-6 shadow-sm">
 				{/* Header: Bộ lọc + Xóa */}
 				<div className="flex items-center justify-between border-b pb-4">
 					<Skeleton className="h-4 w-16" />
@@ -27,17 +27,23 @@ const ProductFilterSkeleton = () => {
 						{i === 1 && <Skeleton className="h-5 w-24" />}
 						{i === 2 && (
 							<div className="space-y-2">
-								{[1, 2, 3].map((j) => <Skeleton key={j} className="h-5 w-28" />)}
+								{[1, 2, 3].map((j) => (
+									<Skeleton key={j} className="h-5 w-28" />
+								))}
 							</div>
 						)}
 						{i === 3 && (
 							<div className="flex flex-wrap gap-2">
-								{["S", "M", "L", "XL", "XXL"].map((s) => <Skeleton key={s} className="h-10 w-12 rounded-md" />)}
+								{["S", "M", "L", "XL", "XXL"].map((s) => (
+									<Skeleton key={s} className="h-10 w-12 rounded-md" />
+								))}
 							</div>
 						)}
 						{i === 4 && (
 							<div className="flex flex-wrap gap-3">
-								{[1, 2, 3, 4, 5].map((j) => <Skeleton key={j} className="h-10 w-10 rounded-full" />)}
+								{[1, 2, 3, 4, 5].map((j) => (
+									<Skeleton key={j} className="h-10 w-10 rounded-full" />
+								))}
 							</div>
 						)}
 					</div>

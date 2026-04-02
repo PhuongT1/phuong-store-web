@@ -16,7 +16,7 @@ const ProductCardVariants = ({ variants, selectedVariantId, onSelect }: ProductC
 	if (variants.length <= 1) return null;
 
 	return (
-		<div className="mt-3 border-t border-gray-100 pt-3">
+		<div className="border-border mt-3 border-t pt-3">
 			<div className="flex flex-wrap gap-1.5">
 				{variants.map((variant) => {
 					const isSelected = variant.id === selectedVariantId;
@@ -28,10 +28,10 @@ const ProductCardVariants = ({ variants, selectedVariantId, onSelect }: ProductC
 							onClick={(e) => onSelect(e, variant.id)}
 							disabled={outOfStock}
 							className={cn(
-								"rounded-lg border px-3 py-1 text-[11px] font-semibold transition-all duration-150",
+								"rounded-lg border px-3 py-1 text-xs font-semibold transition-all duration-200",
 								isSelected
-									? "border-red-500 bg-white text-red-600"
-									: "border-gray-200 bg-white text-gray-600 hover:border-gray-400",
+									? "border-primary bg-primary/8 text-primary shadow-sm"
+									: "border-border bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground",
 								outOfStock && "cursor-not-allowed line-through opacity-35"
 							)}
 						>

@@ -1,8 +1,8 @@
 "use client";
 
 import edjsHTML from "editorjs-html";
-import { TableElement } from "./TableElement";
 import { EmbedElement } from "./EmbedElement";
+import { TableElement } from "./TableElement";
 
 const RenderRichText = ({ item }: { item?: string | null }) => {
 	const parser = edjsHTML({

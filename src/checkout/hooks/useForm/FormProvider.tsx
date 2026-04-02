@@ -1,18 +1,18 @@
-import { FormikProvider, Form, type FormikProps } from "formik";
 import { type PropsWithChildren } from "react";
 import { type FormDataBase } from "@/checkout/hooks/useForm";
+import { CheckoutFormContext, type FormikCompatForm } from "./useForm";
 
 export const FormProvider = <TData extends FormDataBase>({
 	form,
 	children,
 	className
 }: PropsWithChildren<{
-	form: FormikProps<TData>;
+	form: FormikCompatForm<TData>;
 	className?: string;
 }>) => (
-	<FormikProvider value={form}>
-		<Form action="post" className={className} noValidate={true} onSubmit={form.handleSubmit}>
+	<CheckoutFormContext.Provider value={form}>
+		<form action="post" className={className} noValidate onSubmit={form.handleSubmit}>
 			{children}
-		</Form>
-	</FormikProvider>
+		</form>
+	</CheckoutFormContext.Provider>
 );

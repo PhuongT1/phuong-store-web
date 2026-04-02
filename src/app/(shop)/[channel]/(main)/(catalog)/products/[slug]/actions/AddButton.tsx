@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { ShoppingCart } from "lucide-react";
-import { Button, notify } from "@components/ui";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowRight, ShoppingCart, Zap } from "lucide-react";
 import { type ProductDetailsQuery } from "@/gql/graphql";
 import { addToCart } from "@/services/cart.service";
+import { Button, notify } from "@components/ui";
 
 type AddButtonProps = {
 	disabled?: boolean;
@@ -54,7 +54,7 @@ export function AddButton({ disabled, channel, selectedVariantID, variants }: Ad
 					<div className="flex flex-col gap-2">
 						<p>Sản phẩm đã được thêm vào giỏ hàng</p>
 						<Button
-							variant={"default"}
+							variant={"info"}
 							onClick={() => {
 								notify.dismiss();
 								navigateCheckout(checkoutId);
@@ -64,22 +64,16 @@ export function AddButton({ disabled, channel, selectedVariantID, variants }: Ad
 						</Button>
 					</div>
 				);
-				// toast({
-				// 	description: "Sản phẩm đã được thêm vào giỏ hàng",
-				// 	action: (
-				// 		<Button variant={"default"} onClick={() => navigateCheckout(checkoutId)}>
-				// 			Đến thanh toán
-				// 		</Button>
-				// 	)
-				// });
+				router.refresh();
 			} catch (error) {
-				console.log(error);
+				console.error("Error adding to cart:", error);
+				notify.error("Không thể thêm sản phẩm vào giỏ hàng");
 			} finally {
 				if (isRedirect) return setLoadingBuyNow(false);
 				setLoadingAddItem(false);
 			}
 		},
-		[channel, handleSelectVariantID, navigateCheckout]
+		[channel, handleSelectVariantID, navigateCheckout, router]
 	);
 
 	return (
@@ -113,6 +107,7 @@ export function AddButton({ disabled, channel, selectedVariantID, variants }: Ad
 				size={"lg"}
 				variant={"feature"}
 			>
+				<Zap className="h-4 w-4" />
 				Mua ngay
 			</Button>
 		</div>

@@ -1,12 +1,12 @@
 "use client";
 
-import { ProductContext } from "@components/product";
-import { RelatedProduct } from "./RelatedProduct";
-import { RelatedPage } from "./RelatedPage";
-import { ProductRating } from "./rating/ProductRating";
 import { MainProductLayout } from "@/components/layouts";
-import { type Pages, type Attributes } from "@/types";
 import { type ProductItem } from "@/lib/utils";
+import { type Pages, type Attributes } from "@/types";
+import { ProductContext } from "@components/product";
+import { ProductRating } from "./rating/ProductRating";
+import { RelatedPage } from "./RelatedPage";
+import { RelatedProduct } from "./RelatedProduct";
 
 type ProductFeatureProps = { params: Pages } & Attributes & ProductItem;
 

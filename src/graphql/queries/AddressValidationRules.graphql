@@ -1,0 +1,18 @@
+fragment ValidationRules on AddressValidationData {
+	addressFormat
+	allowedFields
+	requiredFields
+	countryAreaType
+	postalCodeType
+	cityType
+	countryAreaChoices {
+		raw
+		verbose
+	}
+}
+
+query AddressValidationRules($countryCode: CountryCode!) {
+	addressValidationRules(countryCode: $countryCode) {
+		...ValidationRules
+	}
+}

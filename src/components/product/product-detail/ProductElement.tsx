@@ -24,7 +24,7 @@ const UndiscountedElement = ({
 }: PriceUndiscountedElementProps) => (
 	<span
 		{...rest}
-		className={cn("text-[12px] font-normal text-gray-400 line-through", { hidden: !onSale }, className)}
+		className={cn("text-[12px] font-normal text-muted-foreground line-through", { hidden: !onSale }, className)}
 	>
 		{priceUndiscounted}
 	</span>
@@ -34,7 +34,7 @@ const DiscountedElement = ({ discounted, onSale = true, className, ...rest }: Di
 	<span
 		{...rest}
 		className={cn(
-			"inline-flex items-center rounded-sm bg-rose-50 px-1.5 py-0.5 text-[10px] font-bold text-rose-500",
+			"inline-flex items-center rounded-sm bg-destructive/10 px-1.5 py-0.5 text-[10px] font-bold text-destructive",
 			{ hidden: !onSale },
 			className
 		)}

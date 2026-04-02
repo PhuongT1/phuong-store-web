@@ -7,7 +7,7 @@ export const StarOutlineIcon = ({ svgProps, pathProps }: SvgComponentProps) => (
 		xmlns="http://www.w3.org/2000/svg"
 		width={15}
 		height={15}
-		className="fill-yellow-400"
+		className="fill-rating"
 		{...svgProps}
 	>
 		<path

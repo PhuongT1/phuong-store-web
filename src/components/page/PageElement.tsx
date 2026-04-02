@@ -1,7 +1,7 @@
+import { type PageGetBySlugQuery } from "@/gql/graphql";
+import { cn } from "@/lib/utils";
 import { LinkWithChannel } from "../navigation/LinkWithChannel";
 import { RenderRichText } from "../product";
-import { cn } from "@/lib/utils";
-import { type PageGetBySlugQuery } from "@/gql/graphql";
 
 type PageElementProps = {
 	loading: "eager" | "lazy";
@@ -14,7 +14,7 @@ const PageElement = ({ page, className }: PageElementProps) => {
 
 	const { slug, id, title, attributes } = page;
 	return (
-		<li data-testid="PageElement" className={cn(" group overflow-hidden rounded-lg bg-white", className)}>
+		<li data-testid="PageElement" className={cn(" group overflow-hidden rounded-lg bg-card", className)}>
 			<LinkWithChannel href={`/pages/${slug}`} key={id} className="flex flex-col gap-2">
 				{attributes.map((attribute) => {
 					return attribute.values.map((value) => <RenderRichText key={value.id} item={value?.richText} />);

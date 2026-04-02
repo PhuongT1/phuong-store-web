@@ -1,15 +1,15 @@
 import { Suspense } from "react";
+import { MenuGetBySlugDocument } from "@/gql/graphql";
+import { executeGraphQL } from "@/lib/api/fetchGraphQL";
+import { type Channel } from "@/types";
 import { LanguageSwitcher } from "@components/language/LanguageSwitcher";
 import { Logo } from "../layouts/Logo";
-import { UserMenuContainer } from "./components/UserMenu/UserMenuContainer";
 import { CartNavItem } from "./components/CartNavItem";
-import { NavLinks } from "./components/NavLinks";
 import { MobileMenu } from "./components/MobileMenu";
+import { NavLinks } from "./components/NavLinks";
 import { SearchBar } from "./components/SearchBar";
 import { ThemeMode } from "./components/ThemeMode";
-import { type Channel } from "@/types";
-import { executeGraphQL } from "@/lib/api/fetchGraphQL";
-import { MenuGetBySlugDocument } from "@/gql/graphql";
+import { UserMenuContainer } from "./components/UserMenu/UserMenuContainer";
 
 export const Nav = async ({ channel }: Channel) => {
 	const navLinks = await executeGraphQL(MenuGetBySlugDocument, {
@@ -17,15 +17,13 @@ export const Nav = async ({ channel }: Channel) => {
 	});
 
 	return (
-		<nav className="text-foreground flex w-full flex-col px-0 py-1" aria-label="Main navigation">
+		<nav className="text-foreground flex w-full flex-col px-0 py-0" aria-label="Main navigation">
 			{/* Row 1: Logo, Search, Action Icons */}
 			<div className="flex h-14 w-full items-center justify-between gap-x-4">
 				{/* 1. Left: Mobile Menu & Logo */}
 				<div className="flex min-w-max shrink-0 items-center">
 					<div className="mr-1 md:hidden">
-						<Suspense fallback={<></>}>
-							<MobileMenu navLinks={navLinks} />
-						</Suspense>
+						<MobileMenu navLinks={navLinks} />
 					</div>
 					<Logo />
 				</div>
@@ -51,7 +49,7 @@ export const Nav = async ({ channel }: Channel) => {
 			</div>
 
 			{/* Row 2: Desktop Navigation Category Menu */}
-			<div className="hidden h-11 w-full items-center justify-center md:flex">
+			<div className="hidden h-12 w-full items-center justify-center md:flex">
 				<NavLinks channel={channel} navLinks={navLinks} />
 			</div>
 		</nav>

@@ -11,7 +11,7 @@ const PageContainer = ({ isBg = false, children, className, ...rest }: MainLayou
 	return (
 		<Tag
 			{...rest}
-			className={cn("flex max-w-full flex-shrink flex-grow flex-col", { "bg-muted": isBg }, className)}
+			className={cn("flex max-w-full shrink grow flex-col", { "bg-muted": isBg }, className)}
 		>
 			{children}
 		</Tag>

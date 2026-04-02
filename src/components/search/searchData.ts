@@ -6,7 +6,7 @@ const heroCampaigns = [
 		subtitle: "Drop moi tu chay bo den outfit streetwear.",
 		cta: "Kham pha ngay",
 		href: "/categories/new-arrivals",
-		theme: "from-neutral-900 via-neutral-800 to-neutral-900",
+		theme: "from-rose-600 via-pink-500 to-orange-400",
 		accent: "text-white"
 	},
 	{
@@ -16,7 +16,7 @@ const heroCampaigns = [
 		subtitle: "Nhe hon, ben hon, chay xa hon moi ngay.",
 		cta: "Shop running",
 		href: "/categories/running",
-		theme: "from-neutral-900 via-neutral-800 to-black",
+		theme: "from-sky-600 via-blue-500 to-indigo-600",
 		accent: "text-white"
 	},
 	{
@@ -26,7 +26,7 @@ const heroCampaigns = [
 		subtitle: "Toc do va kiem soat trong moi buoc chay.",
 		cta: "Chon giay",
 		href: "/categories/football",
-		theme: "from-neutral-900 via-neutral-700 to-neutral-900",
+		theme: "from-emerald-600 via-teal-500 to-cyan-500",
 		accent: "text-white"
 	},
 	{
@@ -36,22 +36,22 @@ const heroCampaigns = [
 		subtitle: "Doi phom dang, doi phong cach, doi ban.",
 		cta: "San pham gioi han",
 		href: "/categories/limited",
-		theme: "from-neutral-900 via-neutral-800 to-neutral-900",
+		theme: "from-violet-600 via-purple-500 to-fuchsia-500",
 		accent: "text-white"
 	}
 ];
 
 const categoryShortcuts = [
-	{ id: "shoes", label: "Shoes", href: "/categories/shoes", tone: "from-neutral-100 to-neutral-50" },
-	{ id: "clothing", label: "Clothing", href: "/categories/clothing", tone: "from-neutral-100 to-white" },
+	{ id: "shoes", label: "Shoes", href: "/categories/shoes", tone: "from-muted to-muted/50" },
+	{ id: "clothing", label: "Clothing", href: "/categories/clothing", tone: "from-muted to-background" },
 	{
 		id: "accessories",
 		label: "Accessories",
 		href: "/categories/accessories",
-		tone: "from-neutral-100 to-neutral-50"
+		tone: "from-muted to-muted/50"
 	},
-	{ id: "sports", label: "Sports", href: "/categories/sports", tone: "from-neutral-100 to-neutral-50" },
-	{ id: "new", label: "New Arrivals", href: "/categories/new-arrivals", tone: "from-neutral-100 to-white" }
+	{ id: "sports", label: "Sports", href: "/categories/sports", tone: "from-muted to-muted/50" },
+	{ id: "new", label: "New Arrivals", href: "/categories/new-arrivals", tone: "from-muted to-background" }
 ];
 
 const whatsHotItems = [
@@ -61,7 +61,7 @@ const whatsHotItems = [
 		tagline: "Nang cao nang luong tung buoc chay.",
 		cta: "Shop now",
 		href: "/search?filter_search=ultraboost",
-		bg: "from-neutral-900 via-neutral-800 to-neutral-900",
+		bg: "from-amber-500 via-orange-500 to-red-500",
 		accent: "text-white"
 	},
 	{
@@ -70,7 +70,7 @@ const whatsHotItems = [
 		tagline: "Iconic style, everyday comfort.",
 		cta: "Shop now",
 		href: "/search?filter_search=samba",
-		bg: "from-neutral-900 via-neutral-800 to-neutral-900",
+		bg: "from-blue-600 via-indigo-500 to-violet-500",
 		accent: "text-white"
 	},
 	{
@@ -79,7 +79,7 @@ const whatsHotItems = [
 		tagline: "Precision and control for every touch.",
 		cta: "Shop now",
 		href: "/search?filter_search=predator",
-		bg: "from-neutral-900 via-neutral-800 to-neutral-900",
+		bg: "from-emerald-500 via-green-500 to-lime-400",
 		accent: "text-white"
 	},
 	{
@@ -88,7 +88,7 @@ const whatsHotItems = [
 		tagline: "Wardrobe staples for training and travel.",
 		cta: "Shop now",
 		href: "/search?filter_search=essentials",
-		bg: "from-neutral-900 via-neutral-800 to-neutral-900",
+		bg: "from-rose-500 via-pink-500 to-fuchsia-500",
 		accent: "text-white"
 	}
 ];

@@ -1,6 +1,6 @@
-import { shallow } from "zustand/shallow";
 import { useMemo } from "react";
 import { memoize, omit } from "lodash-es";
+import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
 import { type CheckoutScope } from "@/checkout/hooks/useAlerts";
 

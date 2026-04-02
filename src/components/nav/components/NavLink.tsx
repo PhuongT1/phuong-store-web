@@ -3,9 +3,9 @@
 import React from "react";
 import { NavigationMenuLink, navigationMenuTriggerStyle, ImageItem } from "@ui";
 import { LinkWithChannel, type LinkWithChannelProps } from "@/components/navigation/LinkWithChannel";
+import { MenuSlug, MenuType } from "@/constants";
 import { cn } from "@/lib/utils";
 import { type MenuItemSlugQuery, type MenuItemType } from "@/types";
-import { MenuSlug, MenuType } from "@/constants";
 
 export const getObjTypeMenu = (item: MenuItemSlugQuery): MenuItemType => {
 	switch (true) {
@@ -59,10 +59,11 @@ export const renderMenu = (item: MenuItemSlugQuery, className?: string) => {
 export const NavLink = ({
 	href,
 	children,
+	isActive,
 	...rest
-}: { href: string } & React.ComponentProps<typeof LinkWithChannel>) => {
+}: { href: string; isActive?: boolean } & React.ComponentProps<typeof LinkWithChannel>) => {
 	return (
-		<NavigationMenuLink asChild>
+		<NavigationMenuLink asChild active={isActive}>
 			<LinkWithChannel
 				{...rest}
 				href={href}
@@ -70,6 +71,8 @@ export const NavLink = ({
 					"inline-flex w-max items-center justify-center text-current transition-colors duration-200",
 					"hover:bg-accent hover:text-foreground",
 					"select-none disabled:pointer-events-none disabled:opacity-50",
+					// active: emerald bottom border + text
+					"data-[active]:border-nav-active data-[active]:text-nav-active data-[active]:border-b-[2px]",
 					navigationMenuTriggerStyle()
 				)}
 			>
@@ -80,7 +83,14 @@ export const NavLink = ({
 };
 NavLink.displayName = "NavLink";
 
-export const NavLinkItem = ({ className, title, children, href, ...props }: LinkWithChannelProps) => {
+export const NavLinkItem = ({
+	className,
+	title,
+	children,
+	href,
+	isActive,
+	...props
+}: LinkWithChannelProps & { isActive?: boolean }) => {
 	return (
 		<li className="w-full">
 			<NavigationMenuLink asChild>
@@ -88,11 +98,17 @@ export const NavLinkItem = ({ className, title, children, href, ...props }: Link
 					href={href}
 					{...props}
 					className={cn(
-						"hover:bg-accent focus:bg-accent block w-max min-w-full space-y-1 rounded-md p-3 leading-none no-underline transition-all duration-200 outline-none select-none",
+						"hover:bg-accent focus:bg-accent block w-max min-w-full space-y-1 rounded-md px-3 py-2.5 leading-none no-underline transition-all duration-200 outline-none select-none",
+						isActive && "border-nav-active border-l-[3px] pl-2.5",
 						className
 					)}
 				>
-					<p className="text-foreground hover:text-primary focus:text-primary line-clamp-2 text-[15px] leading-snug font-medium">
+					<p
+						className={cn(
+							"hover:text-nav-active focus:text-nav-active line-clamp-2 text-[15px] leading-snug font-medium",
+							isActive ? "text-nav-active" : "text-foreground"
+						)}
+					>
 						{children}
 					</p>
 				</LinkWithChannel>

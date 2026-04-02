@@ -1,11 +1,12 @@
-import { ProductListSkeleton } from "../../skeleton/ProductListSkeleton";
-import { ProductElement } from "../product-detail/ProductElement";
 import { cn } from "@/lib/utils";
 import { type ProductListProps } from "@/types";
+import { ProductListSkeleton } from "../../skeleton/ProductListSkeleton";
+import { ProductElement } from "../product-detail/ProductElement";
 
 const ProductList = ({ products, className, isLoading = false, viewMode = "grid" }: ProductListProps) => {
 	return (
 		<>
+			{/* <ProductListSkeleton /> */}
 			{isLoading ? (
 				<ProductListSkeleton />
 			) : (
@@ -15,7 +16,7 @@ const ProductList = ({ products, className, isLoading = false, viewMode = "grid"
 					className={cn(
 						viewMode === "list"
 							? "grid grid-cols-1 gap-2"
-						: "grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-3",
+							: "grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-3",
 						className
 					)}
 				>

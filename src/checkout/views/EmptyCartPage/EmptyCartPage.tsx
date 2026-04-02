@@ -1,16 +1,15 @@
 import React from "react";
-import { Title } from "@/checkout/components";
-import { LinkAsButton } from "@/checkout/components/LinkAsButton";
 import { ErrorContentWrapper } from "@/checkout/components/ErrorContentWrapper";
+import { Button, Typography } from "@components/ui";
 
 export const EmptyCartPage = () => {
 	return (
 		<ErrorContentWrapper>
-			<Title className="mb-0 text-xl">Your cart is empty</Title>
+			<Typography variant="title" className="mb-0 text-xl">Your cart is empty</Typography>
 			<p>Add anything to the cart to continue.</p>
-			<LinkAsButton href="/" variant="secondary">
-				Go back to store
-			</LinkAsButton>
+			<Button variant="outline" asChild>
+				<a href="/">Go back to store</a>
+			</Button>
 		</ErrorContentWrapper>
 	);
 };

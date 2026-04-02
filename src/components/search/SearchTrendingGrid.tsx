@@ -1,6 +1,6 @@
+import { type ProductListProps } from "@/types";
 import { ProductElement } from "@components/product";
 import { suggestionData } from "./searchData";
-import { type ProductListProps } from "@/types";
 
 const SearchTrendingGrid = ({ products }: ProductListProps) => {
 	const hasProducts = products && products.length > 0;

@@ -3,11 +3,10 @@
 import * as React from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@radix-ui/react-icons";
-
-import { Label } from "../Label";
-import { type FieldRenderProps } from "../form/FormControl.type";
 import { cn } from "@/lib/utils";
 import { type Option } from "@/types";
+import { type FieldRenderProps } from "../form/FormControl.type";
+import { Label } from "../Label";
 
 const Checkbox = React.forwardRef<
 	React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -16,7 +15,7 @@ const Checkbox = React.forwardRef<
 	<CheckboxPrimitive.Root
 		ref={ref}
 		className={cn(
-			"peer border-primary focus-visible:ring-ring data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground h-4 w-4 shrink-0 rounded-sm border shadow focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+			"peer border-info focus-visible:ring-ring data-[state=checked]:bg-info data-[state=checked]:text-info-foreground h-4 w-4 shrink-0 rounded-sm border shadow focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
 			className
 		)}
 		{...props}
@@ -37,7 +36,7 @@ type CheckboxItemProps = {
 const CheckboxItem = React.forwardRef<HTMLDivElement, CheckboxItemProps>(
 	({ className, name: nameCheckbox, label, fieldProps, onCheckedChange, ...rest }, _ref) => {
 		const name = fieldProps?.field.name ?? nameCheckbox;
-		 
+
 		const checked = fieldProps?.field.value ?? rest.checked;
 		return (
 			<div className="inline-flex items-center space-x-2">
@@ -46,10 +45,9 @@ const CheckboxItem = React.forwardRef<HTMLDivElement, CheckboxItemProps>(
 					id={name}
 					onCheckedChange={(value) => {
 						onCheckedChange?.(value);
-						 
+
 						fieldProps?.field.onChange(value);
 					}}
-					 
 					checked={checked}
 				/>
 				<Label htmlFor={name}>{label}</Label>

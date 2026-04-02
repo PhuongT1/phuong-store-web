@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import { type Metadata } from "next";
 import edjsHTML from "editorjs-html";
-import { RenderRichText } from "@components/product";
+import { type Metadata } from "next";
+import { ContainerLayout } from "@/components/layouts";
 import { PageGetBySlugDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
-import { ContainerLayout } from "@/components/layouts";
+import { RenderRichText } from "@components/product";
 
 const parser = edjsHTML();
 

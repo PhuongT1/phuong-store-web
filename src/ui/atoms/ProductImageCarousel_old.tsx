@@ -1,9 +1,9 @@
 "use client";
 
-import Slider, { type Settings } from "react-slick";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 import { clsx } from "clsx";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import Zoom from "react-medium-image-zoom";
+import Slider, { type Settings } from "react-slick";
 import "react-medium-image-zoom/dist/styles.css";
 import { ImageItem } from "@components/ui";
 

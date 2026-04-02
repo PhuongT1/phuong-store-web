@@ -1,6 +1,6 @@
 import { type SWRInfiniteResponse } from "swr/infinite";
-import { type PageQueryProps, type Pages } from "./page.type";
 import { type ProductDetailsQuery } from "@/gql/graphql";
+import { type PageQueryProps, type Pages } from "./page.type";
 
 type ProductItem = ProductDetailsQuery["product"];
 type Media = Pick<NonNullable<ProductItem>, "media">;

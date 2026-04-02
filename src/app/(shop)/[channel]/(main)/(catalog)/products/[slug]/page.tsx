@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { type ResolvingMetadata, type Metadata } from "next";
-import { MainDetail } from "./MainDetail";
-import { ProductFeature } from "./feature/ProductFeature";
-import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 import { ProductDetailsDocument } from "@/gql/graphql";
-import { type Pages, type ProductPageQueryProps } from "@/types";
+import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 import { resolvePageQuery } from "@/lib/utils";
+import { type Pages, type ProductPageQueryProps } from "@/types";
+import { ProductFeature } from "./feature/ProductFeature";
+import { MainDetail } from "./MainDetail";
 
 export type SlugPageProps = {
 	params: Pages;

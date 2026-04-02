@@ -15,7 +15,7 @@ const Loader = ({ children, svgProps }: LoaderProps) => {
 				xmlns="http://www.w3.org/2000/svg"
 				{...svgProps}
 				className={cn(
-					"fill-primary text-muted-foreground/25 dark:text-muted-foreground/35 inline h-14 w-14 animate-spin",
+					"fill-primary text-spinner-track inline h-14 w-14 animate-spin",
 					svgProps?.className
 				)}
 			>

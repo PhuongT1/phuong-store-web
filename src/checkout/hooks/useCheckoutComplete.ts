@@ -1,14 +1,14 @@
 import { useMemo } from "react";
-import { useCheckoutCompleteMutation } from "@/checkout/graphql";
-import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 import { useSubmit } from "@/checkout/hooks/useSubmit";
-// import { removeIdFromCookie } from "@/lib/actions/checkout";
+import { useMutation } from "@/checkout/lib/useMutation";
+import { type CheckoutCompleteMutation, type CheckoutCompleteMutationVariables, CheckoutCompleteDocument } from "@/gql/graphql";
+import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 
 export const useCheckoutComplete = () => {
 	const {
 		checkout: { id: checkoutId }
 	} = useCheckout();
-	const [{ fetching }, checkoutComplete] = useCheckoutCompleteMutation();
+	const [{ fetching }, checkoutComplete] = useMutation<CheckoutCompleteMutation, CheckoutCompleteMutationVariables>(CheckoutCompleteDocument);
 
 	const onCheckoutComplete = useSubmit<{}, typeof checkoutComplete>(
 		useMemo(
@@ -17,19 +17,7 @@ export const useCheckoutComplete = () => {
 					checkoutId
 				}),
 				onSubmit: checkoutComplete,
-				onSuccess: ({ data }) => {
-					// void removeIdFromCookie("hcm");
-					// const order = data.order;
-					// if (order) {
-					// 	const newUrl = replaceUrl({
-					// 		query: {
-					// 			order: order.id
-					// 		},
-					// 		replaceWholeQuery: true
-					// 	});
-					// 	window.location.href = newUrl;
-					// }
-				}
+				onSuccess: () => {}
 			}),
 			[checkoutComplete, checkoutId]
 		)

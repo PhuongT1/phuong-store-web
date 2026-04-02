@@ -1,27 +1,352 @@
 {
+	"metadata": {
+		"defaultTitle": "Phuong Store - Mua sắm trực tuyến",
+		"defaultDescription": "Mua sắm trực tuyến hàng chính hãng, giá tốt nhất. Giao hàng toàn quốc.",
+		"home": {
+			"title": "Trang chủ",
+			"description": "Khám phá sản phẩm chất lượng cao với giá tốt nhất"
+		},
+		"search": {
+			"title": "Tìm kiếm sản phẩm",
+			"description": "Tìm kiếm và khám phá hàng ngàn sản phẩm chất lượng"
+		},
+		"cart": {
+			"title": "Giỏ hàng",
+			"description": "Xem và quản lý giỏ hàng của bạn"
+		},
+		"checkout": {
+			"title": "Thanh toán",
+			"description": "Hoàn tất đơn hàng của bạn"
+		},
+		"signIn": {
+			"title": "Đăng nhập",
+			"description": "Đăng nhập vào tài khoản của bạn"
+		},
+		"signUp": {
+			"title": "Đăng ký",
+			"description": "Tạo tài khoản mới"
+		},
+		"account": {
+			"title": "Tài khoản",
+			"description": "Quản lý tài khoản và đơn hàng"
+		},
+		"orders": {
+			"title": "Đơn hàng",
+			"description": "Xem lịch sử đơn hàng của bạn"
+		},
+		"rating": {
+			"title": "Đánh giá sản phẩm",
+			"description": "Xem đánh giá từ khách hàng"
+		}
+	},
 	"common": {
 		"login": "Đăng nhập",
 		"register": "Đăng ký",
-		"noAccount": "Bạn chưa có tài khoản?"
+		"noAccount": "Bạn chưa có tài khoản?",
+		"backToStore": "← Quay lại cửa hàng",
+		"welcome": "Chào mừng trở lại",
+		"apply": "Áp dụng",
+		"reset": "Xóa",
+		"loading": "Đang tải...",
+		"products": "sản phẩm",
+		"viewAll": "Xem tất cả",
+		"loadMore": "Xem thêm"
 	},
-
 	"login": {
 		"title": "Đăng nhập để tra cứu thông tin đơn hàng",
-
+		"subtitle": "Chào mừng bạn trở lại cửa hàng",
 		"email": {
 			"label": "Email",
 			"placeholder": "Nhập email của bạn"
 		},
-
 		"password": {
 			"label": "Mật khẩu",
 			"placeholder": "Nhập mật khẩu"
 		}
 	},
-
+	"signup": {
+		"title": "Tạo tài khoản",
+		"subtitle": "Tham gia và tận hưởng các ưu đãi độc quyền",
+		"firstName": "Họ",
+		"lastName": "Tên",
+		"email": "Địa chỉ email",
+		"password": "Mật khẩu",
+		"passwordPlaceholder": "Mật khẩu (tối thiểu 8 ký tự)",
+		"confirmPassword": "Xác nhận mật khẩu",
+		"hasAccount": "Bạn đã có tài khoản?",
+		"createAccount": "Tạo tài khoản"
+	},
+	"product": {
+		"addToCart": "Thêm vào giỏ hàng",
+		"outOfStock": "Hết hàng",
+		"adding": "Đang thêm...",
+		"addedToCart": "Sản phẩm đã được thêm vào giỏ hàng",
+		"addToCartError": "Không thể thêm sản phẩm vào giỏ hàng",
+		"wishlist": "Yêu thích",
+		"savingsPrefix": "Giảm ",
+		"soldPrefix": "Đã bán ",
+		"rating": "đánh giá",
+		"sale": "Giảm giá"
+	},
+	"search": {
+		"placeholder": "Nhập tên điện thoại, máy tính, phụ kiện... cần tìm",
+		"allProducts": "Tất cả sản phẩm",
+		"searchResultsFor": "Kết quả tìm kiếm cho",
+		"noResults": "Không tìm thấy sản phẩm nào",
+		"sort": {
+			"label": "Sắp xếp",
+			"featured": "Nổi bật",
+			"priceAsc": "Giá tăng dần",
+			"priceDesc": "Giá giảm dần",
+			"newest": "Mới nhất"
+		}
+	},
+	"filter": {
+		"title": "Bộ lọc",
+		"reset": "Xóa",
+		"price": "Mức giá",
+		"priceUnder100k": "Dưới 100k",
+		"price100to500k": "100k - 500k",
+		"priceOver500k": "Trên 500k",
+		"customPrice": "Khoảng giá tùy chỉnh",
+		"priceMin": "Tối thiểu",
+		"priceMax": "Tối đa",
+		"stock": "Tình trạng",
+		"inStock": "Còn hàng",
+		"brand": "Thương hiệu",
+		"noBrands": "Không có thương hiệu",
+		"filterBrand": "Lọc thương hiệu",
+		"size": "Kích thước",
+		"noSizes": "Không có kích thước",
+		"filterSize": "Lọc kích thước",
+		"color": "Màu sắc",
+		"noColors": "Không có màu sắc",
+		"filterColor": "Lọc màu sắc",
+		"applyMobile": "ÁP DỤNG"
+	},
+	"account": {
+		"profile": "Hồ sơ của tôi",
+		"myOrders": "Đơn hàng của tôi",
+		"addresses": "Sổ địa chỉ",
+		"settings": "Cài đặt",
+		"logout": "Đăng xuất",
+		"manage": "Quản lý tài khoản",
+		"noAddresses": "Chưa có địa chỉ nào được lưu",
+		"addAddress": "Thêm địa chỉ mới",
+		"defaultShipping": "Giao hàng mặc định",
+		"defaultBilling": "Thanh toán mặc định",
+		"profileTitle": "Hồ sơ của tôi",
+		"profileName": "Họ và tên",
+		"profileEmail": "Email",
+		"profileNoName": "Chưa có tên",
+		"addressTitle": "Sổ địa chỉ",
+		"addressDefault": "Mặc định",
+		"addressPhone": "Số điện thoại",
+		"settingsTitle": "Cài đặt",
+		"settingsComingSoon": "Tính năng này đang được phát triển",
+		"settingsDesc": "Chúng tôi đang làm việc để mang lại cho bạn nhiều tùy chọn cài đặt hơn. Vui lòng quay lại sau.",
+		"editProfile": "Chỉnh sửa",
+		"firstName": "Tên",
+		"lastName": "Họ",
+		"save": "Lưu thay đổi",
+		"cancel": "Hủy",
+		"updateSuccess": "Cập nhật thành công",
+		"updateError": "Cập nhật thất bại",
+		"addressEdit": "Chỉnh sửa",
+		"addressDelete": "Xóa",
+		"streetAddress1": "Địa chỉ",
+		"streetAddress2": "Địa chỉ 2 (tùy chọn)",
+		"city": "Thành phố",
+		"postalCode": "Mã bưu chính",
+		"countryCode": "Mã quốc gia (VD: VN)",
+		"addressSaveSuccess": "Đã lưu địa chỉ",
+		"addressDeleteSuccess": "Đã xóa địa chỉ",
+		"addressDeleteConfirm": "Bạn có chắc muốn xóa địa chỉ này?",
+		"addAddressTitle": "Thêm địa chỉ",
+		"editAddressTitle": "Chỉnh sửa địa chỉ",
+		"changePassword": "Đổi mật khẩu",
+		"oldPassword": "Mật khẩu hiện tại",
+		"newPassword": "Mật khẩu mới",
+		"confirmPassword": "Xác nhận mật khẩu mới",
+		"passwordMinLength": "Mật khẩu phải có ít nhất 8 ký tự",
+		"passwordMismatch": "Mật khẩu không khớp",
+		"passwordRequired": "Vui lòng nhập mật khẩu",
+		"passwordChangeSuccess": "Đổi mật khẩu thành công",
+		"passwordChangeError": "Mật khẩu hiện tại không đúng",
+		"required": "Trường này là bắt buộc"
+	},
 	"formValidation": {
 		"required": "{field} là bắt buộc",
 		"invalidFormat": "{field} không đúng định dạng",
 		"minLength": "{field} phải có ít nhất {minimum} ký tự"
+	},
+	"nav": {
+		"home": "Trang chủ",
+		"allProducts": "Tất cả sản phẩm",
+		"signIn": "Đăng nhập",
+		"orderHistory": "Lịch sử đơn hàng",
+		"signOut": "Thoát tài khoản",
+		"searchPlaceholder": "Nhập tên điện thoại, máy tính, phụ kiện... cần tìm"
+	},
+	"footer": {
+		"description": "Trải nghiệm mua sắm hiện đại với Saleor. Chúng tôi cung cấp những sản phẩm chất lượng nhất với dịch vụ tận tâm.",
+		"about": "Về công ty",
+		"introduction": "Giới thiệu",
+		"careers": "Tuyển dụng",
+		"support": "Hỗ trợ",
+		"helpCenter": "Trung tâm trợ giúp",
+		"privacy": "Chính sách bảo mật",
+		"terms": "Điều khoản",
+		"quickLinks": "Liên kết nhanh",
+		"newProducts": "Sản phẩm mới",
+		"promotions": "Khuyến mãi"
+	},
+	"searchEmpty": {
+		"noResultsFor": "Không tìm thấy kết quả cho \"{query}\"",
+		"noProducts": "Không tìm thấy sản phẩm",
+		"tryDifferent": "Hãy thử tìm kiếm với từ khóa khác hoặc xem các danh mục phổ biến bên dưới",
+		"popularCategories": "Danh mục phổ biến",
+		"searchTips": "Gợi ý tìm kiếm:",
+		"tip1": "Kiểm tra lỗi chính tả",
+		"tip2": "Thử sử dụng từ khóa ngắn gọn hơn",
+		"tip3": "Tìm kiếm với tên sản phẩm hoặc thương hiệu"
+	},
+	"cart": {
+		"subtotal": "Tổng tiền",
+		"voucherCode": "Mã giảm giá: {code}",
+		"shipping": "Phí vận chuyển",
+		"total": "Cần thanh toán",
+		"taxIncluded": "đã có {tax} thuế",
+		"confirmDelete": "Bạn chắc chắn muốn xóa sản phẩm này?",
+		"delete": "Xoá",
+		"cancelDelete": "Không xoá",
+		"outOfStock": "Sản phẩm này hiện đã hết hàng",
+		"loadMore": "Xem thêm kết quả"
+	},
+	"rating": {
+		"title": "Đánh giá sản phẩm",
+		"cancel": "Huỷ",
+		"submit": "Gửi đánh giá",
+		"pleaseRate": "Vui lòng đánh giá sản phẩm",
+		"pleaseEnter": "Vui lòng nhập {field}",
+		"placeholder": "Mời bạn chia sẻ thêm cảm nhận...",
+		"verified": "Đã mua hàng",
+		"recommend": "Sẽ giới thiệu cho bạn bè, người thân",
+		"reviews": "đánh giá"
+	},
+	"category": {
+		"home": "Trang chủ",
+		"newCollection": "Bộ sưu tập mới",
+		"heroDescription": "Khám phá bộ sưu tập {name} sản phẩm chất lượng cao, phong cách hiện đại và giá cả cạnh tranh.",
+		"exploreNow": "Khám phá ngay",
+		"productCount": "Sản phẩm"
+	},
+	"checkout": {
+		"customerInfo": "Thông tin khách hàng",
+		"shippingMethod": "Hình thức nhận hàng",
+		"shippingSelectAddress": "Vui lòng chọn hoặc thêm địa chỉ giao hàng để xem các phương thức vận chuyển.",
+		"noShippingMethods": "Không tìm thấy phương thức vận chuyển.",
+		"fillAddress": "Vui lòng điền đầy đủ địa chỉ giao hàng bên trên.",
+		"paymentMethod": "Phương thức thanh toán",
+		"cod": "Thanh toán khi nhận hàng (COD)",
+		"onlinePayment": "Thanh toán trực tuyến",
+		"placeOrder": "Đặt hàng",
+		"addNewAddress": "+ Thêm địa chỉ mới",
+		"noSavedAddresses": "Bạn chưa có địa chỉ lưu sẵn nào.",
+		"addShippingAddress": "Thêm địa chỉ giao hàng",
+		"cannotDeliver": "Không thể giao hàng đến địa chỉ này",
+		"shippingAddress": "Địa chỉ nhận hàng",
+		"createAccountFaster": "Tạo tài khoản để thanh toán nhanh hơn",
+		"accountPassword": "Mật khẩu (tối thiểu 8 ký tự)",
+		"confirmAccountPassword": "Xác nhận mật khẩu",
+		"accountPasswordHint": "Dùng mật khẩu này để đăng nhập và xem đơn hàng sau khi đặt hàng.",
+		"enterPromoCode": "Nhập mã giảm giá",
+		"apply": "Áp dụng",
+		"promoSuccess": "Mã giảm giá đã được áp dụng thành công",
+		"promoInvalid": "Mã giảm giá không hợp lệ",
+		"deleteAddress": "Xóa địa chỉ",
+		"editAddress": "Chỉnh sửa địa chỉ",
+		"selectShippingAddress": "Chọn địa chỉ nhận hàng",
+		"cancel": "Hủy",
+		"processing": "Đang xử lý…",
+		"saveAddress": "Lưu địa chỉ",
+		"paymentAuthorized": "Chúng tôi đã nhận được xác thực thanh toán của bạn.",
+		"paymentReceived": "Chúng tôi đã nhận được khoản thanh toán của bạn.",
+		"paymentOverpaid": "Đơn hàng của bạn đã được thanh toán nhiều hơn số tiền cần trả. Điều này có thể là một lỗi trong quá trình thanh toán. Vui lòng liên hệ với nhân viên cửa hàng để được hỗ trợ.",
+		"contactInfo": "Thông tin liên hệ",
+		"cannotDeliverShort": "Không thể giao hàng",
+		"quantity": "Số lượng",
+		"orderSuccess": "Đặt hàng thành công!",
+		"orderThankYou": "Cảm ơn bạn! Đơn hàng #{number} đã được đặt thành công.",
+		"productDetails": "Chi tiết sản phẩm",
+		"continueShopping": "Tiếp tục mua sắm",
+		"contactSupport": "Cần hỗ trợ?",
+		"creatingOrder": "Đang tạo đơn hàng...",
+		"creatingOrderWait": "Vui lòng đợi trong giây lát, đừng đóng trang này."
+	},
+	"orders": {
+		"title": "Đơn hàng của tôi",
+		"backToList": "Quay lại danh sách đơn hàng",
+		"emptyTitle": "Chưa có đơn hàng nào",
+		"emptyTitleFiltered": "Không có đơn hàng nào",
+		"emptyDesc": "Bạn chưa thực hiện bất kỳ đơn hàng nào trên hệ thống.",
+		"emptyDescFiltered": "Không có đơn hàng nào trong trạng thái này.",
+		"viewDetail": "Xem chi tiết",
+		"tabs": {
+			"all": "Tất cả",
+			"pending": "Chờ thanh toán",
+			"processing": "Đang xử lý",
+			"shipping": "Đang vận chuyển",
+			"delivered": "Đã giao",
+			"cancelled": "Đã hủy"
+		},
+		"columns": {
+			"id": "Mã đơn hàng",
+			"date": "Ngày đặt",
+			"total": "Tổng tiền",
+			"payment": "Thanh toán"
+		},
+		"item": {
+			"variant": "Phân loại",
+			"quantity": "Số lượng",
+			"perItem": "/ sản phẩm"
+		},
+		"detail": {
+			"orderedOn": "Đặt ngày",
+			"products": "Sản phẩm",
+			"subtotal": "Tạm tính",
+			"shippingFee": "Phí vận chuyển",
+			"total": "Tổng cộng",
+			"shippingAddress": "Địa chỉ giao hàng",
+			"shippingMethod": "Phương thức vận chuyển",
+			"payment": "Thanh toán"
+		},
+		"status": {
+			"UNCONFIRMED": "Chờ xác nhận",
+			"UNFULFILLED": "Đang xử lý",
+			"PARTIALLY_FULFILLED": "Đang vận chuyển",
+			"FULFILLED": "Đã giao",
+			"RETURNED": "Đã trả hàng",
+			"PARTIALLY_RETURNED": "Trả hàng một phần",
+			"CANCELED": "Đã hủy",
+			"EXPIRED": "Hết hạn",
+			"DRAFT": "Nháp"
+		},
+		"chargeStatus": {
+			"NONE": "Chưa thanh toán",
+			"PARTIAL": "Thanh toán một phần",
+			"FULL": "Đã thanh toán",
+			"OVERCHARGED": "Thanh toán vượt"
+		},
+		"paymentStatus": {
+			"NOT_CHARGED": "Chưa thanh toán",
+			"CANCELLED": "Đã hủy",
+			"REFUSED": "Bị từ chối",
+			"FULLY_CHARGED": "Đã thanh toán",
+			"FULLY_REFUNDED": "Đã hoàn tiền",
+			"PARTIALLY_CHARGED": "Thanh toán một phần",
+			"PARTIALLY_REFUNDED": "Hoàn tiền một phần",
+			"PENDING": "Đang xử lý"
+		}
 	}
 }

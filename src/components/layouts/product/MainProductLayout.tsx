@@ -10,7 +10,7 @@ type MainCategoryProps = {
 const MainProductLayout = ({
 	children,
 	title,
-	isBg = true,
+	isBg = false,
 	containerClassName,
 	className
 }: MainCategoryProps) => {

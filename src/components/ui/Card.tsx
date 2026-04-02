@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
@@ -48,7 +47,7 @@ CardFooter.displayName = "CardFooter";
 
 const CardBox = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
 	return (
-		<Card className={cn("bg-neutral-50 p-4 shadow-none", className)} {...props}>
+		<Card className={cn("bg-muted p-4 shadow-none", className)} {...props}>
 			{children}
 		</Card>
 	);

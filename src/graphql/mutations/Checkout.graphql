@@ -102,3 +102,47 @@ mutation CheckoutBillingAddressUpdate(
 		}
 	}
 }
+
+mutation CheckoutEmailUpdate($email: String!, $checkoutId: ID!) {
+	checkoutEmailUpdate(email: $email, id: $checkoutId) {
+		errors {
+			...CheckoutError
+		}
+		checkout {
+			...Checkout
+		}
+	}
+}
+
+mutation CheckoutCustomerAttach($checkoutId: ID!) {
+	checkoutCustomerAttach(id: $checkoutId) {
+		errors {
+			...CheckoutError
+		}
+		checkout {
+			...Checkout
+		}
+	}
+}
+
+mutation CheckoutDeliveryMethodUpdate($checkoutId: ID!, $deliveryMethodId: ID!) {
+	checkoutDeliveryMethodUpdate(id: $checkoutId, deliveryMethodId: $deliveryMethodId) {
+		errors {
+			...CheckoutError
+		}
+		checkout {
+			...Checkout
+		}
+	}
+}
+
+mutation CheckoutRemovePromoCode($checkoutId: ID, $promoCode: String, $promoCodeId: ID) {
+	checkoutRemovePromoCode(checkoutId: $checkoutId, promoCode: $promoCode, promoCodeId: $promoCodeId) {
+		errors {
+			...CheckoutError
+		}
+		checkout {
+			...Checkout
+		}
+	}
+}

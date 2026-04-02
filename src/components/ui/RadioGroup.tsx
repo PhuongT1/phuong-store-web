@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { useController, useFormContext } from "react-hook-form";
 import { cva, type VariantProps } from "class-variance-authority";
 import { CircleIcon } from "lucide-react";
-import { Label } from "./Label";
+import { useController, useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { type OptionList, type Option } from "@/types";
+import type { OptionList, Option } from "@/types";
+import type { Label } from "./Label";
 
 const RadioGroup = React.forwardRef<
 	React.ElementRef<typeof RadioGroupPrimitive.Root>,
@@ -31,13 +31,14 @@ const RadioGroupItem = React.forwardRef<
 		<RadioGroupPrimitive.Item
 			ref={ref}
 			className={cn(
-				"border-primary text-primary focus-visible:ring-ring aspect-square h-4 w-4 rounded-full border shadow focus:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50",
+				"border-border/70 focus-visible:ring-info/40 aspect-square h-4 w-4 shrink-0 rounded-full border focus:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50",
+				"data-[state=checked]:border-info",
 				className
 			)}
 			{...props}
 		>
 			<RadioGroupPrimitive.Indicator className="relative flex items-center justify-center">
-				<CircleIcon className="fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2" />
+				<CircleIcon className="fill-info absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2" />
 				{/* <CheckIcon className="h-3.5 w-3.5 fill-primary" /> */}
 			</RadioGroupPrimitive.Indicator>
 		</RadioGroupPrimitive.Item>
@@ -68,15 +69,16 @@ const radioVariants = cva("relative flex items-center space-x-2", {
 				"group",
 				"cursor-pointer",
 				"border",
-				"border-border",
-				"bg-background",
+				"border-border/60",
+				"bg-card",
 				"px-3",
-				"py-2",
-				"rounded-lg",
-				"transition-colors duration-200",
-				"hover:bg-accent",
-				"has-[button[data-state='checked']]:border-foreground",
-				"has-[button[data-state='checked']]:bg-accent"
+				"py-2.5",
+				"rounded-(--radius)",
+				"text-sm",
+				"transition-all duration-150",
+				"hover:border-border hover:bg-accent/40",
+				"has-[button[data-state='checked']]:border-info",
+				"has-[button[data-state='checked']]:bg-info/5"
 			]
 		}
 	},
@@ -85,29 +87,25 @@ const radioVariants = cva("relative flex items-center space-x-2", {
 	}
 });
 
-const RadioItem = React.forwardRef<HTMLDivElement, RadioItemProps>(
+const RadioItem = React.forwardRef<HTMLLabelElement, RadioItemProps>(
 	({ labelProps, variant, isActive, divProps, optionProps, disabled }, ref) => {
 		const value = optionProps?.value || "";
 		const label = optionProps?.label || "";
 
 		return (
-			<div
+			<label
 				ref={ref}
-				{...divProps}
+				htmlFor={value}
 				className={cn(radioVariants({ variant }), {
-					"border-foreground": variant === "border" && isActive,
+					"border-info": variant === "border" && isActive,
 					"pointer-events-none opacity-50": disabled
 				})}
 			>
 				<RadioGroupItem value={value} id={value} disabled={disabled} />
-				<Label
-					htmlFor={value}
-					{...labelProps}
-					className={cn("w-full cursor-pointer text-left", labelProps?.className)}
-				>
+				<span {...labelProps} className={cn("w-full cursor-pointer text-left", labelProps?.className)}>
 					{label}
-				</Label>
-			</div>
+				</span>
+			</label>
 		);
 	}
 );

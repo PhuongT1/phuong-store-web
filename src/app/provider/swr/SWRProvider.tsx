@@ -2,10 +2,10 @@
 
 import React from "react";
 import { SWRConfig } from "swr";
-import { notify } from "@components/ui";
-import { SWRLoadingConfig } from "./SWRLoadingConfig";
-import { GlobalLoading } from "./GlobalLoading";
 import { GraphQLError, type GraphQLErrorResponse } from "@/lib/api/graphQLRequest";
+import { notify } from "@components/ui";
+import { GlobalLoading } from "./GlobalLoading";
+import { SWRLoadingConfig } from "./SWRLoadingConfig";
 
 const SWRProvider = ({ children }: { children: React.ReactNode }) => {
 	return (

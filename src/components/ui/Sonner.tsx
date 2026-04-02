@@ -8,28 +8,44 @@ import { CONFIG } from "@/constants";
 type titleT = (() => React.ReactNode) | React.ReactNode;
 
 const Toaster = ({ ...props }: ToasterProps) => {
-	const { theme = "system" } = useTheme();
+	const { resolvedTheme = "light" } = useTheme();
+	const isDark = resolvedTheme === "dark";
+
+	const warningText = isDark ? "var(--warning)" : "var(--warning-foreground)";
+	const successText = isDark ? "var(--success)" : "var(--success-light)";
+	const errorText = isDark ? "var(--destructive)" : "var(--destructive)";
+	const errorBg = isDark ? "var(--card)" : "var(--background)";
+	/* Error toast: card bg + destructive border/text = Revoke-button visual (outlined, not filled) */
 
 	return (
 		<Sonner
-			theme={theme as ToasterProps["theme"]}
+			theme={resolvedTheme as ToasterProps["theme"]}
 			className="toaster group"
 			closeButton
 			style={
 				{
 					fontFamily: "var(--font-inter)",
-					"--normal-bg": "var(--popover)",
-					"--normal-text": "var(--popover-foreground)",
-					"--normal-border": "var(--border)",
 					"--width": "max-content",
-					maxWidth: "50vw"
+					maxWidth: "50vw",
+					// Warning — amber tonal
+					"--warning-bg": "var(--warning-muted)",
+					"--warning-text": warningText,
+					"--warning-border": "var(--warning)",
+					// Success — green tonal
+					"--success-bg": "var(--success-muted)",
+					"--success-text": successText,
+					"--success-border": "var(--success)",
+					// Error — outlined (Revoke-button style)
+					"--error-bg": errorBg,
+					"--error-text": errorText,
+					"--error-border": "var(--destructive)"
 				} as React.CSSProperties
 			}
 			position="top-right"
 			icons={{
 				success: <CircleCheck className="size-5" color="var(--toastify-success)" />,
 				error: <CircleAlert className="size-5" color="var(--toastify-error)" />,
-				warning: <TriangleAlertIcon className="size-5" />,
+				warning: <TriangleAlertIcon className="size-5" color="var(--warning)" />,
 				info: <InfoIcon className="size-5" />
 			}}
 			{...props}
@@ -41,23 +57,46 @@ const baseOptions: ExternalToast = {
 	closeButton: true
 };
 
+const toastStyle = {
+	warning: {
+		background: "var(--toast-warning-bg)",
+		color: "var(--card-foreground)",
+		border: "1px solid var(--warning)"
+	} as React.CSSProperties,
+	error: {
+		background: "var(--toast-error-bg)",
+		color: "var(--card-foreground)",
+		border: "1.5px solid var(--destructive)"
+	} as React.CSSProperties,
+	success: {
+		background: "var(--toast-success-bg)",
+		color: "var(--card-foreground)",
+		border: "1px solid var(--success)"
+	} as React.CSSProperties
+};
+
 const notify = {
 	...toast,
 	success: (msg: titleT | React.ReactNode, data?: ExternalToast) =>
-		toast.success("Thông báo", {
+		toast.success(msg, {
 			duration: CONFIG.TOAST_DURATION.success,
-			description: msg,
-			// duration: Infinity,
+			style: toastStyle.success,
 			...baseOptions,
 			...data
 		}),
 	error: (msg: titleT | React.ReactNode, data?: ExternalToast) =>
 		toast.error(msg, {
 			duration: CONFIG.TOAST_DURATION.error || 3000,
+			style: toastStyle.error,
 			...baseOptions,
 			...data
 		}),
-	warning: (msg: string) => toast.warning(msg, { duration: 4000 }),
+	warning: (msg: string, data?: ExternalToast) =>
+		toast.warning(msg, {
+			duration: 4000,
+			style: toastStyle.warning,
+			...data
+		}),
 	info: (msg: titleT | React.ReactNode, data?: ExternalToast) =>
 		toast.success(msg, {
 			duration: Infinity,

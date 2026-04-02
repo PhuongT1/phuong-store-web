@@ -1,28 +1,28 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronDownIcon } from "lucide-react";
-import { type VariantProps, cva } from "class-variance-authority";
-import { useFloating, autoUpdate, autoPlacement } from "@floating-ui/react-dom";
-import { CONFIG } from "@config/config";
 import { LoadingIcon } from "@assets/icons";
-import { cn, isNotNil } from "@lib/utils";
-import { FieldWrapper } from "../FieldWrapper";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../Command";
-import { Popover, PopoverContent, PopoverTrigger } from "../Popover";
-import { type FieldRenderProps } from "../form/FormControl.type";
-import { FieldSlot } from "../FieldState";
-import { AffixWrapper, type AffixWrapperProps } from "../display/AffixWrapper";
-import { CloseButton } from "../Button";
-import { Separator } from "../Separator";
+import { useFloating, autoUpdate, autoPlacement } from "@floating-ui/react-dom";
+import { type VariantProps, cva } from "class-variance-authority";
+import { Check, ChevronDownIcon } from "lucide-react";
 import { type OptionList, type Option } from "@/types";
+import { CONFIG } from "@config/config";
+import { cn, isNotNil } from "@lib/utils";
+import { CloseButton } from "../Button";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../Command";
+import { AffixWrapper, type AffixWrapperProps } from "../display/AffixWrapper";
+import { FieldSlot } from "../FieldState";
+import { FieldWrapper } from "../FieldWrapper";
+import { type FieldRenderProps } from "../form/FormControl.type";
+import { Popover, PopoverContent, PopoverTrigger } from "../Popover";
+import { Separator } from "../Separator";
 
 const inputVariants = cva(
 	[
-		"group inline-flex items-center item w-full min-w-0 overflow-hidden rounded-md border bg-transparent text-sm outline-none",
-		"border-input text-foreground placeholder:text-muted-foreground transition-[color,box-shadow]",
+		"group inline-flex items-center item w-full min-w-0 overflow-hidden rounded-md border text-sm outline-none",
+		"border-border bg-input text-foreground placeholder:text-muted-foreground transition-[color,box-shadow]",
 		"file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
-		"selection:bg-primary selection:text-primary-foreground dark:bg-input/30",
+		"selection:bg-primary selection:text-primary-foreground",
 		"aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50",
 		"data-[state=open]:border-focus-ring data-[state=open]:ring-focus-ring/40 data-[state=open]:ring-[2px]",
 		"group-aria-[invalid=true]:border-destructive group-aria-[invalid=true]:ring-destructive/20",
@@ -209,7 +209,7 @@ const Combobox = <TName extends string, TOption extends Option, TValue>({
 											<>{optionRender ? optionRender(option, index) : option[labelKey]}</>
 											<Check
 												className={cn(
-													"text-primary ml-auto h-4 w-4 opacity-0 group-data-[active=true]:opacity-100"
+													"text-info ml-auto h-4 w-4 opacity-0 group-data-[active=true]:opacity-100"
 												)}
 											/>
 										</CommandItem>

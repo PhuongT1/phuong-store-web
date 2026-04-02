@@ -1,4 +1,4 @@
-import { useFormContext } from "@/checkout/hooks/useForm/useForm";
+import { useFormContext } from "./useForm";
 
 export const useField = <TName extends string>(name: TName) => {
 	const { handleChange, handleBlur, touched, errors, values, ...restForm } =
@@ -8,7 +8,7 @@ export const useField = <TName extends string>(name: TName) => {
 	return {
 		...restForm,
 		onChange: handleChange,
-		handleBlur: handleBlur,
+		handleBlur,
 		error,
 		name,
 		value: values[name]

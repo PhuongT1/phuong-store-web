@@ -1,69 +1,54 @@
 "use client";
 
-import useSWRInfinite from "swr/infinite";
 import useSWR from "swr";
-import { executeGraphQL } from "@lib/api/fetchGraphQL";
-import { useAddQueryParams } from "@lib/hooks";
-import { CONFIG_SWR_KEYS } from "@config/keys";
+import { PRODUCTS_PER_PAGE } from "@/constants";
 import {
 	ProductListByCategoryPaginatedDocument,
 	ProductListByCollectionDocument,
 	type ProductListByCategoryPaginatedQuery,
 	type ProductListByCategoryPaginatedQueryVariables,
 	type ProductListByCollectionQueryVariables,
-	type ProductListByCollectionQuery
+	type ProductListByCollectionQuery,
+	type ProductFragment
 } from "@/gql/graphql";
 import { type Pages } from "@/types";
-import { PRODUCTS_PER_PAGE } from "@/constants";
+import { CONFIG_SWR_KEYS } from "@config/keys";
+import { executeGraphQL } from "@lib/api/fetchGraphQL";
+import { useInfiniteProductList } from "./useInfiniteProductList";
 
 type ProductListByCategory = ProductListByCategoryPaginatedQuery;
-type Variables = ProductListByCategoryPaginatedQueryVariables;
 
 type ProductParams = {
 	initialData?: ProductListByCategory;
 } & Pages;
 
+type CategoryMeta = { category: ProductListByCategoryPaginatedQuery["category"] | null };
+
 const useProductListByCategoryInfinite = ({ channel, initialData, slug }: ProductParams) => {
-	const { parseParamUrl } = useAddQueryParams();
-
-	const getKey = (
-		_pageIndex: number,
-		previousPageData: ProductListByCategory | null
-	): [typeof ProductListByCategoryPaginatedDocument, Variables] | null => {
-		if (previousPageData && !previousPageData.category?.products?.pageInfo.hasNextPage) return null;
-
-		const cursor = previousPageData?.category?.products?.pageInfo.endCursor || null;
-		return [
-			ProductListByCategoryPaginatedDocument, // GraphQL query
-			{
-				slug,
+	const result = useInfiniteProductList<
+		ProductListByCategoryPaginatedQuery,
+		ProductListByCategoryPaginatedQueryVariables,
+		ProductFragment,
+		CategoryMeta
+	>(
+		{
+			document: ProductListByCategoryPaginatedDocument,
+			cacheKey: CONFIG_SWR_KEYS.PRODUCT_CATEGORY_LIST,
+			extractProducts: (page) => page.category?.products ?? null,
+			buildVariables: ({ after, channel, slug, parsedParams }) => ({
+				slug: slug!,
 				first: PRODUCTS_PER_PAGE,
-				after: cursor,
+				after,
 				channel,
-				...parseParamUrl()
-			}
-		];
-	};
+				...parsedParams
+			}),
+			initialData: initialData ? [initialData] : undefined,
+			extractMeta: (firstPage) => ({ category: firstPage.category ?? null })
+		},
+		{ channel, slug }
+	);
 
-	const { data, ...rest } = useSWRInfinite(getKey, {
-		fallbackData: initialData ? [initialData] : undefined,
-		revalidateOnMount: false
-	});
-
-	const pages = data ?? (initialData ? [initialData] : []);
-	const hasNextPage = pages[pages.length - 1]?.category?.products?.pageInfo.hasNextPage ?? false;
-	const products = pages.flatMap((page) => page.category?.products?.edges.map((edge) => edge.node) ?? []);
-	const remainingCount = Number(pages[pages.length - 1]?.category?.products?.totalCount) - products.length;
-	const category = pages[0]?.category ?? null;
-
-	return {
-		...rest,
-		products,
-		category,
-		hasNextPage,
-		remainingCount
-		// isLoading:isLoadingSWR
-	};
+	return result;
 };
 
 const useSignatureProduct = (variables: ProductListByCollectionQueryVariables) => {

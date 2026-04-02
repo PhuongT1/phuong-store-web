@@ -1,8 +1,8 @@
 import React, { type ComponentPropsWithoutRef, type PropsWithChildren, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 import { type Button, CloseButton } from "../Button";
 import { type FieldErrorProps } from "../FieldError";
 import { SlotBase } from "../FieldState";
-import { cn } from "@/lib/utils";
 
 type AffixProps = {
 	prefix?: ReactNode;

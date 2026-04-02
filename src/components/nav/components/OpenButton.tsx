@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import { MenuIcon } from "lucide-react";
 import { type HTMLAttributes } from "react";
+import { clsx } from "clsx";
+import { MenuIcon } from "lucide-react";
 
 type Props = {
 	onClick: () => void;

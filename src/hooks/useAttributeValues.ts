@@ -1,7 +1,7 @@
 "use client";
 
-import useSWR from "swr";
 import { useParams } from "next/navigation";
+import useSWR from "swr";
 import { TypedDocumentString } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api";
 

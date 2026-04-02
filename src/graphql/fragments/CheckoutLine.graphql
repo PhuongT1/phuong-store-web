@@ -62,16 +62,13 @@ fragment CheckoutLine on CheckoutLine {
 				}
 			}
 		}
-		# attributes(variantSelection: ALL) {
-		# 	values {
-		# 		name
-		# 		dateTime
-		# 		boolean
-		# 		translation(languageCode: $languageCode) {
-		# 			name
-		# 		}
-		# 	}
-		# }
+		attributes(variantSelection: ALL) {
+			values {
+				name
+				dateTime
+				boolean
+			}
+		}
 		id
 		name
 		# translation(languageCode: $languageCode) {

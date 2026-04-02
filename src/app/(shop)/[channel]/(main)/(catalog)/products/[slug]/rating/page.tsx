@@ -1,8 +1,12 @@
-import { MainProductLayout } from "@components/layouts";
-import { RatingDetail } from "./RatingDetail";
+import { type Metadata } from "next";
 import { ProductDetailsDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
+import { generatePageMetadata } from "@/lib/metadata";
 import { type Channel } from "@/types";
+import { MainProductLayout } from "@components/layouts";
+import { RatingDetail } from "./RatingDetail";
+
+export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("rating");
 
 export type SlugPageProps = {
 	params: { slug: string } & Channel;

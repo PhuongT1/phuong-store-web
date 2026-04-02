@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
-import { ProductListLayout } from "@components/layouts";
-import { ProductListByCollection } from "../ProductListByCollection";
+import { type Metadata } from "next";
+import { PRODUCTS_PER_PAGE } from "@/constants";
 import {
 	ProductListByCollectionPaginatedDocument,
 	type ProductListByCollectionPaginatedQueryVariables
 } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api";
-import { PRODUCTS_PER_PAGE } from "@/constants";
 import { type ResolvedQueryProps, parseParams, resolvePageQuery } from "@/lib/utils";
 import { type PageQueryProps } from "@/types";
+import { ProductListLayout } from "@components/layouts";
+import { ProductListByCollection } from "../ProductListByCollection";
 
 const variables = ({
 	resolvedParams,
@@ -37,7 +38,7 @@ const fetchCollectionData = async (params: ResolvedQueryProps) => {
 	return result;
 };
 
-export const generateMetadata = async (props: ResolvedQueryProps) => {
+export const generateMetadata = async (props: ResolvedQueryProps): Promise<Metadata> => {
 	try {
 		const { collection } = await fetchCollectionData(props);
 		if (!collection) return {};
@@ -47,7 +48,9 @@ export const generateMetadata = async (props: ResolvedQueryProps) => {
 			description:
 				collection.seoDescription || collection.description || collection.seoTitle || collection.name
 		};
-	} catch (error) {}
+	} catch (error) {
+		return {};
+	}
 };
 
 export default async function Page(props: PageQueryProps) {

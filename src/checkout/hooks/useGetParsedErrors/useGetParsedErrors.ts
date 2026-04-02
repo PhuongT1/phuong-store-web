@@ -1,5 +1,7 @@
-import { camelCase } from "lodash-es";
 import { useCallback } from "react";
+import { camelCase } from "lodash-es";
+import { type FormDataBase } from "@/checkout/hooks/useForm";
+import { type ErrorCode, type GenericErrorCode } from "@/checkout/lib/globalTypes";
 import { useErrorMessages } from "../useErrorMessages";
 import {
 	type ApiError,
@@ -8,8 +10,6 @@ import {
 	type ParsedApiError,
 	type ParsedApiErrors,
 } from "./types";
-import { type ErrorCode, type GenericErrorCode } from "@/checkout/lib/globalTypes";
-import { type FormDataBase } from "@/checkout/hooks/useForm";
 
 export const useGetParsedErrors = <TFormData extends FormDataBase, TErrorCodes extends string = string>() => {
 	const { getMessageByErrorCode } = useErrorMessages();

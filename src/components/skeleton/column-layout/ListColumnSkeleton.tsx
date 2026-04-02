@@ -1,6 +1,6 @@
 import React from "react";
-import { ColumnSkeleton } from "./ColumnSkeleton";
 import { cn } from "@/lib/utils";
+import { ColumnSkeleton } from "./ColumnSkeleton";
 
 type ListColumnSkeletonProps = {
 	columns?: number;

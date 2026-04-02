@@ -1,13 +1,8 @@
  
 import { useCallback } from "react";
-import { type CombinedError } from "urql";
-import { useCheckout } from "@hooks/checkout";
 import { useAlerts } from "@/checkout/hooks/useAlerts";
-import {
-	type CheckoutUpdateStateScope,
-	useCheckoutUpdateStateChange
-} from "@/checkout/state/updateStateStore";
 import { type FormDataBase } from "@/checkout/hooks/useForm";
+import { type ApiErrors } from "@/checkout/hooks/useGetParsedErrors/types";
 import {
 	type CommonVars,
 	type MutationBaseFn,
@@ -17,9 +12,13 @@ import {
 	type ParserFunction,
 	type SimpleSubmitFn
 } from "@/checkout/hooks/useSubmit/types";
-import { type ApiErrors } from "@/checkout/hooks/useGetParsedErrors/types";
 import { extractMutationData, extractMutationErrors } from "@/checkout/hooks/useSubmit/utils";
+import {
+	type CheckoutUpdateStateScope,
+	useCheckoutUpdateStateChange
+} from "@/checkout/state/updateStateStore";
 import { LANGUAGE_CODE_DEFAULT } from "@/constants";
+import { useCheckout } from "@hooks/checkout";
 
 interface CallbackProps<TData> {
 	formData: TData;
@@ -42,7 +41,7 @@ export interface UseSubmitProps<
 		props: CallbackProps<TData> & {
 			errors: ApiErrors<TData, TErrorCodes>;
 			customErrors: any[];
-			graphqlErrors: CombinedError[];
+			graphqlErrors: unknown[];
 		}
 	) => void;
 	extractCustomErrors?: (data: MutationData<TMutationFn>) => any[];

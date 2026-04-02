@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { type Middleware } from "swr";
-import { useGlobalSWRLoading } from "@store/useLoadingStore";
 import { type SWRConfigExtended } from "@/hooks/swr/useSWR";
+import { useGlobalSWRLoading } from "@store/useLoadingStore";
 
 const SWRLoadingConfig: Middleware = (useSWRNext) => (key, fetcher, config: SWRConfigExtended) => {
 	const { showLoading: shouldTrackLoading, showLoadingAfterFetch, ...restConfig } = config;

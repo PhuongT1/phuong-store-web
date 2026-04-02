@@ -2,7 +2,7 @@ import { Skeleton } from "./Skeleton";
 
 const ProductRatingSkeleton = () => {
 	return (
-		<div className="bg-white p-3 md:rounded-lg md:p-5 md:pr-[30%]">
+		<div className="bg-card p-3 md:rounded-lg md:p-5 md:pr-[30%]">
 			<Skeleton className="h-9" />
 			<div className="mt-10 flex items-center gap-3">
 				<Skeleton className="h-8 w-[60px]" />

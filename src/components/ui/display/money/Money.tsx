@@ -1,6 +1,6 @@
-import { getFormattedMoney } from "./Money.utils";
-import { cn } from "@/lib/utils";
 import { type Maybe, type Money } from "@/gql/graphql";
+import { cn } from "@/lib/utils";
+import { getFormattedMoney } from "./Money.utils";
 
 type MakeOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 type MoneyData = MakeOptional<Money, "fractionDigits" | "fractionalAmount">;

@@ -44,21 +44,21 @@ const CheckoutContact = ({ onContinue, initialEmail = "" }: CheckoutContactProps
 	};
 
 	return (
-		<div className="rounded-lg bg-white p-6 shadow-sm">
+		<div className="bg-card rounded-lg p-6 shadow-sm">
 			<div className="mb-6">
-				<h2 className="text-2xl font-bold text-gray-900">Contact information</h2>
-				<p className="mt-1 text-sm text-gray-600">We&apos;ll use this to send order updates</p>
+				<h2 className="text-foreground text-2xl font-bold">Contact information</h2>
+				<p className="text-muted-foreground mt-1 text-sm">We&apos;ll use this to send order updates</p>
 			</div>
 
 			<div className="space-y-4">
 				{/* Email Input */}
 				<div>
-					<label htmlFor="email" className="block text-sm font-medium text-gray-900">
+					<label htmlFor="email" className="text-foreground block text-sm font-medium">
 						Email address
 					</label>
 					<div className="relative mt-2">
 						<div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-							<Mail className="h-5 w-5 text-gray-400" />
+							<Mail className="text-muted-foreground h-5 w-5" />
 						</div>
 						<input
 							type="email"
@@ -70,19 +70,19 @@ const CheckoutContact = ({ onContinue, initialEmail = "" }: CheckoutContactProps
 							}}
 							onKeyPress={handleKeyPress}
 							className={`block w-full rounded-lg border ${
-								emailError ? "border-red-300" : "border-gray-300"
-							} bg-white py-3 pr-3 pl-10 text-gray-900 placeholder-gray-500 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 focus:outline-none`}
+								emailError ? "border-destructive" : "border-input"
+							} bg-card text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-ring py-3 pr-3 pl-10 focus:ring-1 focus:outline-none`}
 							placeholder="you@example.com"
 						/>
 					</div>
-					{emailError && <p className="mt-2 text-sm text-red-600">{emailError}</p>}
+					{emailError && <p className="text-destructive mt-2 text-sm">{emailError}</p>}
 				</div>
 
 				{/* Continue Button */}
 				<Button
 					onClick={handleContinue}
 					disabled={!email || isChecking}
-					className="group w-full justify-between rounded-lg bg-gray-900 px-6 py-4 font-semibold text-white hover:bg-gray-800 disabled:bg-gray-400"
+					className="group disabled:bg-muted w-full justify-between"
 					size="lg"
 				>
 					<span>Continue as Guest</span>
@@ -92,19 +92,19 @@ const CheckoutContact = ({ onContinue, initialEmail = "" }: CheckoutContactProps
 				{/* Login Link */}
 				<div className="relative">
 					<div className="absolute inset-0 flex items-center">
-						<div className="w-full border-t border-gray-200"></div>
+						<div className="border-border w-full border-t"></div>
 					</div>
 					<div className="relative flex justify-center text-sm">
-						<span className="bg-white px-4 text-gray-500">or</span>
+						<span className="bg-card text-muted-foreground px-4">or</span>
 					</div>
 				</div>
 
 				<div className="text-center">
-					<p className="text-sm text-gray-600">
+					<p className="text-muted-foreground text-sm">
 						Already have an account?{" "}
 						<Link
 							href="/login?redirect=/checkout"
-							className="font-semibold text-gray-900 hover:text-gray-700 hover:underline"
+							className="text-foreground hover:text-foreground/80 font-semibold hover:underline"
 						>
 							Log in
 						</Link>
@@ -113,14 +113,14 @@ const CheckoutContact = ({ onContinue, initialEmail = "" }: CheckoutContactProps
 			</div>
 
 			{/* Newsletter Checkbox (Optional) */}
-			<div className="mt-6 border-t border-gray-200 pt-6">
+			<div className="border-border mt-6 border-t pt-6">
 				<label className="flex items-start gap-3">
 					<input
 						type="checkbox"
-						className="mt-0.5 h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+						className="border-input text-primary focus:ring-ring mt-0.5 h-4 w-4 rounded"
 						defaultChecked
 					/>
-					<span className="text-sm text-gray-600">Email me with news and offers</span>
+					<span className="text-muted-foreground text-sm">Email me with news and offers</span>
 				</label>
 			</div>
 		</div>

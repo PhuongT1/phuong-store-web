@@ -12,7 +12,7 @@ const TableElement = ({ data }: TableElementProps) => {
 			return `<tr>${row
 				.map((cell: string, cellIndex: number) => {
 					const isFirstCell = cellIndex === 0;
-					return `<td class="${isFirstCell ? "w-[200px]" : ""} border-b border-gray-300 py-3">${cell}</td>`;
+					return `<td class="${isFirstCell ? "w-[200px]" : ""} border-b border-border py-3">${cell}</td>`;
 				})
 				.join("")}</tr>`;
 		})

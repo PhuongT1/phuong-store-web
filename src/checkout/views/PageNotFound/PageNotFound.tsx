@@ -1,21 +1,18 @@
+import { AlertTriangle } from "lucide-react";
 import { type FallbackProps } from "react-error-boundary";
-import { SaleorLogo } from "@/checkout/assets/images/SaleorLogo";
-import { Button } from "@/checkout/components/Button";
 import { ErrorContentWrapper } from "@/checkout/components/ErrorContentWrapper";
+import { Button } from "@/components/ui/Button";
 
 export const PageNotFound = ({ error }: Partial<FallbackProps>) => {
-	console.error(error);
+	if (error) console.error(error);
 
-	 
 	const goBack = () => history.back();
 
 	return (
 		<ErrorContentWrapper>
-			<div className="mb-4 flex w-28 flex-col">
-				<SaleorLogo />
-			</div>
+			<AlertTriangle className="mb-4 h-12 w-12 text-warning" />
 			<p>We couldn&apos;t fetch information about your checkout. Go back to the store and try again.</p>
-			<Button ariaLabel="Go back to store" onClick={goBack} variant="secondary" label="Go back to store" />
+			<Button aria-label="Go back to store" onClick={goBack} variant="outline">Go back to store</Button>
 		</ErrorContentWrapper>
 	);
 };

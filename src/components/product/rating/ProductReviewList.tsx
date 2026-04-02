@@ -1,35 +1,41 @@
+import { StarIcon } from "@assets/icons";
 import { formatDistanceToNow } from "date-fns";
-import { vi } from "date-fns/locale";
+import { enUS, vi } from "date-fns/locale";
 import { formatInTimeZone } from "date-fns-tz";
 import { HeartIcon, CircleCheckIcon } from "lucide-react";
-import { StarIcon } from "@assets/icons";
+import { useLocale, useTranslations } from "next-intl";
+import { Separator } from "@components/ui";
 import { type Rating } from "@/types";
-import { Divider } from "@/checkout/components";
+
+const dateFnsLocales = { vi, en: enUS } as const;
 
 type RatingListProps = {
 	data: Rating[];
 };
 
 const ProductReviewList = ({ data }: RatingListProps) => {
+	const t = useTranslations("rating");
+	const locale = useLocale();
 	if (!data) return <></>;
 	const timeZone = "Asia/Ho_Chi_Minh";
+	const dateFnsLocale = dateFnsLocales[locale] ?? enUS;
 
 	return (
 		<div className="my-8">
 			{data.map((item, index) => {
 				const zonedDate = formatInTimeZone(item.createdAt, timeZone, "yyyy-MM-dd HH:mm:ss");
-				const relativeTime = formatDistanceToNow(zonedDate, { addSuffix: true, locale: vi });
+				const relativeTime = formatDistanceToNow(zonedDate, { addSuffix: true, locale: dateFnsLocale });
 
 				return (
 					<div key={index} className="flex flex-col gap-2">
 						<div className="flex items-center gap-2">
 							<p className="font-bold">{item.name}</p>
-							<p className="flex items-center gap-1 text-xs text-green-700">
-								<CircleCheckIcon size={12} className="stroke-green-700" />
-								Đã mua hàng
+							<p className="flex items-center gap-1 text-xs text-success">
+								<CircleCheckIcon size={12} className="stroke-success" />
+								{t("verified")}
 							</p>
 						</div>
-						<p className="flex items-center gap-2 ">
+						<p className="flex items-center gap-2">
 							{item.rating && (
 								<span className="flex items-center">
 									{Array.from({ length: item.rating }, (_, index) => (
@@ -38,15 +44,15 @@ const ProductReviewList = ({ data }: RatingListProps) => {
 								</span>
 							)}
 							{item.isRecomment && (
-								<span className="mt-[2px] flex items-center gap-1 text-xs text-gray-500">
-									<HeartIcon size={12} className="fill-red-500 stroke-red-500" />
-									Sẽ giới thiệu cho bạn bè, người thân
+								<span className="text-muted-foreground mt-[2px] flex items-center gap-1 text-xs">
+									<HeartIcon size={12} className="fill-badge-recommended stroke-badge-recommended" />
+									{t("recommend")}
 								</span>
 							)}
 						</p>
 						<p className="text-sm">{item.shareFeelings}</p>
-						<p className="text-xs text-gray-500">{relativeTime}</p>
-						<Divider className="my-2" />
+						<p className="text-muted-foreground text-xs">{relativeTime}</p>
+						<Separator className="my-2" />
 					</div>
 				);
 			})}

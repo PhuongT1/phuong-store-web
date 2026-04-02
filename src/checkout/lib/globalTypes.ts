@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { type TaxedMoney } from "@/checkout/graphql";
+import { type TaxedMoney } from "@/gql/graphql";
 
 export interface Classes {
 	className?: string;
@@ -33,7 +33,8 @@ export type PasswordErrorCode =
 	| "passwordTooSimilar"
 	| "passwordTooCommon"
 	| "passwordInvalid"
-	| "passwordAtLeastCharacters";
+	| "passwordAtLeastCharacters"
+	| "passwordsDontMatch";
 
 export type CheckoutFinalizeErrorCode = "missingFields";
 

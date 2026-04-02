@@ -1,9 +1,9 @@
 import { type ReactNode, Suspense } from "react";
+import { DEFAULT_CHANNEL } from "@/constants";
 import { Footer } from "../footer/Footer";
 import { PageContainer } from "../PageContainer";
 import { FooterSkeleton } from "../skeleton/FooterSkeleton";
 import { HeaderPublicLayout } from "./HeaderPublicLayout";
-import { DEFAULT_CHANNEL } from "@/constants";
 
 interface PublicLayout {
 	children: ReactNode;

@@ -1,6 +1,5 @@
-import { type CombinedError } from "urql";
-import { type CheckoutUpdateStateScope } from "@/checkout/state/updateStateStore";
 import { type FormDataBase, type FormHelpers } from "@/checkout/hooks/useForm";
+import { type ApiErrors } from "@/checkout/hooks/useGetParsedErrors/types";
 import {
 	type MutationBaseFn,
 	type MutationData,
@@ -9,8 +8,8 @@ import {
 	type ParserFunction,
 	type SubmitReturnWithErrors,
 } from "@/checkout/hooks/useSubmit/types";
-import { type ApiErrors } from "@/checkout/hooks/useGetParsedErrors/types";
 import { useSubmit, type UseSubmitProps } from "@/checkout/hooks/useSubmit/useSubmit";
+import { type CheckoutUpdateStateScope } from "@/checkout/state/updateStateStore";
 
 export type FormSubmitFn<TData extends FormDataBase> = (
 	formData: TData,
@@ -38,7 +37,7 @@ interface UseFormSubmitProps<
 		props: CallbackProps<TData> & {
 			errors: ApiErrors<TData, TErrorCodes>;
 			customErrors: any[];
-			graphqlErrors: CombinedError[];
+			graphqlErrors: unknown[];
 		},
 	) => void;
 	extractCustomErrors?: (data: MutationData<TMutationFn>) => any[];

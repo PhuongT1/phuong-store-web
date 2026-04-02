@@ -1,12 +1,11 @@
-import { executeGraphQLRequest } from "./secureGraphQL";
+import { serverFetchWithAuth } from "@/action/serverFetchWithAuth";
 import {
 	type VariablesFromDoc,
 	type GraphQLDocument,
 	type GraphQLRequestOptions,
 	type ResultFromDoc
 } from "./graphQLRequest";
-
-import { serverFetchWithAuth } from "@/action/serverFetchWithAuth";
+import { executeGraphQLRequest } from "./secureGraphQL";
 
 const executeGraphQL = async <Doc extends GraphQLDocument<any, any>>(
 	operation: Doc,
@@ -26,6 +25,12 @@ const executeGraphQL = async <Doc extends GraphQLDocument<any, any>>(
 		return result.data as ResultFromDoc<Doc>;
 	}
 
+	// withAuth: false → bypass serverFetchWithAuth (server action).
+	// On server: getUserSession() runs the JWT callback which already handles
+	// expired tokens correctly (clears accessToken to undefined on failure, so
+	// no expired token is ever forwarded to Saleor).
+	// On client: getUserSession() reads from the client session cookie — the user's
+	// JWT must be sent for owner-protected queries (e.g. checkout belonging to a user).
 	return executeGraphQLRequest(operation, optionsHeader) as unknown as Promise<ResultFromDoc<Doc>>;
 };
 

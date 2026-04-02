@@ -1,9 +1,9 @@
 "use client";
 
 import { Tag } from "lucide-react";
-import { SwiperProduct } from "@components/swiper";
-import { LinkWithChannel } from "@components/navigation";
 import { type ProductFragment } from "@/gql/graphql";
+import { LinkWithChannel } from "@components/navigation";
+import { SwiperProduct } from "@components/swiper";
 
 
 type SearchHotDealsProps = {
@@ -23,17 +23,17 @@ const SearchHotDeals = ({ products }: SearchHotDealsProps) => {
 			<div className="mb-8">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-4">
-						<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-100">
-							<Tag className="h-6 w-6 text-red-600" />
+						<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-badge-hot-muted">
+								<Tag className="animate-icon-tag h-6 w-6 text-badge-hot" />
 						</div>
 						<div>
-							<h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">Hot Deals</h2>
-							<p className="mt-1 text-sm text-gray-600">Limited time offers - Save up to 50%</p>
+							<h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Hot Deals</h2>
+							<p className="mt-1 text-sm text-muted-foreground">Limited time offers - Save up to 50%</p>
 						</div>
 					</div>
 					<LinkWithChannel
 						href="/collections/sale"
-						className="hidden text-sm font-semibold text-gray-900 transition-colors hover:text-gray-700 sm:block"
+							className="hidden text-sm font-semibold text-info transition-colors hover:text-info/80 sm:block"
 					>
 						View all →
 					</LinkWithChannel>

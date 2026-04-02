@@ -1,7 +1,7 @@
 import React from "react";
-import { ProductFilter } from "@components/product";
 import { Typography } from "@ui";
 import { cn } from "@/lib/utils";
+import { ProductFilter } from "@components/product";
 
 type ProductListLayoutProps = {
 	children: React.ReactNode;
@@ -11,7 +11,7 @@ type ProductListLayoutProps = {
 };
 
 const ProductListLayout = ({ children, className, title, textHeading }: ProductListLayoutProps) => (
-	<div className="min-h-screen bg-[#f8fafc] px-4 py-12 sm:px-6 lg:px-8">
+	<div className="min-h-screen px-3 py-6 sm:px-4 lg:px-6">
 		{textHeading && (
 			<Typography component={"h1"} variant={"h1"}>
 				{textHeading}
@@ -19,7 +19,7 @@ const ProductListLayout = ({ children, className, title, textHeading }: ProductL
 		)}
 		{title}
 		<div className={cn("mt-6 flex w-full gap-6 md:gap-8 lg:gap-10", className)}>
-			<div className="hidden w-1/4 max-w-[280px] md:block">
+			<div className="hidden w-1/4 max-w-[280px] self-start md:block">
 				<ProductFilter />
 			</div>
 			<div className="flex-1">{children}</div>

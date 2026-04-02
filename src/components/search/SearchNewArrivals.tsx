@@ -1,9 +1,9 @@
 "use client";
 
 import { Sparkles } from "lucide-react";
-import { SwiperProduct } from "@components/swiper";
-import { LinkWithChannel } from "@components/navigation";
 import { type ProductFragment } from "@/gql/graphql";
+import { LinkWithChannel } from "@components/navigation";
+import { SwiperProduct } from "@components/swiper";
 
 type SearchNewArrivalsProps = {
 	products: ProductFragment[];
@@ -19,19 +19,19 @@ const SearchNewArrivals = ({ products }: SearchNewArrivalsProps) => {
 			<div className="mb-8">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-4">
-						<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100">
-							<Sparkles className="h-6 w-6 text-purple-600" />
+						<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-badge-new-muted">
+							<Sparkles className="animate-icon-sparkle h-6 w-6 text-badge-new" />
 						</div>
 						<div>
-							<h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
+							<h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
 								New Arrivals
 							</h2>
-							<p className="mt-1 text-sm text-gray-600">Fresh products just added</p>
+							<p className="mt-1 text-sm text-muted-foreground">Fresh products just added</p>
 						</div>
 					</div>
 					<LinkWithChannel
 						href="/collections/new-arrivals"
-						className="hidden text-sm font-semibold text-gray-900 transition-colors hover:text-gray-700 sm:block"
+						className="hidden text-sm font-semibold text-info transition-colors hover:text-info/80 sm:block"
 					>
 						View all →
 					</LinkWithChannel>

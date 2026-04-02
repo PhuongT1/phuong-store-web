@@ -1,14 +1,17 @@
 import React from "react";
-import { useCheckout } from "@hooks/checkout";
-import { Divider } from "@checkout/components/Divider";
-import { type CommonSectionProps } from "@checkout/lib/globalTypes";
 import { useDeliveryMethodsForm } from "@sections/DeliveryMethods/useDeliveryMethodsForm";
-import { useUser } from "@checkout/hooks/useUser";
-import { FormProvider } from "react-hook-form";
-
 import { RadioItem, RadioList, Typography, getFormattedMoney } from "@ui";
+import { Package } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { FormProvider } from "react-hook-form";
+import { useUser } from "@checkout/hooks/useUser";
+import { type CommonSectionProps } from "@checkout/lib/globalTypes";
+import { Separator } from "@components/ui";
+import { useCheckout } from "@hooks/checkout";
+import { DeliveryMethodsSkeleton } from "./DeliveryMethodsSkeleton";
 
 export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => {
+	const t = useTranslations("checkout");
 	const { checkout } = useCheckout();
 
 	const { authenticated } = useUser();
@@ -23,27 +26,31 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
 		return `${min}-${max} business days`;
 	};
 
-	if (!checkout || !checkout?.isShippingRequired || collapsed) {
+	// Checkout chưa load xong → hiện skeleton thay vì null
+	if (!checkout?.id) return <DeliveryMethodsSkeleton />;
+
+	if (!checkout.isShippingRequired || collapsed) {
 		return null;
 	}
 
 	return (
 		<FormProvider {...form}>
-			<Divider />
+			<Separator className="mt-2" />
 			<div className="py-4" data-testid="deliveryMethods">
-				<Typography variant="title">Hình thức nhận hàng</Typography>
+				<div className="mb-3 flex items-center gap-2.5">
+					<div className="bg-icon-bg flex h-7 w-7 shrink-0 items-center justify-center rounded-(--radius)">
+						<Package className="text-info h-3.5 w-3.5" strokeWidth={1.5} />
+					</div>
+					<Typography variant="section-label" className="mb-0!">
+						{t("shippingMethod")}
+					</Typography>
+				</div>
 				{authenticated && (!shippingAddress || !shippingAddress.country) ? (
-					<p className="text-muted-foreground py-2 text-center text-sm">
-						Vui lòng chọn hoặc thêm địa chỉ giao hàng để xem các phương thức vận chuyển.
-					</p>
+					<p className="text-muted-foreground py-2 text-center text-sm">{t("shippingSelectAddress")}</p>
 				) : !shippingMethods || shippingMethods.length === 0 ? (
 					<div className="py-3">
-						<p className="text-muted-foreground text-center text-sm">
-							Không tìm thấy phương thức vận chuyển.
-						</p>
-						<p className="text-muted-foreground mt-1 text-center text-xs">
-							Vui lòng điền đầy đủ địa chỉ giao hàng bên trên.
-						</p>
+						<p className="text-muted-foreground text-center text-sm">{t("noShippingMethods")}</p>
+						<p className="text-muted-foreground mt-1 text-center text-xs">{t("fillAddress")}</p>
 					</div>
 				) : (
 					<RadioList name="selectedMethodId">
@@ -55,12 +62,12 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
 									labelProps={{ className: "flex-1" }}
 									optionProps={{
 										label: (
-											<div className="pointer-events-none flex grow flex-col justify-center">
+											<div className="flex grow flex-col justify-center">
 												<div className="flex flex-row items-center justify-between self-stretch">
-													<p>{name}</p>
-													<p className="text-destructive">{getFormattedMoney(price)}</p>
+													<p className="text-foreground/80">{name}</p>
+													<p className="text-muted-foreground font-medium">{getFormattedMoney(price)}</p>
 												</div>
-												<p className="font-xs" color="secondary">
+												<p className="text-muted-foreground/60 text-xs">
 													{getSubtitle({ min, max })}
 												</p>
 											</div>

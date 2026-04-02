@@ -15,7 +15,8 @@ export const errorMessages = {
 	quantityGreaterThanLimit: "Số lượng vượt quá giới hạn cho phép.",
 	insufficientStock: "Không đủ hàng trong kho.",
 	invalidCredentials: "Thông tin đăng nhập không hợp lệ.",
-	missingFields: "Thiếu thông tin trong biểu mẫu địa chỉ."
+	missingFields: "Thiếu thông tin trong biểu mẫu địa chỉ.",
+	passwordsDontMatch: "Mật khẩu nhập lại không khớp."
 } satisfies Record<ErrorCode, string>;
 
 export type ErrorMessages = Record<ErrorCode, string>;

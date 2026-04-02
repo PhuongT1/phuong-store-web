@@ -1,12 +1,12 @@
 "use client";
 
-import { useProductListByCategoryInfinite } from "@hooks/useProductListByCategory";
-import { ProductListLayout } from "@components/layouts";
-import { ProductListLoadMore, ProductSort } from "@components/product";
-import { type Pages } from "@/types";
-import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
 import { CategoryFeaturedProducts, CategoryRecommended, CategoryDescription } from "@/components/category";
 import { SearchRecentlyViewed } from "@/components/search";
+import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
+import { type Pages } from "@/types";
+import { ProductListLayout } from "@components/layouts";
+import { ProductListLoadMore, ProductSort } from "@components/product";
+import { useProductListByCategoryInfinite } from "@hooks/useProductListByCategory";
 
 type CategoryPageClientProps = {
 	products: ProductListByCategoryPaginatedQuery;
@@ -35,21 +35,21 @@ const CategoryPageClient = ({ products: initialData, channel, slug }: CategoryPa
 			{/* Discovery Sections - Outside filter layout, truly full width */}
 			<div className="space-y-0">
 				{/* Trending Products (Best Sellers, Hot Deals) */}
-				<div className="bg-white">
+				<div>
 					<div className="mx-auto max-w-[1920px] px-4 py-12 sm:px-6 lg:px-8">
 						<CategoryFeaturedProducts products={products} />
 					</div>
 				</div>
 
 				{/* Recommended Products */}
-				<div className="bg-[#f8fafc]">
+				<div>
 					<div className="mx-auto max-w-[1920px] px-4 py-12 sm:px-6 lg:px-8">
 						<CategoryRecommended products={products} />
 					</div>
 				</div>
 
 				{/* Recently Viewed Products */}
-				<div className="bg-white">
+				<div>
 					<div className="mx-auto max-w-[1920px] px-4 py-12 sm:px-6 lg:px-8">
 						<SearchRecentlyViewed products={products} />
 					</div>

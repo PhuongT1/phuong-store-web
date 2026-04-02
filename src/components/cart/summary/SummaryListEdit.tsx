@@ -1,13 +1,14 @@
 import { type FC } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import { SummaryItemMoneySection } from "@/checkout/sections/order-summary/Summary/SummaryItemMoneySection";
+import { type Checkout, type OrderLine } from "@/gql/graphql";
+import { useDeviceSize } from "@/hooks/useDeviceSize";
+import { cn } from "@/lib/utils";
 import { Card } from "@components/ui";
 import { type CheckoutLineForm, type CheckoutLineItem } from "../Cart.type";
-import { SummaryLineEdit, type SummaryLines } from "./SummaryLineEdit";
-import { SummaryItemMoneyEditableSection } from "./SummaryItemMoneyEditableSection";
 import { Summary } from "./Summary";
-import { SummaryItemMoneySection } from "@/checkout/sections/Summary/SummaryItemMoneySection";
-import { useDeviceSize } from "@/hooks/useDeviceSize";
-import { type Checkout, type OrderLine } from "@/gql/graphql";
+import { SummaryItemMoneyEditableSection } from "./SummaryItemMoneyEditableSection";
+import { SummaryLineEdit, type SummaryLines } from "./SummaryLineEdit";
 
 type SummaryListEditProps = {
 	editable?: boolean;
@@ -15,7 +16,7 @@ type SummaryListEditProps = {
 	classNameCard?: string;
 } & Checkout;
 
-const SummaryListEdit: FC<SummaryListEditProps> = ({ editable = true, lines, ...rest }) => {
+const SummaryListEdit: FC<SummaryListEditProps> = ({ editable = true, lines, classNameCard, ...rest }) => {
 	const { isTabletOrBelow } = useDeviceSize();
 	const methods = useForm<SummaryLines>({
 		values: { summaryList: (lines?.map((item) => ({ ...item, _id: item.id })) ?? []) as CheckoutLineForm[] }
@@ -28,7 +29,7 @@ const SummaryListEdit: FC<SummaryListEditProps> = ({ editable = true, lines, ...
 	});
 
 	return (
-		<Card className="border-none bg-white px-6 py-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sm:px-8 sm:py-6 md:rounded-2xl lg:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+		<Card className={cn("bg-card-elevated border-card-elevated-border shadow-card-elevated border px-6 py-4 backdrop-blur-sm sm:px-8 sm:py-6 md:rounded-2xl", classNameCard)}>
 			<FormProvider {...methods}>
 				<ul data-testid="SummaryProductList">
 					{fields?.map((line, index) => (

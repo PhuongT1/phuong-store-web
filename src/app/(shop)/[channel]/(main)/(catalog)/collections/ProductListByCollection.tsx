@@ -1,9 +1,9 @@
 "use client";
 
-import { ProductListLoadMore } from "@components/product";
 import { type ProductListPaginatedQuery } from "@/gql/graphql";
-import { type Pages } from "@/types";
 import { useProductListByCollectionInfinite } from "@/hooks/useProductListByCollection";
+import { type Pages } from "@/types";
+import { ProductListLoadMore } from "@components/product";
 
 type ProductListLoadMoreProps = { products: ProductListPaginatedQuery } & Pages;
 

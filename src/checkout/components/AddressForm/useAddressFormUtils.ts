@@ -1,16 +1,19 @@
 "use client";
 
-import camelCase from "lodash-es/camelCase";
 import { useCallback, useMemo } from "react";
-import { getDistricts, getProvinces } from "@services/address.service";
+import camelCase from "lodash-es/camelCase";
+import useSWR from "swr";
+import { type OptionalAddress, type AddressField } from "@/checkout/components/AddressForm/types";
+import { getOrderedAddressFields } from "@/checkout/components/AddressForm/utils";
+import { defaultCountry } from "@/checkout/lib/consts/countries";
 import {
 	type CountryCode,
-	useAddressValidationRulesQuery,
+	AddressValidationRulesDocument,
+	type AddressValidationRulesQuery,
 	type ValidationRulesFragment
-} from "@/checkout/graphql";
-import { type OptionalAddress, type AddressField } from "@/checkout/components/AddressForm/types";
-import { defaultCountry } from "@/checkout/lib/consts/countries";
-import { getOrderedAddressFields } from "@/checkout/components/AddressForm/utils";
+} from "@/gql/graphql";
+import { executeGraphQL } from "@/lib/api";
+import { getDistricts, getProvinces } from "@services/address.service";
 
 export type AddressFieldLabel = Exclude<AddressField, "countryCode"> | "country";
 export const addressFieldMessages: Record<AddressFieldLabel, string> = {
@@ -46,10 +49,10 @@ export const localizedAddressFieldMessages: Record<LocalizedAddressFieldLabel, s
 };
 
 export const useAddressFormUtils = (countryCode: CountryCode) => {
-	const [{ data }] = useAddressValidationRulesQuery({
-		variables: { countryCode },
-		pause: !countryCode
-	});
+	const { data } = useSWR(
+		countryCode ? ["addressValidationRules", countryCode] : null,
+		async () => executeGraphQL(AddressValidationRulesDocument, { variables: { countryCode } })
+	);
 
 	const requiredFields = data?.addressValidationRules?.requiredFields ?? [];
 	const allowedFields = data?.addressValidationRules?.allowedFields ?? [];

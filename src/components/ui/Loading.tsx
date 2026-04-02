@@ -1,8 +1,8 @@
 "use client";
 
-import { Portal } from "@radix-ui/react-portal";
 import * as React from "react";
 import { LoadingIcon } from "@assets/icons";
+import { Portal } from "@radix-ui/react-portal";
 import { cn } from "@/lib/utils";
 type LoadingProps = {
 	loadingColor?: string;

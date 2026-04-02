@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
-import { cn } from "@/lib/utils";
 import { StarIcon } from "@/assets/icons/StarIcon";
+import { cn } from "@/lib/utils";
 import { type SvgComponentProps } from "@/types";
 
 type ProgressProps = React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {

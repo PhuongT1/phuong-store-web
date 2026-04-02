@@ -1,6 +1,6 @@
-import compact from "lodash-es/compact";
 import React, { type PropsWithChildren } from "react";
-import { type AddressFragment } from "@/checkout/graphql";
+import compact from "lodash-es/compact";
+import { type AddressFragment } from "@/gql/graphql";
 
 interface AddressProps {
 	address: AddressFragment;
@@ -17,13 +17,18 @@ export const Address: React.FC<PropsWithChildren<AddressProps>> = ({ address, ch
 	return (
 		<div className="pointer-events-none flex flex-col gap-y-1">
 			{nameValid && (
-				<p {...textProps} className="mb-1 text-base font-semibold text-gray-900">
+				<p {...textProps} className="text-foreground mb-1 text-base font-semibold">
 					{name}
 				</p>
 			)}
 			{!!phone && (
-				<div className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-					<svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<div className="text-muted-foreground mb-1 flex items-center gap-2 text-sm">
+					<svg
+						className="text-muted-foreground h-4 w-4"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -35,9 +40,9 @@ export const Address: React.FC<PropsWithChildren<AddressProps>> = ({ address, ch
 				</div>
 			)}
 			{!!addressLine && (
-				<div className="flex items-start gap-2 text-sm text-gray-600">
+				<div className="text-muted-foreground flex items-start gap-2 text-sm">
 					<svg
-						className="mt-0.5 h-4 w-4 shrink-0 text-gray-400"
+						className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0"
 						fill="none"
 						viewBox="0 0 24 24"
 						stroke="currentColor"

@@ -1,7 +1,7 @@
-import path from "path";
 import { promises as fs } from "fs";
+import path from "path";
 
-export async function loadAllJson(locate: any) {
+export async function loadAllJson(locate: string) {
 	const dirPath = path.join(process.cwd(), `messages/${locate}`);
 	const files = await fs.readdir(dirPath);
 

@@ -1,9 +1,11 @@
 import React from "react";
 import { RatingProgress } from "@ui";
-import { getStars, Star } from "./HandleRender";
+import { useTranslations } from "next-intl";
 import { type SummaryRating } from "@/types";
+import { getStars, Star } from "./HandleRender";
 
 const ReviewSummary = ({ summary }: SummaryRating) => {
+	const t = useTranslations("rating");
 	if (!summary) return null;
 
 	const { averageRating, totalCount, ratingDistribution } = summary;
@@ -12,13 +14,15 @@ const ReviewSummary = ({ summary }: SummaryRating) => {
 	return (
 		<>
 			<div className="mb-4 flex items-center gap-1">
-				{numberRating > 0 && <h3 className="text-4xl font-bold text-yellow-500">{numberRating}</h3>}
+				{numberRating > 0 && <h3 className="text-4xl font-bold text-rating">{numberRating}</h3>}
 				<span className="flex items-center">
 					{getStars(numberRating).map((item, index) => (
 						<React.Fragment key={index}>{Star(item)}</React.Fragment>
 					))}
 				</span>
-				<span className="text-sm text-gray-500">{totalCount} đánh giá</span>
+				<span className="text-muted-foreground text-sm">
+					{totalCount} {t("reviews")}
+				</span>
 			</div>
 			<div className="mb-4 w-full max-w-[300px]">
 				{ratingDistribution.map((item, index) => (
@@ -27,8 +31,8 @@ const ReviewSummary = ({ summary }: SummaryRating) => {
 						numberStart={item.rating}
 						progress={{
 							value: Number(item.percentage),
-							indicatorclassName: "bg-yellow-400",
-							className: "bg-gray-300"
+							indicatorclassName: "bg-rating",
+							className: "bg-muted"
 						}}
 					/>
 				))}

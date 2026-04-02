@@ -1,4 +1,3 @@
-import { ContainerLayout } from "@components/layouts";
 import {
 	SearchBestSellers,
 	SearchCategoryTiles,
@@ -10,6 +9,7 @@ import {
 	SearchTrendingCollections
 } from "@/components/search";
 import { type ProductFragment } from "@/gql/graphql";
+import { ContainerLayout } from "@components/layouts";
 
 type HomePageSectionsProps = {
 	products: ProductFragment[];
@@ -20,7 +20,7 @@ type HomePageSectionsProps = {
  * Products are fetched SSR in page.tsx and passed down as props.
  */
 const HomePageSections = ({ products }: HomePageSectionsProps) => (
-	<div className="min-h-screen bg-white">
+	<div className="min-h-screen">
 		<ContainerLayout className="py-6">
 			{/* 1. Hero campaign carousel */}
 			<SearchHero />

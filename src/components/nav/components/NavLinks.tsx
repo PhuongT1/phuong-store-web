@@ -1,6 +1,6 @@
-import { NavigationLinks } from "./NavigationLinks";
 import { type MenuGetBySlugQuery } from "@/gql/graphql";
 import { type Channel } from "@/types";
+import { NavigationLinks } from "./NavigationLinks";
 
 type NavLinksProps = {
 	navLinks: MenuGetBySlugQuery;

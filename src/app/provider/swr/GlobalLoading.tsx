@@ -1,5 +1,5 @@
-import { useGlobalSWRLoading } from "@store/useLoadingStore";
 import { Loading } from "@components/ui";
+import { useGlobalSWRLoading } from "@store/useLoadingStore";
 
 const GlobalLoading = () => {
 	const { count, isLoadingVisible } = useGlobalSWRLoading();

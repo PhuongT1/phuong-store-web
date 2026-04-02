@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { Button } from "@components/ui";
-import { cn } from "@/lib/utils";
 import { LinkWithChannel, type LinkWithChannelProps } from "@/components/navigation/LinkWithChannel";
+import { cn } from "@/lib/utils";
+import { Button } from "@components/ui";
 
 type Props = {
 	disabled?: boolean;

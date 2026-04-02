@@ -1,11 +1,11 @@
+import { useCallback } from "react";
 import {
 	parsePhoneNumberWithError,
 	type CountryCode as PhoneNumberLibCountryCode,
 	type PhoneNumber,
 } from "libphonenumber-js/max";
-import { useCallback } from "react";
-import { type CountryCode } from "@/checkout/graphql";
 import { useErrorMessages } from "@/checkout/hooks/useErrorMessages";
+import { type CountryCode } from "@/gql/graphql";
 
 const getPhoneNumberInstance = (phone: string, countryCode: CountryCode | undefined): PhoneNumber | null => {
 	try {

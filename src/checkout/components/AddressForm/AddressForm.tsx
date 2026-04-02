@@ -1,9 +1,12 @@
 import React, { type FC, type PropsWithChildren, useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
-
+import { type AddressFormData } from "@/checkout/components/AddressForm/types";
+import { FormCombobox } from "@/components/ui/combobox/FormCombobox";
+import { type CountryCode } from "@/gql/graphql";
+import { type Option } from "@/types";
+import { Typography } from "@components/ui";
 import { FormInput } from "@components/ui/input/FormInput";
 import { useDistricts, useProvinces } from "@hooks/customer";
-import { Typography } from "@components/ui";
 import {
 	countryCodeList,
 	useAddressFieldConfigs,
@@ -11,11 +14,6 @@ import {
 	type AddressFieldConfig
 } from "./addressFieldConfig";
 import { renderIcons } from "./fieldIcons";
-import { FormCombobox } from "@/components/ui/combobox/FormCombobox";
-
-
-import { type CountryCode } from "@/checkout/graphql";
-import { type AddressFormData } from "@/checkout/components/AddressForm/types";
 
 export interface AddressFormProps {
 	title?: string;
@@ -119,7 +117,7 @@ export const AddressForm: FC<PropsWithChildren<AddressFormProps>> = ({ title, ch
 						{...formControl}
 						placeholder={placeholder}
 						fieldNames={fieldNames}
-						options={(hook?.data || []) as any}
+						options={(hook?.data || []) as Option[]}
 						isLoading={hook?.isValidating}
 					/>
 				);
@@ -141,7 +139,7 @@ export const AddressForm: FC<PropsWithChildren<AddressFormProps>> = ({ title, ch
 			<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 				{fieldConfigs.map((field) => renderField(field))}
 			</div>
-			{children && <div className="mt-4 border-t border-gray-100 pt-4">{children}</div>}
+			{children && <div className="border-border mt-4 border-t pt-4">{children}</div>}
 		</div>
 	);
 };

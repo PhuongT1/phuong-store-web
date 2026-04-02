@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 // Import Swiper React components
-import { Swiper, type SwiperClass, SwiperSlide } from "swiper/react";
 import { Square } from "lucide-react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
-import { ImageItem, type ImageItemProps } from "@components/ui";
+import { Swiper, type SwiperClass, SwiperSlide } from "swiper/react";
+import { ProductMediaType } from "@/gql/graphql";
 import { cn } from "@/lib/utils";
 import { type MediaItem, type Media } from "@/types";
-import { ProductMediaType } from "@/gql/graphql";
+import { ImageItem, type ImageItemProps } from "@components/ui";
 
 type ProductImageCarouselProps = {
 	className?: string;
@@ -93,7 +93,7 @@ const ProductImageCarousel = ({ media }: ProductImageCarouselProps) => {
 				freeMode
 				watchSlidesProgress
 				modules={[FreeMode, Navigation, Thumbs]}
-				className="mt-3 [&_.swiper-slide-thumb-active]:rounded-[5px] [&_.swiper-slide-thumb-active]:border [&_.swiper-slide-thumb-active]:border-[1px] [&_.swiper-slide-thumb-active]:border-blue-500
+				className="mt-3 [&_.swiper-slide-thumb-active]:rounded-[5px] [&_.swiper-slide-thumb-active]:border [&_.swiper-slide-thumb-active]:border-[1px] [&_.swiper-slide-thumb-active]:border-info
 "
 				centeredSlidesBounds
 				centerInsufficientSlides

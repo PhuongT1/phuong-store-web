@@ -1,11 +1,11 @@
 "use client";
 
 import { SwiperSlide } from "swiper/react";
-import { SwiperSlider } from "@components/swiper";
+import { cn } from "@/lib/utils";
 import { LinkWithChannel } from "@components/navigation";
+import { SwiperSlider } from "@components/swiper";
 import { Button } from "@components/ui";
 import { whatsHotItems } from "./searchData";
-import { cn } from "@/lib/utils";
 
 const SearchWhatsHot = () => {
 	return (
@@ -18,20 +18,20 @@ const SearchWhatsHot = () => {
 			</div>
 			<SwiperSlider spaceBetween={12} slidesPerView={1.1} className="[&_.swiper-slide]:h-auto">
 				{whatsHotItems.map((item) => (
-					<SwiperSlide key={item.id} className="!h-full">
+					<SwiperSlide key={item.id} className="h-full!">
 						<div
 							className={cn(
-								"border-border flex h-full flex-col justify-between rounded-none border bg-gradient-to-br p-6",
+								"border-border flex h-full flex-col justify-between rounded-none border bg-linear-to-br p-6",
 								item.bg
 							)}
 						>
 							<div>
-								<p className="text-xs font-semibold tracking-[0.3em] text-white/60 uppercase">Featured</p>
+								<p className="text-xs font-semibold tracking-[0.3em] text-hero-text-dim uppercase">Featured</p>
 								<h4 className={cn("mt-3 text-xl font-semibold", item.accent)}>{item.name}</h4>
-								<p className="mt-2 text-sm text-white/80">{item.tagline}</p>
+								<p className="mt-2 text-sm text-hero-text-muted">{item.tagline}</p>
 							</div>
 							<LinkWithChannel href={item.href}>
-								<Button className="mt-6 w-fit rounded-none bg-white px-4 text-sm font-semibold text-black hover:bg-neutral-100">
+								<Button className="mt-6 w-fit rounded-none bg-hero-btn-bg px-4 text-sm font-semibold text-hero-btn-text hover:bg-hero-btn-bg/90">
 									{item.cta}
 								</Button>
 							</LinkWithChannel>

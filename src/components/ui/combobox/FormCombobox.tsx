@@ -1,7 +1,7 @@
 import { type FieldPath, type FieldValues } from "react-hook-form";
+import { type Option } from "@/types";
 import { FormField } from "../form/FormField";
 import { Combobox, type ComboboxProps } from "./Combobox";
-import { type Option } from "@/types";
 
 type FormComboboxProps<
 	TFieldValues extends FieldValues,

@@ -1,10 +1,10 @@
 "use client";
 
 import { SwiperSlide } from "swiper/react";
+import { type ProductListProps, type ProductItem } from "@/types";
 import { LinkWithChannel } from "@components/navigation";
 import { RenderRichText } from "../product";
 import { SwiperSlider } from "./SwiperSlider";
-import { type ProductListProps, type ProductItem } from "@/types";
 
 const SignatureProductSwiper = ({ products }: ProductListProps) => {
 	if (!products || products.length === 0) return <></>;

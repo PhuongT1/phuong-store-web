@@ -1,15 +1,12 @@
 "use client";
 
 import { useState } from "react";
-
-import { useParams } from "next/navigation";
-
-import { notify } from "@components/ui";
-import { PRODUCT_CARD_STRINGS } from "./productCard.constants";
+import { useParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { type ProductDetailsQuery } from "@/gql/graphql";
 import { formatMoney, getProductPrice } from "@/lib/utils";
 import { addToCart } from "@/services/cart.service";
-
+import { notify } from "@components/ui";
 
 type Product = NonNullable<ProductDetailsQuery["product"]>;
 
@@ -23,6 +20,8 @@ function formatSoldCount(n: number): string {
 }
 
 const useProductCard = (product: Product) => {
+	const t = useTranslations("product");
+	const router = useRouter();
 	const variants = product.variants ?? [];
 	const [selectedVariantId, setSelectedVariantId] = useState<string>(variants[0]?.id ?? "");
 	const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -79,10 +78,11 @@ const useProductCard = (product: Product) => {
 		setIsAddingToCart(true);
 		try {
 			await addToCart({ channel, lines: [{ variantId, quantity: 1 }] });
-			notify.success(PRODUCT_CARD_STRINGS.addedToCart);
+			notify.success(t("addedToCart"));
+			router.refresh();
 		} catch (error) {
 			console.error("Error adding to cart:", error);
-			notify.error(PRODUCT_CARD_STRINGS.addToCartError);
+			notify.error(t("addToCartError"));
 		} finally {
 			setIsAddingToCart(false);
 		}

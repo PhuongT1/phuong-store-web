@@ -1,42 +1,159 @@
 /* Material UI Design System - OKLCH Tokens */
+/* Reference: image 2 (aitokens.io dark navy style) for dark mode */
 
 :root {
 	--radius: 0.6rem;
 	/* MUI Standard Radius */
-	--background: oklch(1 0 0);
-	/* Clean white background */
+	--header-height: 109px;
+	/* h-14(56) + h-11(44) + py-1(8) + border-b(1) */
+
+	/* ── Core Surfaces ── */
+	--background: oklch(0.96 0 0);
+	/* Light gray page bg — cards sit elevated on top */
 	--foreground: oklch(0.12 0 0);
 	/* Neutral near-black */
 	--card: oklch(1 0 0);
-	/* Pure white cards */
+	/* Pure white cards — visually elevated above page bg */
 	--card-foreground: oklch(0.12 0 0);
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.12 0 0);
-	--primary: oklch(0.08 0 0);
-	/* Adidas-like black primary */
+
+	/* ── Brand ── */
+	--primary: oklch(0.10 0 0);
+	/* Near-black primary */
 	--primary-foreground: oklch(1 0 0);
-	--secondary: oklch(0.96 0 0);
+	--secondary: oklch(0.91 0 0);
+	/* Secondary bg — clearly darker than page bg (0.96) for visible buttons */
 	--secondary-foreground: oklch(0.12 0 0);
-	--muted: oklch(0.96 0 0);
-	--muted-foreground: oklch(0.45 0 0);
-	--accent: oklch(0.96 0 0);
+
+	/* ── Neutral Tones ── */
+	--muted: oklch(0.94 0 0);
+	/* Muted sections */
+	--muted-foreground: oklch(0.48 0 0);
+	--accent: oklch(0.94 0 0);
+	/* Hover state — subtle off-white */
 	--accent-foreground: oklch(0.12 0 0);
+
+	/* ── Semantic: Destructive (Red) ── */
 	--destructive: oklch(0.55 0.22 25);
 	--destructive-foreground: oklch(1 0 0);
-	--border: oklch(0.88 0 0);
-	--input: oklch(0.9 0 0);
-	--ring: oklch(0.08 0 0 / 0.35);
-	--focus-ring: oklch(0.55 0.4 260);
-	/* Blue focus ring — fresher than black primary */
-	--price: oklch(0.55 0.22 25);
-	/* Price highlight (red) */
-	--price-accent: oklch(0.55 0.22 25 / 0.12);
-	--header: oklch(1 0 0);
+	--destructive-muted: oklch(0.97 0.04 25);
+	--toast-error-bg: oklch(0.99 0.02 25);
+	/* Error toast: near-white bg, border+text carry the red signal */
+	--success: oklch(0.52 0.17 155);
+	--success-light: oklch(0.35 0.12 155);
+	/* Darker green for success text on light bg — used in Sonner light mode */
+	--success-foreground: oklch(1 0 0);
+	--success-muted: oklch(0.96 0.03 155);
+	--toast-success-bg: oklch(0.94 0.07 155);
 
-	/* Shadows */
-	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08);
-	--shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.12), 0 2px 6px -2px rgb(0 0 0 / 0.08);
-	--shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.15), 0 8px 16px -4px rgb(0 0 0 / 0.12);
+	/* ── Semantic: Warning (Amber) ── */
+	--warning: oklch(0.75 0.16 70);
+	--warning-foreground: oklch(0.30 0.06 70);
+	--warning-muted: oklch(0.97 0.04 70);
+	--toast-warning-bg: oklch(0.93 0.10 70);
+	--info: oklch(0.42 0.13 205);
+	/* Blue-teal — Apply button, active radio ring, ACTIVE badge */
+	--info-foreground: oklch(1 0 0);
+	--info-muted: oklch(0.94 0.04 205);
+
+	/* ── E-commerce: Ratings (Golden) ── */
+	--rating: oklch(0.80 0.16 75);
+	/* Star/review gold */
+
+	/* ── E-commerce: Savings (Teal-green) ── */
+	--savings: oklch(0.52 0.14 160);
+
+	/* ── Navigation Active (Blue-teal — matches --info) ── */
+	--nav-active: oklch(0.42 0.13 205);
+	--nav-active-muted: oklch(0.94 0.04 205);
+
+	/* ── Icon Container ── */
+	--icon-bg: oklch(0.92 0 0);
+	/* Icon container bg in light mode */
+
+	/* ── Section Badge Colors ── */
+	--badge-new: oklch(0.55 0.19 290);
+	--badge-new-muted: oklch(0.96 0.04 290);
+	--badge-hot: oklch(0.60 0.21 30);
+	--badge-hot-muted: oklch(0.97 0.04 30);
+	--badge-best: oklch(0.65 0.17 65);
+	--badge-best-muted: oklch(0.97 0.04 65);
+	--badge-trending: oklch(0.55 0.18 255);
+	--badge-trending-muted: oklch(0.96 0.04 255);
+	--badge-recommended: oklch(0.58 0.20 340);
+	--badge-recommended-muted: oklch(0.97 0.04 340);
+
+	/* ── Inputs & Borders ── */
+	--border: oklch(0.86 0 0);
+	--input: oklch(0.97 0 0);
+	/* Input bg slightly lighter than page */
+	--ring: oklch(0.08 0 0 / 0.25);
+	--focus-ring: oklch(0.35 0 0);
+	/* Neutral dark gray focus */
+
+	/* ── E-commerce: Price — softer red, not too aggressive ── */
+	--price: oklch(0.52 0.14 25);
+	/* Muted red — readable without screaming */
+	--price-foreground: oklch(1 0 0);
+	/* Text on price badge — always white (high contrast on red) */
+	--price-accent: oklch(0.52 0.14 25 / 0.10);
+
+	/* ── Layout ── */
+	--header: oklch(1 0 0);
+	/* Header: pure white */
+	--product-image-bg: oklch(0.93 0 0);
+	/* Product image container */
+	--skeleton: oklch(0.91 0 0);
+	/* Skeleton base */
+
+	/* ── Brand ── */
+	--brand-logo: oklch(0.52 0.2 18);
+	/* Logo wordmark color — vivid orange-red, same in light & dark */
+
+	/* ── CTA gradient — blue-purple (used on primary action button) ── */
+	--cta-from: oklch(0.60 0.20 255);
+	/* Blue-indigo start */
+	--cta-to: oklch(0.55 0.22 285);
+	/* Purple-indigo end */
+
+	/* ── Spinner track ── */
+	--spinner-track: oklch(0.48 0 0 / 0.25);
+	/* Track ring of the loading spinner */
+
+	/* ── Card elevated (glassmorphism) — for checkout/cart side panels ── */
+	--card-elevated: oklch(1 0 0 / 1);
+	/* Standard card in light: opaque white */
+	--card-elevated-border: oklch(0.82 0 0 / 0.70);
+	/* Light mode: semi-transparent border, not too heavy */
+	--card-elevated-shadow: 0 1px 6px 0 rgb(0 0 0 / 0.06), 0 0 0 1px rgb(0 0 0 / 0.03);
+	/* Subtle drop-shadow in light to lift card off page */
+
+	/* ── Modal / Overlay backdrop ── */
+	--overlay: oklch(0 0 0 / 0.55);
+	/* Backdrop for Dialog / Sheet / AlertDialog */
+
+	/* ── Hero-on-image text ── */
+	/* Used ONLY when text sits directly on a full-bleed image/gradient hero.
+	   These are intentionally pure-white / near-white because the
+	   dark gradient behind guarantees contrast on both light & dark mode. */
+	--hero-text: oklch(1 0 0);
+	/* Primary heading on hero image — always white */
+	--hero-text-muted: oklch(1 0 0 / 0.80);
+	/* Body copy / tag text on hero image */
+	--hero-text-dim: oklch(1 0 0 / 0.60);
+	/* Very dim label on hero image */
+	--hero-surface: oklch(1 0 0 / 0.10);
+	/* Glass / frosted card on hero image */
+	--hero-btn-bg: oklch(1 0 0);
+	/* CTA button background on hero image — white pill */
+	--hero-btn-text: oklch(0.10 0 0);
+	/* CTA button text on hero image — near-black */
+
+	/* Shadows — lighter for less visual noise */
+	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+	--shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 6px -2px rgb(0 0 0 / 0.05);
+	--shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.10), 0 8px 16px -4px rgb(0 0 0 / 0.07);
 
 	/* Toastify */
 	--toastify-success: oklch(0.6 0.2 145);
@@ -46,38 +163,162 @@
 }
 
 .dark {
-	--background: oklch(0.08 0 0);
-	/* Deepest neutral background */
-	--foreground: oklch(0.98 0 0);
-	--card: oklch(0.14 0 0);
-	/* More distinct elevation */
-	--card-foreground: oklch(0.98 0 0);
-	--popover: oklch(0.16 0 0);
-	--popover-foreground: oklch(0.98 0 0);
-	--primary: oklch(0.98 0 0);
-	/* In dark mode, primary reads as white */
-	--primary-foreground: oklch(0.08 0 0);
-	--secondary: oklch(0.18 0 0);
-	--secondary-foreground: oklch(0.98 0 0);
-	--muted: oklch(0.16 0 0);
-	--muted-foreground: oklch(0.65 0 0);
-	--accent: oklch(0.2 0 0);
-	--accent-foreground: oklch(0.98 0 0);
-	--destructive: oklch(0.55 0.2 25);
-	--destructive-foreground: oklch(1 0 0);
-	--border: oklch(1 0 0 / 18%);
-	--input: oklch(1 0 0 / 20%);
-	--ring: oklch(1 0 0 / 0.35);
-	--focus-ring: oklch(0.6 0.35 260);
-	/* Brighter blue in dark mode */
-	--price: oklch(0.65 0.2 25);
-	--price-accent: oklch(0.65 0.2 25 / 0.22);
-	--header: oklch(0.08 0 0);
+	/*
+	 * Deep Navy Dark mode — Reference: aitokens.io dashboard (image 2)
+	 *
+	 * Color system:
+	 *   bg       oklch(0.10)  ~#0d0f14  Deep navy-black — the deepest level
+	 *   card     oklch(0.15)  ~#171b22  Elevated navy card surface
+	 *   muted    oklch(0.19)  ~#1e2330  Muted areas within cards
+	 *   accent   oklch(0.23)  ~#252c3b  Hover / interactive surface
+	 *   border   oklch(0.26)  ~#2d3548  Subtle visible dividers
+	 *   fg       oklch(0.91)  ~#e2e8f0  Soft white — readable, not harsh
+	 *   muted-fg oklch(0.60)  ~#8892a4  Secondary text — comfortable contrast
+	 *
+	 * Teal accent (--info): matches aitokens.io sidebar highlight —
+	 *   bright but not overpowering, used for active states.
+	 */
+
+	/* ── Core Surfaces ── */
+	--background: oklch(0.10 0.01 255);
+	/* Deep navy-black page bg */
+	--foreground: oklch(0.91 0.005 255);
+	/* Soft white text — comfortable for long reading */
+	--card: oklch(0.15 0.012 255);
+	/* Navy card: elevated above bg, matches aitokens card surface */
+	--card-foreground: oklch(0.91 0.005 255);
+	--popover: oklch(0.20 0.012 255);
+	/* Dropdowns float above cards */
+	--popover-foreground: oklch(0.91 0.005 255);
+
+	/* ── Brand ── */
+	--primary: oklch(0.91 0.005 255);
+	--primary-foreground: oklch(0.10 0.01 255);
+	--secondary: oklch(0.22 0.012 255);
+	--secondary-foreground: oklch(0.82 0.006 255);
+
+	/* ── Neutral Tones ── */
+	--muted: oklch(0.19 0.012 255);
+	/* Slightly elevated above card bg */
+	--muted-foreground: oklch(0.60 0.008 255);
+	/* Comfortable secondary text — not too dim, not too bright */
+	--accent: oklch(0.23 0.014 255);
+	/* Hover state — clearly above card */
+	--accent-foreground: oklch(0.91 0.005 255);
+
+	/* ── Semantic: Destructive ── */
+	--destructive: oklch(0.62 0.19 25);
+	--destructive-foreground: oklch(0.98 0 0);
+	--destructive-muted: oklch(0.18 0.06 25);
+	--toast-error-bg: oklch(0.17 0.05 25);
+	/* Error toast dark: barely tinted */
+	--success: oklch(0.70 0.16 155);
+	--success-light: oklch(0.70 0.16 155);
+	/* In dark mode, --success IS already bright enough — same value */
+	--success-foreground: oklch(0.10 0 0);
+	--success-muted: oklch(0.19 0.06 155);
+	--toast-success-bg: oklch(0.21 0.09 155);
+
+	/* ── Semantic: Warning ── */
+	--warning: oklch(0.78 0.15 70);
+	--warning-foreground: oklch(0.10 0 0);
+	--warning-muted: oklch(0.19 0.06 70);
+	--toast-warning-bg: oklch(0.22 0.10 70);
+	--info: oklch(0.60 0.14 200);
+	/* Teal-cyan — matches aitokens.io active/accent: vivid but soft */
+	--info-foreground: oklch(0.06 0 0);
+	--info-muted: oklch(0.18 0.06 200);
+
+	/* ── E-commerce: Ratings ── */
+	--rating: oklch(0.84 0.17 75);
+
+	/* ── E-commerce: Savings ── */
+	--savings: oklch(0.70 0.15 155);
+
+	/* ── Icon Container ── */
+	--icon-bg: oklch(0.21 0.014 255);
+	/* Between card(0.15) and accent(0.23) */
+
+	/* ── Navigation Active (teal — matches --info) ── */
+	--nav-active: oklch(0.60 0.14 200);
+	--nav-active-muted: oklch(0.18 0.06 200);
+	--badge-new: oklch(0.72 0.17 290);
+	--badge-new-muted: oklch(0.22 0.10 290);
+	--badge-hot: oklch(0.72 0.19 30);
+	--badge-hot-muted: oklch(0.22 0.10 30);
+	--badge-best: oklch(0.74 0.16 65);
+	--badge-best-muted: oklch(0.22 0.10 65);
+	--badge-trending: oklch(0.70 0.16 255);
+	--badge-trending-muted: oklch(0.22 0.10 255);
+	--badge-recommended: oklch(0.72 0.18 340);
+	--badge-recommended-muted: oklch(0.22 0.10 340);
+
+	/* ── Inputs & Borders ── */
+	--border: oklch(0.26 0.012 255);
+	/* Subtle dividers — visible but not distracting */
+	--input: oklch(0.18 0.012 255);
+	/* Input surface: between muted and card */
+	--ring: oklch(0.60 0.14 200 / 0.50);
+	/* Teal focus ring */
+	--focus-ring: oklch(0.60 0.14 200);
+
+	/* ── E-commerce: Price — warm rose tone, readable ── */
+	--price: oklch(0.72 0.16 25);
+	--price-foreground: oklch(1 0 0);
+	/* Text on price badge — always white */
+	--price-accent: oklch(0.72 0.16 25 / 0.15);
+
+	/* ── Layout ── */
+	--header: oklch(0.13 0.012 255);
+	/* Header: slightly lighter than bg, same surface family */
+	--product-image-bg: oklch(0.30 0.010 255);
+	/* Product image container: clearly visible */
+	--skeleton: oklch(0.28 0.010 255);
+	/* Skeleton: above card, visible shimmer */
+
+	/* ── Brand ── */
+	--brand-logo: oklch(0.52 0.2 18);
+	/* Logo color unchanged in dark mode — vivid orange keeps brand identity */
+
+	/* ── CTA gradient — same in dark mode, vivid enough on dark bg ── */
+	--cta-from: oklch(0.60 0.20 255);
+	--cta-to: oklch(0.55 0.22 285);
+
+	/* ── Spinner track ── */
+	--spinner-track: oklch(0.60 0.008 255 / 0.35);
+	/* Track ring brighter in dark mode for visibility */
+
+	/* ── Card elevated (glassmorphism) — checkout/cart panels ── */
+	--card-elevated: oklch(0.15 0.012 255 / 0.80);
+	/* Semi-transparent navy card with blur — aitokens.io style */
+	--card-elevated-border: oklch(0.30 0.014 255 / 0.45);
+	/* Dark mode: slightly brighter border for better contrast */
+	--card-elevated-shadow: none;
+	/* Dark mode: no drop-shadow — depth comes from background contrast */
+
+	/* ── Modal / Overlay backdrop ── */
+	--overlay: oklch(0 0 0 / 0.70);
+	/* Darker backdrop in dark mode for better contrast */
+
+	/* ── Hero-on-image text — same values, dark mode doesn't need different colors
+	   since these are overlaid on gradients with their own built-in darkness ── */
+	--hero-text: oklch(1 0 0);
+	--hero-text-muted: oklch(1 0 0 / 0.80);
+	--hero-text-dim: oklch(1 0 0 / 0.60);
+	--hero-surface: oklch(1 0 0 / 0.10);
+	--hero-btn-bg: oklch(1 0 0);
+	--hero-btn-text: oklch(0.10 0 0);
+
+	/* Shadows — deep but not oppressive */
+	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.40);
+	--shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.50), 0 2px 6px -2px rgb(0 0 0 / 0.35);
+	--shadow-lg: 0 12px 28px -4px rgb(0 0 0 / 0.60), 0 8px 16px -4px rgb(0 0 0 / 0.45);
 
 	/* Toastify */
-	--toastify-success: oklch(0.85 0.08 145);
-	--toastify-error: oklch(0.7 0.15 25);
-	--icon-close: oklch(0.9 0 0);
+	--toastify-success: oklch(0.84 0.12 145);
+	--toastify-error: oklch(0.72 0.18 25);
+	--icon-close: oklch(0.75 0.005 255);
+	--popover-60: oklch(0.10 0.010 255 / 0.88);
 }
 
 /* Map CSS variables into Tailwind tokens */
@@ -107,14 +348,69 @@
 
 	--color-destructive: var(--destructive);
 	--color-destructive-foreground: var(--destructive-foreground);
+	--color-destructive-muted: var(--destructive-muted);
+
+	--color-success: var(--success);
+	--color-success-light: var(--success-light);
+	--color-success-foreground: var(--success-foreground);
+	--color-success-muted: var(--success-muted);
+
+	--color-warning: var(--warning);
+	--color-warning-foreground: var(--warning-foreground);
+	--color-warning-muted: var(--warning-muted);
+
+	--color-info: var(--info);
+	--color-info-foreground: var(--info-foreground);
+	--color-info-muted: var(--info-muted);
+
+	--color-rating: var(--rating);
+	--color-savings: var(--savings);
+	--color-nav-active: var(--nav-active);
+	--color-nav-active-muted: var(--nav-active-muted);
+
+	--color-badge-new: var(--badge-new);
+	--color-badge-new-muted: var(--badge-new-muted);
+	--color-badge-hot: var(--badge-hot);
+	--color-badge-hot-muted: var(--badge-hot-muted);
+	--color-badge-best: var(--badge-best);
+	--color-badge-best-muted: var(--badge-best-muted);
+	--color-badge-trending: var(--badge-trending);
+	--color-badge-trending-muted: var(--badge-trending-muted);
+	--color-badge-recommended: var(--badge-recommended);
+	--color-badge-recommended-muted: var(--badge-recommended-muted);
+
 	--color-border: var(--border);
 	--color-input: var(--input);
 	--color-ring: var(--ring);
 	--color-focus-ring: var(--focus-ring);
 	--color-price: var(--price);
+	--color-price-foreground: var(--price-foreground);
 	--color-price-accent: var(--price-accent);
 
 	--color-header: var(--header);
+	--color-product-image-bg: var(--product-image-bg);
+	--color-skeleton: var(--skeleton);
+	--color-icon-bg: var(--icon-bg);
+
+	/* Brand */
+	--color-brand-logo: var(--brand-logo);
+
+	/* CTA gradient */
+	--color-cta-from: var(--cta-from);
+	--color-cta-to: var(--cta-to);
+
+	/* Spinner */
+	--color-spinner-track: var(--spinner-track);
+
+	/* Card elevated (glassmorphism) */
+	--color-card-elevated: var(--card-elevated);
+	--color-card-elevated-border: var(--card-elevated-border);
+	--shadow-card-elevated: var(--card-elevated-shadow);
+
+	/* Shadows — mapped so shadow-sm/md/lg adapt to dark mode automatically */
+	--shadow-sm: var(--shadow-sm);
+	--shadow-md: var(--shadow-md);
+	--shadow-lg: var(--shadow-lg);
 
 	/* Toastify */
 	--color-toastify-success: var(--toastify-success);
@@ -124,4 +420,15 @@
 	--color-icon-close: var(--icon-close);
 
 	--color-popover-60: var(--popover-60);
+
+	/* Overlay / Backdrop */
+	--color-overlay: var(--overlay);
+
+	/* Hero-on-image text tokens */
+	--color-hero-text: var(--hero-text);
+	--color-hero-text-muted: var(--hero-text-muted);
+	--color-hero-text-dim: var(--hero-text-dim);
+	--color-hero-surface: var(--hero-surface);
+	--color-hero-btn-bg: var(--hero-btn-bg);
+	--color-hero-btn-text: var(--hero-btn-text);
 }

@@ -1,16 +1,16 @@
 "use client";
 
-import useSWRMutation from "swr/mutation";
 import { CheckoutLinesAddForm, CheckoutLinesDeleteForm, CheckoutLinesUpdateForm } from "@services";
-import { notify } from "@components/ui";
-import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
+import useSWRMutation from "swr/mutation";
+import { revalidateCart } from "@/action";
+import { CONFIG } from "@/constants";
 import {
 	type CheckoutLinesUpdateMutationVariables,
 	type CheckoutDeleteLinesMutationVariables,
 	type CheckoutLinesAddMutationVariables
 } from "@/gql/graphql";
-import { CONFIG } from "@/constants";
-import { revalidateCart } from "@/action";
+import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
+import { notify } from "@components/ui";
 
 const useCheckoutLines = () => {
 	const {
@@ -22,7 +22,11 @@ const useCheckoutLines = () => {
 		trigger: triggerAdd,
 		isMutating: isCreating,
 		...restAdd
-	} = useSWRMutation(CONFIG.CHECKOUT_KEY.addKey, CheckoutLinesAddForm);
+	} = useSWRMutation(CONFIG.CHECKOUT_KEY.addKey, CheckoutLinesAddForm, {
+		onError() {
+			notify.error("Không thể thêm sản phẩm vào giỏ hàng");
+		}
+	});
 
 	const {
 		trigger,
@@ -32,6 +36,9 @@ const useCheckoutLines = () => {
 		onSuccess() {
 			notify.success("Cập nhật sản phẩm thành công");
 			handleSuccess();
+		},
+		onError() {
+			notify.error("Không thể cập nhật số lượng");
 		}
 	});
 
@@ -42,6 +49,9 @@ const useCheckoutLines = () => {
 	} = useSWRMutation(CONFIG.CHECKOUT_KEY.deleteKey, CheckoutLinesDeleteForm, {
 		onSuccess() {
 			handleSuccess();
+		},
+		onError() {
+			notify.error("Không thể xóa sản phẩm");
 		}
 	});
 

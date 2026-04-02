@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { LinkWithChannel } from "@components/navigation";
 
 interface PageInfo {
@@ -12,7 +12,7 @@ interface PageInfo {
 
 export function PaginationV2({
 	pageInfo,
-	maxPagesToShow = 5,
+	maxPagesToShow = 5
 }: {
 	pageInfo: PageInfo;
 	maxPagesToShow?: number;
@@ -49,12 +49,12 @@ export function PaginationV2({
 	const showEndEllipsis = endPage < totalPages;
 
 	return (
-		<nav className="flex items-center justify-center gap-x-4 border-neutral-200 px-4 pt-12">
+		<nav className="border-border flex items-center justify-center gap-x-4 px-4 pt-12">
 			<LinkWithChannel
 				href={hasPreviousPage ? generatePageLink(currentPage - 1) : "#"}
-				className={clsx("px-4 py-2 text-sm font-medium ", {
-					"rounded bg-neutral-900 text-neutral-50 hover:bg-neutral-800": hasPreviousPage,
-					"pointer-events-none cursor-not-allowed rounded border text-neutral-400": !hasPreviousPage,
+				className={clsx("px-4 py-2 text-sm font-medium", {
+					"bg-foreground text-background hover:bg-foreground/90 rounded": hasPreviousPage,
+					"text-muted-foreground pointer-events-none cursor-not-allowed rounded border": !hasPreviousPage
 				})}
 				aria-disabled={!hasPreviousPage}
 			>
@@ -66,13 +66,13 @@ export function PaginationV2({
 						<LinkWithChannel
 							href={generatePageLink(1)}
 							className={clsx(
-								"relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase transition-all",
-								"text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20",
+								"relative h-10 max-h-[40px] w-10 max-w-[40px] rounded-full text-center align-middle font-sans text-xs font-medium uppercase transition-all select-none",
+								"text-foreground hover:bg-foreground/10 active:bg-foreground/20"
 							)}
 						>
-							<span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">1</span>
+							<span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">1</span>
 						</LinkWithChannel>
-						<span className="text-gray-900">...</span>
+						<span className="text-foreground">...</span>
 					</>
 				)}
 				{Array.from({ length: endPage - startPage + 1 }, (_, index) => (
@@ -80,30 +80,31 @@ export function PaginationV2({
 						key={startPage + index}
 						href={generatePageLink(startPage + index)}
 						className={clsx(
-							"relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase transition-all",
+							"relative h-10 max-h-[40px] w-10 max-w-[40px] rounded-full text-center align-middle font-sans text-xs font-medium uppercase transition-all select-none",
 							{
-								"bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none":
+								"bg-foreground text-background shadow-foreground/10 hover:shadow-foreground/20 shadow-md hover:shadow-lg focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none":
 									currentPage === startPage + index,
-								"text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20": currentPage !== startPage + index,
-							},
+								"text-foreground hover:bg-foreground/10 active:bg-foreground/20":
+									currentPage !== startPage + index
+							}
 						)}
 					>
-						<span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+						<span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
 							{startPage + index}
 						</span>
 					</LinkWithChannel>
 				))}
 				{showEndEllipsis && (
 					<>
-						<span className="text-gray-900">...</span>
+						<span className="text-foreground">...</span>
 						<LinkWithChannel
 							href={generatePageLink(totalPages)}
 							className={clsx(
-								"relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase transition-all",
-								"text-gray-900 hover:bg-gray-900/10 active:bg-gray-900/20",
+								"relative h-10 max-h-[40px] w-10 max-w-[40px] rounded-full text-center align-middle font-sans text-xs font-medium uppercase transition-all select-none",
+								"text-foreground hover:bg-foreground/10 active:bg-foreground/20"
 							)}
 						>
-							<span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+							<span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
 								{totalPages}
 							</span>
 						</LinkWithChannel>
@@ -112,9 +113,9 @@ export function PaginationV2({
 			</div>
 			<LinkWithChannel
 				href={hasNextPage ? generatePageLink(currentPage + 1) : "#"}
-				className={clsx("px-4 py-2 text-sm font-medium ", {
-					"rounded bg-neutral-900 text-neutral-50 hover:bg-neutral-800": hasNextPage,
-					"pointer-events-none cursor-not-allowed rounded border text-neutral-400": !hasNextPage,
+				className={clsx("px-4 py-2 text-sm font-medium", {
+					"bg-foreground text-background hover:bg-foreground/90 rounded": hasNextPage,
+					"text-muted-foreground pointer-events-none cursor-not-allowed rounded border": !hasNextPage
 				})}
 				aria-disabled={!hasNextPage}
 			>

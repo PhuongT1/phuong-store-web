@@ -5,7 +5,7 @@ const renderIcons = (icons: FieldIconConfig[]) => {
 	return (
 		<div className="flex gap-1">
 			{icons.map(({ icon: Icon, ...rest }, idx) => (
-				<Icon key={idx} {...rest} />
+				<Icon key={idx} {...rest} className="text-muted-foreground shrink-0" />
 			))}
 		</div>
 	);

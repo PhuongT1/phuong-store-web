@@ -1,14 +1,16 @@
 "use client";
 
 import { ChevronRight, Home } from "lucide-react";
-import { LinkWithChannel } from "@components/navigation";
+import { useTranslations } from "next-intl";
 import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
+import { LinkWithChannel } from "@components/navigation";
 
 type CategoryBreadcrumbProps = {
 	category: ProductListByCategoryPaginatedQuery["category"];
 };
 
 const CategoryBreadcrumb = ({ category }: CategoryBreadcrumbProps) => {
+	const t = useTranslations("category");
 	if (!category) return null;
 
 	return (
@@ -18,20 +20,20 @@ const CategoryBreadcrumb = ({ category }: CategoryBreadcrumbProps) => {
 				<li>
 					<LinkWithChannel
 						href="/"
-						className="flex items-center gap-1.5 text-gray-600 transition-colors hover:text-gray-900"
+						className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors"
 					>
 						<Home className="h-4 w-4" />
-						<span>Trang chủ</span>
+						<span>{t("home")}</span>
 					</LinkWithChannel>
 				</li>
 
-				<li className="text-gray-400">
+				<li className="text-muted-foreground">
 					<ChevronRight className="h-4 w-4" />
 				</li>
 
 				{/* Current category */}
 				<li>
-					<span className="font-medium text-gray-900">{category.name}</span>
+					<span className="text-foreground font-medium">{category.name}</span>
 				</li>
 			</ol>
 		</nav>

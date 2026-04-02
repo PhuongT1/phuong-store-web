@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
-import { CategoryPageClient } from "../CategoryPageClient";
+import { type Metadata } from "next";
+import { CategoryHero, CategorySubcategories, CategoryBreadcrumb } from "@/components/category";
+import { PRODUCTS_PER_PAGE } from "@/constants";
 import {
 	ProductListByCategoryPaginatedDocument,
 	type ProductListByCategoryPaginatedQueryVariables
 } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
-import { CategoryHero, CategorySubcategories, CategoryBreadcrumb } from "@/components/category";
-import { type PageQueryProps } from "@/types";
 import { type ResolvedQueryProps, parseParams, resolvePageQuery } from "@/lib/utils";
-import { PRODUCTS_PER_PAGE } from "@/constants";
+import { type PageQueryProps } from "@/types";
+import { CategoryPageClient } from "../CategoryPageClient";
 
 const variables = ({
 	resolvedParams,
@@ -26,7 +27,7 @@ const variables = ({
 	};
 };
 
-export const generateMetadata = async (props: PageQueryProps) => {
+export const generateMetadata = async (props: PageQueryProps): Promise<Metadata> => {
 	const pageQuery = await resolvePageQuery(props);
 	try {
 		const { category } = await executeGraphQL(ProductListByCategoryPaginatedDocument, {
@@ -41,6 +42,7 @@ export const generateMetadata = async (props: PageQueryProps) => {
 		};
 	} catch (error) {
 		console.error("Error generating metadata:", error);
+		return {};
 	}
 };
 
@@ -57,9 +59,9 @@ export default async function Page(props: PageQueryProps) {
 		}
 
 		return (
-			<div className="min-h-screen bg-[#f8fafc]">
+			<div className="min-h-screen">
 				{/* Breadcrumb Navigation */}
-				<div className="bg-white">
+				<div>
 					<div className="mx-auto max-w-[1920px] px-4 sm:px-6 lg:px-8">
 						<CategoryBreadcrumb category={data.category} />
 					</div>

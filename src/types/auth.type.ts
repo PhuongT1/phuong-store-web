@@ -1,10 +1,10 @@
 type LoginForm = {
 	email: string;
-	password: string;
+	password?: string;
 };
 
 type ErrorForm = {
-	field: keyof LoginForm;
+	field: string;
 	message: string;
 }[];
 

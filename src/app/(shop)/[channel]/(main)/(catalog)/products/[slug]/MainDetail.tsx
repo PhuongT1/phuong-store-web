@@ -1,12 +1,12 @@
 import { type Product, type WithContext } from "schema-dts";
-import { DiscountedElement, RenderRichText, UndiscountedElement, VariantSelector } from "@components/product";
-import { MainProductLayout } from "@components/layouts";
-import { AddButton } from "./actions/AddButton";
-import { type SlugPageProps } from "./page";
-import { HandleRatingSummary } from "./feature/rating/HandleRatingSummary";
 import { type ProductItem, getProductPrice } from "@/lib/utils";
-import { AvailabilityMessage } from "@/ui/components";
 import { ProductImageCarousel } from "@/ui/atoms/ProductImageCarousel";
+import { AvailabilityMessage } from "@/ui/components";
+import { MainProductLayout } from "@components/layouts";
+import { DiscountedElement, RenderRichText, UndiscountedElement, VariantSelector } from "@components/product";
+import { AddButton } from "./actions/AddButton";
+import { HandleRatingSummary } from "./feature/rating/HandleRatingSummary";
+import { type SlugPageProps } from "./page";
 
 type MainDetailProps = ProductItem & Pick<SlugPageProps, "params">;
 
@@ -66,7 +66,7 @@ const MainDetail = ({ product, selectedVariantID, params }: MainDetailProps) => 
 					{media && media.length > 0 && <ProductImageCarousel media={media} />}
 				</div>
 				<div className="detail-sidebar">
-					<h1 className="mb-4 flex-auto text-3xl font-medium tracking-tight text-neutral-900">
+					<h1 className="mb-4 flex-auto text-3xl font-medium tracking-tight text-foreground">
 						{product?.name}
 					</h1>
 					<HandleRatingSummary product={product} />

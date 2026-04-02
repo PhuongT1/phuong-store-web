@@ -1,7 +1,6 @@
-import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CardBox } from "@components/ui";
-import { ButtonLink } from "./ButtonLink";
 import { type Checkout } from "@/gql/graphql";
 import { formatMoney } from "@/lib/utils";
+import { ButtonLink } from "./ButtonLink";
 
 interface ICheckoutSubmit {
 	checkout: Checkout;
@@ -9,20 +8,45 @@ interface ICheckoutSubmit {
 }
 
 export function CheckoutSubmit({ checkoutId, checkout }: ICheckoutSubmit) {
+	const { totalPrice, subtotalPrice, shippingPrice } = checkout;
+
 	return (
-		<CardBox className="fixed right-0 bottom-0 left-0 z-10 mx-0 h-auto min-w-96 border border-gray-200 p-0 shadow-sm md:sticky md:top-32 md:h-full">
-			<CardHeader className="p-4">
-				<CardTitle>Tổng tiền</CardTitle>
-				<CardDescription>Chi phí vận chuyển sẽ được tính trong bước tiếp theo.</CardDescription>
-			</CardHeader>
-			<CardContent className="px-4 pb-4">
-				<div className="text-price text-xl font-semibold">
-					{formatMoney(checkout.totalPrice.gross.amount, checkout.totalPrice.gross.currency)}
+		<div className="fixed right-0 bottom-0 left-0 z-10 md:sticky md:top-[var(--header-height)] md:h-fit md:min-w-80">
+			<div className="rounded-t-2xl border border-border/60 bg-card/80 p-5 shadow-xl backdrop-blur-md md:rounded-2xl md:shadow-sm">
+				<h3 className="mb-4 text-sm font-semibold tracking-wide text-foreground uppercase">Tóm tắt đơn hàng</h3>
+
+				<div className="space-y-2.5 text-sm">
+					<div className="flex justify-between text-muted-foreground">
+						<span>Tạm tính</span>
+						<span className="font-medium text-foreground">
+							{formatMoney(subtotalPrice.gross.amount, subtotalPrice.gross.currency)}
+						</span>
+					</div>
+					<div className="flex justify-between text-muted-foreground">
+						<span>Phí vận chuyển</span>
+						<span className="font-medium text-foreground">
+							{shippingPrice.gross.amount > 0
+								? formatMoney(shippingPrice.gross.amount, shippingPrice.gross.currency)
+								: "Tính sau"}
+						</span>
+					</div>
 				</div>
-			</CardContent>
-			<CardFooter className="px-4 pb-4">
+
+				<div className="my-4 h-px bg-border/60" />
+
+				<div className="mb-5 flex items-baseline justify-between">
+					<span className="text-sm font-semibold text-foreground">Tổng cộng</span>
+					<span className="text-xl font-bold text-price">
+						{formatMoney(totalPrice.gross.amount, totalPrice.gross.currency)}
+					</span>
+				</div>
+
 				<ButtonLink isKeepHref checkoutId={checkoutId} disabled={!checkout.lines.length} className="w-full" />
-			</CardFooter>
-		</CardBox>
+
+				<p className="mt-3 text-center text-xs text-muted-foreground">
+					Phí vận chuyển chính xác sẽ hiển thị ở bước tiếp theo
+				</p>
+			</div>
+		</div>
 	);
 }

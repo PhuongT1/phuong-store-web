@@ -1,5 +1,5 @@
-import { MenuSwiper } from "@components/swiper/MenuSwiper";
 import { type MenuGetBySlugQuery } from "@/gql/graphql";
+import { MenuSwiper } from "@components/swiper/MenuSwiper";
 
 export type NavigationMenuProps = { navLinks: MenuGetBySlugQuery };
 

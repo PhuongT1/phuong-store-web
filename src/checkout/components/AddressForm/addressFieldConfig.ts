@@ -1,6 +1,6 @@
 import { type LucideIcon, Phone, User, MapPin, Building, Mail, Home, type LucideProps } from "lucide-react";
+import { type CountryCode } from "@/gql/graphql";
 import { useAddressFormUtils } from "./useAddressFormUtils";
-import { type CountryCode } from "@/checkout/graphql";
 
 type AddressFieldType = keyof typeof addressFieldTypes;
 type AddressFieldConfig = ReturnType<typeof useAddressFieldConfigs>[number];

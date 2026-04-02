@@ -1,9 +1,8 @@
 import { useMemo } from "react";
-import { useCheckout } from "@hooks/checkout";
-import { type CountryCode, ChannelDocument } from "@/checkout/graphql";
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { type CountryCode, type ChannelQuery, ChannelDocument } from "@/gql/graphql";
 import { useSWRGraphQl } from "@/hooks/swr/useSWR";
 import { executeGraphQL } from "@/lib/api";
+import { useCheckout } from "@hooks/checkout";
 
 interface UseAvailableShippingCountries {
 	availableShippingCountries: CountryCode[];
@@ -12,10 +11,10 @@ interface UseAvailableShippingCountries {
 export const useAvailableShippingCountries = (): UseAvailableShippingCountries => {
 	const { checkout } = useCheckout();
 
-	const { data } = useSWRGraphQl(
+	const { data } = useSWRGraphQl<ChannelQuery>(
 		["channel_countries", checkout?.channel?.slug],
 		([, slug]) =>
-			executeGraphQL(ChannelDocument as any, {
+			executeGraphQL(ChannelDocument as unknown as Parameters<typeof executeGraphQL>[0], {
 				variables: { slug },
 				withAuth: false
 			}),
@@ -25,9 +24,8 @@ export const useAvailableShippingCountries = (): UseAvailableShippingCountries =
 	);
 
 	const availableShippingCountries: CountryCode[] = useMemo(
-		// @ts-ignore
-		() => (data?.channel?.countries?.map(({ code }: any) => code) as CountryCode[]) || [],
-		// @ts-ignore
+		() =>
+			(data?.channel?.countries?.map(({ code }) => code as CountryCode)) || [],
 		[data?.channel?.countries]
 	);
 

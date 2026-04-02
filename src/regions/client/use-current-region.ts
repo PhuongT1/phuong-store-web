@@ -1,7 +1,6 @@
 "use client";
 
 import { useLocale } from "next-intl";
-
 import { parseRegion } from "../utils";
 
 export const useCurrentRegion = () => {

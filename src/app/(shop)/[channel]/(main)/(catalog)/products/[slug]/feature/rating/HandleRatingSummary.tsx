@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, Separator } from "@components/ui";
-import { RatingLink } from "./RatingLink";
 import { StarIcon } from "@/assets/icons/StarIcon";
 import { useRatingInfinite } from "@/hooks/useRatingProduct";
 import { type ProductItem } from "@/lib/utils";
+import { Button, Separator } from "@components/ui";
+import { RatingLink } from "./RatingLink";
 
 type HandleRatingSummaryProps = ProductItem;
 
@@ -20,7 +20,7 @@ const HandleRatingSummary = ({ product }: HandleRatingSummaryProps) => {
 		<div className="mb-3 flex items-center gap-3">
 			{summary?.totalCount > 0 && (
 				<>
-					<p className=" flex items-center gap-1 text-sm text-gray-600">
+					<p className=" flex items-center gap-1 text-sm text-muted-foreground">
 						<StarIcon /> <span>{summary?.averageRating ?? 0}</span>
 					</p>
 					<Separator orientation="vertical" className="h-4" />

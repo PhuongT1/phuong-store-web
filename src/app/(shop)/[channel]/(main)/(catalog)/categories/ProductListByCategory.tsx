@@ -1,11 +1,11 @@
 "use client";
 
-import { useProductListByCategoryInfinite } from "@hooks/useProductListByCategory";
-import { ProductListLoadMore, ProductSort } from "@components/product";
-import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
-import { type Pages } from "@/types";
 import { CategoryFeaturedProducts, CategoryRecommended, CategoryDescription } from "@/components/category";
 import { SearchRecentlyViewed } from "@/components/search";
+import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
+import { type Pages } from "@/types";
+import { ProductListLoadMore, ProductSort } from "@components/product";
+import { useProductListByCategoryInfinite } from "@hooks/useProductListByCategory";
 
 type ProductListLoadMoreProps = { products: ProductListByCategoryPaginatedQuery } & Pages;
 
@@ -31,7 +31,7 @@ const ProductListByCategory = ({ products: initialData, channel, slug }: Product
 			{/* Featured Sections - Full Width Below Grid */}
 			<div className="-mx-4 sm:-mx-6 lg:-mx-8">
 				{/* Best Sellers, Trending, Hot Deals */}
-				<div className="bg-white px-4 py-12 sm:px-6 lg:px-8">
+				<div className="px-4 py-12 sm:px-6 lg:px-8">
 					<CategoryFeaturedProducts products={products} />
 				</div>
 
@@ -41,7 +41,7 @@ const ProductListByCategory = ({ products: initialData, channel, slug }: Product
 				</div>
 
 				{/* Recently Viewed Products */}
-				<div className="bg-white px-4 py-12 sm:px-6 lg:px-8">
+				<div className="px-4 py-12 sm:px-6 lg:px-8">
 					<SearchRecentlyViewed products={products} />
 				</div>
 

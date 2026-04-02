@@ -1,10 +1,10 @@
+import { type LinkWithHref } from "@/components/navigation/LinkWithChannel";
 import {
 	type CategoryFragment,
 	type CollectionFragment,
 	type MenuGetBySlugQuery,
 	type PageFragment,
 } from "@/gql/graphql";
-import { type LinkWithHref } from "@/components/navigation/LinkWithChannel";
 
 type MenuItems = Extract<MenuGetBySlugQuery["menu"], { __typename?: "Menu" }>["items"];
 type MenuItemSlugQuery = NonNullable<MenuItems>[number];

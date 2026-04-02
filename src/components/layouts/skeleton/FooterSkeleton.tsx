@@ -1,6 +1,6 @@
 import { Skeleton } from "@components/skeleton";
-import { FooterContainer } from "../footer/container/FooterContainer";
 import { CatalogContainer } from "../footer/container/CatalogContainer";
+import { FooterContainer } from "../footer/container/FooterContainer";
 
 const FooterSkeleton = () => {
 	return (

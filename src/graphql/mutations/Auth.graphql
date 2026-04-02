@@ -6,3 +6,51 @@ mutation TokenRefresh($refreshToken: String!, $csrfToken: String) {
 		}
 	}
 }
+
+mutation UserRegister($input: AccountRegisterInput!) {
+	accountRegister(input: $input) {
+		requiresConfirmation
+		errors {
+			message
+			field
+			code
+		}
+	}
+}
+
+mutation RequestPasswordReset($email: String!, $channel: String!, $redirectUrl: String!) {
+	requestPasswordReset(email: $email, channel: $channel, redirectUrl: $redirectUrl) {
+		errors {
+			message
+			field
+			code
+		}
+	}
+}
+
+mutation AccountUpdate($input: AccountInput!) {
+	accountUpdate(input: $input) {
+		user {
+			...UserDetails
+		}
+		errors {
+			field
+			message
+			code
+		}
+	}
+}
+
+mutation PasswordChange($oldPassword: String!, $newPassword: String!) {
+	passwordChange(oldPassword: $oldPassword, newPassword: $newPassword) {
+		user {
+			id
+			email
+		}
+		errors {
+			field
+			message
+			code
+		}
+	}
+}

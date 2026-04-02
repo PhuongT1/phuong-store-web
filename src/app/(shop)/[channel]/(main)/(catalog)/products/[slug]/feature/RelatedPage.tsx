@@ -1,9 +1,9 @@
 "use client";
 
-import { PageSwiper } from "@components/swiper";
-import { MainProductLayout } from "@components/layouts";
-import { type Attributes } from "@/types";
 import { useRelatedPage } from "@/hooks/useRelatedPage";
+import { type Attributes } from "@/types";
+import { MainProductLayout } from "@components/layouts";
+import { PageSwiper } from "@components/swiper";
 
 type RelatedProductProps = Attributes;
 
@@ -21,7 +21,7 @@ const RelatedPage = ({ attributes }: RelatedProductProps) => {
 
 	return (
 		<MainProductLayout containerClassName="p-0 sm:p-3">
-			<div className="bg-white p-3 md:rounded-lg md:p-5">
+			<div className="bg-card p-3 md:rounded-lg md:p-5">
 				<h3 className="title">{attributeRelated?.attribute.name}</h3>
 				<PageSwiper pages={data} />
 			</div>

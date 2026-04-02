@@ -1,7 +1,7 @@
 import { type NextAuthOptions } from "next-auth";
-import { authProviders } from "./authProviders";
-import { authCallbacks } from "./authCallbacks";
 import { routes } from "@/config";
+import { authCallbacks } from "./authCallbacks";
+import { authProviders } from "./authProviders";
 
 export const authConfig: NextAuthOptions = {
 	pages: {

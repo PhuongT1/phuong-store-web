@@ -1,7 +1,7 @@
+import { MainProductLayout } from "@/components/layouts";
 import { ProductRatingSkeleton } from "@components/skeleton";
 import { ProductSwiperSkeleton } from "./skeleton/ProductSwiperSkeleton";
 import { SidebarSkeleton } from "./skeleton/SidebarSkeleton";
-import { MainProductLayout } from "@/components/layouts";
 
 const Loading = () => {
 	return (

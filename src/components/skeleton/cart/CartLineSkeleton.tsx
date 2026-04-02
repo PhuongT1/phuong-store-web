@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { Skeleton } from "../Skeleton";
-import { ImageSkeleton } from "../ImageSkeleton";
 import { cn } from "@/lib/utils";
+import { ImageSkeleton } from "../ImageSkeleton";
+import { Skeleton } from "../Skeleton";
 
 const CartLineSkeleton = () => {
 	return (
-		<li className="flex gap-2 flex-wrap items-center py-4 border-b border-gray-100 last:border-none">
+		<li className="flex gap-2 flex-wrap items-center py-4 border-b border-border last:border-none">
 			<ImageSkeleton skeletonProps={{ className: "rounded size-[72px]" }} imageProps={{ size: 55 }} />
 			<div className="relative flex flex-1 gap-2 flex-col justify-between">
 				<div className="flex justify-between justify-items-start gap-1">

@@ -2,8 +2,8 @@
 
 import { useForm, useWatch } from "react-hook-form";
 import { type StockAvailability, type ProductFilterInput } from "@/gql/graphql";
-import { useAddQueryParams } from "@/lib/hooks";
 import { useAttributeValues } from "@/hooks/useAttributeValues";
+import { useAddQueryParams } from "@/lib/hooks";
 
 /** Clean form state — avoids InputMaybe/null so RHF paths resolve without casts */
 export type ProductFilterForm = {
@@ -60,13 +60,14 @@ const useProductFilter = () => {
 		const hasLte = Number.isFinite(lte) && (lte ?? 0) > 0;
 
 		const payload: FilterPayload = {
-			...(data.stockAvailability ? { stockAvailability: data.stockAvailability } : {}),
-			...(hasGte || hasLte
-				? { minimalPrice: { gte: hasGte ? gte : undefined, lte: hasLte ? lte : undefined } }
-				: {}),
-			...(data.brand.length > 0 ? { brand: data.brand } : {}),
-			...(data.size.length > 0 ? { size: data.size } : {}),
-			...(data.color.length > 0 ? { color: data.color } : {}),
+			// Always include stockAvailability so setParams can delete the URL param when undefined
+			stockAvailability: data.stockAvailability,
+			// Always include minimalPrice so empty resets clear the URL params
+			minimalPrice: hasGte || hasLte ? { gte: hasGte ? gte : undefined, lte: hasLte ? lte : undefined } : {},
+			// Always include arrays — empty array triggers URL param deletion in setParams
+			brand: data.brand,
+			size: data.size,
+			color: data.color,
 			...(currentSearch ? { search: currentSearch } : {}),
 		};
 

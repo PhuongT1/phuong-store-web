@@ -2,8 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import { LoadMoreButton } from "@ui";
-import { ProductList } from "./ProductList";
 import { type InfiniteResponse, type ProductListProps } from "@/types";
+import { ProductList } from "./ProductList";
 
 type ProductListLoadMoreProps = {
 	productListProps: ProductListProps;
@@ -19,7 +19,7 @@ const ProductListLoadMore = ({
 		const loadMore = () => setSize(size + 1);
 		return (
 			<>
-				<ProductList isLoading={isLoading} products={products} viewMode={viewMode} />
+				<ProductList isLoading={isLoading && !products?.length} products={products} viewMode={viewMode} />
 				{hasNextPage && (
 					<LoadMoreButton
 						onClick={loadMore}

@@ -2,7 +2,6 @@ import * as React from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
 
 const NavigationMenu = React.forwardRef<
@@ -12,7 +11,7 @@ const NavigationMenu = React.forwardRef<
 	<NavigationMenuPrimitive.Root
 		ref={ref}
 		className={cn(
-			"relative z-10 flex max-w-max flex-1 items-center justify-center [&_>div]:max-w-full",
+			"relative z-40 flex max-w-max flex-1 items-center justify-center [&_>div]:max-w-full",
 			className
 		)}
 		{...props}
@@ -45,7 +44,7 @@ const NavigationMenuItem = React.forwardRef<
 NavigationMenuItem.displayName = "NavigationMenuItem";
 
 const navigationMenuTriggerStyle = cva(
-	`group inline-flex h-10 w-max items-center justify-center rounded-none px-3 text-[14px] font-semibold tracking-[0.08em] uppercase transition-colors hover:bg-accent hover:text-foreground focus:bg-accent focus:text-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent data-[state=open]:bg-accent`
+	`group inline-flex h-9 w-max items-center justify-center rounded-none px-3 text-[14px] font-semibold tracking-[0.08em] uppercase transition-colors hover:bg-accent hover:text-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-accent`
 );
 
 const NavigationMenuTrigger = React.forwardRef<
@@ -73,7 +72,7 @@ const NavigationMenuContent = React.forwardRef<
 	<NavigationMenuPrimitive.Content
 		ref={ref}
 		className={cn(
-			"bg-popover text-popover-foreground animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 absolute !top-[100%] !left-0 mt-1 w-full rounded-md border shadow-md md:w-auto",
+			"bg-popover text-popover-foreground animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 border-border/40 absolute !top-[100%] !left-0 mt-1.5 w-full rounded-xl border shadow-xl md:w-auto",
 			className
 		)}
 		{...props}

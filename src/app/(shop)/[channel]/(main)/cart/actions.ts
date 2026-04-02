@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 import { CheckoutDeleteLinesDocument } from "@/gql/graphql";
+import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 
 type deleteLineFromCheckoutArgs = {
 	lineId: string;

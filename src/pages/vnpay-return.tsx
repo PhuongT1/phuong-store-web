@@ -102,10 +102,10 @@ export default function VNPayReturnPage() {
 	}, [router]);
 
 	return (
-		<div className="flex min-h-screen items-center justify-center bg-gray-50">
+		<div className="flex min-h-screen items-center justify-center bg-muted">
 			<div className="text-center">
 				<div className="mb-4 inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
-				<p className="text-lg text-gray-700">Đang xử lý thanh toán...</p>
+				<p className="text-lg text-muted-foreground">Đang xử lý thanh toán...</p>
 			</div>
 		</div>
 	);

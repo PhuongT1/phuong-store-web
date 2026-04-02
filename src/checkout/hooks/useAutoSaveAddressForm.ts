@@ -1,16 +1,16 @@
  
-import { pick } from "lodash-es";
 import { useCallback } from "react";
-import { type FormikProps } from "formik";
+import { pick } from "lodash-es";
 import { type AddressFormData } from "@/checkout/components/AddressForm/types";
 import { useAddressFormSchema } from "@/checkout/components/AddressForm/useAddressFormSchema";
-import { type CountryCode } from "@/checkout/graphql";
 import { useDebouncedSubmit } from "@/checkout/hooks/useDebouncedSubmit";
 import { type FormHelpers, type FormProps, hasErrors, useForm } from "@/checkout/hooks/useForm";
 import {
 	type CheckoutUpdateStateScope,
 	useCheckoutUpdateStateChange
 } from "@/checkout/state/updateStateStore";
+import { type CountryCode } from "@/gql/graphql";
+import { type FormikCompatForm } from "@checkout/hooks/useForm";
 
 export type AutoSaveAddressFormData = Partial<AddressFormData>;
 export type ShouldValidate = { noValidate?: boolean };
@@ -22,7 +22,7 @@ export const useAutoSaveAddressForm = ({
 	...formProps
 }: FormProps<AutoSaveAddressFormData> & {
 	scope: CheckoutUpdateStateScope;
-}): FormikProps<AutoSaveAddressFormData> & {
+}): FormikCompatForm<AutoSaveAddressFormData> & {
 	handleSubmit: <T>(event: EventAddressForm<T>) => Promise<void>;
 } => {
 	const { setCheckoutUpdateState } = useCheckoutUpdateStateChange(scope);
@@ -50,13 +50,7 @@ export const useAutoSaveAddressForm = ({
 		"submitForm"
 	]) as FormHelpers<AutoSaveAddressFormData>;
 
-	const formHelperCountryCode = pick(form, [
-		// "setFieldTouched"
-	]) as FormHelpers<AutoSaveAddressFormData>;
-
-	// it'd make sense for onSubmit prop to be optional but formik has ignored this
-	// request for forever now https://github.com/jaredpalmer/formik/issues/2675
-	// so we're just gonna add a partial submit for guest address form to work
+	const formHelperCountryCode = pick(form, []) as FormHelpers<AutoSaveAddressFormData>;
 
 	const partialSubmit = useCallback(
 		async (event?: EventAddressForm) => {
@@ -93,7 +87,6 @@ export const useAutoSaveAddressForm = ({
 
 	const onBlur = (event: React.FocusEvent) => {
 		handleBlur(event);
-		// void partialSubmit();
 	};
 
 	return { ...form, handleChange: onChange, handleBlur: onBlur, handleSubmit: partialSubmit };

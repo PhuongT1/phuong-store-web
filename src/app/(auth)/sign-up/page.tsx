@@ -1,11 +1,7 @@
+import { type Metadata } from "next";
+import { generatePageMetadata } from "@/lib/metadata";
 import { SignUp } from "./SignUp";
 
-const RegisterPage = () => {
-	return (
-		<section className="flex flex-1 items-center justify-center">
-			<SignUp />
-		</section>
-	);
-};
+export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("signUp");
 
-export { RegisterPage as default };
+const RegisterPage = () => <SignUp />;

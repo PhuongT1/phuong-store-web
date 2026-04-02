@@ -1,13 +1,13 @@
  
 import { useEffect, useRef } from "react";
-import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
-import { CheckoutBillingAddressUpdateDocument } from "@/gql/graphql";
-import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 import {
 	getAddressInputDataFromAddress,
 	getAddressValidationRulesVariables,
 	isMatchingAddress
 } from "@/checkout/components/AddressForm/utils";
+import { type AddressInput, CheckoutBillingAddressUpdateDocument } from "@/gql/graphql";
+import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
+import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 
 export const useCheckoutAddressSync = () => {
 	const { checkout, mutate } = useCheckout();
@@ -30,7 +30,7 @@ export const useCheckoutAddressSync = () => {
 						variables: {
 							checkoutId,
 							validationRules: getAddressValidationRulesVariables(),
-							billingAddress: getAddressInputDataFromAddress(shippingAddress) as any
+							billingAddress: getAddressInputDataFromAddress(shippingAddress)
 						},
 						withAuth: true
 					});

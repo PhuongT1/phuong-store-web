@@ -1,11 +1,11 @@
 import { invariant } from "ts-invariant";
+import { getUserSession } from "@/auth/authSession";
 import {
 	type GraphQLDocument,
 	type GraphQLRequestOptions,
 	requestInit,
 	responseData
 } from "./graphQLRequest";
-import { getUserSession } from "@/auth/authSession";
 
 const fetchGraphQL = async <Result, Variables>(
 	operation: GraphQLDocument<Result, Variables>,
@@ -14,9 +14,11 @@ const fetchGraphQL = async <Result, Variables>(
 	invariant(process.env.NEXT_PUBLIC_SALEOR_API_URL, "Missing NEXT_PUBLIC_SALEOR_API_URL env variable");
 
 	const { shouldSendToken = true, saleorAppToken } = options;
-	let accessToken;
+	let accessToken: string | undefined;
 	if (shouldSendToken) {
-		accessToken = saleorAppToken ?? (await getUserSession())?.accessToken;
+		// saleorAppToken is pre-resolved (and refreshed if needed) by serverFetchWithAuth.
+		// Fall back to session for direct non-action usages.
+		accessToken = saleorAppToken ?? (await getUserSession())?.accessToken ?? undefined;
 	}
 	const input = await requestInit(operation, options, accessToken);
 	const response = await fetch(process.env.NEXT_PUBLIC_SALEOR_API_URL, input);
@@ -24,15 +26,7 @@ const fetchGraphQL = async <Result, Variables>(
 	return responseData(response);
 };
 
-const executeGraphQLRequest = async <Result, Variables>(
-	operation: GraphQLDocument<Result, Variables>,
-	options: GraphQLRequestOptions<Variables>
-): Promise<Result> => {
-	try {
-		return await ((await fetchGraphQL(operation, options)) as Promise<Result>);
-	} catch (error) {
-		throw error;
-	}
-};
+// Backward-compatible alias
+const executeGraphQLRequest = fetchGraphQL;
 
 export { executeGraphQLRequest, fetchGraphQL };

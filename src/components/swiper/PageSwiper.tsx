@@ -1,9 +1,9 @@
 "use client";
 
 import { SwiperSlide } from "swiper/react";
+import { type PageListProps } from "@/types";
 import { PageElement } from "@components/page";
 import { SwiperSlider } from "./SwiperSlider";
-import { type PageListProps } from "@/types";
 
 const PageSwiper = ({ pages }: PageListProps) => {
 	if (!pages) return <></>;

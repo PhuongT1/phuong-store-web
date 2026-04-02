@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
+import { LinkWithChannel } from "@/components/navigation/LinkWithChannel";
 import { PRODUCTS_SLUG } from "@/constants";
 import { type ProductItem } from "@/lib/utils";
-import { LinkWithChannel } from "@/components/navigation/LinkWithChannel";
 
 type RatingLink = Pick<ProductItem, "product"> & { children: React.ReactNode; className?: string };
 
