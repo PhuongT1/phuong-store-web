@@ -7,14 +7,9 @@ import { HeaderSkeleton } from "./skeleton/HeaderSkeleton";
 
 const Header = ({ channel }: { channel: string }) => {
 	return (
-		<header
-			className={cn(
-				"border-border sticky top-0 z-40 w-full border-b shadow-[0_2px_10px_rgba(0,0,0,0.05)] backdrop-blur-md",
-				CLASS_BG_HEADER
-			)}
-		>
+		<header className={cn("border-border sticky top-0 z-40 w-full border-b", CLASS_BG_HEADER)}>
 			<ContainerLayout className="py-0">
-				<div className="flex flex-col justify-between py-1">
+				<div className="flex flex-col justify-between py-0">
 					<Suspense fallback={<HeaderSkeleton />}>
 						<Nav channel={channel} />
 					</Suspense>

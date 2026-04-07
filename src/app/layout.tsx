@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { getLocale } from "next-intl/server";
 import "@assets/styles/globals.css";
 import { ChatWidget } from "@/components/ai/ChatWidget";
+import { ChatLauncherStack } from "@/components/chat/ChatLauncherStack";
+import { LiveChatWidget } from "@/components/chat/LiveChatWidget";
 import { generateDefaultMetadata } from "@/lib/metadata";
 import { DraftModeNotification } from "@/ui/components/DraftModeNotification";
 import { Toaster } from "@components/ui";
@@ -20,13 +22,16 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 	const locale = await getLocale();
 	return (
 		<html lang={locale} suppressHydrationWarning className={inter.variable}>
-			<body>
+			<body className="bg-background text-foreground">
 				<Providers>
 					{children}
 					<DraftModeNotification />
 				</Providers>
 				<Toaster />
-				<ChatWidget />
+				<ChatLauncherStack>
+					<LiveChatWidget />
+					<ChatWidget />
+				</ChatLauncherStack>
 			</body>
 		</html>
 	);

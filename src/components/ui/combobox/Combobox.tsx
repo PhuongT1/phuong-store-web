@@ -20,7 +20,7 @@ import { Separator } from "../Separator";
 const inputVariants = cva(
 	[
 		"group inline-flex items-center item w-full min-w-0 overflow-hidden rounded-md border text-sm outline-none",
-		"border-border bg-input text-foreground placeholder:text-muted-foreground transition-[color,box-shadow]",
+		"border-border bg-input text-(--input-foreground) placeholder:text-muted-foreground transition-[color,box-shadow]",
 		"file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
 		"selection:bg-primary selection:text-primary-foreground",
 		"aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50",
@@ -152,6 +152,10 @@ const Combobox = <TName extends string, TOption extends Option, TValue>({
 									<>
 										<CloseButton
 											{...clearButtonProps}
+											className={cn(
+												"text-muted-foreground/60 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100",
+												clearButtonProps?.className
+											)}
 											onClick={(e) => {
 												e.stopPropagation();
 												fieldProps?.field.onChange("");
@@ -192,7 +196,7 @@ const Combobox = <TName extends string, TOption extends Option, TValue>({
 					}}
 				>
 					{showSearch && <CommandInput placeholder={placeholder} className="h-9" />}
-					<CommandList>
+					<CommandList onWheelCapture={(e) => e.stopPropagation()}>
 						<CommandEmpty>Không có kết quả.</CommandEmpty>
 						<CommandGroup>
 							{options?.map((option, index) => {

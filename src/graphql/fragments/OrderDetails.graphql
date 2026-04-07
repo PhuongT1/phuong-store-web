@@ -10,6 +10,7 @@ fragment OrderDetails on Order {
 		}
 	}
 	lines {
+		id
 		variant {
 			id
 			name

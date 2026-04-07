@@ -18,7 +18,7 @@ const config: NextConfig = {
 	eslint: {
 		ignoreDuringBuilds: true
 	},
-	
+
 	experimental: {
 		turbo: {
 			rules: {

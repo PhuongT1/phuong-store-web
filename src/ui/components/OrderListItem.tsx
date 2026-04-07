@@ -58,7 +58,7 @@ export const OrderListItem = ({ order }: Props) => {
 						const product = item.variant.product;
 
 						return (
-							<div key={product.id} className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-6">
+							<div key={item.id} className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-6">
 								<div className="flex flex-1 items-center gap-4">
 									{product.thumbnail && (
 										<OrderLineThumbnail url={product.thumbnail.url} alt={product.thumbnail.alt ?? ""} />

@@ -1,7 +1,9 @@
+import { redirect } from "next/navigation";
 import { type Metadata } from "next";
-import { getCheckoutIdCookie, removeCheckoutIdCookie } from "@/action";
+import { getCheckoutIdCookie } from "@/action";
 import * as Checkout from "@/action/checkout";
 import { MainProductLayout } from "@/components/layouts";
+import { DEFAULT_CHANNEL_SLUG } from "@/constants";
 import { type Checkout as TCheckout } from "@/gql/graphql";
 import { generatePageMetadata } from "@/lib/metadata";
 import { ImageItem } from "@components/ui";
@@ -31,10 +33,10 @@ export default async function Page({ params }: { params: Promise<{ channel: stri
 		// Treat as unknown state: show empty cart, keep cookie for next reload retry.
 	}
 
-	// Saleor confirmed the checkout no longer exists — clear the stale cookie so the
-	// next add-to-cart creates a fresh checkout (no stale-checkout recovery needed).
+	// Saleor confirmed the checkout no longer exists — redirect to the clear route
+	// which deletes the cookie (cookie mutations only allowed in Route Handlers).
 	if (checkout === null && checkoutId) {
-		await removeCheckoutIdCookie();
+		redirect(`/api/checkout/clear?next=${DEFAULT_CHANNEL_SLUG}/cart`);
 	}
 
 	const isEmptyCart = !checkout || checkout.lines.length < 1;
@@ -42,17 +44,17 @@ export default async function Page({ params }: { params: Promise<{ channel: stri
 	return (
 		<MainProductLayout title={!isEmptyCart ? "Giỏ hàng" : undefined}>
 			{isEmptyCart ? (
-				<section className="text-center">
+				<section className="flex flex-col items-center py-20">
 					<div className="flex justify-center">
-						<ImageItem width={600} height={600} alt={"Empty"} src="/images/empty_cart.png" />
+						<ImageItem width={440} height={440} alt={"Empty"} src="/images/empty_cart.png" />
 					</div>
-					<p className="text-muted-foreground mb-4 text-sm">Chưa có sản phẩm nào trong giỏ hàng</p>
-					<ButtonLink href="/products" className="w-auto">
+					<p className="text-muted-foreground mt-4 mb-8 text-sm">Chưa có sản phẩm nào trong giỏ hàng</p>
+					<ButtonLink href="/" isKeepHref className="w-52 rounded-none font-semibold tracking-wide uppercase">
 						Về trang chủ
 					</ButtonLink>
 				</section>
 			) : (
-				<form className="flex flex-col gap-4 md:flex-row">
+				<form className="flex flex-col gap-6 pb-40 md:flex-row md:items-start md:pb-0 lg:gap-8">
 					<CheckoutItems checkout={checkout as TCheckout} checkoutId={checkoutId} />
 					<CheckoutSubmit checkout={checkout as TCheckout} checkoutId={checkoutId} />
 				</form>

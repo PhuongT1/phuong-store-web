@@ -20,5 +20,5 @@ export default async function Page({ params }: PageQueryProps) {
 	const data = await executeGraphQL(ProductListPaginatedDocument, { variables });
 	const products = data.products?.edges.map(({ node }) => node) ?? [];
 
-	return <HomePageSections products={products} />;
+	return <HomePageSections products={products} channel={channel} />;
 }

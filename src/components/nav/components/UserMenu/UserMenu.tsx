@@ -1,9 +1,9 @@
 "use client";
 
-import { LogOut, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ChevronDown, ClipboardList, LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { signOutUser } from "@/auth/authActions";
-import { LinkWithChannel } from "@/components/navigation/LinkWithChannel";
 import { routes } from "@/config";
 import { type UserDetailsFragment } from "@/gql/graphql";
 import { DropdownMenuElement, type MenuElement } from "@components/ui";
@@ -16,17 +16,16 @@ type UserMenuProps = {
 
 const UserMenu = ({ user }: UserMenuProps) => {
 	const t = useTranslations("nav");
+	const router = useRouter();
+
 	const menu: MenuElement[] = [
 		{
-			icon: <User size={18} strokeWidth={1.5} />,
-			label: (
-				<LinkWithChannel isKeepHref href={routes.account.orders}>
-					{t("orderHistory")}
-				</LinkWithChannel>
-			)
+			icon: <ClipboardList size={18} strokeWidth={1.5} className="text-muted-foreground" />,
+			label: t("accountManagement"),
+			onClick: () => router.push(routes.account.profile)
 		},
 		{
-			icon: <LogOut size={18} strokeWidth={1.5} />,
+			icon: <LogOut size={18} strokeWidth={1.5} className="text-destructive" />,
 			label: t("signOut"),
 			onClick: () => {
 				void signOutUser();
@@ -34,10 +33,17 @@ const UserMenu = ({ user }: UserMenuProps) => {
 		}
 	];
 
+	const displayName = user.firstName ? user.firstName : user.email.split("@")[0];
+
 	return (
-		<DropdownMenuElement menus={menu} menuLabel={<UserInfo user={user} />} triggerClassName="h-9 w-9 p-0">
-			<span className="sr-only">Open user menu</span>
+		<DropdownMenuElement
+			menus={menu}
+			menuLabel={<UserInfo user={user} />}
+			triggerClassName="h-auto gap-2 rounded-full px-2 py-1.5"
+		>
 			<UserAvatar user={user} />
+			<span className="max-w-[96px] truncate text-sm font-semibold">{displayName}</span>
+			<ChevronDown size={15} strokeWidth={2.5} className="text-muted-foreground shrink-0" />
 		</DropdownMenuElement>
 	);
 };

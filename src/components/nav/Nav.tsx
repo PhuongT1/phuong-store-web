@@ -19,7 +19,7 @@ export const Nav = async ({ channel }: Channel) => {
 	return (
 		<nav className="text-foreground flex w-full flex-col px-0 py-0" aria-label="Main navigation">
 			{/* Row 1: Logo, Search, Action Icons */}
-			<div className="flex h-14 w-full items-center justify-between gap-x-4">
+			<div className="flex w-full items-center justify-between gap-x-4 py-2.5">
 				{/* 1. Left: Mobile Menu & Logo */}
 				<div className="flex min-w-max shrink-0 items-center">
 					<div className="mr-1 md:hidden">
@@ -29,7 +29,7 @@ export const Nav = async ({ channel }: Channel) => {
 				</div>
 
 				{/* 2. Center: Search (Primary Focus) */}
-				<div className="max-w-2xl min-w-0 flex-1 px-2 md:px-4">
+				<div className="relative z-50 max-w-2xl min-w-0 flex-1 px-2 md:px-4">
 					<SearchBar channel={channel} />
 				</div>
 
@@ -41,7 +41,7 @@ export const Nav = async ({ channel }: Channel) => {
 					<div className="hidden sm:block">
 						<ThemeMode />
 					</div>
-					<Suspense fallback={<div className="bg-muted h-8 w-8 animate-pulse rounded-full" />}>
+					<Suspense fallback={<div className="bg-accent h-9 w-9 animate-pulse rounded-full" />}>
 						<CartNavItem />
 					</Suspense>
 					<UserMenuContainer />
@@ -49,7 +49,7 @@ export const Nav = async ({ channel }: Channel) => {
 			</div>
 
 			{/* Row 2: Desktop Navigation Category Menu */}
-			<div className="hidden h-12 w-full items-center justify-center md:flex">
+			<div className="hidden w-full items-center justify-center md:flex">
 				<NavLinks channel={channel} navLinks={navLinks} />
 			</div>
 		</nav>

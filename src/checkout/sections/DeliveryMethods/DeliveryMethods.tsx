@@ -38,8 +38,8 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
 			<Separator className="mt-2" />
 			<div className="py-4" data-testid="deliveryMethods">
 				<div className="mb-3 flex items-center gap-2.5">
-					<div className="bg-icon-bg flex h-7 w-7 shrink-0 items-center justify-center rounded-(--radius)">
-						<Package className="text-info h-3.5 w-3.5" strokeWidth={1.5} />
+					<div className="bg-icon-bg flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
+						<Package className="text-info h-5 w-5" strokeWidth={1.5} />
 					</div>
 					<Typography variant="section-label" className="mb-0!">
 						{t("shippingMethod")}
@@ -67,9 +67,10 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
 													<p className="text-foreground/80">{name}</p>
 													<p className="text-muted-foreground font-medium">{getFormattedMoney(price)}</p>
 												</div>
-												<p className="text-muted-foreground/60 text-xs">
-													{getSubtitle({ min, max })}
-												</p>
+												{/* Only render subtitle row when it has content — avoids empty space */}
+												{getSubtitle({ min, max }) && (
+													<p className="text-muted-foreground/60 text-xs">{getSubtitle({ min, max })}</p>
+												)}
 											</div>
 										),
 										value: id

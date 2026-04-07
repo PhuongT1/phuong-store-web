@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { DEFAULT_CHANNEL_SLUG } from "@/constants";
 import { CheckoutDeleteLinesDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 
@@ -18,5 +19,5 @@ export const deleteLineFromCheckout = async ({ lineId, checkoutId }: deleteLineF
 		cache: "no-cache"
 	});
 
-	revalidatePath("/cart");
+	revalidatePath(`${DEFAULT_CHANNEL_SLUG}/cart`);
 };

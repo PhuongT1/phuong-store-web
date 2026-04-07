@@ -78,9 +78,9 @@ export function AddressView({ user }: { user: User }) {
 							{t("addAddressTitle")}
 						</Button>
 					</DialogTrigger>
-					<DialogContent>
-						<DialogHeader>
-							<DialogTitle>{t("addAddressTitle")}</DialogTitle>
+					<DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+						<DialogHeader className="border-border border-b pb-4">
+							<DialogTitle className="font-normal">{t("addAddressTitle")}</DialogTitle>
 						</DialogHeader>
 						<AddressForm
 							onSubmit={handleCreate}
@@ -152,9 +152,9 @@ export function AddressView({ user }: { user: User }) {
 												{t("addressEdit")}
 											</Button>
 										</DialogTrigger>
-										<DialogContent>
-											<DialogHeader>
-												<DialogTitle>{t("editAddressTitle")}</DialogTitle>
+										<DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+											<DialogHeader className="border-border border-b pb-4">
+												<DialogTitle className="font-normal">{t("editAddressTitle")}</DialogTitle>
 											</DialogHeader>
 											<AddressForm
 												address={address}

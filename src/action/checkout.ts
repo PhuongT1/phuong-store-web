@@ -6,15 +6,19 @@ import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 
 const find = async (checkoutId: string) => {
 	if (!checkoutId) return null;
-	// Returns null  → Saleor confirmed the checkout does not exist (safe to clear cookie)
-	// Returns object → checkout is live
-	// Throws         → network / GraphQL error; caller must NOT clear the cookie
+	// Returns null  → Saleor confirmed the checkout does not exist (safe to clear cookie).
+	//                  Only reachable if auth was valid (token present or guest).
+	// Returns object → checkout is live.
+	// Throws         → network / GraphQL error, auth recovery failed, or unknown state.
+	//                  Caller must NOT clear the cookie.
 	//
-	// withAuth: true (default) — Checkout.find MUST send the user's token.
-	// Saleor's `checkout` query is owner-protected: if the checkout belongs to a
-	// logged-in user, calling without that user's JWT returns a permissions error
-	// ("MANAGE_USERS, HANDLE_PAYMENTS, HANDLE_TAXES, OWNER").
-	// For guest checkouts the token is ignored — no downside to sending it.
+	// withAuth: true (default) — serverFetchWithAuth will:
+	//   a) Use the session access token (already refreshed by JWT callback), OR
+	//   b) Recover inline via refreshToken if the JWT callback's refresh was transient, OR
+	//   c) Throw (returned as error) so the cookie is preserved for the next request.
+	//
+	// This contract guarantees that `null` only comes back when Saleor has genuine
+	// confirmation the checkout is gone — never due to an auth race condition.
 	const data = await executeGraphQL(CheckoutFindDocument, {
 		variables: {
 			id: checkoutId
@@ -25,9 +29,8 @@ const find = async (checkoutId: string) => {
 			tags: [`CHECKOUT:${checkoutId}`]
 		}
 	});
-	// data can be null when serverFetchWithAuth suppresses an auth error
-	// (expired token that failed to refresh). Treat as a transient error —
-	// return null only when Saleor explicitly confirms checkout is gone.
+	// data is null when serverFetchWithAuth could not recover auth (all retries
+	// exhausted). Throw so caller treats this as unknown state, not "deleted".
 	if (!data) throw new Error("Checkout fetch returned no data (auth or network error)");
 	return data.checkout ?? null;
 };

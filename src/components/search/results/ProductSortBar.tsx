@@ -24,16 +24,18 @@ const ProductSortBar = () => {
 	};
 
 	return (
-		<div className="border-border bg-card/95 sticky top-(--header-height) z-30 mb-5 border-b px-4 py-2 backdrop-blur-sm">
+		<div className="border-border bg-card/95 sticky top-(--header-height) z-30 mb-5 rounded-xl border px-3 py-2 backdrop-blur-sm">
 			<div className="flex flex-wrap items-center">
-				<span className="text-muted-foreground mr-3 text-xs font-semibold tracking-[0.1em] uppercase">
+				<span className="text-foreground mr-3 text-xs font-semibold tracking-[0.1em] uppercase">
 					{t("label")}:
 				</span>
 				{SORT_OPTIONS.map((opt, i) => {
 					const isActive = activeField === opt.field && activeDir === opt.direction;
 					return (
 						<span key={opt.key} className="flex items-center">
-							{i > 0 && <span className="text-border mx-2">•</span>}
+							{i > 0 && (
+								<span className={cn("mx-2 text-[8px]", isActive ? "text-foreground" : "text-border")}>●</span>
+							)}
 							<button
 								type="button"
 								onClick={() => handleSort(opt.field, opt.direction)}

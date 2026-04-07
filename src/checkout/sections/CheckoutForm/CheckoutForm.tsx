@@ -16,8 +16,7 @@ import { DeliveryMethodsSkeleton } from "@/checkout/sections/DeliveryMethods/Del
 import { PayButton } from "@/checkout/sections/payment/PayButton";
 import { PaymentSection, PaymentSectionSkeleton } from "@/checkout/sections/payment/PaymentSection";
 import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
-import { Separator } from "@components/ui";
-import { Typography } from "@components/ui";
+import { Separator, Typography } from "@components/ui";
 
 export const CheckoutForm = () => {
 	useCheckoutAddressSync();
@@ -29,13 +28,13 @@ export const CheckoutForm = () => {
 	const [showOnlyContact, setShowOnlyContact] = useState(!!passwordResetToken);
 
 	return (
-		<Card className="bg-card-elevated border-card-elevated-border shadow-card-elevated flex w-full flex-col items-end border p-6 backdrop-blur-sm sm:p-8 md:rounded-2xl">
+		<Card className="bg-card border-border flex w-full flex-col items-end border p-6 sm:p-8 md:rounded-2xl">
 			<div className="w-full">
 				{/* ── Contact section header — only shown when not authenticated ── */}
 				{!user && (
 					<div className="mb-4 flex items-center gap-2.5">
-						<div className="bg-icon-bg flex h-7 w-7 shrink-0 items-center justify-center rounded-(--radius)">
-							<SquareUser className="text-info h-3.5 w-3.5" strokeWidth={1.5} />
+						<div className="bg-icon-bg flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
+							<SquareUser className="text-info h-5 w-5" strokeWidth={1.5} />
 						</div>
 						<Typography variant="title" className="mb-0!">
 							{t("customerInfo")}

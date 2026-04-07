@@ -184,7 +184,7 @@
 		"home": "Trang chủ",
 		"allProducts": "Tất cả sản phẩm",
 		"signIn": "Đăng nhập",
-		"orderHistory": "Lịch sử đơn hàng",
+		"accountManagement": "Quản lý tài khoản",
 		"signOut": "Thoát tài khoản",
 		"searchPlaceholder": "Nhập tên điện thoại, máy tính, phụ kiện... cần tìm"
 	},
@@ -251,7 +251,8 @@
 		"cod": "Thanh toán khi nhận hàng (COD)",
 		"onlinePayment": "Thanh toán trực tuyến",
 		"placeOrder": "Đặt hàng",
-		"addNewAddress": "+ Thêm địa chỉ mới",
+		"addNewAddress": "Thêm địa chỉ mới",
+		"confirmAddress": "Xác nhận địa chỉ",
 		"noSavedAddresses": "Bạn chưa có địa chỉ lưu sẵn nào.",
 		"addShippingAddress": "Thêm địa chỉ giao hàng",
 		"cannotDeliver": "Không thể giao hàng đến địa chỉ này",

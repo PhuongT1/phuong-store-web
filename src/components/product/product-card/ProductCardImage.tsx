@@ -26,7 +26,7 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 		: null;
 
 	return (
-		<div className="bg-product-image-bg border-border relative aspect-square overflow-hidden border-b">
+		<div className="relative aspect-square overflow-hidden">
 			{/* Sale badge */}
 			{isOnSale && (
 				<div className="absolute top-2 left-2 z-10">
@@ -39,13 +39,13 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 			{/* Wishlist button */}
 			<button
 				aria-label="Wishlist"
-				className="bg-card/80 absolute top-2 right-2 z-10 flex h-9 w-9 items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-card hover:shadow-lg"
+				className="bg-card/80 hover:bg-card absolute top-2 right-2 z-10 flex h-9 w-9 items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-lg"
 				onClick={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
 				}}
 			>
-				<Heart className="text-muted-foreground h-4 w-4 transition-colors group-hover:text-badge-recommended" />
+				<Heart className="text-muted-foreground group-hover:text-badge-recommended h-4 w-4 transition-colors" />
 			</button>
 
 			{/* Primary image (product thumbnail or selected variant image) */}

@@ -3,7 +3,7 @@ import { type CountryCode } from "@/gql/graphql";
 import { useAddressFormUtils } from "./useAddressFormUtils";
 
 type AddressFieldType = keyof typeof addressFieldTypes;
-type AddressFieldConfig = ReturnType<typeof useAddressFieldConfigs>[number];
+type AddressFieldConfig = ReturnType<typeof useAddressFieldConfigs>["fields"][number];
 type IconPosition = "prefix" | "suffix";
 type FieldIconConfig = {
 	icon: LucideIcon;
@@ -14,9 +14,10 @@ type FieldIconMap = Record<string, FieldIconConfig[]>;
 const addressFieldTypes = {
 	input: [],
 	inputNumber: ["phone"],
-	select: ["countryArea", "city", "countryCode"],
+	// countryCode is excluded — only Vietnam is supported; hardcoded to VN
+	select: ["countryArea", "city"],
 	checkbox: [],
-	ignore: ["companyName", "streetAddress2", "postalCode"]
+	ignore: ["companyName", "streetAddress2", "postalCode", "countryCode"]
 };
 
 const fieldIconMap: FieldIconMap = {
@@ -61,9 +62,10 @@ const fieldTypeMap = Object.entries(addressFieldTypes).reduce(
 );
 
 const useAddressFieldConfigs = (countryCode: CountryCode) => {
-	const { orderedAddressFields, getFieldLabel, isRequiredField } = useAddressFormUtils(countryCode);
+	const { orderedAddressFields, isLoading, getFieldLabel, isRequiredField } =
+		useAddressFormUtils(countryCode);
 
-	return orderedAddressFields?.map((field) => {
+	const fields = (orderedAddressFields ?? []).map((field) => {
 		const icons = fieldIconMap[field] || [];
 		const prefix = icons.filter((i) => i.position === "prefix");
 		const suffix = icons.filter((i) => i.position === "suffix");
@@ -79,6 +81,8 @@ const useAddressFieldConfigs = (countryCode: CountryCode) => {
 			fieldNames: type === "select" ? fieldNameskey[field] : undefined
 		};
 	});
+
+	return { fields, isLoading };
 };
 
 const useLocalOptions = <T>(options: T[]) => {

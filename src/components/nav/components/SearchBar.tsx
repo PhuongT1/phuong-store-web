@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Button, FormProvider, InputField } from "@ui";
+import { Button, FormProvider, FormInput } from "@ui";
 import { SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm, useWatch } from "react-hook-form";
-import { SearchSuggestionsPanel } from "@/components/search/SearchSuggestionsPanel";
+import { SearchSuggestionsPanel } from "@/components/search";
 import { ALL_PRODUCTS_SLUG } from "@/constants";
 import { useAddQueryParams } from "@/lib/hooks";
 
@@ -67,10 +67,10 @@ export const SearchBar = ({ channel }: { channel: string }) => {
 				className: "group text-foreground relative flex w-full items-center text-sm"
 			}}
 		>
-			<InputField
+			<FormInput
+				name="search"
+				control={methods.control}
 				affixWrapperProps={{
-					className:
-						"bg-accent border border-border hover:border-foreground focus-within:border-foreground focus-within:ring-2 focus-within:ring-ring/20 transition-all duration-200 rounded-none h-10",
 					allowClear: true,
 					suffix: (
 						<Button
@@ -88,7 +88,6 @@ export const SearchBar = ({ channel }: { channel: string }) => {
 					className: "flex-1"
 				}}
 				inputProps={{
-					...methods.register("search"),
 					placeholder: t("searchPlaceholder"),
 					sizeVariant: "medium",
 					onFocus: () => {

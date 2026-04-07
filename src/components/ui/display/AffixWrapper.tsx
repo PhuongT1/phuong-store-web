@@ -32,7 +32,15 @@ const AffixWrapper = React.forwardRef<HTMLDivElement, PropsWithChildren<AffixWra
 				{prefix}
 				<SlotBase className="min-w-0 flex-1">{children}</SlotBase>
 				{suffix}
-				{allowClear && <CloseButton {...clearButtonProps} />}
+				{allowClear && (
+					<CloseButton
+						{...clearButtonProps}
+						className={cn(
+							"text-muted-foreground/60 opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100",
+							clearButtonProps?.className
+						)}
+					/>
+				)}
 			</div>
 		);
 	}

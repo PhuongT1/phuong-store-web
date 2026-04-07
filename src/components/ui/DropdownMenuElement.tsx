@@ -30,7 +30,7 @@ type DropdownMenuElementProps = {
 
 export const DropdownMenuElement = React.forwardRef<HTMLDivElement, DropdownMenuElementProps>(
 	({ menus, menuLabel, dropdownMenuProps, dropdownMenuItemProps, children, triggerClassName }, ref) => {
-		const { isOpen, toggle, setIsOpen } = useToggle();
+		const { isOpen, setIsOpen } = useToggle();
 
 		return (
 			<DropdownMenu open={isOpen} onOpenChange={setIsOpen} {...dropdownMenuProps}>
@@ -53,9 +53,7 @@ export const DropdownMenuElement = React.forwardRef<HTMLDivElement, DropdownMenu
 				>
 					{menuLabel && (
 						<>
-							<DropdownMenuLabel className="text-muted-foreground px-3 py-2 text-xs font-bold tracking-wider uppercase">
-								{menuLabel}
-							</DropdownMenuLabel>
+							<DropdownMenuLabel className="text-muted-foreground px-3 py-2">{menuLabel}</DropdownMenuLabel>
 							<DropdownMenuSeparator className="bg-border my-1" />
 						</>
 					)}
@@ -68,7 +66,6 @@ export const DropdownMenuElement = React.forwardRef<HTMLDivElement, DropdownMenu
 									menu.active && "bg-accent font-semibold"
 								)}
 								onClick={() => {
-									toggle();
 									menu?.onClick?.();
 								}}
 							>

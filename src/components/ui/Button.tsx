@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { Loader } from "@/ui/atoms/Loader";
 
 const buttonVariants = cva(
-	"max-h-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius)] text-sm font-semibold tracking-tight transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97]",
+	"max-h-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius)] text-sm font-normal tracking-tight transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97]",
 	{
 		variants: {
 			variant: {

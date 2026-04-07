@@ -1,0 +1,16 @@
+query CategoriesList($first: Int!, $level: Int) {
+	categories(first: $first, level: $level) {
+		edges {
+			node {
+				id
+				name
+				slug
+				seoDescription
+				backgroundImage {
+					url
+					alt
+				}
+			}
+		}
+	}
+}

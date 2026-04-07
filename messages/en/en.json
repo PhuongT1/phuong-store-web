@@ -184,7 +184,7 @@
 		"home": "Home",
 		"allProducts": "All products",
 		"signIn": "Sign in",
-		"orderHistory": "Order history",
+		"accountManagement": "Manage account",
 		"signOut": "Sign out",
 		"searchPlaceholder": "Search for phones, laptops, accessories..."
 	},
@@ -251,7 +251,8 @@
 		"cod": "Cash on delivery (COD)",
 		"onlinePayment": "Online payment",
 		"placeOrder": "Place order",
-		"addNewAddress": "+ Add new address",
+		"addNewAddress": "Add new address",
+		"confirmAddress": "Confirm address",
 		"noSavedAddresses": "You don't have any saved addresses.",
 		"addShippingAddress": "Add shipping address",
 		"cannotDeliver": "Cannot deliver to this address",

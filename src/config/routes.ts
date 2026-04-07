@@ -15,7 +15,8 @@ const ROOT = {
 	payment: createBasePath("/payment"),
 	legal: createBasePath("/legal"),
 	static: createBasePath("/static"),
-	page: createBasePath("/page")
+	page: createBasePath("/page"),
+	blog: createBasePath("/blog")
 } as const;
 
 const createRoutes = <T extends string>(base: string, paths: Record<T, string>) => {
@@ -29,7 +30,7 @@ const routes = {
 	home: ROOT.home,
 	chanel: DEFAULT_CHANNEL_SLUG,
 	search: createBasePath(`${DEFAULT_CHANNEL_SLUG}/search`),
-	cart: createBasePath("/cart"),
+	cart: createBasePath(`${DEFAULT_CHANNEL_SLUG}/cart`),
 	products: ((slug: string) => createBasePath(`/products/${slug}`)) as RouteFn<[string]>,
 
 	checkout: createRoutes(ROOT.checkout, {
@@ -79,6 +80,11 @@ const routes = {
 	}),
 
 	page: ((slug: string) => `${ROOT.page}/${slug}`) as RouteFn<[string]>,
+
+	blog: {
+		index: ROOT.blog,
+		post: ((slug: string) => `${ROOT.blog}/${slug}`) as RouteFn<[string]>
+	},
 
 	notFound: createBasePath("/404")
 } as const;

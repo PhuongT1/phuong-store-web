@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@components/ui";
-import { suggestionData } from "./searchData";
+import { suggestionData } from "../data/searchData";
 
 type SearchSuggestionsPanelProps = {
 	query: string;

@@ -44,8 +44,8 @@ export const UserShippingAddressSection: React.FC = () => {
 		<Suspense fallback={<AddressSectionSkeleton />}>
 			<div className="flex flex-col gap-3">
 				<div className="flex items-center gap-2.5">
-					<div className="bg-icon-bg flex h-7 w-7 shrink-0 items-center justify-center rounded-(--radius)">
-						<Navigation className="text-info h-3.5 w-3.5" strokeWidth={1.5} />
+					<div className="bg-icon-bg flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
+						<Navigation className="text-info h-5 w-5" strokeWidth={1.5} />
 					</div>
 					<Typography variant="section-label" className="mb-0!">
 						{t("shippingAddress")}

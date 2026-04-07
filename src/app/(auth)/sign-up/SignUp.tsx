@@ -85,9 +85,9 @@ const SignUp = () => {
 				<p className="text-muted-foreground mt-2 text-sm">{t("signup.subtitle")}</p>
 			</div>
 
-			<div className="bg-card rounded-lg p-8 shadow-sm">
+			<div className="bg-card border-border/40 rounded-xl border p-8 shadow-md">
 				{successMsg ? (
-					<div className="bg-success-muted rounded-lg p-4 text-center text-sm text-success">
+					<div className="bg-success-muted text-success rounded-lg p-4 text-center text-sm">
 						{successMsg}
 						<div className="mt-4">
 							<LinkWithChannel href="/sign-in" className="text-foreground font-semibold hover:underline">
@@ -132,7 +132,7 @@ const SignUp = () => {
 							<div className="pt-2">
 								<Button
 									size={"base"}
-									variant={"default"}
+									variant={"info"}
 									type="submit"
 									disabled={isSubmitting}
 									className="w-full"
@@ -158,10 +158,7 @@ const SignUp = () => {
 				</div>
 
 				<div className="mt-4 text-center">
-					<LinkWithChannel
-						href="/"
-						className="text-muted-foreground hover:text-foreground text-sm hover:underline"
-					>
+					<LinkWithChannel href="/" className="text-info hover:text-info/80 text-sm hover:underline">
 						{t("common.backToStore")}
 					</LinkWithChannel>
 				</div>

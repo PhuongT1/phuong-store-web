@@ -71,7 +71,7 @@ const toastStyle = {
 	success: {
 		background: "var(--toast-success-bg)",
 		color: "var(--card-foreground)",
-		border: "1px solid var(--success)"
+		border: "1.5px solid var(--success)"
 	} as React.CSSProperties
 };
 

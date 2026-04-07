@@ -6,7 +6,7 @@ export const ProductImageWrapper = ({ className, ...props }: ImageItemProps) => 
 	return (
 		<div
 			className={cn(
-					"align bg-product-image-bg flex aspect-square items-center justify-center overflow-hidden",
+				"align flex aspect-square items-center justify-center overflow-hidden",
 				"transition-transform duration-500 ease-in-out group-hover:scale-110",
 				className
 			)}

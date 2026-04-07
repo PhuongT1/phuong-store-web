@@ -37,7 +37,7 @@ const ProductSort = ({ resultCount }: ProductSortProps) => {
 		<div className="border-border bg-card/95 sticky top-(--header-height) z-30 mb-5 flex items-center justify-between gap-3 rounded-xl border px-3 py-2 backdrop-blur-sm">
 			{/* Sort Options */}
 			<div className="flex flex-wrap items-center">
-				<span className="text-muted-foreground mr-3 hidden text-xs font-semibold tracking-[0.1em] uppercase sm:inline">
+				<span className="text-foreground mr-3 hidden text-xs font-semibold tracking-[0.1em] uppercase sm:inline">
 					{ts("label")}:
 				</span>
 				{SORT_OPTIONS.map((opt, i) => {
@@ -45,7 +45,7 @@ const ProductSort = ({ resultCount }: ProductSortProps) => {
 					return (
 						<span key={opt.key} className="flex items-center">
 							{i > 0 && (
-								<span className={cn("mx-2 text-[8px]", isActive ? "text-nav-active" : "text-border")}>●</span>
+								<span className={cn("mx-2 text-[8px]", isActive ? "text-foreground" : "text-border")}>●</span>
 							)}
 							<button
 								type="button"

@@ -1,0 +1,16 @@
+query CollectionsList($first: Int!, $channel: String!) {
+	collections(first: $first, channel: $channel) {
+		edges {
+			node {
+				id
+				name
+				slug
+				seoDescription
+				backgroundImage {
+					url
+					alt
+				}
+			}
+		}
+	}
+}

@@ -1,21 +1,40 @@
-import Link from "next/link";
+import { Compass } from "lucide-react";
+import { AuthLayout } from "@components/layouts/auth-layout";
+import { LinkWithChannel } from "@components/navigation";
 
 const NotFound = () => (
-	<div className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8">
-		<h1 className="text-9xl font-black text-muted">404</h1>
-		<h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Không tìm thấy trang</h2>
-		<p className="mt-4 max-w-lg text-base text-muted-foreground">
-			Có vẻ như trang bạn đang cố gắng truy cập không tồn tại, đã bị di chuyển hoặc địa chỉ URL không đúng.
-		</p>
-		<div className="mt-10">
-			<Link
-				href="/"
-				className="bg-primary hover:bg-primary/90 focus-visible:outline-primary rounded-lg px-8 py-3.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-			>
-				Về trang chủ
-			</Link>
+	<AuthLayout>
+		<div className="flex w-full max-w-md flex-col items-center text-center">
+			{/* Icon — circular with info glow */}
+			<div className="relative mb-4 flex h-20 w-20 items-center justify-center">
+				{/* outer glow ring */}
+				<div className="bg-info/10 border-info/30 absolute inset-0 rounded-full border-2" />
+				{/* inner circle */}
+				<div className="bg-info/15 flex h-14 w-14 items-center justify-center rounded-full">
+					<Compass className="text-info h-7 w-7" strokeWidth={1.25} />
+				</div>
+			</div>
+
+			{/* 404 big number */}
+			<span className="text-destructive/25 text-[7rem] leading-none font-black tracking-tighter select-none">
+				404
+			</span>
+
+			<h1 className="text-foreground mt-2 text-2xl font-bold">Không tìm thấy trang</h1>
+			<p className="text-muted-foreground mt-3 text-sm leading-relaxed">
+				Trang bạn đang tìm không tồn tại, đã bị di chuyển hoặc địa chỉ URL không đúng.
+			</p>
+
+			<div className="mt-8 w-full">
+				<LinkWithChannel
+					href="/"
+					className="bg-primary text-primary-foreground hover:bg-primary/85 flex h-11 w-full items-center justify-center rounded-lg text-sm font-semibold transition-colors"
+				>
+					Về trang chủ
+				</LinkWithChannel>
+			</div>
 		</div>
-	</div>
+	</AuthLayout>
 );
 
 export default NotFound;

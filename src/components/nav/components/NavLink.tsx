@@ -72,7 +72,7 @@ export const NavLink = ({
 					"hover:bg-accent hover:text-foreground",
 					"select-none disabled:pointer-events-none disabled:opacity-50",
 					// active: emerald bottom border + text
-					"data-[active]:border-nav-active data-[active]:text-nav-active data-[active]:border-b-[2px]",
+					"data-active:border-nav-active data-active:text-nav-active data-active:border-b-2",
 					navigationMenuTriggerStyle()
 				)}
 			>
@@ -98,8 +98,8 @@ export const NavLinkItem = ({
 					href={href}
 					{...props}
 					className={cn(
-						"hover:bg-accent focus:bg-accent block w-max min-w-full space-y-1 rounded-md px-3 py-2.5 leading-none no-underline transition-all duration-200 outline-none select-none",
-						isActive && "border-nav-active border-l-[3px] pl-2.5",
+						"hover:bg-accent focus:bg-accent block w-max min-w-full rounded-md px-3 py-2.5 leading-none no-underline transition-all duration-200 outline-none select-none",
+						isActive && "bg-nav-active-muted",
 						className
 					)}
 				>

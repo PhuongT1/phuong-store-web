@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useLayoutEffect } from "react";
 import { useForm, useWatch, type UseFormReturn } from "react-hook-form";
 import { useSubmit } from "@/checkout/hooks/useSubmit/useSubmit";
 import { type MightNotExist } from "@/checkout/lib/globalTypes";
@@ -85,11 +85,19 @@ export const useDeliveryMethodsForm = (): UseFormReturn<DeliveryMethodsFormData>
 		)
 	);
 
+	// Keep a stable ref to the latest onSubmit so the effect below only
+	// fires when the user actually picks a different method — not every time
+	// the onSubmit reference changes (which happens after each successful mutate).
+	const onSubmitRef = useRef(onSubmit);
+	useLayoutEffect(() => {
+		onSubmitRef.current = onSubmit;
+	});
+
 	// Fire immediately — radio selection is a single deliberate action, no debounce needed.
 	useEffect(() => {
 		if (!selectedMethodId) return;
-		void onSubmit({ selectedMethodId });
-	}, [selectedMethodId, onSubmit]);
+		void onSubmitRef.current({ selectedMethodId });
+	}, [selectedMethodId]);
 
 	useEffect(() => {
 		const hasShippingCountryChanged = shippingAddress?.country?.code !== previousShippingCountry.current;

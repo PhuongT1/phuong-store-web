@@ -17,12 +17,14 @@ const SearchBestSellers = ({ products }: SearchBestSellersProps) => {
 		<section className="py-12">
 			<div className="mb-8 flex items-center justify-between">
 				<div className="flex items-center gap-4">
-<div className="flex h-12 w-12 items-center justify-center rounded-xl bg-badge-best-muted">
-								<Flame className="animate-icon-flame h-6 w-6 text-badge-best" />
+					<div className="bg-badge-best-muted flex h-12 w-12 items-center justify-center rounded-xl">
+						<Flame className="animate-icon-flame text-badge-best h-6 w-6" />
 					</div>
 					<div>
-						<h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Best Sellers</h2>
-						<p className="mt-1 text-sm text-muted-foreground">Most popular products this month</p>
+						<h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+							Best Sellers
+						</h2>
+						<p className="text-muted-foreground mt-1 text-sm">Most popular products this month</p>
 					</div>
 				</div>
 			</div>

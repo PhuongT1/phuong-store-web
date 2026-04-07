@@ -19,14 +19,14 @@ export function ChatWidget() {
 	}, [messages, open]);
 
 	return (
-		<>
-			{/* Panel */}
+		<div className="relative">
+			{/* Panel — floats above the button via absolute positioning */}
 			{open && (
 				<div
 					className={cn(
-						"fixed right-4 bottom-20 z-50 flex w-80 flex-col rounded-2xl shadow-xl",
+						"absolute right-0 bottom-full z-10 mb-3 flex w-80 flex-col rounded-2xl shadow-xl",
 						"border-border bg-card border",
-						"sm:right-6 sm:w-96"
+						"sm:w-96"
 					)}
 					style={{ maxHeight: "520px" }}
 				>
@@ -87,18 +87,17 @@ export function ChatWidget() {
 				</div>
 			)}
 
-			{/* Floating button */}
+			{/* Trigger button — no fixed positioning, parent ChatLauncherStack handles that */}
 			<button
 				onClick={() => setOpen((prev) => !prev)}
 				className={cn(
-					"fixed right-4 bottom-4 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
-					"bg-primary text-primary-foreground transition-transform hover:scale-105 active:scale-95",
-					"sm:right-6"
+					"flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
+					"bg-primary text-primary-foreground transition-transform hover:scale-105 active:scale-95"
 				)}
 				aria-label="Mở trợ lý AI"
 			>
 				{open ? <X size={24} /> : <MessageCircle size={24} />}
 			</button>
-		</>
+		</div>
 	);
 }

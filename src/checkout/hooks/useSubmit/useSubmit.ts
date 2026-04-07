@@ -1,4 +1,3 @@
- 
 import { useCallback } from "react";
 import { useAlerts } from "@/checkout/hooks/useAlerts";
 import { type FormDataBase } from "@/checkout/hooks/useForm";
@@ -84,8 +83,8 @@ export const useSubmit = <
 			const shouldAbortSubmit = typeof shouldAbort === "function" ? await shouldAbort(callbackProps) : false;
 
 			if (shouldAbortSubmit) {
+				setCheckoutUpdateState("success");
 				if (typeof onAbort === "function") {
-					setCheckoutUpdateState("success");
 					onAbort(callbackProps);
 				}
 				return { hasErrors: false, apiErrors: [], customErrors: [], graphqlErrors: [] };

@@ -28,7 +28,7 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
 	return (
 		<Dialog {...props}>
 			<DialogContent className="overflow-hidden p-0">
-				<Command className="**:[[cmdk-group-heading]]:text-muted-foreground **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 **:[[cmdk-input]]:h-12 **:[[cmdk-item]]:px-2 **:[[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+				<Command className="**:[[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5 **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group]]:px-2 **:[[cmdk-input]]:h-12 **:[[cmdk-item]]:px-2 **:[[cmdk-item]]:py-3">
 					{children}
 				</Command>
 			</DialogContent>
@@ -95,7 +95,7 @@ const CommandSeparator = React.forwardRef<
 	React.ElementRef<typeof CommandPrimitive.Separator>,
 	React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-	<CommandPrimitive.Separator ref={ref} className={cn("bg-border -mx-1 h-px", className)} {...props} />
+	<CommandPrimitive.Separator ref={ref} className={cn("bg-border/40 -mx-1 h-px", className)} {...props} />
 ));
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
@@ -106,7 +106,7 @@ const CommandItem = React.forwardRef<
 	<CommandPrimitive.Item
 		ref={ref}
 		className={cn(
-			"data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground relative flex cursor-default items-center rounded-sm px-2 py-2 text-sm outline-none select-none data-[active=true]:bg-accent! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
+			"data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[active=true]:bg-accent! relative flex cursor-default items-center rounded-lg px-3 py-2.5 text-sm outline-none select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
 			className
 		)}
 		{...props}

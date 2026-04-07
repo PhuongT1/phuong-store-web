@@ -62,7 +62,45 @@ const serverFetchWithAuth = async <Result, Variables>(
 	options: GraphQLRequestOptions<Variables>
 ) => {
 	const session = await getServerSession(authConfig);
-	const at = session?.accessToken ?? undefined;
+	// hasActiveSession = true means the user IS logged-in (next-auth JWT exists).
+	// This is distinct from `at` being available: after a transient refresh failure,
+	// the JWT callback clears accessToken but keeps the next-auth session non-null.
+	const hasActiveSession = session !== null;
+	let at = session?.accessToken ?? undefined;
+
+	// CRITICAL: if the user is authenticated but accessToken is missing (transient
+	// refresh failure in the JWT callback), recover in-request by refreshing now.
+	//
+	// Why this matters: Saleor's owner-protected resources (checkout attached to a
+	// user, orders) return HTTP 200 with `{"checkout": null}` — NOT an HTTP error —
+	// when queried without auth. Callers like `Checkout.find()` would then treat
+	// null as "checkout deleted" and clear the cookie, wiping the user's cart.
+	//
+	// Strategy:
+	//  1. Read refreshToken directly from the raw JWT cookie (bypasses getServerSession
+	//     which already ran and cleared the expired accessToken).
+	//  2. If refresh succeeds → use the new token for this request (transparent recovery).
+	//  3. If refresh fails → return an explicit error so executeGraphQL throws and
+	//     callers treat it as "unknown state — keep cookie, retry next request".
+	//     Never return {data: null, errors:[]} here — that would still propagate null.
+	if (hasActiveSession && !at) {
+		const rt = await getRefreshToken();
+		if (rt) {
+			const refreshResult = await refreshSaleorToken(rt);
+			if (refreshResult.token) {
+				// Recovered in-request — proceed with the fresh token.
+				at = refreshResult.token;
+			} else {
+				// Refresh failed permanently (token revoked / Saleor rejected).
+				console.warn("[auth] Token refresh failed — protecting cart cookie, request skipped");
+				return { data: null, errors: [{ message: "not authenticated" }] };
+			}
+		} else {
+			// Session exists but no refresh token — session is fully broken.
+			console.warn("[auth] No refresh token in session — protecting cart cookie, request skipped");
+			return { data: null, errors: [{ message: "not authenticated" }] };
+		}
+	}
 
 	const callFetch = (token: string | undefined) =>
 		fetchGraphQL(operation, { ...options, saleorAppToken: token });

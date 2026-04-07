@@ -49,9 +49,8 @@ export const localizedAddressFieldMessages: Record<LocalizedAddressFieldLabel, s
 };
 
 export const useAddressFormUtils = (countryCode: CountryCode) => {
-	const { data } = useSWR(
-		countryCode ? ["addressValidationRules", countryCode] : null,
-		async () => executeGraphQL(AddressValidationRulesDocument, { variables: { countryCode } })
+	const { data, isLoading } = useSWR(countryCode ? ["addressValidationRules", countryCode] : null, async () =>
+		executeGraphQL(AddressValidationRulesDocument, { variables: { countryCode } })
 	);
 
 	const requiredFields = data?.addressValidationRules?.requiredFields ?? [];
@@ -130,6 +129,7 @@ export const useAddressFormUtils = (countryCode: CountryCode) => {
 
 	return {
 		orderedAddressFields,
+		isLoading,
 		getFieldLabel,
 		isRequiredField,
 		getMissingFieldsFromAddress,

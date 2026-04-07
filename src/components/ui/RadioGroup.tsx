@@ -69,16 +69,18 @@ const radioVariants = cva("relative flex items-center space-x-2", {
 				"group",
 				"cursor-pointer",
 				"border",
-				"border-border/60",
-				"bg-card",
+				"border-border",
+				"bg-muted",
 				"px-3",
 				"py-2.5",
 				"rounded-(--radius)",
 				"text-sm",
 				"transition-all duration-150",
 				"hover:border-border hover:bg-accent/40",
+				// Active: colored border + tinted bg + info text
 				"has-[button[data-state='checked']]:border-info",
-				"has-[button[data-state='checked']]:bg-info/5"
+				"has-[button[data-state='checked']]:bg-info/10",
+				"has-[button[data-state='checked']]:text-info"
 			]
 		}
 	},

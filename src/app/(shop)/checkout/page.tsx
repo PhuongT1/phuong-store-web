@@ -38,7 +38,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Che
 
 	return (
 		<div className="bg-background min-h-dvh">
-			<section className="mx-auto flex min-h-dvh max-w-[1440px] flex-col px-4 md:px-8 lg:px-10">
+			<section className="mx-auto flex min-h-dvh max-w-(--container-max-w) flex-col px-4 md:px-8 lg:px-10">
 				<RootWrapper />
 			</section>
 		</div>

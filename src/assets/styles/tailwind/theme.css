@@ -4,8 +4,14 @@
 :root {
 	--radius: 0.6rem;
 	/* MUI Standard Radius */
-	--header-height: 109px;
-	/* h-14(56) + h-11(44) + py-1(8) + border-b(1) */
+	--header-height: 88px;
+	--container-max-w: 1600px;
+	/* ── Floating chat buttons ── */
+	--chat-right: 1rem;
+	/* right offset for the launcher stack */
+	--chat-bottom: 1rem;
+	/* bottom offset for the launcher stack */
+	/* h-12(48) + h-9(36) + border-b(1) = ~85px, round up */
 
 	/* ── Core Surfaces ── */
 	--background: oklch(0.96 0 0);
@@ -19,9 +25,10 @@
 	--popover-foreground: oklch(0.12 0 0);
 
 	/* ── Brand ── */
-	--primary: oklch(0.10 0 0);
-	/* Near-black primary */
+	--primary: oklch(0.684 0.169 237);
+	/* sky-500 (#0da2e7): rgb(56,189,248) */
 	--primary-foreground: oklch(1 0 0);
+	/* White text on blue */
 	--secondary: oklch(0.91 0 0);
 	/* Secondary bg — clearly darker than page bg (0.96) for visible buttons */
 	--secondary-foreground: oklch(0.12 0 0);
@@ -35,7 +42,7 @@
 	--accent-foreground: oklch(0.12 0 0);
 
 	/* ── Semantic: Destructive (Red) ── */
-	--destructive: oklch(0.55 0.22 25);
+	--destructive: oklch(0.637 0.208 25.3);
 	--destructive-foreground: oklch(1 0 0);
 	--destructive-muted: oklch(0.97 0.04 25);
 	--toast-error-bg: oklch(0.99 0.02 25);
@@ -52,10 +59,11 @@
 	--warning-foreground: oklch(0.30 0.06 70);
 	--warning-muted: oklch(0.97 0.04 70);
 	--toast-warning-bg: oklch(0.93 0.10 70);
-	--info: oklch(0.42 0.13 205);
-	/* Blue-teal — Apply button, active radio ring, ACTIVE badge */
+	--info: oklch(0.684 0.169 237);
+	/* sky-500 (#0da2e7): rgb(56,189,248) — Apply button, active radio ring, ACTIVE badge */
 	--info-foreground: oklch(1 0 0);
-	--info-muted: oklch(0.94 0.04 205);
+	/* White text on blue */
+	--info-muted: oklch(0.94 0.05 232);
 
 	/* ── E-commerce: Ratings (Golden) ── */
 	--rating: oklch(0.80 0.16 75);
@@ -64,9 +72,9 @@
 	/* ── E-commerce: Savings (Teal-green) ── */
 	--savings: oklch(0.52 0.14 160);
 
-	/* ── Navigation Active (Blue-teal — matches --info) ── */
-	--nav-active: oklch(0.42 0.13 205);
-	--nav-active-muted: oklch(0.94 0.04 205);
+	/* ── Navigation Active (sky-500 (#0da2e7) — matches --info) ── */
+	--nav-active: oklch(0.684 0.169 237);
+	--nav-active-muted: oklch(0.94 0.05 232);
 
 	/* ── Icon Container ── */
 	--icon-bg: oklch(0.92 0 0);
@@ -86,8 +94,10 @@
 
 	/* ── Inputs & Borders ── */
 	--border: oklch(0.86 0 0);
-	--input: oklch(0.97 0 0);
+	--input: oklch(0.988 0 0);
 	/* Input bg slightly lighter than page */
+	--input-foreground: var(--foreground);
+	/* Input text — same as foreground in light mode */
 	--ring: oklch(0.08 0 0 / 0.25);
 	--focus-ring: oklch(0.35 0 0);
 	/* Neutral dark gray focus */
@@ -150,6 +160,18 @@
 	--hero-btn-text: oklch(0.10 0 0);
 	/* CTA button text on hero image — near-black */
 
+	/* ── Hero Slide Gradients (light: muted medium tones — vivid but not harsh) ── */
+	--hero-rose-from: oklch(0.55 0.13 8);
+	--hero-rose-to: oklch(0.50 0.12 345);
+	--hero-sky-from: oklch(0.43 0.13 248);
+	--hero-sky-to: oklch(0.46 0.15 265);
+	--hero-emerald-from: oklch(0.43 0.13 165);
+	--hero-emerald-to: oklch(0.47 0.11 185);
+	--hero-violet-from: oklch(0.43 0.15 298);
+	--hero-violet-to: oklch(0.40 0.13 275);
+	--hero-amber-from: oklch(0.55 0.13 72);
+	--hero-amber-to: oklch(0.52 0.14 52);
+
 	/* Shadows — lighter for less visual noise */
 	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
 	--shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 6px -2px rgb(0 0 0 / 0.05);
@@ -180,26 +202,28 @@
 	 */
 
 	/* ── Core Surfaces ── */
-	--background: oklch(0.10 0.01 255);
-	/* Deep navy-black page bg */
+	--background: oklch(0.145 0 0);
+	/* #0a0a0a */
 	--foreground: oklch(0.91 0.005 255);
 	/* Soft white text — comfortable for long reading */
-	--card: oklch(0.15 0.012 255);
-	/* Navy card: elevated above bg, matches aitokens card surface */
+	--card: oklch(0.168 0 0);
+	/* #0f0f0f */
 	--card-foreground: oklch(0.91 0.005 255);
 	--popover: oklch(0.20 0.012 255);
 	/* Dropdowns float above cards */
 	--popover-foreground: oklch(0.91 0.005 255);
 
 	/* ── Brand ── */
-	--primary: oklch(0.91 0.005 255);
-	--primary-foreground: oklch(0.10 0.01 255);
+	--primary: oklch(0.684 0.169 237);
+	/* sky-500 (#0da2e7): rgb(56,189,248) */
+	--primary-foreground: oklch(1 0 0);
+	/* White text on blue — high contrast on dark bg */
 	--secondary: oklch(0.22 0.012 255);
 	--secondary-foreground: oklch(0.82 0.006 255);
 
 	/* ── Neutral Tones ── */
-	--muted: oklch(0.19 0.012 255);
-	/* Slightly elevated above card bg */
+	--muted: oklch(0.191 0 0);
+	/* #141414 — card-in-card surface */
 	--muted-foreground: oklch(0.60 0.008 255);
 	/* Comfortable secondary text — not too dim, not too bright */
 	--accent: oklch(0.23 0.014 255);
@@ -207,7 +231,7 @@
 	--accent-foreground: oklch(0.91 0.005 255);
 
 	/* ── Semantic: Destructive ── */
-	--destructive: oklch(0.62 0.19 25);
+	--destructive: oklch(0.637 0.208 25.3);
 	--destructive-foreground: oklch(0.98 0 0);
 	--destructive-muted: oklch(0.18 0.06 25);
 	--toast-error-bg: oklch(0.17 0.05 25);
@@ -217,17 +241,18 @@
 	/* In dark mode, --success IS already bright enough — same value */
 	--success-foreground: oklch(0.10 0 0);
 	--success-muted: oklch(0.19 0.06 155);
-	--toast-success-bg: oklch(0.21 0.09 155);
+	--toast-success-bg: oklch(0.25 0.11 155);
 
 	/* ── Semantic: Warning ── */
 	--warning: oklch(0.78 0.15 70);
 	--warning-foreground: oklch(0.10 0 0);
 	--warning-muted: oklch(0.19 0.06 70);
 	--toast-warning-bg: oklch(0.22 0.10 70);
-	--info: oklch(0.60 0.14 200);
-	/* Teal-cyan — matches aitokens.io active/accent: vivid but soft */
-	--info-foreground: oklch(0.06 0 0);
-	--info-muted: oklch(0.18 0.06 200);
+	--info: oklch(0.684 0.169 237);
+	/* sky-500 (#0da2e7): rgb(56,189,248) — active states, radio ring */
+	--info-foreground: oklch(1 0 0);
+	/* White text on blue */
+	--info-muted: oklch(0.20 0.05 232);
 
 	/* ── E-commerce: Ratings ── */
 	--rating: oklch(0.84 0.17 75);
@@ -239,9 +264,9 @@
 	--icon-bg: oklch(0.21 0.014 255);
 	/* Between card(0.15) and accent(0.23) */
 
-	/* ── Navigation Active (teal — matches --info) ── */
-	--nav-active: oklch(0.60 0.14 200);
-	--nav-active-muted: oklch(0.18 0.06 200);
+	/* ── Navigation Active (sky-500 (#0da2e7) — matches --info) ── */
+	--nav-active: oklch(0.684 0.169 237);
+	--nav-active-muted: oklch(0.20 0.05 232);
 	--badge-new: oklch(0.72 0.17 290);
 	--badge-new-muted: oklch(0.22 0.10 290);
 	--badge-hot: oklch(0.72 0.19 30);
@@ -254,13 +279,15 @@
 	--badge-recommended-muted: oklch(0.22 0.10 340);
 
 	/* ── Inputs & Borders ── */
-	--border: oklch(0.26 0.012 255);
-	/* Subtle dividers — visible but not distracting */
-	--input: oklch(0.18 0.012 255);
-	/* Input surface: between muted and card */
-	--ring: oklch(0.60 0.14 200 / 0.50);
-	/* Teal focus ring */
-	--focus-ring: oklch(0.60 0.14 200);
+	--border: oklch(0.2308 0 0);
+	/* #1d1d1d — subtle dividers */
+	--input: oklch(0.2046 0 0);
+	/* #171717 — input surface */
+	--input-foreground: oklch(0.985 0 0);
+	/* hsl(0 0% 98%) — near-white for form field text in dark mode */
+	--ring: oklch(0.684 0.169 237 / 0.50);
+	/* sky-500 (#0da2e7) focus ring */
+	--focus-ring: oklch(0.684 0.169 237);
 
 	/* ── E-commerce: Price — warm rose tone, readable ── */
 	--price: oklch(0.72 0.16 25);
@@ -269,8 +296,8 @@
 	--price-accent: oklch(0.72 0.16 25 / 0.15);
 
 	/* ── Layout ── */
-	--header: oklch(0.13 0.012 255);
-	/* Header: slightly lighter than bg, same surface family */
+	--header: oklch(0.168 0 0);
+	/* Header: #0f0f0f */
 	--product-image-bg: oklch(0.30 0.010 255);
 	/* Product image container: clearly visible */
 	--skeleton: oklch(0.28 0.010 255);
@@ -289,8 +316,8 @@
 	/* Track ring brighter in dark mode for visibility */
 
 	/* ── Card elevated (glassmorphism) — checkout/cart panels ── */
-	--card-elevated: oklch(0.15 0.012 255 / 0.80);
-	/* Semi-transparent navy card with blur — aitokens.io style */
+	--card-elevated: oklch(0.168 0 0 / 0.95);
+	/* Semi-transparent card for checkout/cart glass panels */
 	--card-elevated-border: oklch(0.30 0.014 255 / 0.45);
 	/* Dark mode: slightly brighter border for better contrast */
 	--card-elevated-shadow: none;
@@ -308,6 +335,18 @@
 	--hero-surface: oklch(1 0 0 / 0.10);
 	--hero-btn-bg: oklch(1 0 0);
 	--hero-btn-text: oklch(0.10 0 0);
+
+	/* ── Hero Slide Gradients (dark: deep navy-tinted, atmospheric) ── */
+	--hero-rose-from: oklch(0.28 0.09 8);
+	--hero-rose-to: oklch(0.24 0.07 345);
+	--hero-sky-from: oklch(0.22 0.09 248);
+	--hero-sky-to: oklch(0.25 0.11 265);
+	--hero-emerald-from: oklch(0.22 0.10 165);
+	--hero-emerald-to: oklch(0.25 0.08 185);
+	--hero-violet-from: oklch(0.23 0.10 298);
+	--hero-violet-to: oklch(0.21 0.09 275);
+	--hero-amber-from: oklch(0.28 0.09 72);
+	--hero-amber-to: oklch(0.25 0.09 52);
 
 	/* Shadows — deep but not oppressive */
 	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.40);
@@ -431,4 +470,7 @@
 	--color-hero-surface: var(--hero-surface);
 	--color-hero-btn-bg: var(--hero-btn-bg);
 	--color-hero-btn-text: var(--hero-btn-text);
+
+	/* Layout */
+	--container-max-w: var(--container-max-w);
 }

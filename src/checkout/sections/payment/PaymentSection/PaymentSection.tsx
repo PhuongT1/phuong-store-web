@@ -11,8 +11,8 @@ export const PaymentSection = () => {
 			<Separator />
 			<div className="py-4" data-testid="paymentMethods">
 				<div className="mb-3 flex items-center gap-2.5">
-					<div className="bg-icon-bg flex h-7 w-7 shrink-0 items-center justify-center rounded-(--radius)">
-						<Wallet className="text-info h-3.5 w-3.5" strokeWidth={1.5} />
+					<div className="bg-icon-bg flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
+						<Wallet className="text-info h-5 w-5" strokeWidth={1.5} />
 					</div>
 					<Typography variant="section-label" className="mb-0!">
 						{t("paymentMethod")}

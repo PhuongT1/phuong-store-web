@@ -38,10 +38,28 @@ export const useAddressListForm = ({
 
 	const previousCheckoutAddress = useRef<OptionalAddress>(null);
 
+	// A checkout address that only has `country` set (all other fields empty) is a
+	// "stub" created by addToCart to pre-fetch shipping methods — not a real selection.
+	// Treat it as null so the fallback chain selects a meaningful address.
+	const hasRealAddress = !!(
+		checkoutAddress?.city ||
+		checkoutAddress?.streetAddress1 ||
+		checkoutAddress?.firstName
+	);
+	const effectiveCheckoutAddress = hasRealAddress ? checkoutAddress : null;
+
+	// Priority: match exact checkout address → user's default → first in list
+	const getInitialSelectedId = () =>
+		(
+			addresses.find(getByMatchingAddress(effectiveCheckoutAddress)) ??
+			addresses.find(getByMatchingAddress(defaultAddress)) ??
+			addresses[0]
+		)?.id;
+
 	const form = useForm<AddressListFormData>({
 		defaultValues: {
 			addressList: addresses,
-			selectedAddressId: addresses.find(getByMatchingAddress(checkoutAddress))?.id
+			selectedAddressId: getInitialSelectedId()
 		}
 	});
 
@@ -50,7 +68,8 @@ export const useAddressListForm = ({
 	const addressList = useWatch({ control, name: "addressList" }) ?? [];
 	const selectedAddressId = useWatch({ control, name: "selectedAddressId" });
 
-	// Sync form when SWR resolves user addresses after initial empty state
+	// Sync form when SWR resolves user addresses after initial empty state.
+	// Also fires when checkoutAddress changes (e.g. user navigates back).
 	const prevAddressCountRef = useRef(addresses.length);
 	useEffect(() => {
 		const currentFormList = getValues("addressList") ?? [];
@@ -59,7 +78,7 @@ export const useAddressListForm = ({
 
 		if (hadNoAddresses && nowHasAddresses) {
 			const matchingAddress =
-				addresses.find(getByMatchingAddress(checkoutAddress)) ??
+				addresses.find(getByMatchingAddress(effectiveCheckoutAddress)) ??
 				addresses.find(getByMatchingAddress(defaultAddress)) ??
 				addresses[0];
 
@@ -70,19 +89,32 @@ export const useAddressListForm = ({
 		}
 
 		prevAddressCountRef.current = addresses.length;
-	}, [addresses, checkoutAddress, defaultAddress, getValues, reset]);
+	}, [addresses, effectiveCheckoutAddress, defaultAddress, getValues, reset]);
 
 	const submit = useCallback(() => {
 		return handleSubmit((data) => onSubmit(data))();
 	}, [handleSubmit, onSubmit]);
 
-	const debouncedSubmit = useDebouncedSubmit(submit);
+	// Debounce is used for text field changes (avoid spamming API while typing).
+	// Address selection from the list is a single deliberate click — submit immediately.
+	const debouncedSubmit = useDebouncedSubmit(submit, 1000);
 
 	const selectedAddress = addressList.find(getById(selectedAddressId));
 
+	const prevSelectedAddressIdRef = useRef<string | undefined>(undefined);
 	useEffect(() => {
-		debouncedSubmit();
-	}, [debouncedSubmit, selectedAddressId]);
+		const prevId = prevSelectedAddressIdRef.current;
+		prevSelectedAddressIdRef.current = selectedAddressId;
+
+		// On first render or when explicitly selecting from the list (ID changed),
+		// submit immediately — no debounce — so shippingMethods appear right away.
+		const isAddressSelection = prevId !== selectedAddressId;
+		if (isAddressSelection) {
+			void submit();
+		} else {
+			debouncedSubmit();
+		}
+	}, [debouncedSubmit, submit, selectedAddressId]);
 
 	const addressListUpdate = async (selectedAddress: OptionalAddress, addressList: AddressFragment[]) => {
 		if (!selectedAddress) {

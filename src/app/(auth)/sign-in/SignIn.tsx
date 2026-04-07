@@ -49,7 +49,7 @@ const SignIn = () => {
 			</div>
 
 			{/* Login Form Card */}
-			<div className="bg-card rounded-lg p-8 shadow-sm">
+			<div className="bg-card border-border/40 rounded-xl border p-8 shadow-md">
 				<FormProvider methods={method} formProps={{ onSubmit: handleSubmit(onSubmit) }}>
 					<div className="space-y-5">
 						<FormInput
@@ -61,7 +61,7 @@ const SignIn = () => {
 							}}
 						/>
 						<div className="pt-2">
-							<Button size={"base"} variant={"default"} type="submit" className="w-full">
+							<Button size={"base"} variant={"info"} type="submit" className="w-full">
 								<LogIn className="h-4 w-4" />
 								{t("common.login")}
 							</Button>
@@ -69,25 +69,9 @@ const SignIn = () => {
 					</div>
 				</FormProvider>
 
-				{/* Register Link */}
-				<div className="border-border mt-6 border-t pt-6 text-center">
-					<p className="text-muted-foreground text-sm">
-						{t("common.noAccount")}{" "}
-						<LinkWithChannel
-							href="/sign-up"
-							className="text-foreground hover:text-foreground/80 font-semibold hover:underline"
-						>
-							{t("common.register")}
-						</LinkWithChannel>
-					</p>
-				</div>
-
 				{/* Back to Store */}
 				<div className="mt-4 text-center">
-					<LinkWithChannel
-						href="/"
-						className="text-muted-foreground hover:text-foreground text-sm hover:underline"
-					>
+					<LinkWithChannel href="/" className="text-info hover:text-info/80 text-sm hover:underline">
 						{t("common.backToStore")}
 					</LinkWithChannel>
 				</div>

@@ -35,7 +35,7 @@ const inputVariants = cva(
 		"group",
 		"relative z-0 inline-flex items-center w-full min-w-0 overflow-hidden rounded-lg border text-sm focus-within:z-20",
 		// bg-input: recessed page-gray on white card (light) / raised above card (dark)
-		"bg-input border-border placeholder:text-muted-foreground",
+		"bg-input border-border text-(--input-foreground) placeholder:text-muted-foreground",
 		"transition-all duration-200",
 		"selection:bg-primary selection:text-primary-foreground",
 		// focus — border strengthens, subtle halo ring

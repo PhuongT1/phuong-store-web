@@ -18,7 +18,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
 	];
 
 	return (
-		<div className="mx-auto w-full max-w-[1440px] px-3 py-8 md:px-6 lg:px-8">
+		<div className="mx-auto w-full max-w-(--container-max-w) px-3 py-8 md:px-6 lg:px-8">
 			<div className="flex flex-col gap-8 lg:flex-row">
 				{/* Sidebar */}
 				<aside className="w-full shrink-0 lg:w-64">

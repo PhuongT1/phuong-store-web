@@ -133,13 +133,25 @@ export const AddressForm: FC<PropsWithChildren<AddressFormProps>> = ({ title, ch
 
 	const fieldConfigs = useAddressFieldConfigs(values.countryCode);
 
+	const fieldSkeleton = (
+		<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+			{Array.from({ length: 6 }).map((_, i) => (
+				<div key={i} className="bg-skeleton h-10 animate-pulse rounded-lg" />
+			))}
+		</div>
+	);
+
 	return (
-		<div className="flex flex-col gap-4 pb-6">
+		<div className="flex flex-col gap-4">
 			{title && <Typography variant="title">{title}</Typography>}
-			<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-				{fieldConfigs.map((field) => renderField(field))}
-			</div>
-			{children && <div className="border-border mt-4 border-t pt-4">{children}</div>}
+			{fieldConfigs.isLoading ? (
+				fieldSkeleton
+			) : (
+				<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+					{fieldConfigs.fields.map((field) => renderField(field))}
+				</div>
+			)}
+			{children && <div className="border-border mt-2 border-t pt-4">{children}</div>}
 		</div>
 	);
 };

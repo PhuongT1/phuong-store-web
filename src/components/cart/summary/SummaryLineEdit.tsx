@@ -115,8 +115,12 @@ const SummaryLineEdit = React.memo(
 				)}
 				data-testid="SummaryItem"
 			>
-				<div className="bg-muted aspect-square h-16 w-16 shrink-0 overflow-hidden rounded border md:h-[72px] md:w-[72px]">
-					{productImage ? <ImageItem src={productImage.url} alt={productImage.alt} /> : <ImageIcon className="h-8 w-8 text-muted-foreground" />}
+				<div className="bg-popover border-border aspect-square h-16 w-16 shrink-0 overflow-hidden rounded-xl border md:h-[72px] md:w-[72px]">
+					{productImage ? (
+						<ImageItem src={productImage.url} alt={productImage.alt} />
+					) : (
+						<ImageIcon className="text-muted-foreground h-8 w-8" />
+					)}
 				</div>
 				<div className="relative flex flex-1 flex-col justify-between gap-2">
 					<div className="flex justify-between justify-items-start gap-1">
@@ -180,11 +184,11 @@ const SummaryLineEdit = React.memo(
 				{editable && (
 					<div className="flex w-full items-center justify-end gap-3">
 						<ConfirmDeleteDialog confirmButtonProps={{ onClick: () => checkoutDelete(line._id) }} />
-						<div className="border-input inline-flex h-8 items-center overflow-hidden rounded-md border">
+						<div className="bg-popover border-border inline-flex h-8 items-center overflow-hidden rounded-lg border">
 							<Button
 								variant="ghost"
 								size="icon"
-								className="border-input h-full w-8 rounded-none border-r shadow-none"
+								className="border-border text-muted-foreground hover:text-foreground h-full w-8 rounded-none border-r shadow-none"
 								onClick={() => {
 									handleUpdateQuantity(quantity - 1);
 								}}
@@ -196,7 +200,7 @@ const SummaryLineEdit = React.memo(
 								name={quantityPath}
 								control={control}
 								affixWrapperProps={{
-									className: "rounded-none border-0 focus-within:ring-0 px-1 h-8 bg-background"
+									className: "rounded-none border-0 focus-within:ring-0 px-1 h-8 bg-popover"
 								}}
 								inputProps={{
 									sizeVariant: "xsmall",
@@ -211,7 +215,7 @@ const SummaryLineEdit = React.memo(
 							<Button
 								variant="ghost"
 								size="icon"
-								className="border-input h-full w-8 rounded-none border-l shadow-none"
+								className="border-border text-muted-foreground hover:text-foreground h-full w-8 rounded-none border-l shadow-none"
 								onClick={() => {
 									handleUpdateQuantity(quantity + 1);
 								}}

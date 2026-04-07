@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { LinkWithChannel } from "@components/navigation";
 import { SwiperSlider } from "@components/swiper";
 import { Button } from "@components/ui";
-import { whatsHotItems } from "./searchData";
+import { whatsHotItems } from "../data/searchData";
 
 const SearchWhatsHot = () => {
 	return (
