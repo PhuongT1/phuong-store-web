@@ -182,13 +182,4 @@ body {
 	/* width: var(--radix-popover-trigger-width); */
 }
 
-/* ── Sonner toast close button ─────────────────────────────────────────
-   The close button is absolutely positioned outside the toast (top-left corner),
-   sitting on the raw page background. In dark mode sonner's default gray1=#111
-   is invisible on our near-black bg. Override to use card surface + border. */
-.toaster [data-close-button] {
-	background: var(--card) !important;
-	border-color: var(--border) !important;
-	color: var(--foreground) !important;
-	opacity: 1 !important;
-}
+/* ── Sonner toast: handled in components.css via [data-sonner-toast] scoped rules ── */

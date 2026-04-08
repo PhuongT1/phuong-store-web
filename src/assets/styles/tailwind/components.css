@@ -15,14 +15,74 @@
 		@apply md:col-span-4;
 	}
 
-	/* ── Sonner toast close button — visible in both light & dark mode ── */
-	[data-close-button] {
-		background: var(--muted) !important;
-		border-color: var(--border) !important;
+	/* ── Sonner toast close button ──────────────────────────────────────────────
+	   Default: Sonner places [data-close-button] absolutely at top-left, overlapping
+	   the page background. We move it inside-right, icon-only style, type-aware color. */
+
+	/* Reposition to right-center inside the toast */
+	[data-sonner-toast] [data-close-button] {
+		position: absolute !important;
+		top: 50% !important;
+		bottom: auto !important;
+		left: auto !important;
+		right: 0.625rem !important;
+		transform: translateY(-50%) !important;
+		/* Icon-only — remove pill shape */
+		background: transparent !important;
+		border: none !important;
+		box-shadow: none !important;
+		padding: 0.25rem !important;
+		border-radius: 0.25rem !important;
+		color: var(--foreground) !important;
+		/* !important required: Sonner's [data-sonner-toast]:not(:hover) [data-close-button]
+		   has higher specificity and sets opacity:0, hiding the button when not hovering */
+		opacity: 0.6 !important;
+		transition: opacity 0.15s, background 0.15s, color 0.15s;
+	}
+
+	[data-sonner-toast] [data-close-button]:hover {
+		opacity: 1 !important;
+		background: color-mix(in oklch, var(--foreground) 10%, transparent) !important;
 		color: var(--foreground) !important;
 	}
-	[data-close-button] svg {
-		color: var(--foreground) !important;
-		stroke: var(--foreground) !important;
+
+	/* Error toast: description uses --error-text (= --destructive = red) from Sonner's
+	   internal CSS — red text on red bg = invisible. Force readable contrast instead. */
+	[data-sonner-toast][data-type="error"] [data-description] {
+		color: var(--card-foreground) !important;
+		opacity: 0.8;
+	}
+
+	[data-sonner-toast] [data-close-button] svg {
+		width: 0.875rem !important;
+		height: 0.875rem !important;
+		color: inherit !important;
+		stroke: currentColor !important;
+	}
+
+	/* Nudge content area right so text never hides under the × */
+	[data-sonner-toast] [data-content] {
+		padding-right: 1.5rem !important;
+	}
+
+	/* Hover accent color per toast type */
+	[data-sonner-toast][data-type="success"] [data-close-button]:hover {
+		color: var(--success) !important;
+		background: var(--success-muted) !important;
+	}
+
+	[data-sonner-toast][data-type="error"] [data-close-button]:hover {
+		color: var(--destructive) !important;
+		background: var(--destructive-muted) !important;
+	}
+
+	[data-sonner-toast][data-type="warning"] [data-close-button]:hover {
+		color: var(--warning) !important;
+		background: var(--warning-muted) !important;
+	}
+
+	[data-sonner-toast][data-type="info"] [data-close-button]:hover {
+		color: var(--info) !important;
+		background: var(--info-muted) !important;
 	}
 }

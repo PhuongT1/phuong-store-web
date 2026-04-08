@@ -6,19 +6,19 @@ import { SummaryPromoCodeRow } from "@/checkout/sections/order-summary/Summary/S
 import { Skeleton } from "@/components/skeleton/Skeleton";
 import { type Checkout } from "@/gql/graphql";
 import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
-import { cn } from "@/lib/utils";
-import { MoneyDisplay, getFormattedMoney , Separator } from "@components/ui";
-import { type CartLine } from "../Cart.type";
+import { MoneyDisplay, getFormattedMoney, Separator } from "@components/ui";
+import { type CheckoutLineItem } from "../Cart.type";
 import { SummaryCard } from "./SummaryCard";
 
 type SummaryProps = {
 	editable?: boolean;
-	lines: CartLine[];
+	lines: CheckoutLineItem[];
 	classNameCard?: string;
-} & Checkout;
+} & Omit<Checkout, "lines">;
 
 const Summary: FC<SummaryProps> = ({
 	editable = true,
+	lines,
 	totalPrice,
 	subtotalPrice,
 	giftCards = [],
@@ -30,6 +30,24 @@ const Summary: FC<SummaryProps> = ({
 	const t = useTranslations("cart");
 
 	if (!totalPrice) return null;
+
+	const currency = totalPrice.gross?.currency ?? "";
+	const totalQuantity = lines.reduce((acc, line) => acc + line.quantity, 0);
+	const lineSavings = lines.reduce((acc, line) => {
+		const saving = line.undiscountedTotalPrice.amount - line.totalPrice.gross.amount;
+		return saving > 0 ? acc + saving : acc;
+	}, 0);
+	const hasSavings = lineSavings > 0.001;
+	const savingsMoney = hasSavings
+		? {
+				__typename: "Money" as const,
+				currency,
+				amount: lineSavings,
+				fractionDigits: 2,
+				fractionalAmount: Math.round(lineSavings * 100)
+			}
+		: null;
+
 	return (
 		<SummaryCard>
 			{editable && (
@@ -45,6 +63,16 @@ const Summary: FC<SummaryProps> = ({
 					aria-label="subtotal price"
 					isLoading={isValidating}
 				/>
+				{hasSavings && savingsMoney && (
+					<SummaryMoneyRow
+						label={t("savings")}
+						money={savingsMoney}
+						aria-label="savings"
+						isLoading={isValidating}
+						className="text-success font-medium"
+						negative
+					/>
+				)}
 				{voucherCode && (
 					<SummaryPromoCodeRow
 						editable={editable}
@@ -74,9 +102,10 @@ const Summary: FC<SummaryProps> = ({
 				/>
 				<Separator className="my-4" />
 				<div className="flex flex-row items-baseline justify-between pb-4">
-					<div className="flex flex-row items-baseline">
+					<div className="flex flex-row items-baseline gap-2">
 						<p className="font-bold">{t("total")}</p>
-						<p color="secondary" className="ml-2">
+						<span className="text-muted-foreground text-xs">({totalQuantity})</span>
+						<p color="secondary" className="text-xs">
 							{t("taxIncluded", { tax: getFormattedMoney(totalPrice?.tax) })}
 						</p>
 					</div>

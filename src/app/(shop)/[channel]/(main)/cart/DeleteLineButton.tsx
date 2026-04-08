@@ -8,9 +8,10 @@ import { deleteLineFromCheckout } from "./actions";
 type Props = {
 	lineId: string;
 	checkoutId: string;
+	onDeleted?: () => void;
 };
 
-export const DeleteLineButton = ({ lineId, checkoutId }: Props) => {
+export const DeleteLineButton = ({ lineId, checkoutId, onDeleted }: Props) => {
 	const [isPending, startTransition] = useTransition();
 
 	return (
@@ -25,7 +26,10 @@ export const DeleteLineButton = ({ lineId, checkoutId }: Props) => {
 			)}
 			onClick={() => {
 				if (isPending) return;
-				startTransition(() => deleteLineFromCheckout({ lineId, checkoutId }));
+				startTransition(async () => {
+					await deleteLineFromCheckout({ lineId, checkoutId });
+					onDeleted?.();
+				});
 			}}
 		>
 			<Trash2 size={15} strokeWidth={2} />

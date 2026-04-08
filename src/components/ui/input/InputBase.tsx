@@ -94,17 +94,27 @@ const InputBase = React.forwardRef<HTMLInputElement, InputPrimitivesProps>(
 		});
 		const placeholder =
 			domInputProps?.placeholder && `${domInputProps.placeholder}${domInputProps.required ? " *" : ""}`;
-		const isControlled = value !== undefined;
+
+		// Normalize undefined → "" to keep inputs always controlled when a value prop is provided.
+		// React throws "uncontrolled → controlled" when value changes from undefined to a string.
+		// Fix at the component boundary: any defined value prop (including from RHF spread) is kept,
+		// undefined is coerced to "" so the input stays controlled its entire lifetime.
+		const rawValue = "value" in domInputProps ? domInputProps.value : value;
+		const controlledValue = rawValue !== undefined ? rawValue : value !== undefined ? "" : undefined;
+		const { value: _dropValue, ...safeProps } = domInputProps as typeof domInputProps & { value?: unknown };
+
 		return (
 			<input
-				{...domInputProps}
+				{...safeProps}
 				ref={ref}
-				{...(isControlled ? { value: value ?? "" } : {})}
+				{...(controlledValue !== undefined
+					? { value: controlledValue as string | number | readonly string[] }
+					: {})}
 				spellCheck={false}
 				placeholder={placeholder}
 				autoComplete="off"
 				autoCorrect="off"
-				className={cn("min-w-0 focus:outline-none", "flex-1", domInputProps?.className)}
+				className={cn("min-w-0 focus:outline-none", "flex-1", safeProps?.className)}
 				onFocus={(e) => {
 					handleFocus();
 					onFocus?.(e);

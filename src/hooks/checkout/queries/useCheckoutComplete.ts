@@ -34,15 +34,17 @@ const useCheckoutComplete = () => {
 			if (data?.checkoutComplete?.errors?.length) {
 				const errors = data.checkoutComplete.errors;
 				void import("sonner").then(({ toast }) => {
-					toast.error("Lỗi hoàn tất đơn hàng: " + (errors?.[0]?.message || "Vui lòng thử lại."));
+					toast.error(errors[0]?.code ?? "CHECKOUT_COMPLETE_FAILED", {
+						description: errors[0]?.message ?? undefined
+					});
 				});
 				onError?.();
 				return;
 			}
 
-			void removeCheckoutIdCookie();
 			const order = data?.checkoutComplete?.order;
 			if (order) {
+				void removeCheckoutIdCookie();
 				window.location.href = `/order-confirmation?order=${order.id}`;
 			} else {
 				onError?.();

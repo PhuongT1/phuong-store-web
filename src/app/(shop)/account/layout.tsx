@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, Package, MapPin, Settings, LogOut } from "lucide-react";
+import { User, Package, MapPin, LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { signOutUser } from "@/auth/authActions";
 
@@ -13,8 +13,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
 	const sidebarLinks = [
 		{ title: t("profile"), href: "/account/profile", icon: User },
 		{ title: t("myOrders"), href: "/account/orders", icon: Package },
-		{ title: t("addresses"), href: "/account/address", icon: MapPin },
-		{ title: t("settings"), href: "/account/settings", icon: Settings }
+		{ title: t("addresses"), href: "/account/address", icon: MapPin }
 	];
 
 	return (
@@ -55,7 +54,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
 								<hr className="border-border mb-4" />
 								<button
 									type="button"
-									onClick={() => signOutUser()}
+									onClick={() => signOutUser({ callbackUrl: pathname ?? undefined })}
 									className="text-destructive hover:bg-destructive/10 flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors"
 								>
 									<LogOut className="h-5 w-5" />

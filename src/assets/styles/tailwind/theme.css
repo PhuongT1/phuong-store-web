@@ -45,7 +45,7 @@
 	--destructive: oklch(0.637 0.208 25.3);
 	--destructive-foreground: oklch(1 0 0);
 	--destructive-muted: oklch(0.97 0.04 25);
-	--toast-error-bg: oklch(0.99 0.02 25);
+	--toast-error-bg: oklch(0.95 0.08 25);
 	/* Error toast: near-white bg, border+text carry the red signal */
 	--success: oklch(0.52 0.17 155);
 	--success-light: oklch(0.35 0.12 155);

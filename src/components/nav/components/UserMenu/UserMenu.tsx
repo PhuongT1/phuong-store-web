@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, ClipboardList, LogOut } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { signOutUser } from "@/auth/authActions";
@@ -17,6 +17,7 @@ type UserMenuProps = {
 const UserMenu = ({ user }: UserMenuProps) => {
 	const t = useTranslations("nav");
 	const router = useRouter();
+	const pathname = usePathname();
 
 	const menu: MenuElement[] = [
 		{
@@ -28,7 +29,7 @@ const UserMenu = ({ user }: UserMenuProps) => {
 			icon: <LogOut size={18} strokeWidth={1.5} className="text-destructive" />,
 			label: t("signOut"),
 			onClick: () => {
-				void signOutUser();
+				void signOutUser({ callbackUrl: pathname ?? "/" });
 			}
 		}
 	];

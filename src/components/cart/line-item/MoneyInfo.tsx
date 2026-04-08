@@ -1,36 +1,35 @@
 "use client";
 
 import React from "react";
-import { clsx } from "clsx";
+import { Skeleton } from "@/components/skeleton/Skeleton";
 import { type CheckoutLine } from "@/gql/graphql";
 import { MoneyDisplay } from "@components/ui";
 
-type MoneyInfoBasic = Pick<CheckoutLine, "unitPrice" | "quantity">;
-type MoneyInfoProps<T> = T;
+type MoneyInfoBasic = Pick<CheckoutLine, "unitPrice" | "undiscountedUnitPrice">;
+type MoneyInfoProps<T> = T & { isLoading?: boolean };
 
 export const MoneyInfo = <T extends MoneyInfoBasic = MoneyInfoBasic>({
 	unitPrice,
-	quantity
+	undiscountedUnitPrice,
+	isLoading
 }: MoneyInfoProps<T>) => {
-	const piecePrice = unitPrice.gross;
-	const onSale = false;
+	if (isLoading) {
+		return (
+			<div className="flex flex-col items-end gap-1">
+				<Skeleton className="h-4 w-16 rounded" />
+			</div>
+		);
+	}
+
+	const discounted = unitPrice.gross;
+	const isOnSale = undiscountedUnitPrice.amount > discounted.amount;
 
 	return (
-		<div className="flex items-end justify-end">
-			<div className="flex flex-row flex-wrap items-center justify-end gap-x-2">
-				<MoneyDisplay
-					aria-label="total price"
-					money={
-						{
-							currency: piecePrice?.currency,
-							amount: (piecePrice?.amount || 0) * quantity
-						} as any
-					}
-					className={clsx({
-						"!text-text-error": onSale
-					})}
-				/>
-			</div>
+		<div className="flex flex-col items-end">
+			{isOnSale && (
+				<MoneyDisplay money={undiscountedUnitPrice} className="text-muted-foreground text-xs line-through" />
+			)}
+			<MoneyDisplay money={discounted} />
 		</div>
 	);
 };

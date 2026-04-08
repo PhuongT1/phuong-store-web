@@ -41,6 +41,11 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const startTimeRef = useRef<number>(0);
+	// Require 2 consecutive null responses before treating checkout as gone.
+	// A single {checkout: null} can be a transient auth race (Saleor hides
+	// user-owned checkouts from unauthenticated requests). Two in a row strongly
+	// indicates the checkout was genuinely converted to an order.
+	const consecutiveNullCount = useRef(0);
 
 	const stopPolling = useCallback(() => {
 		if (intervalRef.current) {
@@ -56,11 +61,21 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 
 			const result = await mutate();
 
-			// Check if checkout still exists
-			// If checkout is gone, it means it was converted to an order
+			// Check if checkout still exists.
+			// If checkout is gone, it means it was converted to an order.
+			// Guard: require 2 consecutive nulls because a single {checkout: null}
+			// can be a transient auth race condition (Saleor returns null for
+			// user-owned checkouts when the access token momentarily expires).
 			if (!result?.checkout) {
+				consecutiveNullCount.current++;
+				if (consecutiveNullCount.current < 2) {
+					// First null — might be transient. Wait for next poll to confirm.
+					setLastCheckStatus("waiting");
+					return;
+				}
 				stopPolling();
 				setLastCheckStatus("success");
+				consecutiveNullCount.current = 0;
 
 				// Get order ID from URL or localStorage if available
 				const orderId = sessionStorage.getItem(`order_for_checkout_${checkoutId}`);
@@ -73,7 +88,8 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 				return;
 			}
 
-			// Checkout still exists - waiting for payment
+			// Checkout still exists — reset null counter and keep waiting for payment
+			consecutiveNullCount.current = 0;
 			setLastCheckStatus("waiting");
 		} catch (error) {
 			console.warn("⚠️ Error polling checkout:", error);
@@ -91,6 +107,7 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 		setIsPolling(true);
 		startTimeRef.current = Date.now();
 		setTimeElapsed(0);
+		consecutiveNullCount.current = 0;
 
 		// Immediate first check
 		void checkOrderStatus();

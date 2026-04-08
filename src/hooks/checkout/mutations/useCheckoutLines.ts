@@ -56,8 +56,11 @@ const useCheckoutLines = () => {
 	});
 
 	const handleSuccess = () => {
-		void revalidateCart(checkoutId);
+		// Refetch checkout so updated prices/totals are reflected in the UI.
+		// useCheckoutLine's lastGoodCheckout guard prevents empty-cart flash
+		// if Saleor returns null during a transient token-refresh window.
 		void mutate();
+		void revalidateCart(checkoutId);
 	};
 
 	const checkoutAdd = (lines: CheckoutLinesAddMutationVariables["lines"]) => {

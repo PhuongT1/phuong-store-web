@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { type ProductDetailsQuery } from "@/gql/graphql";
 import { formatMoney, getProductPrice } from "@/lib/utils";
-import { addToCart } from "@/services/cart.service";
+import { addToCart, showCartError } from "@/services/cart.service";
 import { notify } from "@components/ui";
 
 type Product = NonNullable<ProductDetailsQuery["product"]>;
@@ -24,7 +24,10 @@ const useProductCard = (product: Product) => {
 	const router = useRouter();
 	const variants = product.variants ?? [];
 	const [selectedVariantId, setSelectedVariantId] = useState<string>(variants[0]?.id ?? "");
-	const [isAddingToCart, setIsAddingToCart] = useState(false);
+	const [isAddingRaw, setIsAddingToCart] = useState(false);
+	const [isCartRefreshing, startCartRefresh] = useTransition();
+	// Expose combined state: button stays loading until cart nav re-renders
+	const isAddingToCart = isAddingRaw || isCartRefreshing;
 
 	const params = useParams<{ channel?: string }>();
 	const channel = params?.channel;
@@ -77,13 +80,14 @@ const useProductCard = (product: Product) => {
 		if (!channel || !variantId) return;
 		setIsAddingToCart(true);
 		try {
-			await addToCart({ channel, lines: [{ variantId, quantity: 1 }] });
+			const { warnings } = await addToCart({ channel, lines: [{ variantId, quantity: 1 }] });
+			warnings.forEach((w) => notify.warning(w.code ?? "", { description: w.message }));
 			notify.success(t("addedToCart"));
-			router.refresh();
+			setIsAddingToCart(false);
+			startCartRefresh(() => router.refresh());
 		} catch (error) {
 			console.error("Error adding to cart:", error);
-			notify.error(t("addToCartError"));
-		} finally {
+			showCartError(error);
 			setIsAddingToCart(false);
 		}
 	};

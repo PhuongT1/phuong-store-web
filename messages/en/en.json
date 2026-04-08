@@ -213,6 +213,7 @@
 	},
 	"cart": {
 		"subtotal": "Subtotal",
+		"savings": "Savings",
 		"voucherCode": "Voucher: {code}",
 		"shipping": "Shipping",
 		"total": "Total",

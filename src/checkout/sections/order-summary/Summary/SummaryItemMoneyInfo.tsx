@@ -4,24 +4,34 @@ import React from "react";
 import { MoneyDisplay } from "@/components/ui";
 import { type CheckoutLine, type Money, type OrderLine } from "@/gql/graphql";
 
-export type SummaryItemMoneyInfoProps = CheckoutLine | OrderLine;
+type CheckoutLineProps = Pick<CheckoutLine, "totalPrice" | "undiscountedTotalPrice">;
+type OrderLineProps = Pick<OrderLine, "quantity" | "unitPrice" | "undiscountedUnitPrice">;
 
-export const SummaryItemMoneyInfo: React.FC<SummaryItemMoneyInfoProps> = ({ unitPrice, quantity }) => {
-	const piecePrice = unitPrice.gross;
+export type SummaryItemMoneyInfoProps = CheckoutLineProps | OrderLineProps;
 
-	const totalMoney: Money = {
-		__typename: "Money" as const,
-		currency: piecePrice?.currency ?? "",
-		amount: (piecePrice?.amount || 0) * quantity,
-		fractionDigits: piecePrice?.fractionDigits ?? 0,
-		fractionalAmount: Math.round(((piecePrice?.amount || 0) * quantity) * Math.pow(10, piecePrice?.fractionDigits ?? 0))
-	};
+export const SummaryItemMoneyInfo: React.FC<SummaryItemMoneyInfoProps> = (props) => {
+	let discountedTotal: Money;
+	let originalTotal: Money;
+
+	if ("undiscountedTotalPrice" in props) {
+		// CheckoutLine: totalPrice and undiscountedTotalPrice are pre-multiplied by qty
+		discountedTotal = props.totalPrice.gross;
+		originalTotal = props.undiscountedTotalPrice;
+	} else {
+		// OrderLine: unitPrice and undiscountedUnitPrice are per-unit → multiply by qty
+		const { quantity, unitPrice, undiscountedUnitPrice } = props;
+		discountedTotal = { ...unitPrice.gross, amount: unitPrice.gross.amount * quantity };
+		originalTotal = { ...undiscountedUnitPrice.gross, amount: undiscountedUnitPrice.gross.amount * quantity };
+	}
+
+	const isOnSale = originalTotal.amount > discountedTotal.amount;
 
 	return (
-		<div className="flex items-end justify-end">
-			<div className="flex flex-row flex-wrap items-center justify-end gap-x-2">
-				<MoneyDisplay aria-label="total price" money={totalMoney} />
-			</div>
+		<div className="flex flex-col items-end">
+			{isOnSale && (
+				<MoneyDisplay money={originalTotal} className="text-muted-foreground text-xs line-through" />
+			)}
+			<MoneyDisplay aria-label="total price" money={discountedTotal} />
 		</div>
 	);
 };

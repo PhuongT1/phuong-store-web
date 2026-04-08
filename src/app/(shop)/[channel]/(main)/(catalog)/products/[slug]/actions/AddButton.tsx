@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, ShoppingCart, Zap } from "lucide-react";
 import { type ProductDetailsQuery } from "@/gql/graphql";
-import { addToCart } from "@/services/cart.service";
+import { addToCart, showCartError } from "@/services/cart.service";
 import { Button, notify } from "@components/ui";
 
 type AddButtonProps = {
@@ -21,6 +21,9 @@ export function AddButton({ disabled, channel, selectedVariantID, variants }: Ad
 
 	const [isLoadingAddItem, setLoadingAddItem] = useState<boolean>(false);
 	const [isLoadingBuyNow, setLoadingBuyNow] = useState<boolean>(false);
+	// Track router.refresh() flight so the "Add to cart" button stays loading
+	// until the CartNavItem server component re-renders with the updated count.
+	const [isCartRefreshing, startCartRefresh] = useTransition();
 
 	const handleSelectVariantID = useCallback(() => {
 		let selectedVariant = selectedVariantID;
@@ -42,10 +45,12 @@ export function AddButton({ disabled, channel, selectedVariantID, variants }: Ad
 	const handleAddItem = useCallback(
 		async (isRedirect?: boolean) => {
 			try {
-				const checkoutId = await addToCart({
+				const { checkoutId, warnings } = await addToCart({
 					channel,
 					lines: [{ variantId: handleSelectVariantID(), quantity: 1 }]
 				});
+
+				warnings.forEach((w) => notify.warning(w.code ?? "", { description: w.message }));
 
 				if (isRedirect && checkoutId) {
 					return navigateCheckout(checkoutId);
@@ -64,12 +69,18 @@ export function AddButton({ disabled, channel, selectedVariantID, variants }: Ad
 						</Button>
 					</div>
 				);
-				router.refresh();
+				// Wrap in startTransition: Next.js tracks the refresh as a concurrent
+				// transition → isCartRefreshing stays true until CartNavItem re-renders,
+				// keeping the button in loading state and showing the Suspense fallback.
+				setLoadingAddItem(false);
+				startCartRefresh(() => router.refresh());
 			} catch (error) {
 				console.error("Error adding to cart:", error);
-				notify.error("Không thể thêm sản phẩm vào giỏ hàng");
+				showCartError(error);
 			} finally {
 				if (isRedirect) return setLoadingBuyNow(false);
+				// Only clear for non-refresh path (redirect) or on error;
+				// success path clears before startCartRefresh above.
 				setLoadingAddItem(false);
 			}
 		},
@@ -82,9 +93,9 @@ export function AddButton({ disabled, channel, selectedVariantID, variants }: Ad
 				type="button"
 				className="gap-1"
 				aria-disabled={disabled}
-				aria-busy={isLoadingAddItem}
-				loading={isLoadingAddItem}
-				disabled={disabled}
+				aria-busy={isLoadingAddItem || isCartRefreshing}
+				loading={isLoadingAddItem || isCartRefreshing}
+				disabled={disabled || isCartRefreshing}
 				onClick={async () => {
 					setLoadingAddItem(true);
 					void handleAddItem();

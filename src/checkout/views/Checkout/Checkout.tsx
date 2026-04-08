@@ -16,8 +16,10 @@ export const Checkout = () => {
 	const { isInitialLoad: userInitialLoad } = useUser();
 	const { isTabletOrBelow } = useDeviceSize();
 
-	// Cart list (items) skeleton: only needs checkout data
-	const isCartLoading = checkoutLoading;
+	// Cart list (items) skeleton: needs checkout data with a valid id.
+	// Treat missing id as loading — prevents SummaryListEdit from receiving an
+	// empty checkout and resetting its RHF form to zero items.
+	const isCartLoading = checkoutLoading || !checkout?.id;
 
 	// CheckoutForm skeleton: needs BOTH checkout AND user data on first load.
 	// isInitialLoad is true only for the very first SWR fetch (data===undefined).

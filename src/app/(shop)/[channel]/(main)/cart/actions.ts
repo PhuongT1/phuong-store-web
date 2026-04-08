@@ -1,7 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { DEFAULT_CHANNEL_SLUG } from "@/constants";
+import { revalidateTag } from "next/cache";
 import { CheckoutDeleteLinesDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 
@@ -19,5 +18,8 @@ export const deleteLineFromCheckout = async ({ lineId, checkoutId }: deleteLineF
 		cache: "no-cache"
 	});
 
-	revalidatePath(`${DEFAULT_CHANNEL_SLUG}/cart`);
+	// Invalidate the server-cache tag so CartNavItem (which uses Next.js fetch cache)
+	// reflects the updated line count. The cart page itself is fully client-rendered,
+	// so no revalidatePath is needed — the caller calls SWR mutate() to refresh UI.
+	revalidateTag(`CHECKOUT:${checkoutId}`);
 };

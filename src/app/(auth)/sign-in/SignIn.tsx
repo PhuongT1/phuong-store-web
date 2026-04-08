@@ -19,13 +19,17 @@ const SignIn = () => {
 
 	const method = useForm<LoginForm>({
 		mode: "onTouched",
-		resolver: zodResolver(formSchema({ t }))
+		resolver: zodResolver(formSchema({ t })),
+		defaultValues: {
+			email: "",
+			password: ""
+		}
 	});
 	const { handleSubmit, setError } = method;
 
 	const searchParams = useSearchParams();
 	const callbackUrl = searchParams?.get("callbackUrl") ?? routes.search;
-	const { trigger } = useLogin({
+	const { trigger, isMutating } = useLogin({
 		onError: (errors) => {
 			errors?.map((error) => {
 				setError(error?.field as keyof LoginForm, { message: error?.message }, { shouldFocus: true });
@@ -61,7 +65,7 @@ const SignIn = () => {
 							}}
 						/>
 						<div className="pt-2">
-							<Button size={"base"} variant={"info"} type="submit" className="w-full">
+							<Button size={"base"} variant={"info"} type="submit" loading={isMutating} className="w-full">
 								<LogIn className="h-4 w-4" />
 								{t("common.login")}
 							</Button>

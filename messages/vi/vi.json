@@ -213,6 +213,7 @@
 	},
 	"cart": {
 		"subtotal": "Tổng tiền",
+		"savings": "Tiết kiệm",
 		"voucherCode": "Mã giảm giá: {code}",
 		"shipping": "Phí vận chuyển",
 		"total": "Cần thanh toán",

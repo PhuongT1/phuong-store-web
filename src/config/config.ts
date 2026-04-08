@@ -34,9 +34,9 @@ const CONFIG = {
 		transactionProcessKey: "transactionProcess"
 	},
 	TOAST_DURATION: {
-		success: 3000,
-		error: 5000,
-		warning: 4000,
+		success: 2000,
+		error: 3000,
+		warning: 2500,
 		info: 3000
 	},
 	SIZE_VARIANT: {

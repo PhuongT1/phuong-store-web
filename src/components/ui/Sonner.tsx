@@ -43,10 +43,10 @@ const Toaster = ({ ...props }: ToasterProps) => {
 			}
 			position="top-right"
 			icons={{
-				success: <CircleCheck className="size-5" color="var(--toastify-success)" />,
-				error: <CircleAlert className="size-5" color="var(--toastify-error)" />,
-				warning: <TriangleAlertIcon className="size-5" color="var(--warning)" />,
-				info: <InfoIcon className="size-5" />
+				success: <CircleCheck className="size-5" style={{ color: "var(--success)" }} />,
+				error: <CircleAlert className="size-5" style={{ color: "var(--destructive)" }} />,
+				warning: <TriangleAlertIcon className="size-5" style={{ color: "var(--warning)" }} />,
+				info: <InfoIcon className="size-5" style={{ color: "var(--info)" }} />
 			}}
 			{...props}
 		/>
@@ -66,12 +66,17 @@ const toastStyle = {
 	error: {
 		background: "var(--toast-error-bg)",
 		color: "var(--card-foreground)",
-		border: "1.5px solid var(--destructive)"
+		border: "1px solid var(--destructive)"
 	} as React.CSSProperties,
 	success: {
 		background: "var(--toast-success-bg)",
 		color: "var(--card-foreground)",
 		border: "1.5px solid var(--success)"
+	} as React.CSSProperties,
+	info: {
+		background: "var(--info-muted)",
+		color: "var(--card-foreground)",
+		border: "1.5px solid var(--info)"
 	} as React.CSSProperties
 };
 
@@ -98,9 +103,10 @@ const notify = {
 			...data
 		}),
 	info: (msg: titleT | React.ReactNode, data?: ExternalToast) =>
-		toast.success(msg, {
+		toast.info(msg, {
 			duration: Infinity,
 			position: "bottom-right",
+			style: toastStyle.info,
 			...baseOptions,
 			...data
 		})
