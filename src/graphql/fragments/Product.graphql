@@ -6,6 +6,10 @@ fragment Product on Product {
 	seoTitle
 	seoDescription
 	rating
+	metadata {
+		key
+		value
+	}
 	media {
 		...ProductMedia
 	}

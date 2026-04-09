@@ -53,7 +53,9 @@ const useProductCard = (product: Product) => {
 	const savingsFormatted =
 		savingsAmount > 0 && savingsCurrency ? formatMoney(savingsAmount, savingsCurrency) : null;
 
-	const soldCountRaw = product.attributes?.find((attr) => attr.attribute.slug === "sold")?.values[0]?.name;
+	const soldCountRaw =
+		product.metadata?.find((m) => m.key === "sold")?.value ??
+		product.attributes?.find((attr) => attr.attribute.slug === "sold")?.values[0]?.name;
 	const soldCount = soldCountRaw ? formatSoldCount(Number(soldCountRaw)) : null;
 
 	// Round to 1 decimal — hide when 0 or null

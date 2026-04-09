@@ -10,7 +10,7 @@ import { type AssignedSingleChoiceAttribute, type OrderLine } from "@/gql/graphq
 import { useCheckoutLines } from "@/hooks/checkout";
 import { cn } from "@/lib/utils";
 import { type Option } from "@/types";
-import { Button, ImageItem } from "@components/ui";
+import { Button, Checkbox, ImageItem } from "@components/ui";
 import { type CheckoutLineForm } from "../Cart.type";
 import { ConfirmDeleteDialog } from "../line-item/ConfirmDialog";
 import { getThumbnailFromLine } from "../utils";
@@ -25,10 +25,19 @@ export type SummaryLineEditProps = {
 	isBottomBorder?: boolean;
 	index: number;
 	editable?: boolean;
+	isSelected?: boolean;
+	onToggleSelect?: (id: string) => void;
 };
 
 const SummaryLineEdit = React.memo(
-	({ line, children, index: indexLine, editable = true }: SummaryLineEditProps) => {
+	({
+		line,
+		children,
+		index: indexLine,
+		editable = true,
+		isSelected = false,
+		onToggleSelect
+	}: SummaryLineEditProps) => {
 		const t = useTranslations("cart");
 		const { control, watch, setError, setValue } = useFormContext<SummaryLines>();
 
@@ -111,10 +120,18 @@ const SummaryLineEdit = React.memo(
 				key={line.id}
 				className={cn(
 					"border-border flex flex-wrap items-center gap-2 border-b py-4 transition-opacity duration-300 last:border-none",
-					isUpdating && "pointer-events-none"
+					isUpdating && "pointer-events-none",
+					isSelected && "bg-info/5"
 				)}
 				data-testid="SummaryItem"
 			>
+				{editable && onToggleSelect && (
+					<Checkbox
+						checked={isSelected}
+						onCheckedChange={() => onToggleSelect(line._id as string)}
+						className="mt-1 self-start"
+					/>
+				)}
 				<div className="bg-popover border-border aspect-square h-16 w-16 shrink-0 overflow-hidden rounded-xl border md:h-[72px] md:w-[72px]">
 					{productImage ? (
 						<ImageItem src={productImage.url} alt={productImage.alt} />
@@ -184,43 +201,39 @@ const SummaryLineEdit = React.memo(
 				{editable && (
 					<div className="flex w-full items-center justify-end gap-3">
 						<ConfirmDeleteDialog confirmButtonProps={{ onClick: () => checkoutDelete(line._id) }} />
-						<div className="bg-popover border-border inline-flex h-8 items-center overflow-hidden rounded-lg border">
+						<div className="bg-popover border-border inline-flex h-9 items-center overflow-hidden rounded-lg border">
 							<Button
 								variant="ghost"
 								size="icon"
-								className="border-border text-muted-foreground hover:text-foreground h-full w-8 rounded-none border-r shadow-none"
-								onClick={() => {
-									handleUpdateQuantity(quantity - 1);
-								}}
+								className="border-border text-muted-foreground hover:text-foreground h-full w-9 rounded-none border-r shadow-none"
+								onClick={() => handleUpdateQuantity(quantity - 1)}
 							>
-								<Minus size={14} />
+								<Minus size={15} />
 							</Button>
 							<FormInput
 								type="number"
 								name={quantityPath}
 								control={control}
 								affixWrapperProps={{
-									className: "rounded-none border-0 focus-within:ring-0 px-1 h-8 bg-popover"
+									className: "rounded-none border-0 focus-within:ring-0 px-1 h-9 bg-popover"
 								}}
 								inputProps={{
-									sizeVariant: "xsmall",
+									sizeVariant: "small",
 									min: 1,
 									max: 50,
 									required: true,
 									allowLeadingZeros: false,
-									className: "w-[36px] text-center",
+									className: "w-[44px] text-center font-medium text-sm",
 									onValueCommit: handleChangeQuantity
 								}}
 							/>
 							<Button
 								variant="ghost"
 								size="icon"
-								className="border-border text-muted-foreground hover:text-foreground h-full w-8 rounded-none border-l shadow-none"
-								onClick={() => {
-									handleUpdateQuantity(quantity + 1);
-								}}
+								className="border-border text-muted-foreground hover:text-foreground h-full w-9 rounded-none border-l shadow-none"
+								onClick={() => handleUpdateQuantity(quantity + 1)}
 							>
-								<Plus size={14} />
+								<Plus size={15} />
 							</Button>
 						</div>
 					</div>

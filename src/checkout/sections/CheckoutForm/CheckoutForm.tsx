@@ -44,18 +44,15 @@ export const CheckoutForm = () => {
 
 				{/* ── Signed-in user info pill (when authenticated) ── */}
 				{user && (
-					<div className="bg-muted mb-4 flex items-center gap-2.5 rounded-(--radius) px-3 py-2">
-						<div className="bg-icon-bg flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-							<SquareUser className="text-info h-3 w-3" strokeWidth={1.5} />
-						</div>
-						<span className="text-muted-foreground text-sm font-medium">{user.email}</span>
+					<div className="bg-input border-border mb-4 flex items-center gap-2.5 rounded-(--radius) border px-3 py-2.5">
+						<SquareUser className="text-muted-foreground h-4 w-4 shrink-0" strokeWidth={1.5} />
+						<span className="text-foreground/80 text-sm">{user.email}</span>
 					</div>
 				)}
 
 				<Suspense fallback={<ContactSkeleton />}>
 					<Contact setShowOnlyContact={setShowOnlyContact} />
 				</Suspense>
-
 				{checkout?.isShippingRequired && (
 					<Suspense fallback={<AddressSectionSkeleton />}>
 						<CollapseSection collapse={showOnlyContact}>

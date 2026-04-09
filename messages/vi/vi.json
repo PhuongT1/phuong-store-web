@@ -222,7 +222,10 @@
 		"delete": "Xoá",
 		"cancelDelete": "Không xoá",
 		"outOfStock": "Sản phẩm này hiện đã hết hàng",
-		"loadMore": "Xem thêm kết quả"
+		"loadMore": "Xem thêm kết quả",
+		"selectAll": "Chọn tất cả",
+		"selected": "Đã chọn",
+		"deleteSelected": "Xóa đã chọn"
 	},
 	"rating": {
 		"title": "Đánh giá sản phẩm",

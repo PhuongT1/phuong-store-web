@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { routes } from "@/config";
 import { type Checkout, CheckoutFindDocument } from "@/gql/graphql";
 import { CONFIG_SWR_KEYS } from "@config/keys";
 import { executeGraphQL } from "@lib/api";
@@ -30,28 +32,35 @@ const useCheckoutId = () => {
  */
 const useCheckoutLine = ({ id }: CheckoutLineProps) => {
 	const lastGoodCheckout = useRef<Checkout | null>(null);
+	const redirectedRef = useRef(false);
+	const router = useRouter();
 
 	const swr = useSWRGraphQl(
 		[CONFIG_SWR_KEYS.CHECKOUT, id],
 		([, id]: [string, string | null]) =>
 			executeGraphQL(CheckoutFindDocument, {
 				variables: { id: id ?? "" },
-				withAuth: true,
+				withAuth: false,
 				cache: "no-store"
 			}),
 		{
 			isPaused: () => !id,
-			keepPreviousData: true
+			keepPreviousData: true,
+			onSuccess(data) {
+				if (data.checkout) {
+					lastGoodCheckout.current = data.checkout as Checkout;
+				} else if (lastGoodCheckout.current === null && !redirectedRef.current) {
+					redirectedRef.current = true;
+					toast.error("Giỏ hàng không tồn tại hoặc đã hết hạn", {
+						description: "Vui lòng tiếp tục mua sắm."
+					});
+					router.replace(routes.home);
+				}
+			}
 		}
 	);
 
-	if (swr.data?.checkout) {
-		lastGoodCheckout.current = swr.data.checkout as Checkout;
-	}
-
-	// Stable checkout: use raw value if available, fall back to last known good.
-	// Callers that need to detect genuine null (order complete detection in
-	// useCheckoutPolling) should read swr.data?.checkout directly.
+	// Stable checkout: fall back to last known good to prevent flash on token refresh.
 	const checkout = (swr.data?.checkout ?? lastGoodCheckout.current) as Checkout | null;
 
 	return { ...swr, checkout };

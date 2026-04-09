@@ -13,10 +13,8 @@ import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 import { notify } from "@components/ui";
 
 const useCheckoutLines = () => {
-	const {
-		mutate,
-		checkout: { id: checkoutId }
-	} = useCheckout();
+	const { mutate, checkout } = useCheckout();
+	const checkoutId = checkout?.id ?? "";
 
 	const {
 		trigger: triggerAdd,
