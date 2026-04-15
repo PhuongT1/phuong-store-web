@@ -1,25 +1,3 @@
-fragment VariantPricingInfo on VariantPricingInfo {
-	priceUndiscounted {
-		gross {
-			amount
-			currency
-		}
-	}
-	price {
-		gross {
-			currency
-			amount
-		}
-	}
-	onSale
-	discount {
-		gross {
-			amount
-			currency
-		}
-	}
-}
-
 fragment VariantDetails on ProductVariant {
 	id
 	name

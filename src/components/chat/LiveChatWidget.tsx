@@ -93,16 +93,18 @@ export function LiveChatWidget() {
 			/>
 
 			{/* Custom trigger — always visible */}
-			<button
-				onClick={handleOpen}
-				className={cn(
-					"flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
-					"bg-info text-white transition-transform hover:scale-105 active:scale-95"
-				)}
-				aria-label="Chat với nhân viên hỗ trợ"
-			>
-				<Headphones size={22} />
-			</button>
+			<div className="flex h-10 w-10 shrink-0 items-center justify-center sm:h-11 sm:w-11">
+				<button
+					onClick={handleOpen}
+					className={cn(
+						"flex h-full w-full shrink-0 items-center justify-center rounded-full p-0 shadow-lg",
+						"bg-info text-white transition-transform hover:scale-[1.02] active:scale-95"
+					)}
+					aria-label="Chat với nhân viên hỗ trợ"
+				>
+					<Headphones size={17} className="sm:h-[18px] sm:w-[18px]" />
+				</button>
+			</div>
 		</>
 	);
 }

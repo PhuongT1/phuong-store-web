@@ -1,30 +1,43 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useAlerts } from "@/checkout/hooks/useAlerts";
-import { useDebouncedSubmit } from "@/checkout/hooks/useDebouncedSubmit";
 import { useErrorMessages } from "@/checkout/hooks/useErrorMessages";
 import { useMutation } from "@/checkout/lib/useMutation";
 import { useCheckoutTransactionStateStore } from "@/checkout/state/checkoutTransactionStateStore";
-import { TransactionInitializeDocument, type TransactionInitialize, type TransactionInitializeMutation, type TransactionInitializeMutationVariables } from "@/gql/graphql";
+import {
+	TransactionInitializeDocument,
+	type TransactionInitialize,
+	type TransactionInitializeMutation,
+	type TransactionInitializeMutationVariables
+} from "@/gql/graphql";
 import { useCheckout } from "@hooks/checkout";
 import { apiErrorMessages } from "../errorMessages";
 import { vnpayGatewayId } from "../VNPay/types";
 import { cashDeliveryGatewayId } from "./types";
 
-export const CashDeliveryComponent = () => {
+interface CashDeliveryComponentProps {
+	active?: boolean;
+}
+
+export const CashDeliveryComponent = ({ active = false }: CashDeliveryComponentProps) => {
 	const {
 		checkout: { id: checkoutId }
 	} = useCheckout();
 
-	const [{ fetching, data }, transactionInitialize] = useMutation<TransactionInitializeMutation, TransactionInitializeMutationVariables>(TransactionInitializeDocument);
+	const [{ fetching, data }, transactionInitialize] = useMutation<
+		TransactionInitializeMutation,
+		TransactionInitializeMutationVariables
+	>(TransactionInitializeDocument);
 
 	const { showCustomErrors } = useAlerts();
 	const { errorMessages: commonErrorMessages } = useErrorMessages(apiErrorMessages);
 
 	const {
+		transaction,
 		actions: { setUpdateState }
 	} = useCheckoutTransactionStateStore();
+	const calledCheckoutIdRef = useRef<string | null>(null);
 
 	const handleTransactionInitialize = useCallback(() => {
 		if (!checkoutId) return;
@@ -58,25 +71,24 @@ export const CashDeliveryComponent = () => {
 		commonErrorMessages.somethingWentWrong
 	]);
 
-	const debouncedSubmit = useDebouncedSubmit(handleTransactionInitialize);
-
 	useEffect(() => {
-		if (fetching || data) return;
-		debouncedSubmit();
+		// Only initialize COD transaction when the method is actively selected.
+		if (!active || !checkoutId) return;
+		if (fetching) return;
+		if (transaction?.[cashDeliveryGatewayId]) return;
+		if (calledCheckoutIdRef.current === checkoutId) return;
+		calledCheckoutIdRef.current = checkoutId;
+		handleTransactionInitialize();
 	}, [
-		fetching,
-		data,
+		active,
 		checkoutId,
-		commonErrorMessages.somethingWentWrong,
-		showCustomErrors,
-		transactionInitialize,
-		handleTransactionInitialize
+		transaction,
+		fetching,
+		handleTransactionInitialize,
+		data
 	]);
 
 	return (
-		<div className="text-muted-foreground text-sm">
-			<p>Thanh toán khi nhận hàng</p>
-			<p className="text-muted-foreground/70 mt-1 text-xs">Nhận hàng rồi mới thanh toán</p>
-		</div>
+		<div className="text-muted-foreground/75 text-xs leading-relaxed">Nhận hàng rồi mới thanh toán.</div>
 	);
 };

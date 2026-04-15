@@ -18,33 +18,40 @@ export const Nav = async ({ channel }: Channel) => {
 
 	return (
 		<nav className="text-foreground flex w-full flex-col px-0 py-0" aria-label="Main navigation">
-			{/* Row 1: Logo, Search, Action Icons */}
-			<div className="flex w-full items-center justify-between gap-x-4 py-2.5">
+			{/* Row 1 / Header Core: Logo, Action Icons, & Desktop Search */}
+			<div className="flex w-full items-center justify-between py-1.5 md:py-2.5 gap-x-2 md:gap-x-4 px-1.5 md:px-0">
 				{/* 1. Left: Mobile Menu & Logo */}
 				<div className="flex min-w-max shrink-0 items-center">
-					<div className="mr-1 md:hidden">
+					<div className="mr-2 md:hidden">
 						<MobileMenu navLinks={navLinks} />
 					</div>
 					<Logo />
 				</div>
 
-				{/* 2. Center: Search (Primary Focus) */}
-				<div className="relative z-50 max-w-2xl min-w-0 flex-1 px-2 md:px-4">
+				{/* 2. Desktop Center: Search (hidden on mobile here, moved to next row) */}
+				<div className="hidden relative z-40 w-full min-w-0 flex-1 md:block md:max-w-2xl px-4">
 					<SearchBar channel={channel} />
 				</div>
 
 				{/* 3. Right: Action Icons */}
-				<div className="border-border/60 flex shrink-0 items-center gap-1 border-l pl-2 sm:gap-2 lg:pl-4">
+				<div className="flex shrink-0 items-center justify-end gap-1.5 md:gap-2 border-border/60 pl-0 md:border-l md:pl-2 lg:pl-4 [&_svg]:max-w-[20px] md:[&_svg]:max-w-none">
 					<div className="hidden sm:block">
 						<LanguageSwitcher />
 					</div>
-					<div className="hidden sm:block">
+					<div className="flex items-center">
 						<ThemeMode />
 					</div>
-					<Suspense fallback={<div className="bg-accent h-9 w-9 animate-pulse rounded-full" />}>
+					<Suspense fallback={<div className="bg-accent h-7 w-7 sm:h-9 sm:w-9 animate-pulse rounded-full" />}>
 						<CartNavItem />
 					</Suspense>
 					<UserMenuContainer />
+				</div>
+			</div>
+
+			{/* Row 2 / Mobile Search Bar */}
+			<div className="w-full px-1.5 pb-2 pt-0.5 md:hidden">
+				<div className="relative z-40 w-full">
+					<SearchBar channel={channel} />
 				</div>
 			</div>
 

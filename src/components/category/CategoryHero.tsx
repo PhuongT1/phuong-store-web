@@ -27,7 +27,10 @@ const CategoryHero = ({ category }: CategoryHeroProps) => {
 
 	return (
 		<section
-			className={cn("relative h-[400px] w-full overflow-hidden bg-linear-to-br md:h-[500px]", gradient)}
+			className={cn(
+				"relative min-h-[260px] w-full overflow-hidden rounded-2xl bg-linear-to-br sm:min-h-[320px] lg:min-h-[360px]",
+				gradient
+			)}
 		>
 			{/* Background Pattern */}
 			<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDEzNGg3di03aC03djd6bTE0IDBINDd2LTdoN3Y3em0tMjggMGg3di03aC03djd6bTE0IDBIMzN2LTdoN3Y3em0tMTQgMTRoN3YtN2gtN3Y3em0xNCAwaDd2LTdoLTd2N3ptLTE0IDE0aDd2LTdoLTd2N3ptMTQgMGg3di03aC03djd6bS0xNCAxNGg3di03aC03djd6bTE0IDBoN3YtN2gtN3Y3eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
@@ -36,24 +39,24 @@ const CategoryHero = ({ category }: CategoryHeroProps) => {
 			<div className="absolute inset-0 bg-linear-to-r from-black/50 via-transparent to-black/30"></div>
 
 			{/* Content */}
-			<div className="relative mx-auto flex h-full max-w-[1920px] items-center px-4 sm:px-6 lg:px-8">
+			<div className="relative mx-auto flex h-full max-w-[1920px] items-center px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
 				<div className="max-w-2xl">
 					<div className="mb-4 inline-block rounded-full bg-hero-surface px-4 py-1.5 text-xs font-semibold tracking-wider text-hero-text-muted uppercase backdrop-blur-sm">
 						{t("newCollection")}
 					</div>
 
-					<h1 className="mb-4 text-4xl font-bold tracking-tight text-hero-text md:text-5xl lg:text-6xl">
+					<h1 className="mb-4 text-3xl font-bold tracking-tight text-hero-text sm:text-4xl lg:text-6xl">
 						{category.name}
 					</h1>
 
 					{category.description && (
-						<p className="mb-8 max-w-lg text-base leading-relaxed text-hero-text-muted md:text-lg">
+						<p className="mb-7 max-w-lg text-sm leading-relaxed text-hero-text-muted sm:text-base md:text-lg">
 							{category.description}
 						</p>
 					)}
 
 					{!category.description && (
-						<p className="mb-8 max-w-lg text-base leading-relaxed text-hero-text-muted md:text-lg">
+						<p className="mb-7 max-w-lg text-sm leading-relaxed text-hero-text-muted sm:text-base md:text-lg">
 							{t("heroDescription", { name: category.name.toLowerCase() })}{" "}
 							<span className="font-semibold text-hero-text">
 								{category.products?.totalCount || 0} {t("productCount")}
@@ -61,18 +64,20 @@ const CategoryHero = ({ category }: CategoryHeroProps) => {
 						</p>
 					)}
 
-					<div className="flex flex-wrap items-center gap-4">
+					<div className="flex flex-wrap items-center gap-3 sm:gap-4">
 						<Button
 							size="lg"
-							className="group rounded-lg bg-hero-btn-bg px-8 py-6 font-semibold text-hero-btn-text shadow-xl transition-all hover:bg-hero-btn-bg/90 hover:shadow-2xl"
+							className="group rounded-lg bg-hero-btn-bg px-6 py-4 font-semibold text-hero-btn-text shadow-xl transition-all hover:bg-hero-btn-bg/90 hover:shadow-2xl sm:px-8 sm:py-6"
 						>
 							{t("exploreNow")}
 							<ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
 						</Button>
 
-						<div className="flex items-center gap-3 rounded-lg bg-hero-surface px-6 py-4 backdrop-blur-sm">
+						<div className="flex items-center gap-3 rounded-lg bg-hero-surface px-5 py-3.5 backdrop-blur-sm sm:px-6 sm:py-4">
 							<div className="text-center">
-								<div className="text-3xl font-bold text-hero-text">{category.products?.totalCount || 0}</div>
+								<div className="text-2xl font-bold text-hero-text sm:text-3xl">
+									{category.products?.totalCount || 0}
+								</div>
 								<div className="text-xs font-medium tracking-wider text-hero-text-dim uppercase">
 									{t("productCount")}
 								</div>

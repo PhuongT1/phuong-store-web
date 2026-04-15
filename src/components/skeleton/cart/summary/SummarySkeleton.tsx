@@ -7,25 +7,31 @@ import { Skeleton } from "../../Skeleton";
 const SummarySkeleton = () => {
 	return (
 		<SummaryCard>
-			{/* Promo code input */}
 			<Skeleton className="h-10 w-full rounded-md" />
 			<Separator />
-			{/* Subtotal row */}
-			<SkeletonColumnLayout>
-				<Skeleton className="w-1/5" />
-				<Skeleton className="w-1/6" />
-			</SkeletonColumnLayout>
-			{/* Shipping row */}
-			<SkeletonColumnLayout>
-				<Skeleton className="w-1/4" />
-				<Skeleton className="w-1/6" />
-			</SkeletonColumnLayout>
-			<Separator />
-			{/* Total row */}
-			<SkeletonColumnLayout>
-				<Skeleton className="w-1/3" size="md" />
-				<Skeleton className="w-1/4" size="md" />
-			</SkeletonColumnLayout>
+			<div className="flex max-w-full flex-col">
+				<SkeletonColumnLayout>
+					<Skeleton className="h-4 w-20 rounded-full" />
+					<Skeleton className="h-4 w-24 rounded-full" />
+				</SkeletonColumnLayout>
+				<SkeletonColumnLayout>
+					<Skeleton className="h-4 w-16 rounded-full" />
+					<Skeleton className="h-4 w-20 rounded-full" />
+				</SkeletonColumnLayout>
+				<SkeletonColumnLayout>
+					<Skeleton className="h-4 w-24 rounded-full" />
+					<Skeleton className="h-4 w-24 rounded-full" />
+				</SkeletonColumnLayout>
+				<Separator className="my-4" />
+				<div className="flex items-baseline justify-between pb-4">
+					<div className="flex items-baseline gap-2">
+						<Skeleton className="h-5 w-12 rounded-full" />
+						<Skeleton className="h-3 w-8 rounded-full" />
+						<Skeleton className="h-3 w-24 rounded-full" />
+					</div>
+					<Skeleton className="h-6 w-24 rounded" />
+				</div>
+			</div>
 		</SummaryCard>
 	);
 };

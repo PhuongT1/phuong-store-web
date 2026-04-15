@@ -1,0 +1,8 @@
+fragment MenuCollection on Collection {
+	id
+	name
+	slug
+	backgroundImage {
+		...BackgroundImage
+	}
+}

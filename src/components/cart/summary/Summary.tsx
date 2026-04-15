@@ -5,8 +5,8 @@ import { SummaryMoneyRow } from "@/checkout/sections/order-summary/Summary/Summa
 import { SummaryPromoCodeRow } from "@/checkout/sections/order-summary/Summary/SummaryPromoCodeRow";
 import { Skeleton } from "@/components/skeleton/Skeleton";
 import { type Checkout, type Money, type TaxedMoney } from "@/gql/graphql";
-import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 import { useCheckoutLines } from "@/hooks/checkout";
+import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 import { MoneyDisplay, getFormattedMoney, Separator } from "@components/ui";
 import { type CartLine } from "../Cart.type";
 import { SummaryCard } from "./SummaryCard";
@@ -20,6 +20,7 @@ type SummaryProps = {
 const Summary: FC<SummaryProps> = ({
 	editable = true,
 	lines,
+	classNameCard,
 	totalPrice,
 	subtotalPrice,
 	giftCards = [],
@@ -59,7 +60,7 @@ const Summary: FC<SummaryProps> = ({
 		: null;
 
 	return (
-		<SummaryCard>
+		<SummaryCard className={classNameCard}>
 			{editable && (
 				<>
 					<PromoCodeAdd />
@@ -88,7 +89,7 @@ const Summary: FC<SummaryProps> = ({
 						editable={editable}
 						promoCode={voucherCode}
 						aria-label="voucher"
-						label={`${t("voucherCode")}: ${voucherCode}`}
+						label={voucherCode}
 						money={discount}
 						negative
 					/>
@@ -114,7 +115,9 @@ const Summary: FC<SummaryProps> = ({
 				<div className="flex flex-row items-baseline justify-between pb-4">
 					<div className="flex flex-row items-baseline gap-2">
 						<p className="font-bold">{t("total")}</p>
-						<span className="text-muted-foreground text-xs">({totalQuantity})</span>
+						<span className="text-muted-foreground bg-muted rounded-full px-2 py-0.5 text-[13px] font-semibold">
+							({totalQuantity})
+						</span>
 						<p color="secondary" className="text-xs">
 							{t("taxIncluded", { tax: getFormattedMoney(totalPrice?.tax) })}
 						</p>

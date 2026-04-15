@@ -12,22 +12,3 @@ fragment Attribute on Attribute {
 		}
 	}
 }
-
-fragment values on AttributeValue {
-	id
-	name
-	value
-	richText
-	externalReference
-	reference
-	slug
-}
-
-fragment SelectedAttribute on SelectedAttribute {
-	attribute {
-		...Attribute
-	}
-	values {
-		...values
-	}
-}

@@ -5,7 +5,10 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
 	({ className, ...props }, ref) => (
 		<div
 			ref={ref}
-			className={cn("rounded-xl border bg-card text-card-foreground shadow", className)}
+			className={cn(
+				"surface-card surface-card-interactive",
+				className
+			)}
 			{...props}
 		/>
 	)
@@ -47,7 +50,7 @@ CardFooter.displayName = "CardFooter";
 
 const CardBox = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
 	return (
-		<Card className={cn("bg-muted p-4 shadow-none", className)} {...props}>
+		<Card className={cn("bg-muted/70 border-border/40 shadow-none hover:translate-y-0 hover:shadow-none", className)} {...props}>
 			{children}
 		</Card>
 	);

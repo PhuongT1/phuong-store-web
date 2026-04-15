@@ -6,6 +6,8 @@ export * from "./ProductFilter";
 export * from "./ProductList";
 export * from "./ProductListLoadMore";
 export * from "./ProductSort";
+export { ProductSortBar } from "@/components/search/results/ProductSortBar";
+
 
 
 

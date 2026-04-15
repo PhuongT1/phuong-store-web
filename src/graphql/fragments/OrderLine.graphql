@@ -1,0 +1,38 @@
+fragment OrderLine on OrderLine {
+	id
+	quantity
+	variant {
+		name
+		attributes(variantSelection: ALL) {
+			values {
+				name
+				dateTime
+				boolean
+				translation(languageCode: $languageCode) {
+					name
+				}
+			}
+		}
+	}
+	totalPrice {
+		gross {
+			...Money
+		}
+	}
+	undiscountedUnitPrice {
+		gross {
+			...Money
+		}
+	}
+	unitPrice {
+		gross {
+			...Money
+		}
+	}
+	productName
+	variantName
+	thumbnail(size: 128, format: WEBP) {
+		alt
+		url
+	}
+}

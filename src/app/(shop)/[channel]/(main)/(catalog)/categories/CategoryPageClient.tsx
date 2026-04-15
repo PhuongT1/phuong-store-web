@@ -5,7 +5,7 @@ import { SearchRecentlyViewed } from "@/components/search";
 import { type ProductListByCategoryPaginatedQuery } from "@/gql/graphql";
 import { type Pages } from "@/types";
 import { ProductListLayout } from "@components/layouts";
-import { ProductListLoadMore, ProductSort } from "@components/product";
+import { ProductListLoadMore, ProductSortBar } from "@components/product";
 import { useProductListByCategoryInfinite } from "@hooks/useProductListByCategory";
 
 type CategoryPageClientProps = {
@@ -26,7 +26,7 @@ const CategoryPageClient = ({ products: initialData, channel, slug }: CategoryPa
 			{/* Main Product Browsing Area - With filter layout */}
 			<ProductListLayout>
 				{/* Sorting Bar with Result Count */}
-				<ProductSort resultCount={totalCount} />
+				<ProductSortBar resultCount={totalCount} />
 
 				{/* Product Grid */}
 				<ProductListLoadMore productListProps={{ products: products }} SWRResponse={rest} />

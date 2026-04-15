@@ -1,30 +1,31 @@
 "use client";
 
 import React from "react";
-import { cn } from "@/lib/utils";
 import { ImageSkeleton } from "../ImageSkeleton";
 import { Skeleton } from "../Skeleton";
 
 const CartLineSkeleton = () => {
 	return (
-		<li className="flex gap-2 flex-wrap items-center py-4 border-b border-border last:border-none">
-			<ImageSkeleton skeletonProps={{ className: "rounded size-[72px]" }} imageProps={{ size: 55 }} />
-			<div className="relative flex flex-1 gap-2 flex-col justify-between">
-				<div className="flex justify-between justify-items-start gap-1">
-					<div className="flex flex-1 flex-col gap-y-1">
-						<Skeleton className="w-1/3" />
-						<div className="flex gap-2">
-							{Array.from({ length: 2 })?.map((_, index) => (
-								<Skeleton key={index} size={"md"} className="w-1/3" />
-							))}
-						</div>
+		<li className="border-border/40 flex gap-5 border-b p-5 last:border-none lg:gap-6 lg:p-6">
+			<ImageSkeleton
+				skeletonProps={{ className: "h-24 w-24 shrink-0 rounded-xl sm:h-28 sm:w-28" }}
+				imageProps={{ size: 68 }}
+			/>
+			<div className="flex flex-1 flex-col justify-between gap-3">
+				<div className="flex items-start justify-between gap-2">
+					<div className="flex flex-1 flex-col gap-1.5">
+						<Skeleton className="h-5 w-3/4 rounded" />
+						<Skeleton className="h-3.5 w-24 rounded-full" />
 					</div>
-					<Skeleton className="w-1/7" />
+					<Skeleton className="h-8 w-8 rounded-full" />
 				</div>
-			</div>
-			<div className="flex w-full items-center justify-end gap-3">
-				<Skeleton className="h-5 w-5" />
-				<Skeleton size={"md"} className="w-1/6" />
+				<div className="flex items-end justify-between">
+					<Skeleton className="h-7 w-16 rounded-md" />
+					<div className="flex flex-col items-end gap-1.5">
+						<Skeleton className="h-6 w-24 rounded" />
+						<Skeleton className="h-3.5 w-16 rounded-full" />
+					</div>
+				</div>
 			</div>
 		</li>
 	);

@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Card } from "@ui/Card";
 import { SquareUser } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -17,23 +17,41 @@ import { PayButton } from "@/checkout/sections/payment/PayButton";
 import { PaymentSection, PaymentSectionSkeleton } from "@/checkout/sections/payment/PaymentSection";
 import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 import { Separator, Typography } from "@components/ui";
+import { SummaryListEdit } from "@/components/cart/summary/SummaryListEdit";
+import { Summary } from "@/checkout/sections/order-summary/Summary";
+import { useDeviceSize } from "@/hooks/useDeviceSize";
 
 export const CheckoutForm = () => {
 	useCheckoutAddressSync();
 	const t = useTranslations("checkout");
 	const { user } = useUser();
 	const { checkout } = useCheckout();
-	const { passwordResetToken } = getQueryParams();
+	const { isTabletOrBelow } = useDeviceSize();
 
-	const [showOnlyContact, setShowOnlyContact] = useState(!!passwordResetToken);
+	const [showOnlyContact, setShowOnlyContact] = useState(false);
+
+	useEffect(() => {
+		const { passwordResetToken } = getQueryParams();
+		if (passwordResetToken) {
+			setShowOnlyContact(true);
+		}
+	}, []);
 
 	return (
-		<Card className="bg-card border-border flex w-full flex-col items-end border p-6 sm:p-8 md:rounded-2xl">
+		<Card className="border-card-elevated-border bg-card-elevated shadow-card-elevated flex w-full flex-col items-end border p-4 backdrop-blur-sm sm:p-6 md:rounded-2xl lg:p-8">
 			<div className="w-full">
+				{/* ── Mobile Cart Items (top of checkout form) ── */}
+				{isTabletOrBelow && checkout && (
+					<div className="mb-2 sm:mb-4">
+						<SummaryListEdit {...checkout} classNameCard="p-0 border-none shadow-none bg-transparent" />
+						<Separator className="mt-4" />
+					</div>
+				)}
+
 				{/* ── Contact section header — only shown when not authenticated ── */}
 				{!user && (
-					<div className="mb-4 flex items-center gap-2.5">
-						<div className="bg-icon-bg flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
+					<div className="mb-2 flex items-center gap-2.5 sm:mb-4">
+						<div className="bg-icon-bg border-border/60 flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius) border">
 							<SquareUser className="text-info h-5 w-5" strokeWidth={1.5} />
 						</div>
 						<Typography variant="title" className="mb-0!">
@@ -44,7 +62,7 @@ export const CheckoutForm = () => {
 
 				{/* ── Signed-in user info pill (when authenticated) ── */}
 				{user && (
-					<div className="bg-input border-border mb-4 flex items-center gap-2.5 rounded-(--radius) border px-3 py-2.5">
+					<div className="bg-input border-border mb-2 flex items-center gap-2.5 rounded-(--radius) border px-3 py-2.5 sm:mb-4">
 						<SquareUser className="text-muted-foreground h-4 w-4 shrink-0" strokeWidth={1.5} />
 						<span className="text-foreground/80 text-sm">{user.email}</span>
 					</div>
@@ -66,6 +84,20 @@ export const CheckoutForm = () => {
 				<Suspense fallback={<DeliveryMethodsSkeleton />}>
 					<DeliveryMethods collapsed={showOnlyContact} />
 				</Suspense>
+
+				{isTabletOrBelow && checkout && (
+					<CollapseSection collapse={showOnlyContact}>
+						<div className="py-2 sm:py-4">
+							<Summary
+								{...checkout}
+								lines={checkout.lines}
+								editable={true}
+								classNameCard="p-0 border-none shadow-none bg-transparent"
+							/>
+						</div>
+					</CollapseSection>
+				)}
+
 				<Suspense fallback={<PaymentSectionSkeleton />}>
 					<CollapseSection collapse={showOnlyContact}>
 						<PaymentSection />

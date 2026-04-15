@@ -19,21 +19,8 @@ export const Contact: FC<ContactProps> = ({ setShowOnlyContact }) => {
 	useCustomerAttach();
 	const { user, authenticated } = useUser();
 	const [email, setEmail] = useState(user?.email || "");
-
 	const [passwordResetShown, setPasswordResetShown] = useState(false);
-
-	const selectInitialSection = (): Section => {
-		const shouldShowPasswordReset = passwordResetToken && !passwordResetShown;
-
-		if (shouldShowPasswordReset) {
-			return "resetPassword";
-		}
-
-		return user ? "signedInUser" : "guestUser";
-	};
-
-	const passwordResetToken = getQueryParams().passwordResetToken;
-	const [currentSection, setCurrentSection] = useState<Section>(selectInitialSection());
+	const [currentSection, setCurrentSection] = useState<Section>(user ? "signedInUser" : "guestUser");
 
 	const handleChangeSection = (section: Section) => () => {
 		if (onlyContactShownSections.includes(section)) {
@@ -51,6 +38,13 @@ export const Contact: FC<ContactProps> = ({ setShowOnlyContact }) => {
 			setPasswordResetShown(true);
 		}
 	}, [isCurrentSection]);
+
+	useEffect(() => {
+		const { passwordResetToken } = getQueryParams();
+		if (passwordResetToken && !passwordResetShown) {
+			setCurrentSection("resetPassword");
+		}
+	}, [passwordResetShown]);
 
 	useEffect(() => {
 		setShowOnlyContact(shouldShowOnlyContact);

@@ -11,18 +11,22 @@ type ProductListLayoutProps = {
 };
 
 const ProductListLayout = ({ children, className, title, textHeading }: ProductListLayoutProps) => (
-	<div className="min-h-screen px-3 py-6 sm:px-4 lg:px-6">
+	<div className="py-2 sm:py-3">
 		{textHeading && (
-			<Typography component={"h1"} variant={"h1"}>
+			<Typography component={"h1"} variant={"h1"} className="pb-3 pt-2 sm:pb-5 sm:pt-3">
 				{textHeading}
 			</Typography>
 		)}
 		{title}
-		<div className={cn("mt-6 flex w-full gap-6 md:gap-8 lg:gap-10", className)}>
-			<div className="hidden w-1/4 max-w-[280px] self-start md:block">
+		<div className={cn("mt-3 flex w-full items-start gap-4 md:mt-4 md:gap-6", className)}>
+			{/* Sticky filter sidebar — needs `self-start` so sticky works inside flex */}
+			<div
+				className="sticky top-[var(--header-height,88px)] hidden w-1/4 max-w-[280px] shrink-0 self-start md:block"
+				style={{ maxHeight: "calc(100vh - var(--header-height, 88px) - 16px)" }}
+			>
 				<ProductFilter />
 			</div>
-			<div className="flex-1">{children}</div>
+			<div className="min-w-0 flex-1">{children}</div>
 		</div>
 	</div>
 );

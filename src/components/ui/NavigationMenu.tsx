@@ -72,7 +72,9 @@ const NavigationMenuContent = React.forwardRef<
 	<NavigationMenuPrimitive.Content
 		ref={ref}
 		className={cn(
-			"bg-popover text-popover-foreground animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 border-border/40 absolute !top-[100%] !left-0 mt-1.5 w-full rounded-xl border shadow-xl md:w-auto",
+			"bg-popover text-popover-foreground backdrop-blur-2xl shadow-xl",
+			"animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95",
+			"border-border/40 absolute !top-[100%] !left-0 mt-1.5 w-full rounded-xl border md:w-auto",
 			className
 		)}
 		{...props}
@@ -89,7 +91,9 @@ const NavigationMenuViewport = React.forwardRef<
 	<div className={cn("absolute top-full left-0 flex justify-center")}>
 		<NavigationMenuPrimitive.Viewport
 			className={cn(
-				"origin-top-center bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border shadow md:w-[var(--radix-navigation-menu-viewport-width)]",
+				"origin-top-center bg-popover text-popover-foreground backdrop-blur-2xl",
+				"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90",
+				"relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-xl border border-border/40 shadow-xl md:w-[var(--radix-navigation-menu-viewport-width)]",
 				className
 			)}
 			ref={ref}

@@ -19,7 +19,7 @@ export function ChatWidget() {
 	}, [messages, open]);
 
 	return (
-		<div className="relative">
+		<div className="relative flex h-10 w-10 shrink-0 items-center justify-center sm:h-11 sm:w-11">
 			{/* Panel — floats above the button via absolute positioning */}
 			{open && (
 				<div
@@ -91,12 +91,16 @@ export function ChatWidget() {
 			<button
 				onClick={() => setOpen((prev) => !prev)}
 				className={cn(
-					"flex h-14 w-14 items-center justify-center rounded-full shadow-lg",
-					"bg-primary text-primary-foreground transition-transform hover:scale-105 active:scale-95"
+					"flex h-full w-full shrink-0 items-center justify-center rounded-full p-0 shadow-lg",
+					"bg-primary text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95"
 				)}
 				aria-label="Mở trợ lý AI"
 			>
-				{open ? <X size={24} /> : <MessageCircle size={24} />}
+				{open ? (
+					<X size={17} className="sm:h-[18px] sm:w-[18px]" />
+				) : (
+					<MessageCircle size={17} className="sm:h-[18px] sm:w-[18px]" />
+				)}
 			</button>
 		</div>
 	);

@@ -32,7 +32,7 @@ export const AddressFormActions: React.FC<AddressFormActionsProps> = ({
 
 			<Button
 				variant="outline"
-				className="border-border text-muted-foreground hover:bg-muted rounded-lg px-6 font-medium"
+				className="rounded-lg px-6 font-medium"
 				onClick={onCancel}
 			>
 				{t("cancel")}

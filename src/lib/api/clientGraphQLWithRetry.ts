@@ -14,6 +14,7 @@
 "use client";
 
 import { getSession } from "next-auth/react";
+import { signOutUser } from "@/auth/authActions";
 import { type GraphQLDocument, type GraphQLRequestOptions } from "./graphQLRequest";
 import { fetchGraphQL } from "./secureGraphQL";
 
@@ -32,16 +33,25 @@ const isAuthErrorMessage = (msg: string): boolean => {
 
 const isAuthError = (err: unknown): boolean => {
 	if (!(err instanceof Error)) return false;
+	// HTTP 401 / 403 responses (from proxy, WAF, or Saleor) should also trigger refresh.
+	if (/HTTP error (401|403)/.test(err.message)) return true;
 	return isAuthErrorMessage(err.message);
 };
 
 /**
- * Force next-auth to refresh the session cookie (calls /api/auth/session?update).
+ * Force next-auth to refresh the session cookie (calls /api/auth/session).
  * Returns the new accessToken if available, or undefined.
+ * If the session carries a permanent auth error, signs out immediately.
  */
 const forceSessionRefresh = async (): Promise<string | undefined> => {
 	try {
 		const session = await getSession();
+		// Permanent refresh failure detected — sign the user out right away
+		// so they are redirected to sign-in instead of seeing an auth error.
+		if ((session as Record<string, unknown> | null)?.error === "RefreshAccessTokenError") {
+			await signOutUser();
+			return undefined;
+		}
 		return session?.accessToken ?? undefined;
 	} catch {
 		return undefined;

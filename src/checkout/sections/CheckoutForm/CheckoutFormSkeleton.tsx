@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui";
 import { Card } from "@/components/ui/Card";
 
 export const CheckoutFormSkeleton = () => (
-	<Card className="bg-card flex w-full flex-col border-none p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] sm:p-8 md:rounded-2xl lg:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+	<Card className="border-card-elevated-border bg-card-elevated shadow-card-elevated flex w-full flex-col border p-4 backdrop-blur-sm sm:p-6 md:rounded-2xl lg:p-8">
 		<ContactSkeleton />
 		<Separator />
 		<AddressSectionSkeleton />

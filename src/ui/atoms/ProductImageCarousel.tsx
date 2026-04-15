@@ -41,7 +41,7 @@ const ProductImageCarousel = ({ media }: ProductImageCarouselProps) => {
 
 		switch (type) {
 			case ProductMediaType.Image:
-				return <ImageItem className="w-full rounded-md object-cover object-center" {...attribute} />;
+				return <ImageItem className={cn("w-full rounded-md", isThumb ? "object-cover" : "object-contain object-center h-full")} {...attribute} />;
 				break;
 			case ProductMediaType.Video:
 				const videoData = JSON.parse(item.oembedData) as VideoEmbed;
@@ -79,7 +79,7 @@ const ProductImageCarousel = ({ media }: ProductImageCarouselProps) => {
 				navigation
 				thumbs={{ swiper: thumbsSwiper }}
 				modules={[FreeMode, Navigation, Thumbs]}
-				className="h-[235px] sm:h-[370px]"
+				className="h-auto md:h-[450px] aspect-square md:aspect-auto"
 			>
 				{media.map((item, index) => (
 					<SwiperSlide key={index}>{getElement({ item })}</SwiperSlide>

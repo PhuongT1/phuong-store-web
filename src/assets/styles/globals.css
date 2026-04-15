@@ -1,11 +1,22 @@
 @import "./tailwind/index.css";
 
 body {
-	overflow-x: clip;
-	/* clip ≠ scroll-container → does not break position:sticky */
 	scrollbar-gutter: stable;
 	/* reserve scrollbar space — prevents layout shift when page height changes */
 	font-family: var(--font-inter);
+}
+
+/*
+ * Clip horizontal overflow on the main content area ONLY.
+ * - Does NOT affect position:fixed elements (LiveChat, ChatWidget) — they live
+ *   in <body>, outside <main>.
+ * - Does NOT break position:sticky — sticky still resolves against the
+ *   viewport scroll container, not a clip-container.
+ * - Does NOT create a BFC (unlike overflow:hidden), so fixed children
+ *   remain viewport-relative.
+ */
+main {
+	overflow-x: clip;
 }
 
 /* ── Section icon animations (GIF-like) ────────────────────────────── */

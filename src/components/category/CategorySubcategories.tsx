@@ -27,25 +27,27 @@ const CategorySubcategories = ({ category }: CategorySubcategoriesProps) => {
 				<p className="text-muted-foreground mt-1 text-sm">Browse our collection by style</p>
 			</div>
 
-			<div className="scrollbar-hide flex gap-3 overflow-x-auto pb-4">
-				{subcategories.map((subcategory) => (
-					<LinkWithChannel
-						key={subcategory.id}
-						href={`/categories/${subcategory.slug}`}
-						className="group min-w-[180px] shrink-0"
-					>
-						<div className="border-border bg-card flex h-full flex-col rounded-xl border p-5 shadow-sm transition-all duration-200 ease-out will-change-transform hover:-translate-y-1 hover:shadow-md">
-							<div className="mb-3 flex items-center justify-between">
-								<div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
-									<div className="bg-muted-foreground/40 h-5 w-5 rounded-sm" />
+			<div className="w-full overflow-x-hidden">
+				<div className="scrollbar-hide flex gap-3 overflow-x-auto pb-4">
+					{subcategories.map((subcategory) => (
+						<LinkWithChannel
+							key={subcategory.id}
+							href={`/categories/${subcategory.slug}`}
+							className="group min-w-[180px] shrink-0"
+						>
+							<div className="border-border bg-card flex h-full flex-col rounded-xl border p-5 shadow-sm transition-all duration-200 ease-out will-change-transform hover:-translate-y-1 hover:shadow-md">
+								<div className="mb-3 flex items-center justify-between">
+									<div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+										<div className="bg-muted-foreground/40 h-5 w-5 rounded-sm" />
+									</div>
+									<ChevronRight className="text-muted-foreground h-4 w-4 transition-transform group-hover:translate-x-1" />
 								</div>
-								<ChevronRight className="text-muted-foreground h-4 w-4 transition-transform group-hover:translate-x-1" />
+								<h3 className="text-foreground font-semibold">{subcategory.name}</h3>
+								<p className="text-muted-foreground mt-1 text-xs">{subcategory.count} items</p>
 							</div>
-							<h3 className="text-foreground font-semibold">{subcategory.name}</h3>
-							<p className="text-muted-foreground mt-1 text-xs">{subcategory.count} items</p>
-						</div>
-					</LinkWithChannel>
-				))}
+						</LinkWithChannel>
+					))}
+				</div>
 			</div>
 		</section>
 	);

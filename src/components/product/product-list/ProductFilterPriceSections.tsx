@@ -20,10 +20,10 @@ type FormMethods = UseFormReturn<ProductFilterForm>;
 type SectionProps = { methods: FormMethods; submit: ReturnType<FormMethods["handleSubmit"]> };
 
 const TRIGGER_CLS =
-	"text-foreground py-3 text-[13px] font-semibold tracking-[0.08em] uppercase hover:no-underline";
-const ITEM_CLS = "border-b-0 py-2";
+	"text-foreground py-2 text-[12px] sm:text-[13px] font-semibold tracking-[0.08em] uppercase hover:no-underline";
+const ITEM_CLS = "border-b-0 py-0.5";
 const CLEAR_BTN_CLS =
-	"text-muted-foreground hover:text-foreground shrink-0 px-2 py-1 text-[11px] font-medium tracking-[0.08em] uppercase transition-colors rounded";
+	"text-muted-foreground hover:text-foreground shrink-0 rounded px-2 py-1 text-[10px] sm:text-[11px] font-medium tracking-[0.08em] uppercase transition-colors";
 
 const PRICE_PRESETS = [
 	{ key: "priceUnder100k" as const, value: "0-100000" },
@@ -58,8 +58,8 @@ const FilterPriceSection = ({ methods, submit }: SectionProps) => {
 			>
 				<span>{t("price")}</span>
 			</AccordionTrigger>
-			<AccordionContent className="pt-2">
-				<div className="flex flex-col gap-3">
+			<AccordionContent className="pt-1">
+				<div className="flex flex-col gap-2">
 					<RadioGroup
 						name="tempPrice"
 						value={tempPrice || ""}
@@ -76,14 +76,14 @@ const FilterPriceSection = ({ methods, submit }: SectionProps) => {
 								<RadioGroupItem value={item.value} id={`price-${item.value}`} />
 								<Label
 									htmlFor={`price-${item.value}`}
-									className="text-muted-foreground group-hover:text-foreground cursor-pointer text-sm font-normal transition-colors"
+									className="text-muted-foreground group-hover:text-foreground cursor-pointer text-[13px] sm:text-sm font-normal transition-colors"
 								>
 									{t(item.key)}
 								</Label>
 							</div>
 						))}
 					</RadioGroup>
-					<p className="text-muted-foreground/70 text-[10px] font-medium tracking-[0.1em] uppercase">
+					<p className="text-muted-foreground/70 text-[10px] sm:text-[11px] font-medium tracking-[0.1em] uppercase">
 						{t("customPrice")}
 					</p>
 					<div className="flex items-center gap-2">
@@ -95,11 +95,11 @@ const FilterPriceSection = ({ methods, submit }: SectionProps) => {
 									}),
 									placeholder: t("priceMin"),
 									allowNegative: false,
-									className: "rounded-md shadow-none text-sm h-9"
+									className: "h-9 rounded-md text-[13px] shadow-none sm:text-sm"
 								}}
 							/>
 						</div>
-						<span className="text-muted-foreground shrink-0 text-sm select-none">—</span>
+						<span className="text-muted-foreground shrink-0 text-[13px] sm:text-sm select-none">—</span>
 						<div className="min-w-0 flex-1">
 							<InputField
 								inputProps={{
@@ -108,13 +108,13 @@ const FilterPriceSection = ({ methods, submit }: SectionProps) => {
 									}),
 									placeholder: t("priceMax"),
 									allowNegative: false,
-									className: "rounded-md shadow-none text-sm h-9"
+									className: "h-9 rounded-md text-[13px] shadow-none sm:text-sm"
 								}}
 							/>
 						</div>
 					</div>
 					<Button
-						className="w-full rounded-md font-medium"
+						className="h-10 w-full rounded-md px-4 text-sm font-semibold"
 						type="button"
 						onClick={() => void submit()}
 						size="sm"
@@ -152,7 +152,7 @@ const FilterStockSection = ({ methods, submit }: SectionProps) => {
 			>
 				<span>{t("stock")}</span>
 			</AccordionTrigger>
-			<AccordionContent className="pt-2">
+			<AccordionContent className="pt-1">
 				<div className="group flex cursor-pointer items-center space-x-2">
 					<Checkbox
 						id="in-stock"
@@ -166,7 +166,7 @@ const FilterStockSection = ({ methods, submit }: SectionProps) => {
 					/>
 					<Label
 						htmlFor="in-stock"
-						className="text-muted-foreground group-hover:text-foreground cursor-pointer text-sm font-normal transition-colors"
+						className="text-muted-foreground group-hover:text-foreground cursor-pointer text-[13px] sm:text-sm font-normal transition-colors"
 					>
 						{t("inStock")}
 					</Label>

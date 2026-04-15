@@ -22,10 +22,14 @@ export function CheckoutItems({ checkout, checkoutId, onDeleted }: ICheckoutItem
 						className="group hover:bg-muted/40 relative flex gap-5 p-5 transition-colors duration-150 lg:gap-6 lg:p-6"
 					>
 						{/* Product image */}
-						<div className="border-border/50 bg-product-image-bg relative shrink-0 overflow-hidden rounded-xl border shadow-sm">
+						<div className="bg-product-image-bg relative shrink-0 overflow-hidden rounded-xl border border-border/50 ring-1 ring-inset ring-border/50 transition-colors group-hover:border-border/70 group-hover:ring-border/70">
 							<div className="h-24 w-24 sm:h-28 sm:w-28">
 								{variant?.product?.thumbnail?.url && (
-									<ImageItem src={variant.product.thumbnail.url} alt={variant.product.thumbnail.alt ?? ""} />
+									<ImageItem
+										src={variant.product.thumbnail.url}
+										alt={variant.product.thumbnail.alt ?? ""}
+										className="p-2"
+									/>
 								)}
 							</div>
 						</div>

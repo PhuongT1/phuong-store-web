@@ -28,6 +28,7 @@ export * from "./Toggle";
 export * from "./ToggleGroup";
 export * from "./Slider";
 export * from "./Progress";
+export * from "./Scrollbar";
 export * from "./typography/Typography";
 export * from "./Sonner";
 export * from "./Badge";

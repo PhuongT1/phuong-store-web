@@ -1,6 +1,6 @@
-import { ProductListByCategorySkeleton } from "@components/skeleton";
+import { CategoryPageSkeleton } from "@components/skeleton";
 
 const Loading = () => {
-	return <ProductListByCategorySkeleton />;
+	return <CategoryPageSkeleton />;
 };
 export default Loading;

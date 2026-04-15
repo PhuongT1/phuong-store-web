@@ -1,0 +1,9 @@
+fragment AttributeValue on AttributeValue {
+	id
+	name
+	value
+	richText
+	externalReference
+	reference
+	slug
+}

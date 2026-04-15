@@ -40,9 +40,9 @@ const CONFIG = {
 		info: 3000
 	},
 	SIZE_VARIANT: {
-		medium: "h-10",
-		small: "h-9",
-		xsmall: "h-8"
+		medium: "h-10 sm:h-11",
+		small: "h-9 sm:h-10",
+		xsmall: "h-8 sm:h-9"
 	}
 };
 

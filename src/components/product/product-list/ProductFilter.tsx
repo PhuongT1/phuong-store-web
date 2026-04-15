@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useProductFilter } from "@/hooks/useProductFilter";
-import { Button, Accordion, FormProvider } from "@components/ui";
+import { Button, Accordion, FormProvider, Scrollbar } from "@components/ui";
 import {
 	FilterPriceSection,
 	FilterStockSection,
@@ -20,12 +20,20 @@ const ProductFilter = ({ onClickBtnSubmit }: ProductFilterProps) => {
 	const { methods, submit, handleReset, isAttrLoading, brandOptions, sizeOptions, colorOptions } =
 		useProductFilter();
 
+	const isMobile = !!onClickBtnSubmit;
+
 	return (
-		<aside className="h-full overflow-hidden md:sticky md:top-(--header-height) md:z-10 md:h-[calc(100vh-var(--header-height)-8px)]">
-			<div className="bg-card flex h-full flex-col overflow-hidden rounded-xl shadow-sm">
-				{/* Sticky filter header */}
-				<div className="border-border bg-card flex shrink-0 items-center justify-between border-b px-4 py-3">
-					<h2 className="text-foreground text-[13px] font-semibold tracking-[0.12em] uppercase">
+		<aside
+			className={`flex flex-col overflow-hidden ${
+				!isMobile
+					? "surface-panel sticky top-[calc(var(--header-height)+1.5rem)] z-10 max-h-[calc(100vh-var(--header-height)-1.5rem)]"
+					: "h-full min-h-0"
+			}`}
+		>
+			{/* Desktop header — hidden in mobile sheet (sheet has its own) */}
+			{!isMobile && (
+				<div className="border-border/65 bg-card/90 flex shrink-0 items-center justify-between rounded-t-2xl border-b px-4 py-3">
+					<h2 className="text-foreground text-[12px] font-semibold tracking-[0.14em] uppercase sm:text-[13px]">
 						{t("title")}
 					</h2>
 					<Button
@@ -33,18 +41,17 @@ const ProductFilter = ({ onClickBtnSubmit }: ProductFilterProps) => {
 						variant="ghost"
 						size="sm"
 						onClick={handleReset}
-						className="text-muted-foreground hover:text-foreground hover:bg-accent h-7 rounded-md px-2.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-colors"
+						className="text-muted-foreground hover:text-foreground hover:bg-accent h-8 rounded-lg px-3 text-[10px] sm:text-[11px] font-medium tracking-[0.1em] uppercase transition-colors"
 					>
 						{t("reset")}
 					</Button>
 				</div>
+			)}
 
+			<FormProvider methods={methods} formProps={{ onSubmit: submit, className: "flex h-full min-h-0 flex-1 flex-col" }}>
 				{/* Scrollable content */}
-				<div
-					className="[&::-webkit-scrollbar-thumb]:bg-border flex-1 overflow-y-auto overscroll-contain px-4 pb-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent"
-					style={{ scrollbarWidth: "thin" }}
-				>
-					<FormProvider methods={methods} formProps={{ className: "flex flex-col gap-4", onSubmit: submit }}>
+				<Scrollbar className="min-h-0 flex-1 overscroll-contain" autoHide={false}>
+					<div className={isMobile ? "overscroll-contain px-3 pb-1.5 pt-0" : "overscroll-contain px-4 pb-4 pt-1"}>
 						<Accordion
 							type="multiple"
 							defaultValue={["price", "stock", "brand", "size", "color"]}
@@ -71,18 +78,36 @@ const ProductFilter = ({ onClickBtnSubmit }: ProductFilterProps) => {
 								isLoading={isAttrLoading}
 							/>
 						</Accordion>
+					</div>
+				</Scrollbar>
+
+				{/* Mobile: sticky Apply + Clear buttons pinned to bottom */}
+				{isMobile && (
+					<div className="bg-popover/96 border-border/70 sticky bottom-0 z-10 flex gap-2 border-t px-3 pt-1 pb-[max(6px,env(safe-area-inset-bottom))] backdrop-blur-md shadow-[0_-8px_24px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_28px_rgba(0,0,0,0.26)]">
 						<Button
-							className="shadow-primary/20 mt-2 block w-full rounded-md font-semibold shadow-md md:hidden"
-							onClick={onClickBtnSubmit}
-							type="submit"
+							type="button"
+							variant="outline"
+							size="base"
+							onClick={handleReset}
+							className="h-[38px] flex-1 rounded-xl px-3.5 text-[13px] font-semibold sm:h-11 sm:text-sm"
+						>
+							{t("reset")}
+						</Button>
+						<Button
+							className="h-[38px] flex-[2] rounded-xl px-3.5 text-[13px] font-semibold sm:h-11 sm:text-sm"
+							onClick={() => {
+								void submit();
+								onClickBtnSubmit();
+							}}
+							type="button"
 							variant="default"
 							size="base"
 						>
 							{t("applyMobile")}
 						</Button>
-					</FormProvider>
-				</div>
-			</div>
+					</div>
+				)}
+			</FormProvider>
 		</aside>
 	);
 };

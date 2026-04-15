@@ -47,10 +47,10 @@ export const PaymentProcessingModal = ({
 			<div className="bg-overlay absolute inset-0 backdrop-blur-sm" />
 
 			{/* Modal */}
-			<div className="bg-card relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl p-8 shadow-2xl transition-all">
+			<div className="surface-overlay relative z-10 w-full max-w-md transform overflow-hidden p-8 transition-all">
 				{/* Animated Spinner */}
 				<div className="mx-auto mb-6 h-20 w-20">
-					<div className="border-muted border-t-primary h-full w-full animate-spin rounded-full border-4" />
+					<div className="border-muted/80 border-t-primary h-full w-full animate-spin rounded-full border-4" />
 				</div>
 
 				{/* Title */}
@@ -80,25 +80,25 @@ export const PaymentProcessingModal = ({
 				{/* Status Messages */}
 				<div className="mb-6 space-y-2">
 					{seconds < 5 && (
-						<div className="bg-info/10 flex items-center gap-2 rounded-lg p-3">
+						<div className="bg-info/12 border-info/25 flex items-center gap-2 rounded-lg border p-3">
 							<div className="bg-info h-2 w-2 animate-pulse rounded-full" />
 							<p className="text-info text-sm">{t("connectingBank")}</p>
 						</div>
 					)}
 					{seconds >= 5 && seconds < 15 && (
-						<div className="bg-info/10 flex items-center gap-2 rounded-lg p-3">
+						<div className="bg-info/12 border-info/25 flex items-center gap-2 rounded-lg border p-3">
 							<div className="bg-info h-2 w-2 animate-pulse rounded-full" />
 							<p className="text-info text-sm">{t("verifyingTransaction")}</p>
 						</div>
 					)}
 					{seconds >= 15 && seconds < 30 && (
-						<div className="bg-warning-muted flex items-center gap-2 rounded-lg p-3">
+						<div className="bg-warning-muted border-warning/20 flex items-center gap-2 rounded-lg border p-3">
 							<div className="bg-warning h-2 w-2 animate-pulse rounded-full" />
 							<p className="text-warning text-sm">{t("waitingBankResponse")}</p>
 						</div>
 					)}
 					{seconds >= 30 && (
-						<div className="bg-badge-hot-muted flex items-center gap-2 rounded-lg p-3">
+						<div className="bg-badge-hot-muted border-badge-hot/20 flex items-center gap-2 rounded-lg border p-3">
 							<div className="bg-badge-hot h-2 w-2 animate-pulse rounded-full" />
 							<p className="text-badge-hot text-sm">{t("transactionTakingLong")}</p>
 						</div>
@@ -106,7 +106,7 @@ export const PaymentProcessingModal = ({
 				</div>
 
 				{/* Warning */}
-				<div className="border-warning/30 bg-warning-muted mb-6 rounded-lg border-2 p-4">
+				<div className="border-warning/35 bg-warning-muted mb-6 rounded-lg border p-4">
 					<div className="flex gap-3">
 						<span className="text-2xl">⚠️</span>
 						<div>
@@ -122,7 +122,7 @@ export const PaymentProcessingModal = ({
 
 				{/* Help Text */}
 				{seconds > 20 && (
-					<div className="bg-muted rounded-lg p-4 text-center">
+					<div className="bg-muted/70 border-border/45 rounded-lg border p-4 text-center">
 						<p className="text-muted-foreground mb-2 text-sm">{t("paidSuccessWaitLong")}</p>
 						<button onClick={onCancel} className="text-info hover:text-info/80 text-sm font-medium underline">
 							{t("checkOrderStatus")}

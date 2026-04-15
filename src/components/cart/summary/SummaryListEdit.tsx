@@ -64,15 +64,15 @@ const SummaryListEdit: FC<SummaryListEditProps> = ({ editable = true, lines, cla
 	return (
 		<Card
 			className={cn(
-				"bg-card-elevated border-card-elevated-border shadow-card-elevated border px-6 py-4 backdrop-blur-sm sm:px-8 sm:py-6 md:rounded-2xl",
+				"bg-card-elevated border-card-elevated-border shadow-card-elevated border px-4 py-3 backdrop-blur-sm sm:px-8 sm:py-6 md:rounded-2xl",
 				classNameCard
 			)}
 		>
 			<FormProvider {...methods}>
 				{editable && fields.length > 0 && (
-					<div className="border-border mb-2 flex items-center gap-3 border-b pb-3">
+					<div className="border-border mb-2 flex items-center gap-2 border-b pb-2.5 sm:gap-3 sm:pb-3">
 						<Checkbox checked={allSelected} onCheckedChange={handleToggleAll} aria-label={t("selectAll")} />
-						<span className="text-muted-foreground flex-1 text-sm">
+						<span className="text-muted-foreground flex-1 text-xs sm:text-sm">
 							{someSelected ? `${t("selected")} (${selectedIds.size})` : t("selectAll")}
 						</span>
 						{someSelected && (
@@ -81,7 +81,7 @@ const SummaryListEdit: FC<SummaryListEditProps> = ({ editable = true, lines, cla
 								size="sm"
 								disabled={isDeleting}
 								onClick={handleDeleteSelected}
-								className="text-destructive hover:text-destructive gap-1.5 px-2"
+								className="text-destructive hover:text-destructive gap-1 px-1.5 text-xs sm:gap-1.5 sm:px-2"
 							>
 								<Trash2 size={14} />
 								{t("deleteSelected")}
@@ -108,7 +108,6 @@ const SummaryListEdit: FC<SummaryListEditProps> = ({ editable = true, lines, cla
 						</SummaryLineEdit>
 					))}
 				</ul>
-				{isTabletOrBelow && <Summary {...rest} lines={lines} editable={editable} classNameCard="p-0" />}
 			</FormProvider>
 		</Card>
 	);

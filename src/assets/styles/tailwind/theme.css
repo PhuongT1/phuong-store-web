@@ -2,8 +2,8 @@
 /* Reference: image 2 (aitokens.io dark navy style) for dark mode */
 
 :root {
-	--radius: 0.6rem;
-	/* MUI Standard Radius */
+	--radius: 1rem;
+	/* Apple-like Squircle Radius */
 	--header-height: 88px;
 	--container-max-w: 1600px;
 	/* ── Floating chat buttons ── */
@@ -14,21 +14,21 @@
 	/* h-12(48) + h-9(36) + border-b(1) = ~85px, round up */
 
 	/* ── Core Surfaces ── */
-	--background: oklch(0.96 0 0);
-	/* Light gray page bg — cards sit elevated on top */
+	--background: oklch(0.995 0 0); /* Soft white page for cleaner contrast with cards */
+	/* Pure background, products shine */
 	--foreground: oklch(0.12 0 0);
-	/* Neutral near-black */
-	--card: oklch(1 0 0);
-	/* Pure white cards — visually elevated above page bg */
+	/* Crisp near-black */
+	--card: oklch(0.99 0 0);
+	/* Off-white cards — subtle separation without harsh borders */
 	--card-foreground: oklch(0.12 0 0);
-	--popover: oklch(1 0 0);
+	--popover: oklch(0.998 0 0);
 	--popover-foreground: oklch(0.12 0 0);
 
 	/* ── Brand ── */
-	--primary: oklch(0.684 0.169 237);
-	/* sky-500 (#0da2e7): rgb(56,189,248) */
-	--primary-foreground: oklch(1 0 0);
-	/* White text on blue */
+	--primary: oklch(0.15 0 0);
+        /* Black CTA */
+        --primary-foreground: oklch(1 0 0);
+        /* White text */
 	--secondary: oklch(0.91 0 0);
 	/* Secondary bg — clearly darker than page bg (0.96) for visible buttons */
 	--secondary-foreground: oklch(0.12 0 0);
@@ -42,7 +42,7 @@
 	--accent-foreground: oklch(0.12 0 0);
 
 	/* ── Semantic: Destructive (Red) ── */
-	--destructive: oklch(0.637 0.208 25.3);
+	--destructive: oklch(0.55 0.22 25);
 	--destructive-foreground: oklch(1 0 0);
 	--destructive-muted: oklch(0.97 0.04 25);
 	--toast-error-bg: oklch(0.95 0.08 25);
@@ -94,7 +94,7 @@
 
 	/* ── Inputs & Borders ── */
 	--border: oklch(0.86 0 0);
-	--input: oklch(0.988 0 0);
+	--input: oklch(0.994 0 0);
 	/* Input bg slightly lighter than page */
 	--input-foreground: var(--foreground);
 	/* Input text — same as foreground in light mode */
@@ -172,10 +172,10 @@
 	--hero-amber-from: oklch(0.55 0.13 72);
 	--hero-amber-to: oklch(0.52 0.14 52);
 
-	/* Shadows — lighter for less visual noise */
-	--shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
-	--shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 6px -2px rgb(0 0 0 / 0.05);
-	--shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.10), 0 8px 16px -4px rgb(0 0 0 / 0.07);
+	/* Shadows — Luxury floating effect (Soft & diffused) */
+	--shadow-sm: 0 4px 12px 0 rgb(0 0 0 / 0.03);
+	--shadow-md: 0 8px 24px -2px rgb(0 0 0 / 0.05);
+	--shadow-lg: 0 20px 48px -4px rgb(0 0 0 / 0.07);
 
 	/* Toastify */
 	--toastify-success: oklch(0.6 0.2 145);
@@ -202,22 +202,22 @@
 	 */
 
 	/* ── Core Surfaces ── */
-	--background: oklch(0.145 0 0);
-	/* #0a0a0a */
-	--foreground: oklch(0.91 0.005 255);
-	/* Soft white text — comfortable for long reading */
-	--card: oklch(0.168 0 0);
-	/* #0f0f0f */
+	--background: oklch(0 0 0);
+	/* OLED Pitch Black */
+	--foreground: oklch(0.95 0 0);
+	/* Crisp white */
+	--card: oklch(0.15 0.003 260);
+	/* Deep Midnight Graphite - Premium Glass */
 	--card-foreground: oklch(0.91 0.005 255);
 	--popover: oklch(0.20 0.012 255);
 	/* Dropdowns float above cards */
 	--popover-foreground: oklch(0.91 0.005 255);
 
 	/* ── Brand ── */
-	--primary: oklch(0.684 0.169 237);
-	/* sky-500 (#0da2e7): rgb(56,189,248) */
-	--primary-foreground: oklch(1 0 0);
-	/* White text on blue — high contrast on dark bg */
+	--primary: oklch(0.98 0 0);
+        /* White CTA block */
+        --primary-foreground: oklch(0.10 0 0);
+        /* Black text */
 	--secondary: oklch(0.22 0.012 255);
 	--secondary-foreground: oklch(0.82 0.006 255);
 
@@ -231,7 +231,7 @@
 	--accent-foreground: oklch(0.91 0.005 255);
 
 	/* ── Semantic: Destructive ── */
-	--destructive: oklch(0.637 0.208 25.3);
+	--destructive: oklch(0.60 0.22 25);
 	--destructive-foreground: oklch(0.98 0 0);
 	--destructive-muted: oklch(0.18 0.06 25);
 	--toast-error-bg: oklch(0.17 0.05 25);
@@ -279,9 +279,9 @@
 	--badge-recommended-muted: oklch(0.22 0.10 340);
 
 	/* ── Inputs & Borders ── */
-	--border: oklch(0.2308 0 0);
-	/* #1d1d1d — subtle dividers */
-	--input: oklch(0.2046 0 0);
+	--border: oklch(0.23 0 0 / 0.50);
+	/* Soft translucent dividers */
+	--input: oklch(0.14 0 0);
 	/* #171717 — input surface */
 	--input-foreground: oklch(0.985 0 0);
 	/* hsl(0 0% 98%) — near-white for form field text in dark mode */

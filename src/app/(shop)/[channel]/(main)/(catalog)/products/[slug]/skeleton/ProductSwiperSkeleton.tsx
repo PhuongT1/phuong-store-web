@@ -5,14 +5,18 @@ const ProductSwiperSkeleton = () => {
 		<>
 			<ImageSkeleton
 				imageProps={{
-					size: 200,
+					size: 220,
 					strokeWidth: 0.2
 				}}
-				skeletonProps={{ className: "h-[250px] sm:h-[370px] rounded-xl" }}
+				skeletonProps={{ className: "aspect-square w-full rounded-2xl" }}
 			/>
 			<div className="flex w-full gap-2 overflow-hidden">
-				{Array.from({ length: 20 })?.map((_, index) => (
-					<ImageSkeleton skeletonProps={{ className: "rounded" }} imageProps={{ size: 60 }} key={index} />
+				{Array.from({ length: 5 }).map((_, index) => (
+					<ImageSkeleton
+						skeletonProps={{ className: "h-16 w-16 rounded-xl sm:h-20 sm:w-20" }}
+						imageProps={{ size: 56 }}
+						key={index}
+					/>
 				))}
 			</div>
 		</>

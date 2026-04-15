@@ -31,15 +31,14 @@ const RadioGroupItem = React.forwardRef<
 		<RadioGroupPrimitive.Item
 			ref={ref}
 			className={cn(
-				"border-border/70 focus-visible:ring-info/40 aspect-square h-4 w-4 shrink-0 rounded-full border focus:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50",
+				"border-border/80 focus-visible:ring-info/40 aspect-square h-[18px] w-[18px] shrink-0 rounded-full border transition-colors focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
 				"data-[state=checked]:border-info",
 				className
 			)}
 			{...props}
 		>
 			<RadioGroupPrimitive.Indicator className="relative flex items-center justify-center">
-				<CircleIcon className="fill-info absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2" />
-				{/* <CheckIcon className="h-3.5 w-3.5 fill-primary" /> */}
+				<CircleIcon className="fill-info absolute top-1/2 left-1/2 size-[9px] -translate-x-1/2 -translate-y-1/2" />
 			</RadioGroupPrimitive.Indicator>
 		</RadioGroupPrimitive.Item>
 	);
@@ -50,15 +49,18 @@ type RadioListProps = {
 	name: string;
 	children?: React.ReactNode;
 	radioItemProps?: RadioItemProps;
+	allowDeselect?: boolean;
 } & OptionList<Option<string>> &
 	Omit<React.ComponentPropsWithoutRef<typeof RadioGroup>, "value" | "defaultValue" | "onValueChange">;
 
 type RadioItemProps = {
-	divProps?: React.HTMLProps<HTMLDivElement>;
+	divProps?: React.LabelHTMLAttributes<HTMLLabelElement>;
 	optionProps?: Option<string>;
 	labelProps?: React.ComponentPropsWithoutRef<typeof Label>;
 	isActive?: boolean;
 	disabled?: boolean;
+	allowDeselect?: boolean;
+	onToggle?: (value: string) => void;
 } & VariantProps<typeof radioVariants>;
 
 const radioVariants = cva("relative flex items-center space-x-2", {
@@ -68,19 +70,17 @@ const radioVariants = cva("relative flex items-center space-x-2", {
 			border: [
 				"group",
 				"cursor-pointer",
-				"border",
-				"border-border",
-				"bg-muted",
-				"px-3",
-				"py-2.5",
-				"rounded-(--radius)",
-				"text-sm",
-				"transition-all duration-150",
-				"hover:border-border hover:bg-accent/40",
-				// Active: colored border + tinted bg + info text
-				"has-[button[data-state='checked']]:border-info",
-				"has-[button[data-state='checked']]:bg-info/10",
-				"has-[button[data-state='checked']]:text-info"
+				"flex flex-row items-center gap-3 space-x-0",
+				"border border-border/65",
+				"hover:border-border/90",
+				"bg-card",
+				"p-4",
+				"rounded-2xl",
+				"transition-all duration-200",
+				"shadow-sm",
+				"has-[button[data-state='checked']]:border-info/55",
+				"has-[button[data-state='checked']]:bg-info/8",
+				"has-[button[data-state='checked']]:shadow-md"
 			]
 		}
 	},
@@ -90,16 +90,38 @@ const radioVariants = cva("relative flex items-center space-x-2", {
 });
 
 const RadioItem = React.forwardRef<HTMLLabelElement, RadioItemProps>(
-	({ labelProps, variant, isActive, divProps, optionProps, disabled }, ref) => {
+	({ labelProps, variant, isActive, divProps, optionProps, disabled, allowDeselect, onToggle }, ref) => {
 		const value = optionProps?.value || "";
 		const label = optionProps?.label || "";
+		const { ref: _dropLabelRef, onClick, onKeyDown, ...safeDivProps } = divProps ?? {};
+
+		const handleToggle = () => {
+			onToggle?.(value);
+		};
 
 		return (
 			<label
 				ref={ref}
 				htmlFor={value}
-				className={cn(radioVariants({ variant }), {
-					"border-info": variant === "border" && isActive,
+				{...safeDivProps}
+				onClick={(event) => {
+					if (allowDeselect && isActive) {
+						event.preventDefault();
+						handleToggle();
+						return;
+					}
+					onClick?.(event);
+				}}
+				onKeyDown={(event) => {
+					if (allowDeselect && isActive && (event.key === "Enter" || event.key === " ")) {
+						event.preventDefault();
+						handleToggle();
+						return;
+					}
+					onKeyDown?.(event);
+				}}
+				className={cn(radioVariants({ variant }), safeDivProps?.className, {
+					"border-info/60": variant === "border" && isActive,
 					"pointer-events-none opacity-50": disabled
 				})}
 			>
@@ -114,7 +136,7 @@ const RadioItem = React.forwardRef<HTMLLabelElement, RadioItemProps>(
 RadioItem.displayName = "RadioItem";
 
 const RadioList = React.forwardRef<React.ElementRef<typeof RadioGroup>, RadioListProps>(
-	({ name, options, children, radioItemProps, ...rest }, ref) => {
+	({ name, options, children, radioItemProps, allowDeselect = false, ...rest }, ref) => {
 		const { control } = useFormContext();
 		const { field } = useController({ name, control });
 
@@ -132,6 +154,8 @@ const RadioList = React.forwardRef<React.ElementRef<typeof RadioGroup>, RadioLis
 						<RadioItem
 							{...radioItemProps}
 							isActive={value === field.value}
+							allowDeselect={allowDeselect}
+							onToggle={() => field.onChange("")}
 							key={String(value)}
 							disabled={disabled}
 							optionProps={{ label, value, disabled }}

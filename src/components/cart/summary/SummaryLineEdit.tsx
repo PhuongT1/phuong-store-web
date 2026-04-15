@@ -119,7 +119,7 @@ const SummaryLineEdit = React.memo(
 			<li
 				key={line.id}
 				className={cn(
-					"border-border flex flex-wrap items-center gap-2 border-b py-4 transition-opacity duration-300 last:border-none",
+					"border-border flex flex-wrap items-center gap-2 border-b py-3 transition-opacity duration-300 last:border-none sm:py-4",
 					isUpdating && "pointer-events-none",
 					isSelected && "bg-info/5"
 				)}
@@ -132,18 +132,18 @@ const SummaryLineEdit = React.memo(
 						className="mt-1 self-start"
 					/>
 				)}
-				<div className="bg-popover border-border aspect-square h-16 w-16 shrink-0 overflow-hidden rounded-xl border md:h-[72px] md:w-[72px]">
+				<div className="bg-muted/40 border-border/60 flex aspect-square h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border sm:h-16 sm:w-16 sm:rounded-xl md:h-[72px] md:w-[72px]">
 					{productImage ? (
-						<ImageItem src={productImage.url} alt={productImage.alt} />
+						<ImageItem src={productImage.url} alt={productImage.alt} className="object-contain mix-blend-multiply dark:mix-blend-normal" />
 					) : (
-						<ImageIcon className="text-muted-foreground h-8 w-8" />
+						<ImageIcon className="text-muted-foreground/50 h-7 w-7 sm:h-8 sm:w-8" />
 					)}
 				</div>
 				<div className="relative flex flex-1 flex-col justify-between gap-2">
 					<div className="flex justify-between justify-items-start gap-1">
 						<div className="flex flex-col gap-y-1">
-							<p className="font-medium">{productName}</p>
-							<div className="flex gap-2">
+							<p className="text-sm font-medium sm:text-base">{productName}</p>
+							<div className="flex flex-wrap gap-1.5 sm:gap-2">
 								{editable &&
 									line.variant?.assignedAttributes?.map((item: unknown, index: number) => {
 										const { attribute } = item as AssignedSingleChoiceAttribute;
@@ -154,8 +154,10 @@ const SummaryLineEdit = React.memo(
 										}));
 
 										return (
-											<div key={index} className="flex flex-col gap-1">
-												<p className="text-muted-foreground text-xs font-medium">{attribute.name}</p>
+											<div key={index} className="flex flex-col gap-0.5 sm:gap-1">
+												<p className="text-muted-foreground text-[11px] font-medium sm:text-xs">
+													{attribute.name}
+												</p>
 												<FormCombobox
 													control={control}
 													name={name}
@@ -191,7 +193,7 @@ const SummaryLineEdit = React.memo(
 										);
 									})}
 								{!editable && line.variant?.name && (
-									<p className="text-muted-foreground text-sm">{line.variant.name}</p>
+									<p className="text-muted-foreground text-xs sm:text-sm">{line.variant.name}</p>
 								)}
 							</div>
 						</div>
@@ -199,23 +201,23 @@ const SummaryLineEdit = React.memo(
 					</div>
 				</div>
 				{editable && (
-					<div className="flex w-full items-center justify-end gap-3">
+					<div className="flex w-full items-center justify-end gap-2.5 sm:gap-3">
 						<ConfirmDeleteDialog confirmButtonProps={{ onClick: () => checkoutDelete(line._id) }} />
-						<div className="bg-popover border-border inline-flex h-9 items-center overflow-hidden rounded-lg border">
+						<div className="bg-card border-border/60 inline-flex h-8 items-center overflow-hidden rounded-lg border shadow-sm sm:h-9">
 							<Button
 								variant="ghost"
 								size="icon"
-								className="border-border text-muted-foreground hover:text-foreground h-full w-9 rounded-none border-r shadow-none"
+								className="border-border/60 text-muted-foreground hover:bg-accent/40 hover:text-foreground h-full w-8 rounded-none border-r shadow-none sm:w-9 transition-colors"
 								onClick={() => handleUpdateQuantity(quantity - 1)}
 							>
-								<Minus size={15} />
+								<Minus size={14} />
 							</Button>
 							<FormInput
 								type="number"
 								name={quantityPath}
 								control={control}
 								affixWrapperProps={{
-									className: "rounded-none border-0 focus-within:ring-0 px-1 h-9 bg-popover"
+									className: "rounded-none border-0 focus-within:ring-0 bg-transparent h-8 px-0.5 sm:h-9 sm:px-1 shadow-none"
 								}}
 								inputProps={{
 									sizeVariant: "small",
@@ -223,17 +225,17 @@ const SummaryLineEdit = React.memo(
 									max: 50,
 									required: true,
 									allowLeadingZeros: false,
-									className: "w-[44px] text-center font-medium text-sm",
+									className: "w-[38px] text-center text-xs font-medium sm:w-[44px] sm:text-sm",
 									onValueCommit: handleChangeQuantity
 								}}
 							/>
 							<Button
 								variant="ghost"
 								size="icon"
-								className="border-border text-muted-foreground hover:text-foreground h-full w-9 rounded-none border-l shadow-none"
+								className="border-border/60 text-muted-foreground hover:bg-accent/40 hover:text-foreground h-full w-8 rounded-none border-l shadow-none sm:w-9 transition-colors"
 								onClick={() => handleUpdateQuantity(quantity + 1)}
 							>
-								<Plus size={15} />
+								<Plus size={14} />
 							</Button>
 						</div>
 					</div>

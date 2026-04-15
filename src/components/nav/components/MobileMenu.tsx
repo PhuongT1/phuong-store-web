@@ -1,131 +1,136 @@
 "use client";
 
-import {
-	Accordion,
-	Button,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-	DialogTitle,
-	Sheet,
-	SheetContent
-} from "@ui";
-import { MenuIcon } from "lucide-react";
+import { useState } from "react";
+import { DialogTitle, Sheet, SheetContent , Button } from "@ui";
+import { MenuIcon, ChevronRightIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Logo } from "@/components/layouts/Logo";
 import { LinkWithChannel } from "@/components/navigation/LinkWithChannel";
-import { ALL_PRODUCTS_SLUG, CLASS_BG_HEADER, CLASS_HOVER_ICON } from "@/constants";
+import { ALL_PRODUCTS_SLUG, CLASS_HOVER_ICON } from "@/constants";
 import { cn } from "@/lib/utils";
 import { CloseButton } from "./CloseButton";
 import { type NavigationMenuProps } from "./NavigationLinks";
-import { getObjTypeMenu, renderMenu } from "./NavLink";
+import { getObjTypeMenu } from "./NavLink";
 import { useMobileMenu } from "./useMobileMenu";
 
 type MobileMenuProps = NavigationMenuProps;
 
 export const MobileMenu = ({ navLinks }: MobileMenuProps) => {
 	const t = useTranslations("nav");
-	const { openMenu, isOpen, closeMenu } = useMobileMenu();
+	const { openMenu, isOpen, closeMenu: handleCloseMobileMenu } = useMobileMenu();
+	/** Track which accordion item is open (value = item id) */
+	const [openItem, setOpenItem] = useState<string | null>(null);
 
 	if (!navLinks) return <></>;
 
+	const closeMenu = () => {
+		setOpenItem(null); // Reset when menu closes correctly
+		handleCloseMobileMenu();
+	};
+
+	const toggleItem = (id: string) => {
+		setOpenItem((prev) => (prev === id ? null : id));
+	};
+
 	return (
 		<>
-			<Sheet open={isOpen}>
+			<Sheet
+				open={isOpen}
+				onOpenChange={(open) => {
+					if (!open) closeMenu();
+				}}
+			>
 				<Button variant="icon" size="icon" onClick={openMenu} className={CLASS_HOVER_ICON}>
-					<MenuIcon className="h-6 w-6 shrink-0" aria-hidden />
+					<MenuIcon className="h-5 w-5 shrink-0" aria-hidden />
 				</Button>
-				<SheetContent side={"left"} onCloseMenu={closeMenu}>
-					<DialogTitle>
-						<div
-							className={cn(
-								"sticky top-0 z-10 -m-[24px] mb-0 flex shrink-0 px-3 py-2 sm:px-8",
-								CLASS_BG_HEADER
-							)}
+
+				<SheetContent
+					side="left"
+					onCloseMenu={closeMenu}
+					className="bg-background flex w-[85%] max-w-[340px] flex-col border-r-0 p-0 sm:w-80"
+				>
+					<DialogTitle className="sr-only">Menu</DialogTitle>
+
+					{/* ── Sticky Header ── */}
+					<div className="bg-background border-border sticky top-0 z-10 flex shrink-0 items-center justify-between border-b px-4 py-3.5">
+						<Logo />
+						<CloseButton onClick={closeMenu} aria-controls="mobile-menu" />
+					</div>
+
+					{/* ── Scrollable menu content ── */}
+					<div id="mobile-menu" className="flex flex-1 flex-col overflow-y-auto pt-1 pb-6">
+						<LinkWithChannel
+							href={ALL_PRODUCTS_SLUG}
+							onClick={closeMenu}
+							className="hover:bg-accent text-foreground border-border/50 flex items-center justify-between border-b px-5 py-4 text-[15px] font-medium transition-colors"
 						>
-							<Logo />
-							<CloseButton onClick={closeMenu} aria-controls="mobile-menu" />
-						</div>
-					</DialogTitle>
-					<Accordion type="single" collapsible className="w-full">
-						<AccordionItem value={`item-0`} onClick={closeMenu}>
-							<AccordionTrigger isHiddenIcon>
-								<LinkWithChannel className="w-full text-left" href={ALL_PRODUCTS_SLUG}>
-									{t("allProducts")}
-								</LinkWithChannel>
-							</AccordionTrigger>
-						</AccordionItem>
-						{navLinks.menu?.items?.map((item, index) => (
-							<AccordionItem value={`item-${index + 1}`} key={item.id}>
-								<AccordionTrigger className="p-0" isHiddenIcon={Number(item.children?.length) === 0}>
-									{Number(item.children?.length) > 0 ? (
-										<>{renderMenu(item, "py-3")}</>
+							{t("allProducts")}
+							<ChevronRightIcon className="text-muted-foreground h-4 w-4 shrink-0" />
+						</LinkWithChannel>
+
+						{navLinks.menu?.items?.map((item) => {
+							const hasChildren = Number(item.children?.length) > 0;
+							const isExpanded = openItem === item.id;
+							const menuObj = getObjTypeMenu(item);
+
+							return (
+								<div key={item.id} className="border-border/50 flex flex-col overflow-hidden border-b">
+									{hasChildren ? (
+										<button
+											type="button"
+											onClick={(e) => {
+												e.preventDefault();
+												e.stopPropagation();
+												toggleItem(item.id);
+											}}
+											className={cn(
+												"flex w-full items-center justify-between px-5 py-4 text-left text-[15px] font-medium transition-colors",
+												isExpanded ? "text-primary bg-accent/30" : "text-foreground hover:bg-accent"
+											)}
+										>
+											<span>{item.name}</span>
+											<ChevronRightIcon
+												className={cn(
+													"text-muted-foreground h-4 w-4 shrink-0 transition-transform duration-200",
+													isExpanded && "text-primary rotate-90"
+												)}
+											/>
+										</button>
 									) : (
 										<LinkWithChannel
-											className="w-full py-3 text-left"
-											href={getObjTypeMenu(item).href}
+											href={menuObj.href}
 											onClick={closeMenu}
+											className="hover:bg-accent text-foreground flex items-center justify-between px-5 py-4 text-[15px] font-medium transition-colors"
 										>
-											{renderMenu(item)}
+											{item.name}
+											<ChevronRightIcon className="text-muted-foreground h-4 w-4 shrink-0" />
 										</LinkWithChannel>
 									)}
-								</AccordionTrigger>
-								{Number(item.children?.length) > 0 && (
-									<AccordionContent className="flex flex-col">
-										{item.children?.map((children) => (
-											<LinkWithChannel
-												key={children.id}
-												href={getObjTypeMenu(children).href}
-												className={cn(
-													"hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none"
-												)}
-												onClick={closeMenu}
-											>
-												{renderMenu(children)}
-											</LinkWithChannel>
-										))}
-									</AccordionContent>
-								)}
-							</AccordionItem>
-						))}
-					</Accordion>
+
+									{hasChildren && isExpanded && (
+										<div className="bg-muted/30 flex flex-col py-1">
+											{item.children?.map((child) => {
+												const childObj = getObjTypeMenu(child);
+												return (
+													<LinkWithChannel
+														key={child.id}
+														href={childObj.href}
+														onClick={closeMenu}
+														className="hover:bg-accent/80 text-muted-foreground hover:text-foreground flex items-center gap-2 px-6 py-3.5 text-[14px] transition-colors"
+													>
+														<span className="bg-border h-1.5 w-1.5 shrink-0 rounded-full" />
+														{child.name}
+													</LinkWithChannel>
+												);
+											})}
+										</div>
+									)}
+								</div>
+							);
+						})}
+					</div>
 				</SheetContent>
 			</Sheet>
-			{/* <OpenButton onClick={openMenu} aria-controls="mobile-menu" />
-			<Transition show={isOpen}>
-				<Dialog onClose={closeMenu}>
-					<Dialog.Panel className="fixed inset-0 z-20 flex h-dvh w-screen flex-col overflow-y-scroll bg-white">
-						<Transition.Child
-							className={cn("sticky top-0 z-10 flex shrink-0 px-3 py-2 sm:px-8", CLASS_BG_HEADER)}
-							enter="motion-safe:transition-all motion-safe:duration-150"
-							enterFrom="bg-transparent"
-							enterTo="bg-neutral-100"
-							leave="motion-safe:transition-all motion-safe:duration-150"
-							leaveFrom="bg-neutral-100"
-							leaveTo="bg-transparent"
-						>
-							<Logo />
-							<CloseButton onClick={closeMenu} aria-controls="mobile-menu" />
-						</Transition.Child>
-						<Transition.Child
-							as={Fragment}
-							enter="motion-safe:transition-all motion-safe:duration-150"
-							enterFrom="opacity-0 -translate-y-3 bg-transparent"
-							enterTo="opacity-100 translate-y-0 bg-white"
-							leave="motion-safe:transition-all motion-safe:duration-150"
-							leaveFrom="opacity-100 translate-y-0 bg-white"
-							leaveTo="opacity-0 -translate-y-3 bg-transparent"
-						>
-							<ul
-								className="flex h-full flex-col divide-neutral-200 whitespace-nowrap p-3 pt-0 sm:p-8 sm:pt-0 [&>li]:py-3"
-								id="mobile-menu"
-							>
-								{children}
-							</ul>
-						</Transition.Child>
-					</Dialog.Panel>
-				</Dialog>
-			</Transition> */}
 		</>
 	);
 };

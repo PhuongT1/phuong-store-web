@@ -1,22 +1,47 @@
 "use client";
 
-import { useTransition } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type InputMaybe, type ProductFilterInput, type ProductOrder } from "@/gql/graphql";
 import { parseParams } from "../utils/url";
+
+const QUERY_PARAMS_CHANGE_EVENT = "app:search-params-change";
 
 const useAddQueryParams = () => {
         const searchParams = useSearchParams();
         const pathname = usePathname();
         const router = useRouter();
-        const [, startTransition] = useTransition();
+        const [immediateSearch, setImmediateSearch] = useState(() => searchParams?.toString() ?? "");
 
-        const getQueryParams = () => {
+        useEffect(() => {
+                const nextValue = searchParams?.toString() ?? "";
+                setImmediateSearch((current) => (current === nextValue ? current : nextValue));
+        }, [searchParams]);
+
+        useEffect(() => {
+                const syncFromLocation = () => {
+                        const nextValue = window.location.search.slice(1);
+                        setImmediateSearch((current) => (current === nextValue ? current : nextValue));
+                };
+
+                window.addEventListener("popstate", syncFromLocation);
+                window.addEventListener(QUERY_PARAMS_CHANGE_EVENT, syncFromLocation);
+                return () => {
+                        window.removeEventListener("popstate", syncFromLocation);
+                        window.removeEventListener(QUERY_PARAMS_CHANGE_EVENT, syncFromLocation);
+                };
+        }, []);
+
+        const queryParams = useMemo(() => {
                 const params: Record<string, string> = {};
-                searchParams?.forEach((value, key) => {
+                new URLSearchParams(immediateSearch).forEach((value, key) => {
                         params[key] = value;
                 });
                 return params;
+        }, [immediateSearch]);
+
+        const getQueryParams = () => {
+                return queryParams;
         };
 
         const setParams = ({
@@ -26,7 +51,7 @@ const useAddQueryParams = () => {
                 filters?: InputMaybe<ProductFilterInput>;
                 sortBy?: InputMaybe<ProductOrder>;
         }) => {
-                const params = new URLSearchParams(searchParams?.toString() ?? "");
+                const params = new URLSearchParams(immediateSearch);
 
                 const deleteByPrefix = (prefix: string) => {
                         Array.from(params.keys()).forEach((key) => {
@@ -89,24 +114,16 @@ const useAddQueryParams = () => {
                 const query = params.toString();
                 const newUrl = query ? `${pathname ?? ""}?${query}` : (pathname ?? "/");
 
-                // Update URL bar immediately — no React/Next.js round-trip latency
+                setImmediateSearch(query);
                 if (typeof window !== "undefined") {
                         window.history.replaceState(null, "", newUrl);
+                        window.dispatchEvent(new Event(QUERY_PARAMS_CHANGE_EVENT));
                 }
-                // Sync Next.js router state in a non-blocking transition so
-                // useSearchParams() consumers re-render without freezing the UI
-                startTransition(() => {
-                        router.replace(newUrl, { scroll: false });
-                });
+                router.replace(newUrl, { scroll: false });
         };
 
         const parseParamUrl = () => {
-                // Read from window.location.search so this is always in sync with the
-                // latest URL even before React's useSearchParams() has re-rendered
-                const searchStr =
-                        typeof window !== "undefined"
-                                ? window.location.search.slice(1)
-                                : (searchParams?.toString() ?? "");
+                const searchStr = immediateSearch;
 
                 const queryObject: Record<string, string | string[]> = {};
                 new URLSearchParams(searchStr).forEach((value, key) => {
@@ -123,9 +140,7 @@ const useAddQueryParams = () => {
         };
 
         const getParam = (paramName: string) => {
-                const urlsearch =
-                        typeof window !== "undefined" ? window.location.search : (searchParams?.toString() ?? "");
-                const params = new URLSearchParams(urlsearch);
+                const params = new URLSearchParams(immediateSearch);
                 const value = params.get(paramName);
                 return value ?? "";
         };

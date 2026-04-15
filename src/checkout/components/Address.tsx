@@ -6,10 +6,33 @@ interface AddressProps {
 	address: AddressFragment;
 }
 
+const normalizeAddressPart = (value?: string | null) => {
+	if (!value) return "";
+
+	const trimmed = value.trim();
+	if (!trimmed) return "";
+
+	const letterCount = (trimmed.match(/\p{L}/gu) || []).length;
+	const upperCount = (trimmed.match(/\p{Lu}/gu) || []).length;
+	const isMostlyUppercase = letterCount > 0 && upperCount / letterCount > 0.8;
+
+	if (!isMostlyUppercase) {
+		return trimmed;
+	}
+
+	return trimmed
+		.toLocaleLowerCase("vi-VN")
+		.replace(/\b(\p{L})/gu, (match) => match.toLocaleUpperCase("vi-VN"));
+};
+
 export const Address: React.FC<PropsWithChildren<AddressProps>> = ({ address, children, ...textProps }) => {
 	const name = `${address.firstName} ${address.lastName}`;
 
-	const { phone, city, countryArea, postalCode, streetAddress1 } = address;
+	const phone = address.phone?.trim() ?? "";
+	const city = normalizeAddressPart(address.city);
+	const countryArea = normalizeAddressPart(address.countryArea);
+	const postalCode = address.postalCode?.trim() ?? "";
+	const streetAddress1 = normalizeAddressPart(address.streetAddress1);
 
 	const addressLine = compact([streetAddress1, city, postalCode, countryArea]).join(", ");
 	const nameValid = name.trim().length > 0;

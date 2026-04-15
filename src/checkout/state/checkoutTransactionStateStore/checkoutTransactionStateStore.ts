@@ -10,6 +10,7 @@ export interface CheckoutTransactionStateStore {
 	paymentSectionSelectedId: PaymentGatewayId;
 	actions: {
 		setUpdateState: (transaction: TransactionInitializePayment) => void;
+		clearTransaction: (paymentGatewayId?: PaymentGatewayId) => void;
 		setPaymentSectionSelectedId: (paymentGatewayId: PaymentGatewayId) => void;
 	};
 }
@@ -20,6 +21,17 @@ export const useCheckoutTransactionStateStore = createWithEqualityFn<CheckoutTra
 		actions: {
 			setUpdateState: (transaction) =>
 				set((state) => ({ ...state, transaction: { ...state.transaction, ...transaction } })),
+			clearTransaction: (paymentGatewayId) =>
+				set((state) => {
+					if (!paymentGatewayId) {
+						return { ...state, transaction: {} };
+					}
+
+					const nextTransaction = { ...state.transaction };
+					delete nextTransaction[paymentGatewayId];
+
+					return { ...state, transaction: nextTransaction };
+				}),
 			setPaymentSectionSelectedId: (paymentSectionSelectedId) =>
 				set((state) => ({ ...state, paymentSectionSelectedId }))
 		}

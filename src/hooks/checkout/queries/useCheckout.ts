@@ -60,6 +60,10 @@ const useCheckoutLine = ({ id }: CheckoutLineProps) => {
 		}
 	);
 
+	if (swr.data?.checkout) {
+		lastGoodCheckout.current = swr.data.checkout as Checkout;
+	}
+
 	// Stable checkout: fall back to last known good to prevent flash on token refresh.
 	const checkout = (swr.data?.checkout ?? lastGoodCheckout.current) as Checkout | null;
 
@@ -69,7 +73,9 @@ const useCheckoutLine = ({ id }: CheckoutLineProps) => {
 const useCheckout = () => {
 	const id = useCheckoutId();
 	const { checkout, ...rest } = useCheckoutLine({ id });
-	// checkout is Checkout | null; cast to Checkout — callers guard with checkout?.id
+
+	// Keep rendering alive while SWR loads or redirects an expired checkout.
+	// Callers already guard their UI with `checkout?.id` / `checkout?.totalPrice`.
 	return { checkout: checkout as Checkout, ...rest };
 };
 

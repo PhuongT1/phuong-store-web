@@ -5,6 +5,7 @@ interface JsonWebToken {
 	accessToken?: string;
 	refreshToken?: string;
 	token?: string;
+	error?: string;
 }
 
 declare module "next-auth" {

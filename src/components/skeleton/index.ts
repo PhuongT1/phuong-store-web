@@ -1,4 +1,6 @@
 export * from "./Skeleton";
+export { CatalogResultsSkeleton } from "./CatalogResultsSkeleton";
+export { CategoryPageSkeleton } from "./CategoryPageSkeleton";
 export { ProductFilterSkeleton } from "./ProductFilterSkeleton";
 export { ProductElementSkeleton } from "./ProductElementSkeleton";
 export { ProductListSkeleton } from "./ProductListSkeleton";

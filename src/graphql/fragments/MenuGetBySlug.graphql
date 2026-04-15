@@ -1,30 +1,12 @@
-fragment Category on Category {
-	id
-	slug
-	name
-	backgroundImage {
-		...BackgroundImage
-	}
-}
-
-fragment Collection on Collection {
-	id
-	name
-	slug
-	backgroundImage {
-		...BackgroundImage
-	}
-}
-
 fragment MenuItem on MenuItem {
 	id
 	name
 	level
 	category {
-		...Category
+		...MenuCategory
 	}
 	collection {
-		...Collection
+		...MenuCollection
 	}
 	page {
 		...Page

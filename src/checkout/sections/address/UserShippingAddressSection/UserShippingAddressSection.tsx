@@ -53,7 +53,7 @@ export const UserShippingAddressSection: React.FC = () => {
 				</div>
 
 				{selectedAddress && (
-					<div className="border-info bg-info/5 relative rounded-xl border p-4 pr-12">
+					<div className="bg-info/5 sm:border-info relative rounded-xl px-3 py-4 pr-12 sm:border sm:p-4">
 						<Address address={selectedAddress} />
 						<Button
 							variant="ghost"

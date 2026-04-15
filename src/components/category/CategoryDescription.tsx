@@ -18,18 +18,18 @@ const CategoryDescription = ({ category }: CategoryDescriptionProps) => {
 	];
 
 	return (
-		<section className="border-border border-t py-12">
-			<div className="mx-auto max-w-4xl px-6">
-				<h2 className="text-foreground mb-4 text-2xl font-semibold">About {category.name}</h2>
+		<section className="border-border border-t py-10 sm:py-12">
+			<div className="mx-auto max-w-4xl px-4 sm:px-6">
+				<h2 className="text-foreground mb-4 text-xl font-semibold sm:text-2xl">About {category.name}</h2>
 
 				{category.description && (
-					<div className="text-muted-foreground mb-6 text-base leading-relaxed">
+					<div className="text-muted-foreground mb-5 text-sm leading-relaxed sm:mb-6 sm:text-base">
 						<p>{category.description}</p>
 					</div>
 				)}
 
 				<div className="mb-6">
-					<p className="text-muted-foreground text-base leading-relaxed">
+					<p className="text-muted-foreground text-sm leading-relaxed sm:text-base">
 						Discover our extensive collection of {category.name.toLowerCase()} with{" "}
 						<span className="text-foreground font-semibold">
 							{category.products?.totalCount || 0} products
@@ -40,7 +40,7 @@ const CategoryDescription = ({ category }: CategoryDescriptionProps) => {
 				</div>
 
 				<div>
-					<h3 className="text-muted-foreground mb-3 text-sm font-semibold tracking-wider uppercase">
+					<h3 className="text-muted-foreground mb-3 text-[11px] sm:text-sm font-semibold tracking-wider uppercase">
 						Related Categories
 					</h3>
 					<div className="flex flex-wrap gap-3">
@@ -48,7 +48,7 @@ const CategoryDescription = ({ category }: CategoryDescriptionProps) => {
 							<LinkWithChannel
 								key={cat.slug}
 								href={`/categories/${cat.slug}`}
-								className="border-border bg-card text-foreground hover:border-border/80 hover:bg-muted rounded-lg border px-4 py-2 text-sm font-medium transition-all"
+								className="border-border bg-card text-foreground hover:border-border/80 hover:bg-muted rounded-lg border px-4 py-2 text-[13px] sm:text-sm font-medium transition-all"
 							>
 								{cat.name}
 							</LinkWithChannel>
@@ -58,7 +58,7 @@ const CategoryDescription = ({ category }: CategoryDescriptionProps) => {
 
 				{category.seoDescription && (
 					<div className="border-border mt-8 border-t pt-8">
-						<p className="text-muted-foreground text-sm leading-relaxed">{category.seoDescription}</p>
+						<p className="text-muted-foreground text-[13px] leading-relaxed sm:text-sm">{category.seoDescription}</p>
 					</div>
 				)}
 			</div>

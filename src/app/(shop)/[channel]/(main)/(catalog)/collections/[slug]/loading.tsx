@@ -1,6 +1,6 @@
-import { ProductListByCategorySkeleton } from "@components/skeleton";
+import { CatalogResultsSkeleton } from "@components/skeleton";
 
 const Loading = () => {
-	return <ProductListByCategorySkeleton />;
+	return <CatalogResultsSkeleton mode="collection" />;
 };
 export default Loading;

@@ -40,11 +40,11 @@ const UserMenu = ({ user }: UserMenuProps) => {
 		<DropdownMenuElement
 			menus={menu}
 			menuLabel={<UserInfo user={user} />}
-			triggerClassName="h-auto gap-2 rounded-full px-2 py-1.5"
+			triggerClassName="h-auto md:gap-2 rounded-full p-0 md:pl-1 md:pr-2.5 md:py-1 focus:outline-none flex items-center justify-center transition-colors"
 		>
 			<UserAvatar user={user} />
-			<span className="max-w-[96px] truncate text-sm font-semibold">{displayName}</span>
-			<ChevronDown size={15} strokeWidth={2.5} className="text-muted-foreground shrink-0" />
+			<span className="hidden md:inline-block max-w-[96px] truncate text-sm font-semibold">{displayName}</span>
+			<ChevronDown size={15} strokeWidth={2.5} className="hidden md:block text-muted-foreground shrink-0" />
 		</DropdownMenuElement>
 	);
 };

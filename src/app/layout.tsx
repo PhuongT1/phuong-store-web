@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 	const locale = await getLocale();
 	return (
 		<html lang={locale} suppressHydrationWarning className={inter.variable}>
-			<body className="bg-background text-foreground">
+			<body suppressHydrationWarning className="bg-background text-foreground">
 				<Providers>
 					{children}
 					<DraftModeNotification />

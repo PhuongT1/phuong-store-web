@@ -4,16 +4,3 @@ fragment Money on Money {
 	fractionalAmount
 	fractionDigits
 }
-
-fragment TaxedMoney on TaxedMoney {
-	currency
-	gross {
-		...Money
-	}
-	net {
-		...Money
-	}
-	tax {
-		...Money
-	}
-}

@@ -67,8 +67,9 @@ export default async function Page(props: PageQueryProps) {
 					</div>
 				</div>
 
-				{/* Full-width Category Hero Banner */}
-				<CategoryHero category={data.category} />
+				<div className="mx-auto max-w-[1920px] px-4 sm:px-6 lg:px-8">
+					<CategoryHero category={data.category} />
+				</div>
 
 				{/* Subcategory Navigation */}
 				<div className="mx-auto max-w-[1920px] px-4 py-6 sm:px-6 lg:px-8">

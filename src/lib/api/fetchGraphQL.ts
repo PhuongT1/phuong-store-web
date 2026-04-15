@@ -7,6 +7,9 @@ import {
 } from "./graphQLRequest";
 import { executeGraphQLRequest } from "./secureGraphQL";
 
+/** Auth-error patterns that should trigger a token-less retry on public paths. */
+const AUTH_ERROR_RE = /signature has expired|not authenticated|unauthenticated|invalid token/i;
+
 const executeGraphQL = async <Doc extends GraphQLDocument<any, any>>(
 	operation: Doc,
 	options: GraphQLRequestOptions<VariablesFromDoc<Doc>>
@@ -25,13 +28,23 @@ const executeGraphQL = async <Doc extends GraphQLDocument<any, any>>(
 		return result.data as ResultFromDoc<Doc>;
 	}
 
-	// withAuth: false → bypass serverFetchWithAuth (server action).
-	// On server: getUserSession() runs the JWT callback which already handles
-	// expired tokens correctly (clears accessToken to undefined on failure, so
-	// no expired token is ever forwarded to Saleor).
-	// On client: getUserSession() reads from the client session cookie — the user's
-	// JWT must be sent for owner-protected queries (e.g. checkout belonging to a user).
-	return executeGraphQLRequest(operation, optionsHeader) as unknown as Promise<ResultFromDoc<Doc>>;
+	// withAuth: false → bypass serverFetchWithAuth.
+	// Still attempts to read the session token for personalised/owner queries,
+	// but if Saleor rejects the token (expired / race-condition / clock skew),
+	// retry once without any token so public queries never crash through the
+	// error boundary.
+	try {
+		return (await executeGraphQLRequest(operation, optionsHeader)) as unknown as ResultFromDoc<Doc>;
+	} catch (err: unknown) {
+		if (err instanceof Error && AUTH_ERROR_RE.test(err.message)) {
+			// Stale or expired token in session — retry as fully unauthenticated.
+			return (await executeGraphQLRequest(operation, {
+				...optionsHeader,
+				shouldSendToken: false
+			})) as unknown as ResultFromDoc<Doc>;
+		}
+		throw err;
+	}
 };
 
 export { executeGraphQL };

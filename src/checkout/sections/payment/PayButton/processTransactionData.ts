@@ -13,13 +13,15 @@ interface ProcessOptions {
 	preOpenedWindow: Window | null | undefined;
 	onSetTransactionId: (id: string) => void;
 	onTrigger: (args: { id: string; data?: unknown }) => void;
+	onActionRequired?: (transactionId: string) => void;
 	/** Called when transactionInitialize already returned a terminal success event — skips transactionProcess and goes straight to checkoutComplete */
 	onComplete: () => void;
 	onLoadingEnd: () => void;
+	onResetRetryState?: () => void;
 }
 
 export const processTransactionData = (txData: TxData, opts: ProcessOptions): void => {
-	const { preOpenedWindow, onSetTransactionId, onTrigger, onComplete, onLoadingEnd } = opts;
+	const { preOpenedWindow, onSetTransactionId, onTrigger, onActionRequired, onComplete, onLoadingEnd, onResetRetryState } = opts;
 
 	const closePopup = () => {
 		if (preOpenedWindow && !preOpenedWindow.closed) preOpenedWindow.close();
@@ -29,6 +31,7 @@ export const processTransactionData = (txData: TxData, opts: ProcessOptions): vo
 
 	if (txData.errors?.length) {
 		closePopup();
+		onResetRetryState?.();
 		showError(`Lỗi khởi tạo thanh toán: ${txData.errors.map((e) => e.message ?? e.code).join(", ")}`);
 		onLoadingEnd();
 		return;
@@ -37,6 +40,7 @@ export const processTransactionData = (txData: TxData, opts: ProcessOptions): vo
 	const txId = txData.transaction?.id;
 	if (!txId) {
 		closePopup();
+		onResetRetryState?.();
 		showError(txData.transactionEvent?.message ?? "Không thể khởi tạo giao dịch. Vui lòng thử lại.");
 		onLoadingEnd();
 		return;
@@ -50,6 +54,7 @@ export const processTransactionData = (txData: TxData, opts: ProcessOptions): vo
 		const paymentUrl = getPaymentUrl(txData.data as Record<string, unknown> | null | undefined);
 		if (paymentUrl) {
 			onSetTransactionId(txId);
+			onActionRequired?.(txId);
 			openPaymentPopup({
 				url: paymentUrl,
 				width: 800,
@@ -58,15 +63,22 @@ export const processTransactionData = (txData: TxData, opts: ProcessOptions): vo
 				onSuccess: (data) => {
 					onTrigger({ id: txId, data: { vnpParams: "vnpParams" in data ? data.vnpParams : data } });
 				},
-				onError: () => {
+				onError: (error) => {
+					onResetRetryState?.();
 					onLoadingEnd();
-					showError("Thanh toán không thành công. Vui lòng thử lại.");
+					showError(
+						error?.errorMessage || error?.message || "Thanh toán không thành công. Vui lòng thử lại."
+					);
 				},
-				onClose: () => onLoadingEnd()
+				onClose: () => {
+					onResetRetryState?.();
+					onLoadingEnd();
+				}
 			});
 			return;
 		}
 		closePopup();
+		onResetRetryState?.();
 		onLoadingEnd();
 		showError("Không nhận được URL thanh toán từ VNPay. Vui lòng thử lại.");
 		return;
@@ -80,6 +92,7 @@ export const processTransactionData = (txData: TxData, opts: ProcessOptions): vo
 
 	// Explicit payment failure — show error, do not complete checkout.
 	if (eventType === "CHARGE_FAILURE" || eventType === "AUTHORIZATION_FAILURE") {
+		onResetRetryState?.();
 		showError(txData.transactionEvent?.message ?? "Thanh toán không thành công. Vui lòng thử lại.");
 		onLoadingEnd();
 		return;

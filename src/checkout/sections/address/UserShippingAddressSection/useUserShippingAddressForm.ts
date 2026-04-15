@@ -21,7 +21,7 @@ import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 import { useCheckout } from "@hooks/checkout";
 export const useUserShippingAddressForm = () => {
 	const { checkout, mutate } = useCheckout();
-	const { shippingAddress } = checkout;
+	const { shippingAddress } = checkout || {};
 	const { user } = useUser();
 
 	const onSubmit = useCallback(
@@ -48,7 +48,7 @@ export const useUserShippingAddressForm = () => {
 				const [shippingResponse] = await Promise.all([
 					executeGraphQL(CheckoutShippingAddressUpdateDocument, {
 						variables: {
-							checkoutId: checkout.id,
+							checkoutId: checkout?.id || "",
 							validationRules: getAddressValidationRulesVariables(),
 							shippingAddress: getAddressInputDataFromAddress(addressFragment)
 						},
@@ -58,7 +58,7 @@ export const useUserShippingAddressForm = () => {
 					// Input data is identical regardless of Saleor's shipping response.
 					executeGraphQL(CheckoutBillingAddressUpdateDocument, {
 						variables: {
-							checkoutId: checkout.id,
+							checkoutId: checkout?.id,
 							validationRules: getAddressValidationRulesVariables(),
 							billingAddress: getAddressInputDataFromAddress(addressFragment)
 						},
@@ -74,7 +74,7 @@ export const useUserShippingAddressForm = () => {
 				console.error(err);
 			}
 		},
-		[checkout.id, mutate, shippingAddress]
+		[checkout?.id, mutate, shippingAddress]
 	);
 
 	const { form, userAddressActions } = useAddressListForm({

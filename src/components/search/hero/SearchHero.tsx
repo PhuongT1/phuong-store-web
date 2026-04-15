@@ -9,18 +9,18 @@ import "@assets/styles/_swiper.scss";
 
 const SearchHero = () => {
 	return (
-		<section className="mb-8 overflow-hidden rounded-xl shadow-lg">
+		<section className="mb-8 overflow-hidden rounded-2xl shadow-lg">
 			<Swiper
 				autoplay={{ delay: 5000, disableOnInteraction: false }}
 				navigation
 				pagination={{ clickable: true }}
 				modules={[Autoplay, Navigation, Pagination]}
-				className="[&_.swiper-pagination-bullet]:bg-hero-text/60 [&_.swiper-pagination-bullet-active]:bg-hero-text"
+				className="rounded-[inherit] [&_.swiper-pagination-bullet]:bg-hero-text/60 [&_.swiper-pagination-bullet-active]:bg-hero-text"
 			>
 				{heroCampaigns.map((item) => (
-					<SwiperSlide key={item.id}>
+					<SwiperSlide key={item.id} className="rounded-[inherit]">
 						<div
-							className="relative min-h-[320px] overflow-hidden p-10 sm:min-h-[400px] md:p-16"
+							className="relative min-h-[260px] overflow-hidden rounded-[inherit] p-8 sm:min-h-[320px] md:min-h-[360px] md:p-14"
 							style={{
 								background: `linear-gradient(135deg, var(--hero-${item.colorScheme}-from), var(--hero-${item.colorScheme}-to))`
 							}}

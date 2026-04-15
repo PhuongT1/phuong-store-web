@@ -45,20 +45,18 @@ const MenuSwiper = ({ navLinks }: NavigationMenuProps) => {
 					const isParentActive = !isLeaf && childHrefs.some(isActivePath);
 
 					return (
-						<NavigationMenuItem
-							key={item.id}
-							value={_index == 1 ? "1" : ""}
-							className="flex shrink-0 items-center"
-						>
+						<NavigationMenuItem key={item.id} className="flex shrink-0 items-center">
 							{isLeaf ? (
 								<NavLink href={parentHref} isActive={isActivePath(parentHref)}>
 									{renderMenu(item)}
 								</NavLink>
 							) : (
-								<NavigationMenuTrigger
-									className={cn(isParentActive && "border-nav-active text-nav-active border-b-[2px]")}
-								>
-									{renderMenu(item)}
+								<>
+									<NavigationMenuTrigger
+										className={cn(isParentActive && "border-nav-active text-nav-active border-b-[2px]")}
+									>
+										{renderMenu(item)}
+									</NavigationMenuTrigger>
 									<NavigationMenuContent>
 										<ul className="flex min-w-[200px] flex-col gap-1.5 p-2.5">
 											{item.children?.map((child) => {
@@ -71,7 +69,7 @@ const MenuSwiper = ({ navLinks }: NavigationMenuProps) => {
 											})}
 										</ul>
 									</NavigationMenuContent>
-								</NavigationMenuTrigger>
+								</>
 							)}
 						</NavigationMenuItem>
 					);

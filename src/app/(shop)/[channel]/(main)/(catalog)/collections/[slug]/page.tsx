@@ -9,6 +9,7 @@ import { executeGraphQL } from "@/lib/api";
 import { type ResolvedQueryProps, parseParams, resolvePageQuery } from "@/lib/utils";
 import { type PageQueryProps } from "@/types";
 import { ProductListLayout } from "@components/layouts";
+import { ProductSortBar } from "@components/product";
 import { ProductListByCollection } from "../ProductListByCollection";
 
 const variables = ({
@@ -68,6 +69,7 @@ export default async function Page(props: PageQueryProps) {
 		return (
 			<>
 				<ProductListLayout textHeading={collection?.name}>
+					<ProductSortBar />
 					<ProductListByCollection products={data} channel={channel} slug={slug} />
 				</ProductListLayout>
 			</>

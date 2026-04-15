@@ -1,8 +1,11 @@
 import { jwtDecode } from "jwt-decode";
 
 const isTokenExpired = (token: unknown): boolean => {
+	if (typeof token !== "string" || !token) {
+		return true;
+	}
 	try {
-		const decoded = jwtDecode(token as string);
+		const decoded = jwtDecode(token);
 		if (!decoded?.exp) {
 			return true;
 		}
@@ -11,8 +14,7 @@ const isTokenExpired = (token: unknown): boolean => {
 		const expirationTime = Number(decoded?.exp);
 		// Add 60 seconds buffer to refresh before actual expiration
 		return expirationTime < currentTime + 60;
-	} catch (error) {
-		console.error("Invalid token:", error);
+	} catch {
 		return true;
 	}
 };

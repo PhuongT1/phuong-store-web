@@ -1,0 +1,8 @@
+fragment MenuCategory on Category {
+	id
+	slug
+	name
+	backgroundImage {
+		...BackgroundImage
+	}
+}

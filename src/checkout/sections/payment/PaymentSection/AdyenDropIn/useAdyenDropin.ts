@@ -44,9 +44,7 @@ export const useAdyenDropin = (props: AdyenDropinProps) => {
 	const { submitInProgress } = useCheckoutUpdateState();
 	const { setSubmitInProgress, setShouldRegisterUser } = useCheckoutUpdateStateActions();
 
-	const [currentTransactionId, setCurrentTransactionId] = useState<ParamBasicValue>(
-		getQueryParams().transaction
-	);
+	const [currentTransactionId, setCurrentTransactionId] = useState<ParamBasicValue>(undefined);
 	const [adyenCheckoutSubmitParams, setAdyenCheckoutSubmitParams] = useState<{
 		state: AdyenCheckoutInstanceState;
 		component: DropinElement;
@@ -133,6 +131,14 @@ export const useAdyenDropin = (props: AdyenDropinProps) => {
 			setSubmitInProgress(true);
 		}
 	});
+
+	// handle when page is opened from previously redirected payment
+	useEffect(() => {
+		const { transaction } = getQueryParams();
+		if (transaction) {
+			setCurrentTransactionId(transaction);
+		}
+	}, []);
 
 	// handle when page is opened from previously redirected payment
 	useEffect(() => {

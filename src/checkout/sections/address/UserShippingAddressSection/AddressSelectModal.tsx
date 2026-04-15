@@ -4,9 +4,8 @@ import { useTranslations } from "next-intl";
 import { Address } from "@/checkout/components/Address";
 import { AddressCreateForm } from "@/checkout/sections/address/AddressCreateForm";
 import { AddressEditForm } from "@/checkout/sections/address/AddressEditForm";
-import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui";
+import { Button, Dialog, DialogContent, DialogHeader, DialogTitle, RadioGroup, RadioItem } from "@/components/ui";
 import { type AddressFragment, type CountryCode } from "@/gql/graphql";
-import { cn } from "@/lib/utils";
 
 type ModalView = "list" | "create" | "edit";
 
@@ -71,20 +70,21 @@ export const AddressSelectModal = ({
 
 	return (
 		<Dialog open={open} onOpenChange={handleOpenChange}>
-			<DialogContent className="bg-card flex h-[80vh] flex-col gap-0 overflow-hidden rounded-(--radius) border-white/8 p-0 sm:max-w-2xl">
+			<DialogContent className="flex flex-col gap-0 overflow-hidden rounded-2xl p-0 sm:max-w-2xl max-h-[85vh]">
 				{/* Sticky header */}
-				<DialogHeader className="border-border shrink-0 border-b px-6 py-4 pr-14 text-left">
-					<DialogTitle>{getTitle()}</DialogTitle>
+				<DialogHeader className="border-border/40 shrink-0 border-b px-5 py-4 pr-14 text-left sm:px-6">
+					<DialogTitle className="text-base font-semibold">{getTitle()}</DialogTitle>
 				</DialogHeader>
 
-				{/* Scrollable body — keyed on view triggers fade-in on each switch */}
+				{/* Scrollable body — keyed on view triggers elegant slide-in on each switch */}
 				<div
 					key={view === "edit" ? `edit-${editAddressId}` : view}
-					className="animate-in fade-in min-h-0 flex-1 overflow-y-auto duration-150"
+					className="animate-in fade-in slide-in-from-right-4 zoom-in-95 min-h-0 flex-1 overflow-y-auto duration-300 ease-out"
 				>
 					{view === "create" ? (
 						<div className="px-6 py-4">
 							<AddressCreateForm
+								hideTitle
 								availableCountries={availableCountries}
 								onClose={() => setView("list")}
 								onSuccess={(addr) => {
@@ -115,55 +115,44 @@ export const AddressSelectModal = ({
 							/>
 						</div>
 					) : (
-						<div className="flex flex-col gap-3 p-4">
-							{validAddresses.map((address) => {
-								const isPending = address.id === pendingId;
-								return (
-									<div
+						<div className="p-4">
+							<RadioGroup
+								value={pendingId ?? ""}
+								onValueChange={(value) => setPendingId(value || undefined)}
+								className="grid-cols-1 gap-3"
+							>
+								{validAddresses.map((address) => (
+									<RadioItem
 										key={address.id}
-										role="button"
-										tabIndex={0}
-										onClick={() => setPendingId(address.id)}
-										onKeyDown={(e) => e.key === "Enter" && setPendingId(address.id)}
-										className={cn(
-											"relative flex cursor-pointer items-start gap-3 rounded-xl border p-4 pr-12 text-left transition-all",
-											isPending
-												? "border-info/50 bg-info/5"
-												: "border-border hover:border-border/60 hover:bg-accent/10"
-										)}
-									>
-										<div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center">
-											{isPending ? (
-												<div
-													className="rounded-full"
-													style={{
-														width: 8,
-														height: 8,
-														background: "rgb(56, 189, 248)",
-														boxShadow: "rgba(56, 189, 248, 0.4) 0px 0px 0px 4px"
-													}}
-												/>
-											) : (
-												<div className="border-border h-4 w-4 rounded-full border-2" />
-											)}
-										</div>
-										<Address address={address} />
-										<Button
-											variant="ghost"
-											size="icon"
-											type="button"
-											onClick={(e) => {
-												e.stopPropagation();
-												setEditAddressId(address.id);
-												setView("edit");
-											}}
-											className="text-muted-foreground hover:bg-muted absolute top-3 right-2 h-8 w-8"
-										>
-											<Pencil className="h-4 w-4" />
-										</Button>
-									</div>
-								);
-							})}
+										variant="border"
+										isActive={address.id === pendingId}
+										divProps={{ className: "relative p-4 pr-12 [&_button]:mt-0 [&_button]:h-[18px] [&_button]:w-[18px]" }}
+										labelProps={{ className: "flex-1" }}
+										optionProps={{
+											value: address.id,
+											label: (
+												<div className="relative w-full">
+													<Address address={address} />
+													<Button
+														variant="ghost"
+														size="icon"
+														type="button"
+														onClick={(event) => {
+															event.preventDefault();
+															event.stopPropagation();
+															setEditAddressId(address.id);
+															setView("edit");
+														}}
+														className="text-muted-foreground hover:bg-muted absolute top-0 right-0 h-8 w-8"
+													>
+														<Pencil className="h-4 w-4" />
+													</Button>
+												</div>
+											)
+										}}
+									/>
+								))}
+							</RadioGroup>
 						</div>
 					)}
 				</div>
@@ -189,4 +178,3 @@ export const AddressSelectModal = ({
 		</Dialog>
 	);
 };
-

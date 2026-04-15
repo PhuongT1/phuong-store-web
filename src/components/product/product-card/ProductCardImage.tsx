@@ -26,27 +26,17 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 		: null;
 
 	return (
-		<div className="relative aspect-square overflow-hidden">
+		<div className="bg-product-image-bg relative aspect-square overflow-hidden">
 			{/* Sale badge */}
 			{isOnSale && (
 				<div className="absolute top-2 left-2 z-10">
-					<span className="bg-destructive text-destructive-foreground inline-flex items-center rounded-lg px-2.5 py-1 text-[10px] font-bold tracking-wide uppercase shadow-md">
+					<span className="bg-destructive text-destructive-foreground inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.16em] uppercase shadow-md">
 						SALE
 					</span>
 				</div>
 			)}
 
-			{/* Wishlist button */}
-			<button
-				aria-label="Wishlist"
-				className="bg-card/80 hover:bg-card absolute top-2 right-2 z-10 flex h-9 w-9 items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-lg"
-				onClick={(e) => {
-					e.preventDefault();
-					e.stopPropagation();
-				}}
-			>
-				<Heart className="text-muted-foreground group-hover:text-badge-recommended h-4 w-4 transition-colors" />
-			</button>
+
 
 			{/* Primary image (product thumbnail or selected variant image) */}
 			{primaryUrl ? (
@@ -59,7 +49,7 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 					sizes="512px"
 					priority={priority}
 					className={cn(
-						"h-full w-full object-contain transition-all duration-500 ease-out",
+						"h-full w-full object-contain p-3 transition-all duration-500 ease-out sm:p-4",
 						secondaryMedia?.url ? "group-hover:opacity-0" : "group-hover:scale-[1.06]"
 					)}
 				/>

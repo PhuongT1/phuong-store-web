@@ -20,7 +20,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
 	return (
 		<Sonner
 			theme={resolvedTheme as ToasterProps["theme"]}
-			className="toaster group"
+			className="toaster group !backdrop-blur-2xl"
 			closeButton
 			style={
 				{
@@ -64,14 +64,16 @@ const toastStyle = {
 		border: "1px solid var(--warning)"
 	} as React.CSSProperties,
 	error: {
-		background: "var(--toast-error-bg)",
+		background: "color-mix(in srgb, var(--toast-error-bg) 90%, transparent)",
 		color: "var(--card-foreground)",
-		border: "1px solid var(--destructive)"
+		border: "1px solid var(--destructive)",
+		backdropFilter: "blur(16px)"
 	} as React.CSSProperties,
 	success: {
-		background: "var(--toast-success-bg)",
+		background: "color-mix(in srgb, var(--toast-success-bg) 90%, transparent)",
 		color: "var(--card-foreground)",
-		border: "1.5px solid var(--success)"
+		border: "1.5px solid var(--success)",
+		backdropFilter: "blur(16px)"
 	} as React.CSSProperties,
 	info: {
 		background: "var(--info-muted)",

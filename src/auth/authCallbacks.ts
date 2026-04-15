@@ -25,6 +25,9 @@ export const authCallbacks: Partial<CallbacksOptions> = {
 
 		const rt = token[refreshToken];
 		if (typeof rt !== "string") {
+			// No refresh token — clear the expired access token so it is never forwarded
+			// to Saleor. Session error is set so SessionWatcher triggers sign-out.
+			token[accessToken] = undefined;
 			token["error"] = "RefreshAccessTokenError";
 			return token;
 		}
@@ -53,6 +56,9 @@ export const authCallbacks: Partial<CallbacksOptions> = {
 	async session({ session, token }) {
 		const t = token[accessToken];
 		session[accessToken] = typeof t === "string" ? t : undefined;
+		if (token["error"]) {
+			session["error"] = token["error"];
+		}
 		return session;
 	}
 };

@@ -1,0 +1,8 @@
+fragment SelectedAttribute on SelectedAttribute {
+	attribute {
+		...Attribute
+	}
+	values {
+		...AttributeValue
+	}
+}

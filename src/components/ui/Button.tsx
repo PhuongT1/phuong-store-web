@@ -16,19 +16,21 @@ const buttonVariants = cva(
 				destructive:
 					"bg-destructive text-destructive-foreground hover:bg-destructive/85 focus-visible:ring-destructive/30 shadow-sm",
 				"destructive-outline":
-					"border border-destructive text-destructive bg-transparent hover:bg-destructive/10 focus-visible:ring-destructive/30",
-				outline: "border border-border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
-				secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/70",
-				ghost: "hover:bg-accent hover:text-accent-foreground",
+					"border border-destructive/80 bg-destructive-muted/20 text-destructive hover:bg-destructive/12 focus-visible:ring-destructive/30",
+				outline:
+					"border border-border/70 bg-card text-foreground shadow-xs hover:border-border hover:bg-accent hover:text-accent-foreground",
+				secondary:
+					"border border-border/60 bg-secondary text-secondary-foreground shadow-sm hover:bg-accent hover:text-accent-foreground",
+				ghost: "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
 				link: "text-primary hover:text-primary/80",
 				feature: "bg-price hover:bg-price/85 text-destructive-foreground shadow-sm",
 				success: "bg-success text-success-foreground hover:bg-success/85 shadow-sm",
 				info: "bg-info text-info-foreground hover:bg-info/85 shadow-sm",
 				select:
-					"border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground font-normal",
+					"border border-border/60 bg-input shadow-sm hover:bg-accent hover:text-accent-foreground font-normal",
 				pagination:
-					"flex items-center gap-1 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:shadow-sm",
-				icon: "text-current focus-visible:ring-0 focus-visible:outline-none hover:bg-accent hover:text-current rounded-full",
+					"flex items-center gap-1 rounded-full border border-border/70 bg-card px-5 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:shadow-sm",
+				icon: "text-current focus-visible:ring-0 focus-visible:outline-none hover:bg-accent/85 hover:text-current rounded-full",
 				text: "text-md"
 			},
 			size: {
@@ -36,7 +38,7 @@ const buttonVariants = cva(
 				sm: "h-9 rounded-[var(--radius)] px-3 text-xs",
 				base: "h-11 rounded-[var(--radius)] px-4 text-base",
 				lg: "h-12 rounded-[var(--radius)] px-8 text-lg",
-				icon: "h-7 w-7",
+				icon: "h-9 w-9",
 				select: "h-9 px-3 py-2",
 				link: "p-0",
 				text: "px-1"

@@ -1,5 +1,26 @@
 @reference "tailwindcss";
 
+/* ── SimpleBar custom scrollbar ── */
+.simplebar-scrollbar::before {
+	background-color: var(--border) !important;
+	border-radius: 9999px;
+	opacity: 0.6;
+}
+
+.simplebar-scrollbar.simplebar-visible::before {
+	opacity: 1;
+}
+
+.simplebar-track.simplebar-vertical {
+	width: 5px;
+	right: 2px;
+}
+
+.simplebar-track.simplebar-horizontal {
+	height: 5px;
+	bottom: 2px;
+}
+
 @layer base {
 
 	button:not(:disabled),

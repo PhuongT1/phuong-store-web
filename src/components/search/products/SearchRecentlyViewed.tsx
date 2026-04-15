@@ -19,26 +19,26 @@ const SearchRecentlyViewed = ({ products }: ProductListProps) => {
 
 	return (
 		<section>
-			<div className="border-border bg-card rounded-xl border p-6 shadow-sm">
-				<div className="mb-5 flex items-center justify-between">
+			<div className="border-border bg-card rounded-xl border p-3 shadow-sm sm:p-6">
+				<div className="mb-3 flex items-start justify-between sm:mb-5 sm:items-center">
 					<div>
-						<p className="text-muted-foreground mb-1 text-xs font-medium tracking-wider uppercase">
+						<p className="text-muted-foreground mb-0.5 text-[11px] font-medium tracking-wider uppercase sm:mb-1 sm:text-xs">
 							Recently viewed
 						</p>
-						<h3 className="text-foreground text-2xl font-semibold tracking-tight">Continue Shopping</h3>
+						<h3 className="text-foreground text-xl font-semibold tracking-tight sm:text-2xl">Continue Shopping</h3>
 					</div>
 					<Button
 						variant="ghost"
-						className="text-muted-foreground hover:text-foreground rounded-lg text-sm font-medium"
+						className="text-muted-foreground hover:text-foreground rounded-lg px-1.5 py-1 text-[12px] sm:px-2 sm:text-sm font-medium"
 						onClick={clearAll}
 					>
 						Clear history
 					</Button>
 				</div>
 				<SwiperSlider
-					spaceBetween={12}
-					slidesPerView={1.3}
-					className="-my-2 overflow-visible py-2"
+					spaceBetween={10}
+					slidesPerView={1.45}
+					className="-my-1 overflow-visible py-1 sm:-my-2 sm:py-2"
 					breakpoints={{
 						640: { slidesPerView: 2.3 },
 						768: { slidesPerView: 3 },
@@ -50,7 +50,7 @@ const SearchRecentlyViewed = ({ products }: ProductListProps) => {
 						? items.map((item) => (
 								<SwiperSlide key={item.id}>
 									<LinkWithChannel href={`/products/${item.slug}`} className="block h-full">
-										<div className="border-border bg-card flex h-full flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+										<div className="border-border bg-card ring-border/70 flex h-full flex-col overflow-hidden rounded-xl border ring-1 ring-inset shadow-sm transition-all duration-200 sm:hover:-translate-y-1 sm:hover:shadow-md">
 											<div className="bg-muted relative aspect-square overflow-hidden">
 												{item.imageUrl ? (
 													<ProductImageWrapper
@@ -68,12 +68,12 @@ const SearchRecentlyViewed = ({ products }: ProductListProps) => {
 													</div>
 												)}
 											</div>
-											<div className="flex flex-1 flex-col gap-1 p-3">
-												<p className="text-foreground line-clamp-2 text-sm leading-snug font-semibold">
+											<div className="flex flex-1 flex-col gap-1 p-2.5 sm:p-3">
+												<p className="text-foreground line-clamp-2 text-[13px] leading-snug font-semibold sm:text-sm">
 													{item.name}
 												</p>
 												<div className="mt-auto flex items-baseline gap-2 pt-2">
-													<span className="text-foreground text-base font-bold">{item.price}</span>
+													<span className="text-foreground text-[15px] font-bold sm:text-base">{item.price}</span>
 													{item.onSale && (
 														<span className="text-muted-foreground text-xs line-through">
 															{item.priceUndiscounted}

@@ -22,12 +22,14 @@ import { fetchGraphQL } from "@/lib/api/secureGraphQL";
 export interface AddressCreateFormProps extends Pick<AddressFormProps, "availableCountries"> {
 	onSuccess: (address: AddressFragment) => void;
 	onClose: () => void;
+	hideTitle?: boolean;
 }
 
 export const AddressCreateForm: React.FC<AddressCreateFormProps> = ({
 	onSuccess,
 	onClose,
-	availableCountries
+	availableCountries,
+	hideTitle
 }) => {
 	const t = useTranslations("checkout");
 	const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -83,7 +85,7 @@ export const AddressCreateForm: React.FC<AddressCreateFormProps> = ({
 
 	return (
 		<FormProvider {...form}>
-			<AddressForm title={t("addShippingAddress")} availableCountries={availableCountries}>
+			<AddressForm title={hideTitle ? undefined : t("addShippingAddress")} availableCountries={availableCountries}>
 				<AddressFormActions onSubmit={onFormSubmit} loading={isSubmitting} onCancel={onClose} />
 			</AddressForm>
 		</FormProvider>
