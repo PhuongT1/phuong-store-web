@@ -26,18 +26,23 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 		: null;
 
 	return (
-		<div className="bg-product-image-bg relative aspect-square overflow-hidden">
+		<div className="bg-product-image-bg relative aspect-square overflow-hidden ring-1 ring-border/55">
+			<div
+				aria-hidden
+				className="pointer-events-none absolute inset-0 bg-[radial-gradient(76%_62%_at_50%_8%,rgba(255,255,255,0.20),transparent_74%)] dark:bg-[radial-gradient(76%_64%_at_50%_8%,rgba(255,255,255,0.11),transparent_74%)]"
+			/>
+			<div
+				aria-hidden
+				className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-black/[0.06] to-transparent dark:from-black/[0.22]"
+			/>
 			{/* Sale badge */}
-			{isOnSale && (
-				<div className="absolute top-2 left-2 z-10">
-					<span className="bg-destructive text-destructive-foreground inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.16em] uppercase shadow-md">
-						SALE
-					</span>
-				</div>
-			)}
-
-
-
+				{isOnSale && (
+					<div className="absolute top-2 left-2 z-10">
+						<span className="bg-destructive text-destructive-foreground inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.16em] uppercase shadow-md">
+							SALE
+						</span>
+					</div>
+				)}
 			{/* Primary image (product thumbnail or selected variant image) */}
 			{primaryUrl ? (
 				<ProductImageWrapper
@@ -49,7 +54,7 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 					sizes="512px"
 					priority={priority}
 					className={cn(
-						"h-full w-full object-contain p-3 transition-all duration-500 ease-out sm:p-4",
+						"h-full w-full object-contain p-3 drop-shadow-[0_10px_20px_rgba(15,23,42,0.14)] transition-all duration-500 ease-out dark:brightness-[1.05] dark:contrast-[1.04] dark:drop-shadow-[0_18px_34px_rgba(0,0,0,0.58)] sm:p-4",
 						secondaryMedia?.url ? "group-hover:opacity-0" : "group-hover:scale-[1.06]"
 					)}
 				/>
@@ -71,7 +76,7 @@ const ProductCardImage = ({ product, loading, priority, isOnSale, variantImage }
 					height={512}
 					sizes="512px"
 					priority={false}
-					className="absolute inset-0 h-full w-full object-contain p-4 opacity-0 transition-all duration-500 ease-out group-hover:opacity-100"
+					className="absolute inset-0 h-full w-full object-contain p-4 opacity-0 drop-shadow-[0_10px_20px_rgba(15,23,42,0.14)] transition-all duration-500 ease-out group-hover:opacity-100 dark:brightness-[1.05] dark:contrast-[1.04] dark:drop-shadow-[0_18px_34px_rgba(0,0,0,0.58)]"
 				/>
 			)}
 		</div>

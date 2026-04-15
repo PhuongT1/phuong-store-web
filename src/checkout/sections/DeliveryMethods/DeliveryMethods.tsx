@@ -106,7 +106,7 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
 			key={method.id}
 			variant={"border"}
 			divProps={{
-				className: "[&_button]:mt-0 [&_button]:h-4 [&_button]:w-4"
+				className: "[&_button]:mt-0 [&_button]:h-[18px] [&_button]:w-[18px]"
 			}}
 			labelProps={{ className: "flex-1" }}
 			optionProps={{

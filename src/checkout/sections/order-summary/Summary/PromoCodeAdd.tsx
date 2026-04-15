@@ -38,6 +38,13 @@ const formatMoney = (amount: number, currency: string, locale: string) =>
 
 export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 	const t = useTranslations("checkout");
+	const safeT = (key: Parameters<typeof t>[0], fallback: string) => {
+		try {
+			return t(key);
+		} catch {
+			return fallback;
+		}
+	};
 	const locale = useLocale();
 	const { checkout, mutate } = useCheckout();
 	const [isOpen, setIsOpen] = useState(false);
@@ -80,7 +87,7 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 				notify.error(errors[0]?.message ?? "Failed to remove voucher");
 				return;
 			}
-			notify.success(t("promoRemoved") ?? "Voucher removed");
+			notify.success(safeT("promoRemoved", "Voucher removed"));
 			reset();
 			void mutate();
 		} finally {
@@ -173,14 +180,23 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<button
-				type="button"
+			<div
+				role="button"
+				tabIndex={0}
+				aria-haspopup="dialog"
+				aria-expanded={isOpen}
 				className={cn(
 					"border-border sm:bg-card group flex w-full items-center justify-between border-0 bg-transparent py-3 transition-all active:scale-[0.99] sm:my-3 sm:rounded-xl sm:border sm:px-4 sm:py-3 sm:shadow-sm",
 					appliedCode && "sm:border-info/30 sm:bg-info/5",
 					className
 				)}
 				onClick={() => setIsOpen(true)}
+				onKeyDown={(event) => {
+					if (event.key === "Enter" || event.key === " ") {
+						event.preventDefault();
+						setIsOpen(true);
+					}
+				}}
 			>
 				<div className="flex items-center gap-2.5">
 					<Ticket className={cn("h-4.5 w-4.5 sm:h-4 sm:w-4", appliedCode ? "text-info" : "text-muted-foreground")} strokeWidth={1.5} />
@@ -204,7 +220,7 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 							className="text-destructive hover:text-destructive/80 flex items-center gap-1 text-xs font-medium transition-colors disabled:opacity-50"
 						>
 							<X className="h-3.5 w-3.5" />
-							{isRemoving ? "..." : t("remove") ?? "Xóa"}
+							{isRemoving ? "..." : safeT("remove", "Xóa")}
 						</button>
 					) : (
 						<>
@@ -213,7 +229,7 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 						</>
 					)}
 				</div>
-			</button>
+			</div>
 
 			<DialogContent className="bg-card flex max-h-[85vh] w-full max-w-full translate-x-[-50%] translate-y-0 flex-col gap-0 overflow-hidden rounded-t-2xl border-white/8 p-0 top-auto right-auto bottom-0 left-1/2 sm:top-[50%] sm:bottom-auto sm:max-h-[min(78vh,560px)] sm:w-[min(560px,calc(100vw-2rem))] sm:max-w-[min(560px,calc(100vw-2rem))] sm:translate-y-[-50%] sm:rounded-2xl">
 				<DialogHeader className="border-border shrink-0 border-b px-5 py-4 pr-14 text-left sm:px-6 sm:pr-16">
@@ -355,8 +371,8 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 														{isRemoving
 															? "..."
 															: isAppliedVoucher
-																? (t("remove") ?? "Gỡ")
-																: (t("clearSelection") ?? "Bỏ chọn")}
+																? safeT("remove", "Gỡ")
+																: safeT("clearSelection", "Bỏ chọn")}
 													</>
 												) : (
 													<>

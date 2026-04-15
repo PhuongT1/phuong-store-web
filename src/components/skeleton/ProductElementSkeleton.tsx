@@ -11,7 +11,7 @@ const ProductElementSkeleton = ({ className }: ProductElementSkeletonProps) => {
 		<li
 			data-testid="ProductElement"
 			className={cn(
-				"group bg-card/98 relative flex flex-col overflow-hidden rounded-2xl border border-border/70 shadow-[0_4px_18px_rgba(0,0,0,0.04)]",
+				"group product-card-premium bg-card/98 relative flex flex-col overflow-hidden rounded-2xl border border-border/70 shadow-[0_4px_18px_rgba(0,0,0,0.04)] dark:shadow-[0_16px_34px_-20px_rgba(0,0,0,0.78)]",
 				className
 			)}
 		>

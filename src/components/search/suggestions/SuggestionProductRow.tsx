@@ -54,16 +54,16 @@ const SuggestionProductRow = ({ product, channel, onClose }: Props) => {
 		<Link
 			href={`/${channel}/products/${product.slug}`}
 			onClick={onClose}
-			className="group surface-subtle flex items-center gap-3 px-2.5 py-2 transition-all duration-200 hover:border-info/35 hover:bg-accent/45"
+			className="group surface-subtle flex items-center gap-3 px-2.5 py-2 transition-all duration-200 hover:border-info/35 hover:bg-accent/50"
 		>
-			<div className="bg-muted border-border/50 relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border">
+			<div className="bg-product-image-bg border-border/65 relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border ring-1 ring-black/[0.04] dark:ring-white/[0.06]">
 				{product.thumbnail ? (
 					<Image
 						src={product.thumbnail.url}
 						alt={product.thumbnail.alt ?? product.name}
 						fill
 						sizes="48px"
-						className="object-cover"
+						className="object-contain p-1 transition-transform duration-300 group-hover:scale-[1.04]"
 						loading="lazy"
 					/>
 				) : null}

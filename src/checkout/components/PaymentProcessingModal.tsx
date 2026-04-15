@@ -7,8 +7,9 @@
 
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { createPortal } from "react-dom";
 
 interface PaymentProcessingModalProps {
 	isOpen: boolean;
@@ -24,8 +25,13 @@ export const PaymentProcessingModal = ({
 	onCancel
 }: PaymentProcessingModalProps) => {
 	const t = useTranslations("checkout");
+	const [mounted, setMounted] = useState(false);
 	const seconds = Math.floor(timeElapsed / 1000);
 	const progress = Math.min((timeElapsed / maxTime) * 100, 100);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	// Prevent body scroll when modal is open
 	useEffect(() => {
@@ -39,10 +45,10 @@ export const PaymentProcessingModal = ({
 		};
 	}, [isOpen]);
 
-	if (!isOpen) return null;
+	if (!isOpen || !mounted) return null;
 
-	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center">
+	return createPortal(
+		<div className="fixed inset-0 z-[120] flex items-center justify-center">
 			{/* Backdrop */}
 			<div className="bg-overlay absolute inset-0 backdrop-blur-sm" />
 
@@ -130,6 +136,7 @@ export const PaymentProcessingModal = ({
 					</div>
 				)}
 			</div>
-		</div>
+		</div>,
+		document.body
 	);
 };

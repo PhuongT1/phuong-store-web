@@ -30,17 +30,19 @@ const ProductCardVariants = ({ variants, selectedVariantId, onSelect }: ProductC
 							onClick={(e) => onSelect(e, variant.id)}
 							disabled={outOfStock}
 							className={cn(
-								"mt-0.5 mb-1 flex shrink-0 items-center gap-1 rounded-md border px-2 py-1 text-[12px] font-semibold tracking-tight transition-all duration-200 sm:text-[13px]",
+								"mt-0.5 mb-1 flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12px] font-semibold tracking-tight transition-all duration-200 sm:text-[13px]",
 								isSelected
-									? "border-info/55 bg-info/12 text-info shadow-sm"
-									: "border-border bg-card text-foreground/90 hover:border-foreground/30 hover:text-foreground",
+									? "border-info/55 bg-info/10 text-info shadow-[0_8px_16px_-12px_rgba(56,189,248,0.85)] ring-1 ring-info/22"
+									: "border-border/85 bg-card/90 text-foreground/90 hover:border-foreground/35 hover:bg-accent/40 hover:text-foreground",
 								outOfStock && "cursor-not-allowed opacity-40 bg-muted/30 line-through"
 							)}
 						>
 							{isSelected ? (
-								<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 sm:h-[13px] sm:w-[13px]"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>
+								<span className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border-[1.75px] border-current">
+									<span className="h-1.5 w-1.5 rounded-full bg-current" />
+								</span>
 							) : (
-								<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/45 shrink-0 sm:h-[13px] sm:w-[13px]"><circle cx="12" cy="12" r="10"/></svg>
+								<span className="text-muted-foreground/45 h-3.5 w-3.5 shrink-0 rounded-full border-[1.75px] border-current" />
 							)}
 							<span className="truncate">{variant.name}</span>
 						</button>

@@ -54,13 +54,15 @@ export const processTransactionData = (txData: TxData, opts: ProcessOptions): vo
 		const paymentUrl = getPaymentUrl(txData.data as Record<string, unknown> | null | undefined);
 		if (paymentUrl) {
 			onSetTransactionId(txId);
-			onActionRequired?.(txId);
 			openPaymentPopup({
 				url: paymentUrl,
 				width: 800,
 				height: 700,
 				existingWindow: preOpenedWindow,
 				onSuccess: (data) => {
+					// Start polling only after user actually finishes/returns from VNPay.
+					// This avoids needless API polling while popup is still open.
+					onActionRequired?.(txId);
 					onTrigger({ id: txId, data: { vnpParams: "vnpParams" in data ? data.vnpParams : data } });
 				},
 				onError: (error) => {

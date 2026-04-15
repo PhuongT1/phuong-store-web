@@ -1,11 +1,11 @@
 "use client";
 
+import { useUser } from "@/checkout/hooks/useUser";
 import { CheckoutForm, CheckoutFormSkeleton } from "@/checkout/sections/CheckoutForm";
 import { Summary } from "@/checkout/sections/order-summary/Summary";
 import { PaymentProcessingScreen } from "@/checkout/sections/payment/PaymentSection/PaymentProcessingScreen";
 import { SummaryListEdit } from "@/components/cart/summary/SummaryListEdit";
 import { SummarySkeleton } from "@/components/skeleton/cart/summary/SummarySkeleton";
-import { useUser } from "@/checkout/hooks/useUser";
 import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 import { useDeviceSize } from "@/hooks/useDeviceSize";
 import { CartListSkeleton } from "@components/skeleton";
@@ -30,7 +30,7 @@ export const Checkout = () => {
 
 	return (
 		<PaymentProcessingScreen>
-			<div className="bg-background min-h-screen py-4 sm:py-6">
+			<div className="bg-background min-h-screen py-4 sm:py-6 dark:[background-image:radial-gradient(circle_at_50%_-22%,rgba(56,189,248,0.12),transparent_42%),radial-gradient(circle_at_86%_12%,rgba(255,255,255,0.06),transparent_30%)]">
 				<div className="page grid min-h-screen grid-cols-1 gap-x-5 gap-y-5 lg:grid-cols-[minmax(0,6fr)_minmax(320px,4fr)] lg:gap-x-8 lg:gap-y-6">
 					<div className="flex flex-col gap-4">
 						{!isTabletOrBelow && (

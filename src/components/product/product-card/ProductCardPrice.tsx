@@ -1,7 +1,4 @@
 import { useTranslations } from "next-intl";
-import { StarHalfIcon } from "@/assets/icons/StarHalfIcon";
-import { StarIcon } from "@/assets/icons/StarIcon";
-import { StarOutlineIcon } from "@/assets/icons/StarOutlineIcon";
 
 type ProductCardPriceProps = {
 	name: string;
@@ -10,8 +7,6 @@ type ProductCardPriceProps = {
 	priceUndiscounted?: string | null;
 	isOnSale: boolean;
 	savingsFormatted: string | null;
-	ratingValue: number | null;
-	soldCount: string | null;
 	specChips: string[];
 };
 
@@ -22,34 +17,32 @@ const ProductCardPrice = ({
 	priceUndiscounted,
 	isOnSale,
 	savingsFormatted,
-	ratingValue,
-	soldCount,
 	specChips
 }: ProductCardPriceProps) => {
 	const t = useTranslations("product");
 
 	return (
-		<div className="flex flex-1 flex-col gap-1.5 px-0.5">
+		<div className="flex flex-1 flex-col gap-2 px-0.5">
 			{/* Product name — first for context */}
-			<h3 className="text-card-foreground line-clamp-2 text-[13px] leading-snug font-medium sm:text-[15px] lg:text-[15px]">
+			<h3 className="text-card-foreground/94 line-clamp-2 text-[13px] leading-[1.35] font-semibold tracking-[-0.01em] transition-colors duration-300 group-hover:text-foreground sm:text-[15px] lg:text-[15px]">
 				{name}
 			</h3>
 
 			{/* Price block */}
-			<div className="flex flex-col gap-0.5">
+			<div className="flex flex-col gap-1">
 				{isOnSale && discounted && priceUndiscounted && (
 					<div className="flex items-center gap-1.5">
 						<span className="text-muted-foreground text-[11px] line-through sm:text-[13px]">{priceUndiscounted}</span>
-						<span className="bg-price-accent text-price rounded px-1.5 py-0.5 text-[10px] sm:text-[11px] font-bold">
+						<span className="bg-price-accent text-price rounded-full border border-price/25 px-2 py-0.5 text-[10px] font-bold sm:text-[11px]">
 							-{discounted}
 						</span>
 					</div>
 				)}
-				<span className="text-price text-[15px] leading-tight font-bold tracking-tight sm:text-lg lg:text-[19px]">
+				<span className="text-price text-[15px] leading-tight font-bold tracking-[-0.012em] sm:text-lg lg:text-[19px]">
 					{price ?? "-"}
 				</span>
 				{savingsFormatted && (
-					<span className="text-savings text-[11px] font-medium sm:text-[13px] lg:text-sm">
+					<span className="text-savings inline-flex w-fit rounded-full bg-savings/12 px-2 py-0.5 text-[11px] font-semibold tracking-[-0.01em] sm:text-[12px] lg:text-[13px]">
 						{t("savingsPrefix")}
 						{savingsFormatted}
 					</span>
@@ -64,7 +57,7 @@ const ProductCardPrice = ({
 					{specChips.map((chip, i) => (
 						<span
 							key={i}
-							className="border-border bg-secondary/70 text-muted-foreground rounded-md border px-1.5 py-0.5 text-[10px] font-medium truncate max-w-full sm:text-[11px]"
+							className="border-border/75 bg-secondary/72 text-muted-foreground rounded-full border px-2 py-0.5 text-[10px] font-semibold tracking-[-0.01em] truncate max-w-full sm:text-[11px]"
 						>
 							{chip}
 						</span>

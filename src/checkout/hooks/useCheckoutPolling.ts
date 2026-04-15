@@ -23,7 +23,6 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 	const {
 		enabled,
 		checkoutId,
-		transactionId,
 		interval = 2000,
 		timeout = 60000,
 		onOrderCreated,
@@ -41,6 +40,7 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const startTimeRef = useRef<number>(0);
+	const isCheckingRef = useRef(false);
 	// Require 2 consecutive null responses before treating checkout as gone.
 	// A single {checkout: null} can be a transient auth race (Saleor hides
 	// user-owned checkouts from unauthenticated requests). Two in a row strongly
@@ -52,10 +52,14 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 			clearInterval(intervalRef.current);
 			intervalRef.current = null;
 		}
+		isCheckingRef.current = false;
 		setIsPolling(false);
 	}, []);
 
 	const checkOrderStatus = useCallback(async () => {
+		if (isCheckingRef.current) return;
+		isCheckingRef.current = true;
+
 		try {
 			setLastCheckStatus("checking");
 
@@ -95,8 +99,10 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 			console.warn("⚠️ Error polling checkout:", error);
 			setLastCheckStatus("waiting");
 			onError?.(error as Error);
+		} finally {
+			isCheckingRef.current = false;
 		}
-	}, [checkoutId, transactionId, timeElapsed, mutate, stopPolling, onOrderCreated, onError]);
+	}, [checkoutId, mutate, onError, onOrderCreated, stopPolling]);
 
 	useEffect(() => {
 		if (!enabled || !checkoutId) {
@@ -108,6 +114,7 @@ export const useCheckoutPolling = (options: CheckoutPollingOptions) => {
 		startTimeRef.current = Date.now();
 		setTimeElapsed(0);
 		consecutiveNullCount.current = 0;
+		isCheckingRef.current = false;
 
 		// Immediate first check
 		void checkOrderStatus();

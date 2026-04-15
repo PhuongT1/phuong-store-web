@@ -3,7 +3,6 @@
 import * as React from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { cva, type VariantProps } from "class-variance-authority";
-import { CircleIcon } from "lucide-react";
 import { useController, useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import type { OptionList, Option } from "@/types";
@@ -31,14 +30,14 @@ const RadioGroupItem = React.forwardRef<
 		<RadioGroupPrimitive.Item
 			ref={ref}
 			className={cn(
-				"border-border/80 focus-visible:ring-info/40 aspect-square h-[18px] w-[18px] shrink-0 rounded-full border transition-colors focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
+				"border-border/80 focus-visible:ring-info/40 relative isolate aspect-square h-[18px] w-[18px] shrink-0 rounded-full border-2 bg-transparent transition-colors duration-200 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
 				"data-[state=checked]:border-info",
 				className
 			)}
 			{...props}
 		>
-			<RadioGroupPrimitive.Indicator className="relative flex items-center justify-center">
-				<CircleIcon className="fill-info absolute top-1/2 left-1/2 size-[9px] -translate-x-1/2 -translate-y-1/2" />
+			<RadioGroupPrimitive.Indicator className="flex items-center justify-center">
+				<span className="bg-info h-2 w-2 rounded-full" />
 			</RadioGroupPrimitive.Indicator>
 		</RadioGroupPrimitive.Item>
 	);
@@ -70,6 +69,7 @@ const radioVariants = cva("relative flex items-center space-x-2", {
 			border: [
 				"group",
 				"cursor-pointer",
+				"touch-manipulation",
 				"flex flex-row items-center gap-3 space-x-0",
 				"border border-border/65",
 				"hover:border-border/90",
@@ -93,7 +93,7 @@ const RadioItem = React.forwardRef<HTMLLabelElement, RadioItemProps>(
 	({ labelProps, variant, isActive, divProps, optionProps, disabled, allowDeselect, onToggle }, ref) => {
 		const value = optionProps?.value || "";
 		const label = optionProps?.label || "";
-		const { ref: _dropLabelRef, onClick, onKeyDown, ...safeDivProps } = divProps ?? {};
+		const { onClick, onKeyDown, ...safeDivProps } = divProps ?? {};
 
 		const handleToggle = () => {
 			onToggle?.(value);
@@ -130,7 +130,7 @@ const RadioItem = React.forwardRef<HTMLLabelElement, RadioItemProps>(
 					{label}
 				</span>
 			</label>
-		);
+			);
 	}
 );
 RadioItem.displayName = "RadioItem";

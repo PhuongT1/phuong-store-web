@@ -17,7 +17,11 @@ import {
 } from "@components/ui";
 
 type FormMethods = UseFormReturn<ProductFilterForm>;
-type SectionProps = { methods: FormMethods; submit: ReturnType<FormMethods["handleSubmit"]> };
+type SectionProps = {
+	methods: FormMethods;
+	submit: ReturnType<FormMethods["handleSubmit"]>;
+	autoSubmit?: boolean;
+};
 
 const TRIGGER_CLS =
 	"text-foreground py-2 text-[12px] sm:text-[13px] font-semibold tracking-[0.08em] uppercase hover:no-underline";
@@ -31,7 +35,7 @@ const PRICE_PRESETS = [
 	{ key: "priceOver500k" as const, value: "500000-999999999" }
 ];
 
-const FilterPriceSection = ({ methods, submit }: SectionProps) => {
+const FilterPriceSection = ({ methods, submit, autoSubmit = true }: SectionProps) => {
 	const t = useTranslations("filter");
 	const tc = useTranslations("common");
 	const tempPrice = methods.watch("tempPrice");
@@ -41,7 +45,9 @@ const FilterPriceSection = ({ methods, submit }: SectionProps) => {
 	const clearPrice = () => {
 		methods.setValue("tempPrice", "", { shouldDirty: true });
 		methods.setValue("minimalPrice", { gte: undefined, lte: undefined }, { shouldDirty: true });
-		void submit();
+		if (autoSubmit) {
+			void submit();
+		}
 	};
 
 	return (
@@ -68,7 +74,9 @@ const FilterPriceSection = ({ methods, submit }: SectionProps) => {
 							methods.setValue("tempPrice", value, { shouldDirty: true });
 							const [min, max] = value.split("-");
 							methods.setValue("minimalPrice", { gte: Number(min), lte: Number(max) }, { shouldDirty: true });
-							void submit();
+							if (autoSubmit) {
+								void submit();
+							}
 						}}
 					>
 						{PRICE_PRESETS.map((item) => (
@@ -128,7 +136,7 @@ const FilterPriceSection = ({ methods, submit }: SectionProps) => {
 	);
 };
 
-const FilterStockSection = ({ methods, submit }: SectionProps) => {
+const FilterStockSection = ({ methods, submit, autoSubmit = true }: SectionProps) => {
 	const t = useTranslations("filter");
 	const stockAvailability = methods.watch("stockAvailability");
 	return (
@@ -141,7 +149,9 @@ const FilterStockSection = ({ methods, submit }: SectionProps) => {
 							type="button"
 							onClick={() => {
 								methods.setValue("stockAvailability", undefined, { shouldDirty: true });
-								void submit();
+								if (autoSubmit) {
+									void submit();
+								}
 							}}
 							className={CLEAR_BTN_CLS}
 						>
@@ -161,7 +171,9 @@ const FilterStockSection = ({ methods, submit }: SectionProps) => {
 							methods.setValue("stockAvailability", checked ? StockAvailability.InStock : undefined, {
 								shouldDirty: true
 							});
-							void submit();
+							if (autoSubmit) {
+								void submit();
+							}
 						}}
 					/>
 					<Label

@@ -114,8 +114,9 @@ const ProductSortBar = ({ resultCount }: ProductSortBarProps) => {
 			{/* ── Filter Drawer (mobile) — slides bottom → top ── */}
 			<Sheet open={filterOpen} onOpenChange={setFilterOpen}>
 				<SheetContent
+					forceMount
 					side="bottom"
-					className="surface-overlay data-[state=closed]:duration-200 data-[state=open]:duration-300 flex h-[60svh] max-h-[60svh] flex-col gap-0 overflow-hidden rounded-t-[24px] border-t p-0 transform-gpu will-change-transform [&>button]:hidden"
+					className="surface-overlay data-[state=closed]:duration-150 data-[state=open]:duration-220 flex h-[60svh] max-h-[60svh] flex-col gap-0 overflow-hidden rounded-t-[24px] border-t p-0 transform-gpu will-change-transform [&>button]:hidden"
 				>
 					{/* Handle bar */}
 					<div className="bg-border/60 mx-auto mb-0 mt-1.5 h-1 w-10 shrink-0 rounded-full" />

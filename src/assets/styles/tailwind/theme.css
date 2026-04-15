@@ -2,7 +2,7 @@
 /* Reference: image 2 (aitokens.io dark navy style) for dark mode */
 
 :root {
-	--radius: 1rem;
+	--radius: 0.95rem;
 	/* Apple-like Squircle Radius */
 	--header-height: 88px;
 	--container-max-w: 1600px;
@@ -99,8 +99,8 @@
 	--input-foreground: var(--foreground);
 	/* Input text — same as foreground in light mode */
 	--ring: oklch(0.08 0 0 / 0.25);
-	--focus-ring: oklch(0.35 0 0);
-	/* Neutral dark gray focus */
+	--focus-ring: oklch(0.684 0.169 237);
+	/* Apple-like blue focus */
 
 	/* ── E-commerce: Price — softer red, not too aggressive ── */
 	--price: oklch(0.52 0.14 25);
@@ -202,33 +202,33 @@
 	 */
 
 	/* ── Core Surfaces ── */
-	--background: oklch(0 0 0);
-	/* OLED Pitch Black */
+	--background: oklch(0.08 0.004 260);
+	/* Deep navy-black instead of pure black for better layer separation */
 	--foreground: oklch(0.95 0 0);
 	/* Crisp white */
-	--card: oklch(0.15 0.003 260);
-	/* Deep Midnight Graphite - Premium Glass */
-	--card-foreground: oklch(0.91 0.005 255);
-	--popover: oklch(0.20 0.012 255);
+	--card: oklch(0.18 0.009 258);
+	/* Primary elevated surface */
+	--card-foreground: oklch(0.93 0.004 255);
+	--popover: oklch(0.22 0.012 255);
 	/* Dropdowns float above cards */
-	--popover-foreground: oklch(0.91 0.005 255);
+	--popover-foreground: oklch(0.93 0.004 255);
 
 	/* ── Brand ── */
 	--primary: oklch(0.98 0 0);
         /* White CTA block */
         --primary-foreground: oklch(0.10 0 0);
         /* Black text */
-	--secondary: oklch(0.22 0.012 255);
-	--secondary-foreground: oklch(0.82 0.006 255);
+	--secondary: oklch(0.25 0.013 255);
+	--secondary-foreground: oklch(0.86 0.006 255);
 
 	/* ── Neutral Tones ── */
-	--muted: oklch(0.191 0 0);
-	/* #141414 — card-in-card surface */
-	--muted-foreground: oklch(0.60 0.008 255);
+	--muted: oklch(0.225 0.01 255);
+	/* Card-in-card surface, visibly distinct from main card */
+	--muted-foreground: oklch(0.64 0.008 255);
 	/* Comfortable secondary text — not too dim, not too bright */
-	--accent: oklch(0.23 0.014 255);
+	--accent: oklch(0.27 0.015 255);
 	/* Hover state — clearly above card */
-	--accent-foreground: oklch(0.91 0.005 255);
+	--accent-foreground: oklch(0.93 0.004 255);
 
 	/* ── Semantic: Destructive ── */
 	--destructive: oklch(0.60 0.22 25);
@@ -279,9 +279,9 @@
 	--badge-recommended-muted: oklch(0.22 0.10 340);
 
 	/* ── Inputs & Borders ── */
-	--border: oklch(0.23 0 0 / 0.50);
+	--border: oklch(0.40 0.012 255 / 0.52);
 	/* Soft translucent dividers */
-	--input: oklch(0.14 0 0);
+	--input: oklch(0.19 0.01 255);
 	/* #171717 — input surface */
 	--input-foreground: oklch(0.985 0 0);
 	/* hsl(0 0% 98%) — near-white for form field text in dark mode */
@@ -296,11 +296,11 @@
 	--price-accent: oklch(0.72 0.16 25 / 0.15);
 
 	/* ── Layout ── */
-	--header: oklch(0.168 0 0);
+	--header: oklch(0.12 0.006 260);
 	/* Header: #0f0f0f */
-	--product-image-bg: oklch(0.30 0.010 255);
+	--product-image-bg: oklch(0.255 0.012 255);
 	/* Product image container: clearly visible */
-	--skeleton: oklch(0.28 0.010 255);
+	--skeleton: oklch(0.30 0.01 255);
 	/* Skeleton: above card, visible shimmer */
 
 	/* ── Brand ── */
@@ -316,12 +316,12 @@
 	/* Track ring brighter in dark mode for visibility */
 
 	/* ── Card elevated (glassmorphism) — checkout/cart panels ── */
-	--card-elevated: oklch(0.168 0 0 / 0.95);
+	--card-elevated: oklch(0.175 0.01 258 / 0.94);
 	/* Semi-transparent card for checkout/cart glass panels */
-	--card-elevated-border: oklch(0.30 0.014 255 / 0.45);
+	--card-elevated-border: oklch(0.40 0.016 255 / 0.50);
 	/* Dark mode: slightly brighter border for better contrast */
-	--card-elevated-shadow: none;
-	/* Dark mode: no drop-shadow — depth comes from background contrast */
+	--card-elevated-shadow: 0 18px 36px -22px rgb(0 0 0 / 0.76), inset 0 1px 0 rgb(255 255 255 / 0.03);
+	/* Subtle premium lift without muddy glow */
 
 	/* ── Modal / Overlay backdrop ── */
 	--overlay: oklch(0 0 0 / 0.70);

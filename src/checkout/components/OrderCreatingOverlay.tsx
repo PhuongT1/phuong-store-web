@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { createPortal } from "react-dom";
 
 interface OrderCreatingOverlayProps {
 	isOpen: boolean;
@@ -15,6 +16,11 @@ interface OrderCreatingOverlayProps {
  */
 export const OrderCreatingOverlay = ({ isOpen }: OrderCreatingOverlayProps) => {
 	const t = useTranslations("checkout");
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	useEffect(() => {
 		document.body.style.overflow = isOpen ? "hidden" : "";
@@ -23,10 +29,10 @@ export const OrderCreatingOverlay = ({ isOpen }: OrderCreatingOverlayProps) => {
 		};
 	}, [isOpen]);
 
-	if (!isOpen) return null;
+	if (!isOpen || !mounted) return null;
 
-	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center">
+	return createPortal(
+		<div className="fixed inset-0 z-[120] flex items-center justify-center">
 			{/* Backdrop */}
 			<div className="bg-overlay absolute inset-0 backdrop-blur-sm" />
 
@@ -46,6 +52,7 @@ export const OrderCreatingOverlay = ({ isOpen }: OrderCreatingOverlayProps) => {
 					<p className="text-info text-sm">{t("processing")}</p>
 				</div>
 			</div>
-		</div>
+		</div>,
+		document.body
 	);
 };

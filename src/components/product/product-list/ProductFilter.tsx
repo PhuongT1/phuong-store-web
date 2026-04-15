@@ -21,6 +21,7 @@ const ProductFilter = ({ onClickBtnSubmit }: ProductFilterProps) => {
 		useProductFilter();
 
 	const isMobile = !!onClickBtnSubmit;
+	const shouldAutoSubmit = !isMobile;
 
 	return (
 		<aside
@@ -50,36 +51,75 @@ const ProductFilter = ({ onClickBtnSubmit }: ProductFilterProps) => {
 
 			<FormProvider methods={methods} formProps={{ onSubmit: submit, className: "flex h-full min-h-0 flex-1 flex-col" }}>
 				{/* Scrollable content */}
-				<Scrollbar className="min-h-0 flex-1 overscroll-contain" autoHide={false}>
-					<div className={isMobile ? "overscroll-contain px-3 pb-1.5 pt-0" : "overscroll-contain px-4 pb-4 pt-1"}>
-						<Accordion
-							type="multiple"
-							defaultValue={["price", "stock", "brand", "size", "color"]}
-							className="w-full"
-						>
-							<FilterPriceSection methods={methods} submit={submit} />
-							<FilterStockSection methods={methods} submit={submit} />
-							<FilterBrandSection
-								methods={methods}
-								submit={submit}
-								options={brandOptions}
-								isLoading={isAttrLoading}
-							/>
-							<FilterSizeSection
-								methods={methods}
-								submit={submit}
-								options={sizeOptions}
-								isLoading={isAttrLoading}
-							/>
-							<FilterColorSection
-								methods={methods}
-								submit={submit}
-								options={colorOptions}
-								isLoading={isAttrLoading}
-							/>
-						</Accordion>
+				{isMobile ? (
+					<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+						<div className="overscroll-contain px-3 pb-1.5 pt-0">
+							<Accordion
+								type="multiple"
+								defaultValue={["price", "stock", "brand", "size", "color"]}
+								className="w-full"
+							>
+								<FilterPriceSection methods={methods} submit={submit} autoSubmit={shouldAutoSubmit} />
+								<FilterStockSection methods={methods} submit={submit} autoSubmit={shouldAutoSubmit} />
+								<FilterBrandSection
+									methods={methods}
+									submit={submit}
+									autoSubmit={shouldAutoSubmit}
+									options={brandOptions}
+									isLoading={isAttrLoading}
+								/>
+								<FilterSizeSection
+									methods={methods}
+									submit={submit}
+									autoSubmit={shouldAutoSubmit}
+									options={sizeOptions}
+									isLoading={isAttrLoading}
+								/>
+								<FilterColorSection
+									methods={methods}
+									submit={submit}
+									autoSubmit={shouldAutoSubmit}
+									options={colorOptions}
+									isLoading={isAttrLoading}
+								/>
+							</Accordion>
+						</div>
 					</div>
-				</Scrollbar>
+				) : (
+					<Scrollbar className="min-h-0 flex-1 overscroll-contain" autoHide={false}>
+						<div className="overscroll-contain px-4 pb-4 pt-1">
+							<Accordion
+								type="multiple"
+								defaultValue={["price", "stock", "brand", "size", "color"]}
+								className="w-full"
+							>
+								<FilterPriceSection methods={methods} submit={submit} autoSubmit={shouldAutoSubmit} />
+								<FilterStockSection methods={methods} submit={submit} autoSubmit={shouldAutoSubmit} />
+								<FilterBrandSection
+									methods={methods}
+									submit={submit}
+									autoSubmit={shouldAutoSubmit}
+									options={brandOptions}
+									isLoading={isAttrLoading}
+								/>
+								<FilterSizeSection
+									methods={methods}
+									submit={submit}
+									autoSubmit={shouldAutoSubmit}
+									options={sizeOptions}
+									isLoading={isAttrLoading}
+								/>
+								<FilterColorSection
+									methods={methods}
+									submit={submit}
+									autoSubmit={shouldAutoSubmit}
+									options={colorOptions}
+									isLoading={isAttrLoading}
+								/>
+							</Accordion>
+						</div>
+					</Scrollbar>
+				)}
 
 				{/* Mobile: sticky Apply + Clear buttons pinned to bottom */}
 				{isMobile && (

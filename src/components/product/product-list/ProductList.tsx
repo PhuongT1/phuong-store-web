@@ -15,8 +15,8 @@ const ProductList = ({ products, className, isLoading = false, viewMode = "grid"
 					data-testid="ProductList"
 					className={cn(
 						viewMode === "list"
-							? "grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-3.5 lg:grid-cols-3 lg:gap-3.5"
-							: "grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-3.5 lg:grid-cols-4 lg:gap-3.5",
+							? "product-grid-premium grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-3.5 lg:grid-cols-3 lg:gap-4"
+							: "product-grid-premium grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-3.5 lg:grid-cols-4 lg:gap-4",
 						className
 					)}
 				>

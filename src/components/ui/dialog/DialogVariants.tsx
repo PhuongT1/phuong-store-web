@@ -88,12 +88,7 @@ const BaseDialog = ({
 	const hasCancelButton = !!(cancelButtonProps || showCancelButton);
 	const hasDialogFooter = hasConfirmButton || hasCancelButton || !!dialogFooterProps;
 	return (
-		<Dialog
-			{...rest}
-			onOpenChange={(open) => {
-				console.log({ open });
-			}}
-		>
+		<Dialog {...rest}>
 			{dialogTriggerProps && <DialogTrigger asChild {...dialogTriggerProps} />}
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader>

@@ -8,7 +8,11 @@ import { cn } from "@/lib/utils";
 import { AccordionItem, AccordionTrigger, AccordionContent, Checkbox, Label, Scrollbar } from "@components/ui";
 
 type FormMethods = UseFormReturn<ProductFilterForm>;
-type SectionProps = { methods: FormMethods; submit: ReturnType<FormMethods["handleSubmit"]> };
+type SectionProps = {
+	methods: FormMethods;
+	submit: ReturnType<FormMethods["handleSubmit"]>;
+	autoSubmit?: boolean;
+};
 type AttrSectionProps = SectionProps & { options: AttributeValueNode[]; isLoading: boolean };
 
 const TRIGGER_CLS =
@@ -17,7 +21,7 @@ const ITEM_CLS = "border-b-0 py-0.5";
 const CLEAR_BTN_CLS =
 	"text-muted-foreground hover:text-foreground shrink-0 rounded px-2 py-1 text-[10px] sm:text-[11px] font-medium tracking-[0.08em] uppercase transition-colors";
 
-const FilterBrandSection = ({ methods, submit, options, isLoading }: AttrSectionProps) => {
+const FilterBrandSection = ({ methods, submit, options, isLoading, autoSubmit = true }: AttrSectionProps) => {
 	const t = useTranslations("filter");
 	const selectedBrands = methods.watch("brand");
 	return (
@@ -30,7 +34,9 @@ const FilterBrandSection = ({ methods, submit, options, isLoading }: AttrSection
 							type="button"
 							onClick={() => {
 								methods.setValue("brand", [], { shouldDirty: true });
-								void submit();
+								if (autoSubmit) {
+									void submit();
+								}
 							}}
 							className={CLEAR_BTN_CLS}
 						>
@@ -60,7 +66,9 @@ const FilterBrandSection = ({ methods, submit, options, isLoading }: AttrSection
 											methods.setValue("brand", checked ? [...cur, slug] : cur.filter((b) => b !== slug), {
 												shouldDirty: true
 											});
-											void submit();
+											if (autoSubmit) {
+												void submit();
+											}
 										}}
 									/>
 									<Label
@@ -79,7 +87,7 @@ const FilterBrandSection = ({ methods, submit, options, isLoading }: AttrSection
 	);
 };
 
-const FilterSizeSection = ({ methods, submit, options, isLoading }: AttrSectionProps) => {
+const FilterSizeSection = ({ methods, submit, options, isLoading, autoSubmit = true }: AttrSectionProps) => {
 	const t = useTranslations("filter");
 	const selectedSizes = methods.watch("size");
 	return (
@@ -92,7 +100,9 @@ const FilterSizeSection = ({ methods, submit, options, isLoading }: AttrSectionP
 							type="button"
 							onClick={() => {
 								methods.setValue("size", [], { shouldDirty: true });
-								void submit();
+								if (autoSubmit) {
+									void submit();
+								}
 							}}
 							className={CLEAR_BTN_CLS}
 						>
@@ -127,7 +137,9 @@ const FilterSizeSection = ({ methods, submit, options, isLoading }: AttrSectionP
 												cur.includes(slug) ? cur.filter((s) => s !== slug) : [...cur, slug],
 												{ shouldDirty: true }
 											);
-											void submit();
+											if (autoSubmit) {
+												void submit();
+											}
 										}}
 										className={cn(
 											"flex h-10 min-w-[48px] items-center justify-center rounded-md border px-3 text-[13px] md:text-[15px] font-medium transition-all",
@@ -148,7 +160,7 @@ const FilterSizeSection = ({ methods, submit, options, isLoading }: AttrSectionP
 	);
 };
 
-const FilterColorSection = ({ methods, submit, options, isLoading }: AttrSectionProps) => {
+const FilterColorSection = ({ methods, submit, options, isLoading, autoSubmit = true }: AttrSectionProps) => {
 	const t = useTranslations("filter");
 	const selectedColors = methods.watch("color");
 	return (
@@ -161,7 +173,9 @@ const FilterColorSection = ({ methods, submit, options, isLoading }: AttrSection
 							type="button"
 							onClick={() => {
 								methods.setValue("color", [], { shouldDirty: true });
-								void submit();
+								if (autoSubmit) {
+									void submit();
+								}
 							}}
 							className={CLEAR_BTN_CLS}
 						>
@@ -197,7 +211,9 @@ const FilterColorSection = ({ methods, submit, options, isLoading }: AttrSection
 												cur.includes(slug) ? cur.filter((c) => c !== slug) : [...cur, slug],
 												{ shouldDirty: true }
 											);
-											void submit();
+											if (autoSubmit) {
+												void submit();
+											}
 										}}
 										className={cn(
 											"group relative flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all",

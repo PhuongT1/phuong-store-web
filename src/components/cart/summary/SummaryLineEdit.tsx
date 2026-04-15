@@ -124,17 +124,21 @@ const SummaryLineEdit = React.memo(
 					isSelected && "bg-info/5"
 				)}
 				data-testid="SummaryItem"
-			>
-				{editable && onToggleSelect && (
-					<Checkbox
-						checked={isSelected}
-						onCheckedChange={() => onToggleSelect(line._id as string)}
-						className="mt-1 self-start"
-					/>
-				)}
-				<div className="bg-muted/40 border-border/60 flex aspect-square h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border sm:h-16 sm:w-16 sm:rounded-xl md:h-[72px] md:w-[72px]">
+				>
+					{editable && onToggleSelect && (
+						<Checkbox
+							checked={isSelected}
+							onCheckedChange={() => onToggleSelect(line._id)}
+							className="mt-1 self-start"
+						/>
+					)}
+				<div className="bg-product-image-bg border-border/65 flex aspect-square h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border ring-1 ring-black/[0.04] dark:ring-white/[0.06] sm:h-16 sm:w-16 sm:rounded-xl md:h-[72px] md:w-[72px]">
 					{productImage ? (
-						<ImageItem src={productImage.url} alt={productImage.alt} className="object-contain mix-blend-multiply dark:mix-blend-normal" />
+						<ImageItem
+							src={productImage.url}
+							alt={productImage.alt}
+							className="object-contain p-1 drop-shadow-[0_8px_16px_rgba(15,23,42,0.16)] dark:drop-shadow-[0_12px_24px_rgba(0,0,0,0.56)]"
+						/>
 					) : (
 						<ImageIcon className="text-muted-foreground/50 h-7 w-7 sm:h-8 sm:w-8" />
 					)}

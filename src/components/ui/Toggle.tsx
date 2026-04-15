@@ -7,19 +7,19 @@ import { cn } from "@/lib/utils";
 
 const toggleVariants = cva(
 	cn(
-		"inline-flex items-center justify-center gap-2 rounded-none text-[12px] font-black tracking-[0.14em] uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-		"border border-transparent hover:bg-accent data-[state=on]:border-foreground data-[state=on]:bg-accent data-[state=on]:text-foreground"
+		"inline-flex items-center justify-center gap-2 rounded-full text-[12px] font-semibold tracking-[-0.01em] transition-[background-color,color,border-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/45 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+		"border border-border/70 bg-card/95 text-muted-foreground hover:bg-accent/70 hover:text-foreground data-[state=on]:border-info/55 data-[state=on]:bg-info/12 data-[state=on]:text-info data-[state=on]:shadow-[inset_0_1px_0_rgba(255,255,255,0.24)] dark:data-[state=on]:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
 	),
 	{
 		variants: {
 			variant: {
 				default: "bg-transparent",
-				outline: "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground"
+				outline: "border border-input bg-transparent shadow-sm hover:bg-accent/70 hover:text-accent-foreground"
 			},
 			size: {
-				default: "h-9 px-2 min-w-9",
-				sm: "h-8 px-1.5 min-w-8",
-				lg: "h-10 px-2.5 min-w-10"
+				default: "h-9 px-3 min-w-9",
+				sm: "h-8 px-2.5 min-w-8",
+				lg: "h-10 px-4 min-w-10"
 			}
 		},
 		defaultVariants: {

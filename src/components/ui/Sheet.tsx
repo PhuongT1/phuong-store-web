@@ -21,7 +21,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<SheetPrimitive.Overlay
 		className={cn(
-			"fixed inset-0 z-50 bg-overlay backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+			"fixed inset-0 z-50 bg-overlay backdrop-blur-[2px] sm:backdrop-blur-[6px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
 			className
 		)}
 		{...props}
@@ -31,7 +31,7 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-	"surface-overlay fixed z-50 gap-4 transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out",
+	"surface-overlay fixed z-50 gap-4 rounded-[calc(var(--radius)+4px)] transition ease-out data-[state=closed]:duration-180 data-[state=open]:duration-260 data-[state=open]:animate-in data-[state=closed]:animate-out",
 	{
 		variants: {
 			side: {
@@ -67,7 +67,7 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
 			>
 				<SheetPrimitive.Close
 					onClick={() => onCloseMenu?.()}
-					className="text-muted-foreground hover:text-foreground hover:bg-accent absolute top-3.5 right-4 inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors focus:outline-none disabled:pointer-events-none"
+					className="text-muted-foreground hover:text-foreground hover:bg-accent/75 absolute top-3.5 right-4 inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors focus:outline-none disabled:pointer-events-none"
 				>
 					<Cross2Icon className="h-4 w-4" />
 					<span className="sr-only">Close</span>

@@ -33,15 +33,15 @@ type UseValueTrackerProps<T> = {
 const inputVariants = cva(
 	[
 		"group",
-		"relative z-0 inline-flex items-center w-full min-w-0 overflow-hidden rounded-xl border text-sm focus-within:z-20",
+		"relative z-0 inline-flex w-full min-w-0 items-center overflow-hidden rounded-[calc(var(--radius)-3px)] border text-sm focus-within:z-20",
 		// bg-input: recessed page-gray on white card (light) / raised above card (dark)
-		"bg-input border-border/70 text-(--input-foreground) placeholder:text-muted-foreground",
-		"transition-all duration-200",
+		"bg-input/95 border-border/75 text-(--input-foreground) placeholder:text-muted-foreground/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]",
+		"transition-[border-color,background-color,box-shadow] duration-200",
 		"selection:bg-primary selection:text-primary-foreground",
 		// focus — border strengthens, subtle halo ring
-		"focus-within:border-focus-ring/55 focus-within:ring-2 focus-within:ring-focus-ring/22 focus-within:ring-inset",
+		"focus-within:border-focus-ring/60 focus-within:ring-2 focus-within:ring-focus-ring/22",
 		// hover
-		"hover:border-border",
+		"hover:border-border/90 hover:bg-input",
 		// disabled
 		"disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
 		// error
