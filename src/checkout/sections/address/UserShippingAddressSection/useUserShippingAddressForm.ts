@@ -1,10 +1,5 @@
 import { useCallback } from "react";
-import {
-	getAddressInputDataFromAddress,
-	getAddressValidationRulesVariables,
-	getByMatchingAddress,
-	isMatchingAddress
-} from "@/checkout/components/AddressForm/utils";
+import { getAddressInputDataFromAddress, getAddressValidationRulesVariables } from "@/checkout/components/AddressForm/utils";
 import { useUser } from "@/checkout/hooks/useUser";
 import { getById } from "@/checkout/lib/utils/common";
 import {
@@ -13,7 +8,6 @@ import {
 } from "@/checkout/sections/address/AddressList/useAddressListForm";
 import {
 	type AddressFragment,
-	type AddressInput,
 	CheckoutBillingAddressUpdateDocument,
 	CheckoutShippingAddressUpdateDocument
 } from "@/gql/graphql";
@@ -28,7 +22,7 @@ export const useUserShippingAddressForm = () => {
 		async (formData: AddressListFormData) => {
 			const selectedAddress = formData.addressList.find(getById(formData.selectedAddressId));
 
-			const isSameAddress = isMatchingAddress(shippingAddress, selectedAddress);
+			const isSameAddress = shippingAddress?.id === selectedAddress?.id;
 			const hasCity = !!shippingAddress?.city;
 
 			// Return early when:

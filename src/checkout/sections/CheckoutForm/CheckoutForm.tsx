@@ -61,12 +61,7 @@ export const CheckoutForm = () => {
 				)}
 
 				{/* ── Signed-in user info pill (when authenticated) ── */}
-				{user && (
-					<div className="bg-secondary/34 mb-3 flex items-center gap-2 rounded-(--radius) px-2.5 py-2 min-[1025px]:mb-4 min-[1025px]:border min-[1025px]:border-border/55">
-						<SquareUser className="text-muted-foreground h-4 w-4 shrink-0" strokeWidth={1.5} />
-						<span className="text-foreground/80 text-[13px] min-[1025px]:text-sm">{user.email}</span>
-					</div>
-				)}
+				{/* Removed due to UX feedback: users felt the email block unnecessarily separated from address details */}
 
 				<Suspense fallback={<ContactSkeleton />}>
 					<Contact setShowOnlyContact={setShowOnlyContact} />
