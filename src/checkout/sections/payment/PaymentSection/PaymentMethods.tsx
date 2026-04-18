@@ -9,13 +9,14 @@ import { useCheckoutTransactionStateStore } from "@/checkout/state/checkoutTrans
 import { useCheckout } from "@hooks/checkout";
 import { CashDeliveryComponent } from "./CashDelivery/cashDeliveryComponent";
 import { cashDeliveryGatewayId } from "./CashDelivery/types";
+import { getHostedGatewayPresentation } from "./hostedGateways";
 import { paymentMethodToComponent } from "./supportedPaymentApps";
 import { type PaymentGatewayId } from "./types";
 import { usePaymentSectionForm } from "./usePaymentSectionForm";
 
 const BrandBadge = ({ children, className }: { children: React.ReactNode; className?: string }) => (
 	<div
-		className={`inline-flex h-8 min-w-[74px] items-center justify-center rounded-xl border px-2.5 text-[11px] font-bold tracking-[0.08em] ${className ?? ""}`}
+		className={`inline-flex h-7 min-w-[70px] items-center justify-center rounded-xl border px-2 text-[10px] font-bold tracking-[0.08em] min-[1025px]:h-8 min-[1025px]:min-w-[74px] min-[1025px]:px-2.5 min-[1025px]:text-[11px] ${className ?? ""}`}
 	>
 		{children}
 	</div>
@@ -24,17 +25,21 @@ const BrandBadge = ({ children, className }: { children: React.ReactNode; classN
 const PaymentGatewayBadge = ({ gatewayId, name }: { gatewayId: string; name: string }) => {
 	if (gatewayId === cashDeliveryGatewayId) {
 		return (
-			<div className="bg-icon-bg flex h-8 min-w-8 items-center justify-center rounded-lg px-2">
+			<div className="bg-secondary/42 flex h-7 min-w-7 items-center justify-center rounded-lg px-2 min-[1025px]:h-8 min-[1025px]:min-w-8">
 				<Banknote className="text-info h-4 w-4" strokeWidth={1.7} />
 			</div>
 		);
 	}
 
 	if (gatewayId.includes("vnpay")) {
+		const presentation = getHostedGatewayPresentation(gatewayId);
 		return (
-			<BrandBadge className="border-[#0F4FAF]/28 bg-[#0F4FAF]/10 text-[#0F4FAF] dark:border-[#4B8DFF]/40 dark:bg-[#4B8DFF]/14 dark:text-[#8BB5FF]">
-				<span>VN</span>
-				<span className="text-[#E11D48] dark:text-[#FB7185]">PAY</span>
+			<BrandBadge className="border-[#0F4FAF]/22 bg-white px-2.5 dark:border-[#4B8DFF]/20 dark:bg-white">
+				<img
+					src={presentation?.logoSrc}
+					alt={presentation?.logoAlt ?? "VNPay"}
+					className="h-4 w-auto object-contain min-[1025px]:h-[18px]"
+				/>
 			</BrandBadge>
 		);
 	}
@@ -56,7 +61,7 @@ const PaymentGatewayBadge = ({ gatewayId, name }: { gatewayId: string; name: str
 	}
 
 	return (
-		<div className="bg-icon-bg flex h-8 min-w-8 items-center justify-center rounded-lg px-2">
+		<div className="bg-secondary/42 flex h-7 min-w-7 items-center justify-center rounded-lg px-2 min-[1025px]:h-8 min-[1025px]:min-w-8">
 			{(name || "").toLowerCase().includes("card") ? (
 				<CreditCard className="text-info h-4 w-4" strokeWidth={1.7} />
 			) : (
@@ -101,6 +106,8 @@ export const PaymentMethods = () => {
 		totalGateways > 1
 			? "grid-cols-1 gap-2.5 sm:grid-cols-2"
 			: "grid-cols-1 gap-2.5";
+	const paymentCardClassName =
+		"rounded-xl border border-border/40 bg-card/72 p-3 shadow-none backdrop-blur-[2px] [&_button]:mt-0 [&_button]:h-[18px] [&_button]:w-[18px] min-[1025px]:rounded-2xl min-[1025px]:border-border/55 min-[1025px]:bg-card/96 min-[1025px]:p-4 min-[1025px]:shadow-sm";
 
 	return (
 		<FormProvider {...form}>
@@ -108,13 +115,15 @@ export const PaymentMethods = () => {
 				{cashGateway && (
 					<RadioItem
 						variant={"border"}
-						divProps={{ className: "[&_button]:mt-0 [&_button]:h-[18px] [&_button]:w-[18px]" }}
+						divProps={{
+							className: paymentCardClassName
+						}}
 						optionProps={{
 							label: (
 								<div className="flex flex-col gap-1">
 									<div className="flex items-center gap-3">
 										<PaymentGatewayBadge gatewayId={cashDeliveryGatewayId} name={cashGateway.name ?? t("cod")} />
-										<span className="text-foreground text-sm font-semibold">
+										<span className="text-foreground text-[14px] font-semibold min-[1025px]:text-sm">
 											{cashGateway.name ?? t("cod")}
 										</span>
 									</div>
@@ -139,7 +148,9 @@ export const PaymentMethods = () => {
 						<RadioItem
 							key={gateway.id}
 							variant={"border"}
-							divProps={{ className: "[&_button]:mt-0 [&_button]:h-[18px] [&_button]:w-[18px]" }}
+							divProps={{
+								className: paymentCardClassName
+							}}
 							optionProps={{
 								label: (
 									<div className="flex flex-col gap-1">
@@ -151,7 +162,7 @@ export const PaymentMethods = () => {
 													t("onlinePayment")
 												}
 											/>
-											<span className="text-foreground text-sm font-semibold">
+											<span className="text-foreground text-[14px] font-semibold min-[1025px]:text-sm">
 												{checkout?.availablePaymentGateways?.find((g) => g.id === gateway.id)?.name ||
 													t("onlinePayment")}
 											</span>

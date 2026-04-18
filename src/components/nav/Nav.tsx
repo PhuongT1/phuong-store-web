@@ -22,19 +22,19 @@ export const Nav = async ({ channel }: Channel) => {
 			<div className="flex w-full items-center justify-between py-1.5 md:py-2.5 gap-x-2 md:gap-x-4 px-1.5 md:px-0">
 				{/* 1. Left: Mobile Menu & Logo */}
 				<div className="flex min-w-max shrink-0 items-center">
-					<div className="mr-2 md:hidden">
+					<div className="mr-2 xl:hidden">
 						<MobileMenu navLinks={navLinks} />
 					</div>
 					<Logo />
 				</div>
 
 				{/* 2. Desktop Center: Search (hidden on mobile here, moved to next row) */}
-				<div className="hidden relative z-40 w-full min-w-0 flex-1 md:block md:max-w-2xl px-4">
+				<div className="hidden relative z-40 w-full min-w-0 flex-1 xl:block xl:max-w-2xl px-4">
 					<SearchBar channel={channel} />
 				</div>
 
 				{/* 3. Right: Action Icons */}
-				<div className="flex shrink-0 items-center justify-end gap-1.5 md:gap-2 border-border/60 pl-0 md:border-l md:pl-2 lg:pl-4 [&_svg]:max-w-[20px] md:[&_svg]:max-w-none">
+				<div className="flex shrink-0 items-center justify-end gap-1.5 md:gap-2 border-border/60 pl-0 xl:border-l xl:pl-4 [&_svg]:max-w-[20px] md:[&_svg]:max-w-none">
 					<div className="hidden sm:block">
 						<LanguageSwitcher />
 					</div>
@@ -49,14 +49,14 @@ export const Nav = async ({ channel }: Channel) => {
 			</div>
 
 			{/* Row 2 / Mobile Search Bar */}
-			<div className="w-full px-1.5 pb-2 pt-0.5 md:hidden">
+			<div className="w-full px-1.5 pb-2 pt-0.5 xl:hidden">
 				<div className="relative z-40 w-full">
 					<SearchBar channel={channel} />
 				</div>
 			</div>
 
 			{/* Row 2: Desktop Navigation Category Menu */}
-			<div className="hidden w-full items-center justify-center md:flex">
+			<div className="hidden w-full items-center justify-center xl:flex">
 				<NavLinks channel={channel} navLinks={navLinks} />
 			</div>
 		</nav>

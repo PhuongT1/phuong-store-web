@@ -57,7 +57,7 @@ export const AddressList: React.FC<AddressListProps> = ({
 				</div>
 
 				{validAddresses.length < 1 ? (
-					<div className="border-border flex flex-col items-center justify-center rounded-2xl border-2 border-dashed px-4 py-10 text-center">
+					<div className="flex flex-col items-center justify-center rounded-2xl border-0 bg-secondary/26 px-4 py-8 text-center min-[1025px]:border-2 min-[1025px]:border-dashed min-[1025px]:border-border min-[1025px]:bg-transparent min-[1025px]:py-10">
 						<div className="bg-icon-bg mb-4 flex h-12 w-12 items-center justify-center rounded-full">
 							<MapPin className="text-muted-foreground h-6 w-6" strokeWidth={1.5} />
 						</div>
@@ -78,6 +78,10 @@ export const AddressList: React.FC<AddressListProps> = ({
 									key={identifier}
 									variant="border"
 									disabled={unavailable}
+									divProps={{
+										className:
+											"rounded-xl border border-border/40 bg-card/72 p-3 shadow-none backdrop-blur-[2px] [&_button]:mt-0 [&_button]:h-[18px] [&_button]:w-[18px] min-[1025px]:rounded-2xl min-[1025px]:border-border/55 min-[1025px]:bg-card/96 min-[1025px]:p-4 min-[1025px]:shadow-sm"
+									}}
 									optionProps={{
 										value: id,
 										label: (
@@ -97,7 +101,7 @@ export const AddressList: React.FC<AddressListProps> = ({
 														event.stopPropagation();
 														onEditChange(id);
 													}}
-													className="border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground pointer-events-auto absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full shadow-sm transition-colors hover:shadow"
+													className="border-border/60 bg-background/72 text-muted-foreground hover:bg-background hover:text-foreground pointer-events-auto absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full shadow-none transition-colors"
 												>
 													<Pencil className="h-4 w-4" />
 												</Button>

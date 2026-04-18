@@ -2,6 +2,7 @@ import React from "react";
 import { Lock, ShoppingBag } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type AddressFormProps } from "@/checkout/components/AddressForm";
+import { HostedPaymentModal } from "@/checkout/components/HostedPaymentModal";
 import { OrderCreatingOverlay } from "@/checkout/components/OrderCreatingOverlay";
 import { PaymentProcessingModal } from "@/checkout/components/PaymentProcessingModal";
 import { type AddressFragment } from "@/gql/graphql";
@@ -24,7 +25,11 @@ export const PayButton: React.FC<AddressCreateFormProps> = () => {
 		checkoutUpdateState,
 		handleClickOrder,
 		handleCancelProcessing,
-		isCreatingOrder
+		isCreatingOrder,
+		hostedPayment,
+		hostedPaymentPresentation,
+		handleHostedPaymentOpenChange,
+		handleOpenHostedPaymentExternal
 	} = usePayButton();
 
 	return (
@@ -40,9 +45,17 @@ export const PayButton: React.FC<AddressCreateFormProps> = () => {
 				onCancel={handleCancelProcessing}
 			/>
 
+			<HostedPaymentModal
+				isOpen={!!hostedPayment}
+				url={hostedPayment?.url}
+				gateway={hostedPaymentPresentation}
+				onOpenChange={handleHostedPaymentOpenChange}
+				onOpenExternal={handleOpenHostedPaymentExternal}
+			/>
+
 			<Separator className="my-4" />
 
-			<div className="sticky bottom-[18px] z-20 mt-3 pb-[env(safe-area-inset-bottom)]">
+			<div className="sticky bottom-[18px] z-20 mt-4 pb-[env(safe-area-inset-bottom)]">
 				<div className="flex items-stretch gap-2">
 					<button
 						onClick={handleClickOrder}
@@ -77,11 +90,11 @@ export const PayButton: React.FC<AddressCreateFormProps> = () => {
 						)}
 					</button>
 
-					<div className="bg-card/96 flex min-w-[122px] shrink-0 items-center justify-between gap-2 rounded-xl px-3 py-2 shadow-[0_10px_24px_rgba(15,23,42,0.10)] ring-1 ring-black/6 sm:min-w-[138px] sm:px-4">
-						<span className="text-muted-foreground text-xs font-medium">Total</span>
+					<div className="bg-card/98 flex min-w-[148px] shrink-0 items-center justify-between gap-2 rounded-xl px-4 py-3 shadow-[0_14px_30px_rgba(15,23,42,0.16)] ring-1 ring-white/[0.05] sm:min-w-[160px] sm:px-4.5">
+						<span className="text-muted-foreground text-[14px] font-semibold tracking-[0.01em]">Total</span>
 						<MoneyDisplay
 							money={checkout?.totalPrice?.gross}
-							className="text-foreground text-sm font-bold whitespace-nowrap sm:text-base"
+							className="text-foreground text-[20px] font-bold whitespace-nowrap leading-none tracking-[-0.02em] sm:text-[22px]"
 						/>
 					</div>
 				</div>

@@ -13,13 +13,13 @@ import { ContactSkeleton } from "@/checkout/sections/auth/Contact/ContactSkeleto
 import { CollapseSection } from "@/checkout/sections/CheckoutForm/CollapseSection";
 import { DeliveryMethods } from "@/checkout/sections/DeliveryMethods";
 import { DeliveryMethodsSkeleton } from "@/checkout/sections/DeliveryMethods/DeliveryMethodsSkeleton";
+import { Summary } from "@/checkout/sections/order-summary/Summary";
 import { PayButton } from "@/checkout/sections/payment/PayButton";
 import { PaymentSection, PaymentSectionSkeleton } from "@/checkout/sections/payment/PaymentSection";
-import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
-import { Separator, Typography } from "@components/ui";
 import { SummaryListEdit } from "@/components/cart/summary/SummaryListEdit";
-import { Summary } from "@/checkout/sections/order-summary/Summary";
+import { useCheckout } from "@/hooks/checkout/queries/useCheckout";
 import { useDeviceSize } from "@/hooks/useDeviceSize";
+import { Separator, Typography } from "@components/ui";
 
 export const CheckoutForm = () => {
 	useCheckoutAddressSync();
@@ -38,23 +38,23 @@ export const CheckoutForm = () => {
 	}, []);
 
 	return (
-		<Card className="border-card-elevated-border bg-card-elevated shadow-card-elevated flex w-full flex-col items-end border p-4 backdrop-blur-sm sm:p-6 md:rounded-2xl lg:p-8">
+		<Card className="flex w-full flex-col items-end border-0 bg-transparent p-2 shadow-none md:rounded-2xl min-[1025px]:border min-[1025px]:border-card-elevated-border min-[1025px]:bg-card-elevated min-[1025px]:p-6 min-[1025px]:shadow-card-elevated xl:p-8">
 			<div className="w-full">
 				{/* ── Mobile Cart Items (top of checkout form) ── */}
-				{isTabletOrBelow && checkout && (
-					<div className="mb-2 sm:mb-4">
-						<SummaryListEdit {...checkout} classNameCard="p-0 border-none shadow-none bg-transparent" />
-						<Separator className="mt-4" />
-					</div>
-				)}
+					{isTabletOrBelow && checkout && (
+						<div className="mb-3 min-[1025px]:mb-4">
+							<SummaryListEdit {...checkout} compact classNameCard="p-0 border-none shadow-none bg-transparent" />
+							<Separator className="mt-4 min-[1025px]:mt-4" />
+						</div>
+					)}
 
 				{/* ── Contact section header — only shown when not authenticated ── */}
 				{!user && (
-					<div className="mb-2 flex items-center gap-2.5 sm:mb-4">
-						<div className="bg-icon-bg border-border/60 flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius) border">
+					<div className="mb-3 flex items-center gap-2.5 min-[1025px]:mb-4">
+						<div className="bg-secondary/42 flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
 							<SquareUser className="text-info h-5 w-5" strokeWidth={1.5} />
 						</div>
-						<Typography variant="title" className="mb-0!">
+						<Typography variant="title" className="mb-0! text-[15px] font-semibold tracking-tight sm:text-base">
 							{t("customerInfo")}
 						</Typography>
 					</div>
@@ -62,9 +62,9 @@ export const CheckoutForm = () => {
 
 				{/* ── Signed-in user info pill (when authenticated) ── */}
 				{user && (
-					<div className="bg-input border-border mb-2 flex items-center gap-2.5 rounded-(--radius) border px-3 py-2.5 sm:mb-4">
+					<div className="bg-secondary/34 mb-3 flex items-center gap-2 rounded-(--radius) px-2.5 py-2 min-[1025px]:mb-4 min-[1025px]:border min-[1025px]:border-border/55">
 						<SquareUser className="text-muted-foreground h-4 w-4 shrink-0" strokeWidth={1.5} />
-						<span className="text-foreground/80 text-sm">{user.email}</span>
+						<span className="text-foreground/80 text-[13px] min-[1025px]:text-sm">{user.email}</span>
 					</div>
 				)}
 
@@ -74,8 +74,8 @@ export const CheckoutForm = () => {
 				{checkout?.isShippingRequired && (
 					<Suspense fallback={<AddressSectionSkeleton />}>
 						<CollapseSection collapse={showOnlyContact}>
-							<Separator className="my-4" />
-							<div data-testid="shippingAddressSection" className="pb-2">
+							<Separator className="my-4 min-[1025px]:my-4" />
+							<div data-testid="shippingAddressSection" className="pb-4 min-[1025px]:pb-2">
 								{user ? <UserShippingAddressSection /> : <GuestShippingAddressSection />}
 							</div>
 						</CollapseSection>
@@ -85,17 +85,18 @@ export const CheckoutForm = () => {
 					<DeliveryMethods collapsed={showOnlyContact} />
 				</Suspense>
 
-				{isTabletOrBelow && checkout && (
-					<CollapseSection collapse={showOnlyContact}>
-						<div className="py-2 sm:py-4">
-							<Summary
-								{...checkout}
-								lines={checkout.lines}
-								editable={true}
-								classNameCard="p-0 border-none shadow-none bg-transparent"
-							/>
-						</div>
-					</CollapseSection>
+					{isTabletOrBelow && checkout && (
+						<CollapseSection collapse={showOnlyContact}>
+							<div className="pt-4 pb-3 min-[1025px]:py-4">
+								<Summary
+									{...checkout}
+									lines={checkout.lines}
+									editable={true}
+									compact
+									classNameCard="p-0 border-none shadow-none bg-transparent"
+								/>
+							</div>
+						</CollapseSection>
 				)}
 
 				<Suspense fallback={<PaymentSectionSkeleton />}>

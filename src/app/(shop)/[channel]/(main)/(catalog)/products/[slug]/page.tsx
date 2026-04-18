@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
-import { type ResolvingMetadata, type Metadata } from "next";
+import { type Metadata } from "next";
 import { ProductDetailsDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
+import { buildMetadata, resolveMetadataValue } from "@/lib/metadata";
 import { resolvePageQuery } from "@/lib/utils";
 import { type Pages, type ProductPageQueryProps } from "@/types";
 import { ProductFeature } from "./feature/ProductFeature";
@@ -12,10 +13,7 @@ export type SlugPageProps = {
 	searchParams: { variant?: string };
 };
 
-export async function generateMetadata(
-	props: ProductPageQueryProps,
-	parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata(props: ProductPageQueryProps): Promise<Metadata> {
 	const { resolvedParams: params, resolvedSearchParams: searchParams } = await resolvePageQuery(props);
 
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
@@ -31,11 +29,11 @@ export async function generateMetadata(
 
 	const productName = product.seoTitle || product.name;
 	const variantName = product.variants?.find(({ id }) => id === searchParams.variant)?.name;
-	const productNameAndVariant = variantName ? `${productName} - ${variantName}` : productName;
+	const pageTitle = variantName ? `${productName} - ${variantName}` : productName;
 
-	return {
-		title: `${product.name} | ${product.seoTitle || (await parent).title?.absolute}`,
-		description: product.seoDescription || productNameAndVariant,
+	return buildMetadata({
+		title: pageTitle,
+		description: resolveMetadataValue(product.seoDescription, pageTitle),
 		alternates: {
 			canonical: process.env.NEXT_PUBLIC_STOREFRONT_URL
 				? process.env.NEXT_PUBLIC_STOREFRONT_URL + `/products/${encodeURIComponent(params.slug)}`
@@ -51,7 +49,7 @@ export async function generateMetadata(
 					]
 				}
 			: null
-	};
+	});
 }
 
 export default async function Page(props: ProductPageQueryProps) {

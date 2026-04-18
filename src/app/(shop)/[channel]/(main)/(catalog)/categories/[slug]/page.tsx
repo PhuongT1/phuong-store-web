@@ -7,6 +7,7 @@ import {
 	type ProductListByCategoryPaginatedQueryVariables
 } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
+import { buildMetadata, resolveMetadataValue } from "@/lib/metadata";
 import { type ResolvedQueryProps, parseParams, resolvePageQuery } from "@/lib/utils";
 import { type PageQueryProps } from "@/types";
 import { CategoryPageClient } from "../CategoryPageClient";
@@ -36,13 +37,13 @@ export const generateMetadata = async (props: PageQueryProps): Promise<Metadata>
 
 		if (!category) throw new Error("Category data is missing");
 
-		return {
-			title: `${category.name} ${category.seoTitle && ` | ${category.seoTitle}`}`,
-			description: category.seoDescription || category.description || category.seoTitle || category.name
-		};
+		return buildMetadata({
+			title: resolveMetadataValue(category.seoTitle, category.name),
+			description: resolveMetadataValue(category.seoDescription, category.description, category.name)
+		});
 	} catch (error) {
 		console.error("Error generating metadata:", error);
-		return {};
+		return buildMetadata();
 	}
 };
 

@@ -4,7 +4,7 @@ import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 import { generatePageMetadata } from "@/lib/metadata";
 import { ProfileView } from "./ProfileView";
 
-export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("account");
+export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("profile");
 
 export default async function ProfilePage() {
 	const { me: user } = await executeGraphQL(CurrentUserDocument, {

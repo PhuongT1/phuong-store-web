@@ -6,6 +6,7 @@ import {
 	type ProductListByCollectionPaginatedQueryVariables
 } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api";
+import { buildMetadata, resolveMetadataValue } from "@/lib/metadata";
 import { type ResolvedQueryProps, parseParams, resolvePageQuery } from "@/lib/utils";
 import { type PageQueryProps } from "@/types";
 import { ProductListLayout } from "@components/layouts";
@@ -42,15 +43,14 @@ const fetchCollectionData = async (params: ResolvedQueryProps) => {
 export const generateMetadata = async (props: ResolvedQueryProps): Promise<Metadata> => {
 	try {
 		const { collection } = await fetchCollectionData(props);
-		if (!collection) return {};
+		if (!collection) return buildMetadata();
 
-		return {
-			title: `${collection.name || "Collection"}${collection.seoTitle ? ` | ${collection.seoTitle}` : ""}`,
-			description:
-				collection.seoDescription || collection.description || collection.seoTitle || collection.name
-		};
+		return buildMetadata({
+			title: resolveMetadataValue(collection.seoTitle, collection.name, "Collection"),
+			description: resolveMetadataValue(collection.seoDescription, collection.description, collection.name)
+		});
 	} catch (error) {
-		return {};
+		return buildMetadata();
 	}
 };
 

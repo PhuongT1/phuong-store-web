@@ -42,25 +42,28 @@ export const UserShippingAddressSection: React.FC = () => {
 
 	return (
 		<Suspense fallback={<AddressSectionSkeleton />}>
-			<div className="flex flex-col gap-3">
-				<div className="flex items-center gap-2.5">
-					<div className="bg-icon-bg flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
+			<div className="flex flex-col gap-4 min-[1025px]:gap-4">
+				<div className="flex items-center gap-3">
+					<div className="bg-secondary/42 flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
 						<Navigation className="text-info h-5 w-5" strokeWidth={1.5} />
 					</div>
-					<Typography variant="section-label" className="mb-0!">
+					<Typography
+						variant="section-label"
+						className="mb-0! normal-case text-[15px] font-semibold tracking-tight sm:text-base"
+					>
 						{t("shippingAddress")}
 					</Typography>
 				</div>
 
 				{selectedAddress && (
-					<div className="bg-info/5 sm:border-info relative rounded-xl px-3 py-4 pr-12 sm:border sm:p-4">
+					<div className="bg-secondary/38 relative rounded-xl px-3 py-3 pr-11 min-[1025px]:rounded-2xl min-[1025px]:border min-[1025px]:border-border/55 min-[1025px]:bg-card/96 min-[1025px]:p-4 min-[1025px]:pr-12">
 						<Address address={selectedAddress} />
 						<Button
 							variant="ghost"
 							size="icon"
 							type="button"
 							onClick={() => setShowSelectModal(true)}
-							className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 h-8 w-8 -translate-y-1/2"
+							className="bg-background/55 text-muted-foreground hover:bg-background/75 hover:text-foreground absolute top-1/2 right-3 h-8 w-8 -translate-y-1/2 rounded-full"
 						>
 							<ChevronRight className="h-5 w-5" />
 						</Button>

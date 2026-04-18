@@ -1,6 +1,6 @@
 {
 	"metadata": {
-		"defaultTitle": "Phuong Store - Mua sắm trực tuyến",
+		"defaultTitle": "Deal24",
 		"defaultDescription": "Mua sắm trực tuyến hàng chính hãng, giá tốt nhất. Giao hàng toàn quốc.",
 		"home": {
 			"title": "Trang chủ",
@@ -30,13 +30,37 @@
 			"title": "Tài khoản",
 			"description": "Quản lý tài khoản và đơn hàng"
 		},
+		"profile": {
+			"title": "Hồ sơ của tôi",
+			"description": "Xem và cập nhật thông tin tài khoản của bạn"
+		},
+		"address": {
+			"title": "Sổ địa chỉ",
+			"description": "Quản lý các địa chỉ giao hàng và thanh toán"
+		},
+		"settings": {
+			"title": "Cài đặt",
+			"description": "Thiết lập tài khoản và bảo mật của bạn"
+		},
 		"orders": {
 			"title": "Đơn hàng",
 			"description": "Xem lịch sử đơn hàng của bạn"
 		},
+		"orderConfirmation": {
+			"title": "Xác nhận đơn hàng",
+			"description": "Xem thông tin xác nhận và trạng thái đơn hàng của bạn"
+		},
+		"orderDetail": {
+			"title": "Chi tiết đơn hàng #{id}",
+			"description": "Xem trạng thái, sản phẩm và thông tin giao hàng của đơn hàng"
+		},
 		"rating": {
 			"title": "Đánh giá sản phẩm",
 			"description": "Xem đánh giá từ khách hàng"
+		},
+		"blog": {
+			"title": "Blog",
+			"description": "Tin tức, hướng dẫn và cảm hứng thời trang mới nhất"
 		}
 	},
 	"common": {
@@ -195,7 +219,7 @@
 		"viewAll": "Xem tất cả kết quả"
 	},
 	"footer": {
-		"description": "Trải nghiệm mua sắm hiện đại với Saleor. Chúng tôi cung cấp những sản phẩm chất lượng nhất với dịch vụ tận tâm.",
+		"description": "Trải nghiệm mua sắm hiện đại với sản phẩm chính hãng, tuyển chọn kỹ lưỡng và dịch vụ tận tâm.",
 		"about": "Về công ty",
 		"introduction": "Giới thiệu",
 		"careers": "Tuyển dụng",
@@ -287,8 +311,8 @@
 		"apply": "Áp dụng",
 		"promoSuccess": "Mã giảm giá đã được áp dụng thành công",
 		"promoInvalid": "Mã giảm giá không hợp lệ",
-		"promoRemoved": "Đã gỡ mã giảm giá",
-		"remove": "Gỡ",
+		"promoRemoved": "Đã bỏ áp dụng mã giảm giá",
+		"remove": "Bỏ áp dụng",
 		"clearSelection": "Bỏ chọn",
 		"deleteAddress": "Xóa địa chỉ",
 		"editAddress": "Chỉnh sửa địa chỉ",

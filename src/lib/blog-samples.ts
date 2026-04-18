@@ -1,4 +1,5 @@
 import { type PageFragment } from "@/gql/graphql";
+import { SITE_CONFIG } from "@/config/site";
 
 // Sample blog posts — dùng khi Saleor chưa có page type "blog"
 // Để dùng dữ liệu thật: tạo Page Type "Blog" trong Saleor admin,
@@ -173,7 +174,7 @@ export const SAMPLE_BLOG_POSTS: PageFragment[] = [
 				data: {
 					style: "unordered",
 					items: [
-						'Luôn đọc phần <b>"Hướng dẫn chọn size"</b> của từng sản phẩm — Phương Store ghi rõ giày có bị nhỏ hay đúng size.',
+						`Luôn đọc phần <b>"Hướng dẫn chọn size"</b> của từng sản phẩm — ${SITE_CONFIG.name} ghi rõ giày có bị nhỏ hay đúng size.`,
 						"Xem phần <b>đánh giá của khách hàng</b> — họ thường phản ánh chân thực nhất về size thực tế.",
 						"Nếu bạn đang ở ranh giới giữa hai size, hãy chọn size lớn hơn với giày thể thao, size nhỏ hơn với giày da (vì da giãn theo thời gian).",
 						'Dùng tính năng <b>"Thử giày ảo"</b> (AR Try-On) nếu ứng dụng hỗ trợ.',
@@ -201,7 +202,7 @@ export const SAMPLE_BLOG_POSTS: PageFragment[] = [
 			{
 				type: "paragraph",
 				data: {
-					text: "Hy vọng bài viết đã giúp bạn hiểu rõ hơn về cách chọn size giày phù hợp. Nếu vẫn còn phân vân, đội ngũ tư vấn của <b>Phương Store</b> luôn sẵn sàng hỗ trợ bạn qua chat trực tuyến hoặc hotline — hoàn toàn miễn phí!"
+					text: `Hy vọng bài viết đã giúp bạn hiểu rõ hơn về cách chọn size giày phù hợp. Nếu vẫn còn phân vân, đội ngũ tư vấn của <b>${SITE_CONFIG.name}</b> luôn sẵn sàng hỗ trợ bạn qua chat trực tuyến hoặc hotline — hoàn toàn miễn phí!`
 				}
 			}
 		]),
@@ -328,7 +329,7 @@ export const SAMPLE_BLOG_POSTS: PageFragment[] = [
 			{
 				type: "paragraph",
 				data: {
-					text: "<b>Lời khuyên từ Phương Store:</b> Đừng chạy theo hype bằng mọi giá. Hãy chọn đôi sneaker phù hợp với style cá nhân, vừa chân và nằm trong ngân sách. Một đôi giày đúng lúc còn hơn mười đôi theo trend. Khám phá bộ sưu tập sneaker mới nhất tại cửa hàng của chúng tôi!"
+					text: `<b>Lời khuyên từ ${SITE_CONFIG.name}:</b> Đừng chạy theo hype bằng mọi giá. Hãy chọn đôi sneaker phù hợp với style cá nhân, vừa chân và nằm trong ngân sách. Một đôi giày đúng lúc còn hơn mười đôi theo trend. Khám phá bộ sưu tập sneaker mới nhất tại cửa hàng của chúng tôi!`
 				}
 			}
 		]),
@@ -438,7 +439,7 @@ export const SAMPLE_BLOG_POSTS: PageFragment[] = [
 						"<b>Baking soda + giấm trắng:</b> Tạo thành paste, dùng bàn chải chà lên đế trắng, để 10 phút, rửa sạch. Hiệu quả với vết bẩn thông thường.",
 						"<b>Kem đánh răng trắng:</b> Chà trực tiếp lên đế bằng bàn chải đánh răng cũ. Kinh tế và hiệu quả bất ngờ.",
 						"<b>Mr. Clean Magic Eraser:</b> Tẩy rất mạnh, dùng được ngay — không cần hóa chất thêm.",
-						"<b>Sneaker shield + Angel đế:</b> Sản phẩm chuyên dụng bán tại Phương Store, ngăn ố vàng hiệu quả nhất."
+						`<b>Sneaker shield + Angel đế:</b> Sản phẩm chuyên dụng bán tại ${SITE_CONFIG.name}, ngăn ố vàng hiệu quả nhất.`
 					]
 				}
 			},
@@ -478,7 +479,7 @@ export const SAMPLE_BLOG_POSTS: PageFragment[] = [
 			{
 				type: "paragraph",
 				data: {
-					text: "Áp dụng đúng những bước trên, đôi giày của bạn có thể giữ được vẻ đẹp trong 3–5 năm thay vì chỉ 6–12 tháng. Đầu tư vào việc chăm sóc giày chính là đầu tư tiết kiệm nhất bạn có thể làm. Ghé <b>Phương Store</b> để tìm đầy đủ bộ sản phẩm chăm sóc giày chính hãng nhé!"
+					text: `Áp dụng đúng những bước trên, đôi giày của bạn có thể giữ được vẻ đẹp trong 3–5 năm thay vì chỉ 6–12 tháng. Đầu tư vào việc chăm sóc giày chính là đầu tư tiết kiệm nhất bạn có thể làm. Ghé <b>${SITE_CONFIG.name}</b> để tìm đầy đủ bộ sản phẩm chăm sóc giày chính hãng nhé!`
 				}
 			}
 		]),

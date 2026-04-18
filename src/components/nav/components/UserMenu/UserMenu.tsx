@@ -28,8 +28,9 @@ const UserMenu = ({ user }: UserMenuProps) => {
 		{
 			icon: <LogOut size={18} strokeWidth={1.5} className="text-destructive" />,
 			label: t("signOut"),
-			onClick: () => {
-				void signOutUser({ callbackUrl: pathname ?? "/" });
+			onClick: async () => {
+				await signOutUser({ redirect: false });
+				window.location.href = pathname ?? "/";
 			}
 		}
 	];

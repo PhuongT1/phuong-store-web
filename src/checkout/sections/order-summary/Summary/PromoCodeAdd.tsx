@@ -1,16 +1,28 @@
 "use client";
 
 import { type FC, useEffect, useMemo, useState } from "react";
-import { Ticket, TicketPercent, ChevronRight, Check, X } from "lucide-react";
+import { BadgeX, Check, ChevronRight, Ticket, TicketPercent, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useForm, FormProvider } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { type Classes } from "@/checkout/lib/globalTypes";
 import { Skeleton } from "@/components/skeleton/Skeleton";
-import { Button, Dialog, DialogContent, DialogHeader, DialogTitle, Typography } from "@/components/ui";
+import {
+	Button,
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	Drawer,
+	DrawerContent,
+	DrawerHeader,
+	DrawerTitle,
+	Typography
+} from "@/components/ui";
 import { FormInput } from "@/components/ui/input/FormInput";
 import { Scrollbar } from "@/components/ui/Scrollbar";
 import { notify } from "@/components/ui/Sonner";
 import { CheckoutAddPromoCodeDocument, CheckoutRemovePromoCodeDocument } from "@/gql/graphql";
+import { useDeviceSize } from "@/hooks/useDeviceSize";
 import { clientFetchGraphQL } from "@/lib/api/clientGraphQLWithRetry";
 import { cn } from "@/lib/utils";
 import { useCheckout } from "@hooks/checkout";
@@ -36,8 +48,9 @@ const formatMoney = (amount: number, currency: string, locale: string) =>
 		maximumFractionDigits: amount % 1 === 0 ? 0 : 2
 	}).format(amount);
 
-export const PromoCodeAdd: FC<Classes> = ({ className }) => {
+export const PromoCodeAdd: FC<Classes & { compact?: boolean }> = ({ className, compact = false }) => {
 	const t = useTranslations("checkout");
+	const { isMobile } = useDeviceSize();
 	const safeT = (key: Parameters<typeof t>[0], fallback: string) => {
 		try {
 			return t(key);
@@ -55,7 +68,6 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 	const form = useForm<PromoCodeFormData>({ defaultValues: { promoCode: "" } });
 	const { control, handleSubmit, reset, watch, setValue } = form;
 	const promoCode = watch("promoCode");
-	// appliedCode is always what's actually applied to the order (from server)
 	const appliedCode = checkout.voucherCode?.trim().toUpperCase() ?? null;
 	const activeVoucherCode = (promoCode || appliedCode || "").trim().toUpperCase();
 
@@ -74,7 +86,6 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 		reset();
 	});
 
-	/** Remove the currently applied voucher from the order */
 	const onRemoveVoucher = async () => {
 		if (!appliedCode) return;
 		setIsRemoving(true);
@@ -160,12 +171,11 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 		const isActive = activeVoucherCode === normalized;
 
 		if (isActive) {
-			// If this voucher is already applied on server, remove it directly.
 			if (appliedCode === normalized) {
 				void onRemoveVoucher();
 				return;
 			}
-			// If it's only selected locally in the input, clear local selection.
+
 			setValue("promoCode", "", { shouldDirty: true, shouldTouch: true });
 			return;
 		}
@@ -178,15 +188,189 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 		void onSubmit();
 	};
 
+	const modalContent = (
+		<>
+			{isMobile ? (
+				<DrawerHeader className="border-border shrink-0 border-b px-5 py-4 text-left">
+					<DrawerTitle>{t("voucherDrawerTitle")}</DrawerTitle>
+				</DrawerHeader>
+			) : (
+				<DialogHeader className="border-border shrink-0 border-b px-5 py-4 pr-14 text-left sm:px-6 sm:pr-16">
+					<DialogTitle>{t("voucherDrawerTitle")}</DialogTitle>
+				</DialogHeader>
+			)}
+
+			<div className="flex flex-1 flex-col gap-3 overflow-hidden p-3 sm:p-5">
+				<FormProvider {...form}>
+					<form onSubmit={onSubmit} className="flex flex-col gap-2">
+						<Typography className="text-sm font-medium">{t("enterPromoCode")}</Typography>
+						<div className="flex w-full items-center gap-2">
+							<div className="flex-1">
+								<FormInput control={control} name="promoCode" inputProps={{ placeholder: t("enterPromoCode") }} />
+							</div>
+							<Button
+								aria-label={t("apply")}
+								variant="info"
+								type="submit"
+								disabled={!promoCode?.trim()}
+								className="h-10 px-6 text-sm font-medium"
+							>
+								{t("apply")}
+							</Button>
+						</div>
+					</form>
+				</FormProvider>
+
+				<div className="mt-1 min-h-0 flex-1 overflow-hidden">
+					<Typography className="mb-3 text-sm font-medium">{t("availableVouchers")}</Typography>
+					<Scrollbar className="flex h-full max-h-[268px] flex-col gap-3 border-none pr-3">
+						<div className="flex flex-col gap-3 pb-6 sm:gap-2.5">
+							{isLoadingVouchers &&
+								Array.from({ length: 3 }).map((_, index) => (
+									<div
+										key={index}
+										className="rounded-2xl border border-border/55 bg-muted/45 p-4 dark:border-border/62 dark:bg-muted/40"
+									>
+										<div className="flex items-start gap-3">
+											<Skeleton className="h-16 w-16 shrink-0 rounded-2xl" />
+											<div className="flex-1 space-y-2">
+												<div className="flex gap-2">
+													<Skeleton className="h-5 w-14 rounded-full" />
+													<Skeleton className="h-5 w-20 rounded-full" />
+												</div>
+												<Skeleton className="h-4 w-32 rounded" />
+												<Skeleton className="h-3 w-44 rounded" />
+												<Skeleton className="h-3 w-20 rounded" />
+											</div>
+											<Skeleton className="h-8 w-20 rounded-full" />
+										</div>
+									</div>
+								))}
+
+							{voucherItems.map((voucher) => {
+								const normalizedVoucherCode = voucher.code.toUpperCase();
+								const isActive = activeVoucherCode === normalizedVoucherCode;
+								const isAppliedVoucher = appliedCode === normalizedVoucherCode;
+
+								return (
+									<div
+										key={voucher.id}
+										role="button"
+										tabIndex={0}
+										aria-pressed={isActive}
+										onClick={() => toggleVoucherSelection(voucher.code)}
+										onKeyDown={(event) => {
+											if (event.key === "Enter" || event.key === " ") {
+												event.preventDefault();
+												toggleVoucherSelection(voucher.code);
+											}
+										}}
+										className={cn(
+											"relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 text-left transition-all",
+											isActive
+												? "border-info/35 bg-info/8 shadow-[0_12px_24px_rgba(56,189,248,0.14)] dark:border-info/45 dark:bg-info/12"
+												: "border-border/65 bg-card/92 hover:border-border/85 hover:bg-accent/45 dark:border-border/62 dark:bg-card/88 dark:hover:border-border/78 dark:hover:bg-accent/45"
+										)}
+									>
+										<div className="border-border/62 bg-muted/55 relative flex h-16 w-16 shrink-0 flex-col items-center justify-center overflow-hidden rounded-2xl border dark:border-border/62 dark:bg-muted/45">
+											<div className="bg-secondary/86 text-info dark:bg-secondary/72 dark:text-info flex h-9 w-9 items-center justify-center rounded-xl">
+												<TicketPercent className="h-4.5 w-4.5" strokeWidth={1.9} />
+											</div>
+											<span className="text-muted-foreground mt-1 text-[10px] font-semibold">Deal24</span>
+											{isActive && (
+												<div className="bg-info ring-info/24 absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full ring-[4px]" />
+											)}
+										</div>
+										<div className="min-w-0 flex-1">
+											<div className="mb-1 flex flex-wrap items-center gap-1.5">
+												<span className="border-border/60 bg-secondary/84 text-muted-foreground dark:bg-secondary/72 dark:text-foreground/85 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] uppercase">
+													{voucher.type === "SHIPPING" ? "Ship" : "Voucher"}
+												</span>
+												{voucher.discountValueType === "PERCENTAGE" && (
+													<span className="border-info/35 bg-info/12 text-info inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] uppercase">
+														Extra
+													</span>
+												)}
+											</div>
+											<Typography
+												className={cn(
+													"text-sm font-bold sm:text-[15px]",
+													isActive ? "text-info" : "text-foreground"
+												)}
+											>
+												{voucher.title}
+											</Typography>
+											<Typography className="text-muted-foreground mt-0.5 text-xs leading-relaxed">
+												{voucher.description}
+											</Typography>
+											<Typography className="text-muted-foreground mt-1.5 text-[11px] font-semibold uppercase">
+												{voucher.code}
+											</Typography>
+										</div>
+										<Button
+											variant={isActive ? "destructive-outline" : "info"}
+											size="sm"
+											className={cn(
+												"h-9 shrink-0 rounded-xl px-4 text-xs font-bold shadow-sm transition-all",
+												isActive && "hover:bg-destructive-muted/55"
+											)}
+											onClick={(event) => {
+												event.stopPropagation();
+												if (isActive) {
+													if (isAppliedVoucher) {
+														void onRemoveVoucher();
+													} else {
+														setValue("promoCode", "", { shouldDirty: true, shouldTouch: true });
+													}
+												} else {
+													selectVoucher(voucher.code);
+												}
+											}}
+											disabled={isRemoving}
+										>
+											{isActive ? (
+												<>
+													<X className="mr-1 h-3.5 w-3.5" />
+													{isRemoving
+														? "..."
+														: isAppliedVoucher
+															? safeT("remove", "Bỏ áp dụng")
+															: safeT("clearSelection", "Bỏ chọn")}
+												</>
+											) : (
+												<>
+													<Check className="mr-1 h-3.5 w-3.5" />
+													{t("useVoucher")}
+												</>
+											)}
+										</Button>
+									</div>
+								);
+							})}
+
+							{!isLoadingVouchers && voucherItems.length === 0 && (
+								<div className="border-border rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+									{t("noAvailableVouchers")}
+								</div>
+							)}
+						</div>
+					</Scrollbar>
+				</div>
+			</div>
+		</>
+	);
+
 	return (
-		<Dialog open={isOpen} onOpenChange={setIsOpen}>
+		<>
 			<div
 				role="button"
 				tabIndex={0}
 				aria-haspopup="dialog"
 				aria-expanded={isOpen}
 				className={cn(
-					"border-border sm:bg-card group flex w-full items-center justify-between border-0 bg-transparent py-3 transition-all active:scale-[0.99] sm:my-3 sm:rounded-xl sm:border sm:px-4 sm:py-3 sm:shadow-sm",
+					compact
+						? "border-border group flex w-full items-center justify-between border-0 bg-transparent py-1.5 transition-all active:scale-[0.99] min-[1025px]:my-3 min-[1025px]:rounded-xl min-[1025px]:border min-[1025px]:bg-card min-[1025px]:px-4 min-[1025px]:py-3 min-[1025px]:shadow-sm"
+						: "border-border sm:bg-card group flex w-full items-center justify-between border-0 bg-transparent py-2 transition-all active:scale-[0.99] sm:my-3 sm:rounded-xl sm:border sm:px-4 sm:py-3 sm:shadow-sm",
 					appliedCode && "sm:border-info/30 sm:bg-info/5",
 					className
 				)}
@@ -198,10 +382,19 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 					}
 				}}
 			>
-				<div className="flex items-center gap-2.5">
-					<Ticket className={cn("h-4.5 w-4.5 sm:h-4 sm:w-4", appliedCode ? "text-info" : "text-muted-foreground")} strokeWidth={1.5} />
+				<div className="flex items-center gap-2">
+					<Ticket
+						className={cn("h-4.5 w-4.5 sm:h-4 sm:w-4", appliedCode ? "text-info" : "text-muted-foreground")}
+						strokeWidth={1.5}
+					/>
 					<div className="flex flex-col items-start">
-						<Typography variant="section-label" className="mb-0! normal-case text-base sm:text-[15px]">
+						<Typography
+							variant="section-label"
+							className={cn(
+								"mb-0! normal-case",
+								compact ? "text-[13px] min-[1025px]:text-[15px]" : "text-[15px] sm:text-[15px]"
+							)}
+						>
 							{t("voucherDrawerTitle")}
 						</Typography>
 						{appliedCode && (
@@ -213,15 +406,32 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 				</div>
 				<div className="text-muted-foreground flex items-center gap-1">
 					{appliedCode ? (
-						<button
-							type="button"
-							disabled={isRemoving}
-							onClick={(e) => { e.stopPropagation(); void onRemoveVoucher(); }}
-							className="text-destructive hover:text-destructive/80 flex items-center gap-1 text-xs font-medium transition-colors disabled:opacity-50"
+						<span
+							role="button"
+							tabIndex={isRemoving ? -1 : 0}
+							aria-disabled={isRemoving}
+							onClick={(event) => {
+								event.stopPropagation();
+								void onRemoveVoucher();
+							}}
+							onKeyDown={(event) => {
+								if (isRemoving) return;
+								if (event.key === "Enter" || event.key === " ") {
+									event.preventDefault();
+									event.stopPropagation();
+									void onRemoveVoucher();
+								}
+							}}
+							className={cn(
+								"border-destructive/28 bg-destructive-muted/45 text-destructive hover:bg-destructive-muted/65 inline-flex items-center gap-1 rounded-full border transition-colors aria-disabled:pointer-events-none aria-disabled:opacity-50",
+								compact
+									? "px-1.5 py-[2px] text-[10px] min-[1025px]:px-2 min-[1025px]:py-[3px] min-[1025px]:text-[11px]"
+									: "px-2 py-[3px] text-[11px]"
+							)}
 						>
-							<X className="h-3.5 w-3.5" />
-							{isRemoving ? "..." : safeT("remove", "Xóa")}
-						</button>
+							<BadgeX className="h-3.5 w-3.5" />
+							{isRemoving ? "..." : safeT("remove", "Bỏ áp dụng")}
+						</span>
 					) : (
 						<>
 							<span className="text-sm font-medium sm:text-[13px]">{t("enterPromoCode")}</span>
@@ -231,170 +441,19 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 				</div>
 			</div>
 
-			<DialogContent className="bg-card flex max-h-[85vh] w-full max-w-full translate-x-[-50%] translate-y-0 flex-col gap-0 overflow-hidden rounded-t-2xl border-white/8 p-0 top-auto right-auto bottom-0 left-1/2 sm:top-[50%] sm:bottom-auto sm:max-h-[min(78vh,560px)] sm:w-[min(560px,calc(100vw-2rem))] sm:max-w-[min(560px,calc(100vw-2rem))] sm:translate-y-[-50%] sm:rounded-2xl">
-				<DialogHeader className="border-border shrink-0 border-b px-5 py-4 pr-14 text-left sm:px-6 sm:pr-16">
-					<DialogTitle>{t("voucherDrawerTitle")}</DialogTitle>
-				</DialogHeader>
-
-				<div className="flex flex-1 flex-col gap-4 overflow-hidden p-4 sm:gap-3 sm:p-5">
-					<FormProvider {...form}>
-						<form onSubmit={onSubmit} className="flex flex-col gap-2">
-							<Typography className="text-sm font-medium">{t("enterPromoCode")}</Typography>
-							<div className="flex w-full items-center gap-2">
-								<div className="flex-1">
-									<FormInput
-										control={control}
-										name="promoCode"
-										inputProps={{ placeholder: t("enterPromoCode") }}
-									/>
-								</div>
-								<Button
-									aria-label={t("apply")}
-									variant="info"
-									type="submit"
-									disabled={!promoCode?.trim()}
-									className="h-10 px-6 text-sm font-medium"
-								>
-									{t("apply")}
-								</Button>
-							</div>
-						</form>
-					</FormProvider>
-
-					<div className="mt-1 flex-1 overflow-hidden sm:mt-0">
-						<Typography className="mb-3 text-sm font-medium">{t("availableVouchers")}</Typography>
-						<Scrollbar className="flex h-full max-h-[268px] flex-col gap-3 border-none pr-3">
-							<div className="flex flex-col gap-2.5 pb-6 sm:gap-2">
-								{isLoadingVouchers &&
-									Array.from({ length: 3 }).map((_, index) => (
-										<div
-											key={index}
-											className="rounded-2xl border border-rose-200/80 bg-gradient-to-r from-rose-50 via-white to-white p-4 dark:border-rose-900/40 dark:from-rose-950/30 dark:via-card dark:to-card"
-										>
-											<div className="flex items-start gap-3">
-												<Skeleton className="h-16 w-16 shrink-0 rounded-2xl" />
-												<div className="flex-1 space-y-2">
-													<div className="flex gap-2">
-														<Skeleton className="h-5 w-14 rounded-full" />
-														<Skeleton className="h-5 w-20 rounded-full" />
-													</div>
-													<Skeleton className="h-4 w-32 rounded" />
-													<Skeleton className="h-3 w-44 rounded" />
-													<Skeleton className="h-3 w-20 rounded" />
-												</div>
-												<Skeleton className="h-8 w-20 rounded-full" />
-											</div>
-										</div>
-									))}
-
-								{voucherItems.map((voucher) => {
-									const normalizedVoucherCode = voucher.code.toUpperCase();
-									const isActive = activeVoucherCode === normalizedVoucherCode;
-									const isAppliedVoucher = appliedCode === normalizedVoucherCode;
-
-									return (
-										<div
-											key={voucher.id}
-											role="button"
-											tabIndex={0}
-											aria-pressed={isActive}
-											onClick={() => toggleVoucherSelection(voucher.code)}
-											onKeyDown={(event) => {
-												if (event.key === "Enter" || event.key === " ") {
-													event.preventDefault();
-													toggleVoucherSelection(voucher.code);
-												}
-											}}
-											className={cn(
-												"relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 text-left transition-all",
-												isActive
-													? "border-rose-300 bg-gradient-to-r from-rose-50 via-white to-white shadow-[0_12px_24px_rgba(244,63,94,0.10)] dark:border-rose-800/70 dark:from-rose-950/35 dark:via-card dark:to-card"
-													: "border-rose-200/80 bg-gradient-to-r from-rose-50/90 via-white to-white hover:border-rose-300 hover:shadow-[0_8px_20px_rgba(244,63,94,0.08)] dark:border-rose-900/40 dark:from-rose-950/25 dark:via-card dark:to-card dark:hover:border-rose-800/70"
-											)}
-										>
-											<div className="border-rose-200 bg-rose-50/90 relative flex h-16 w-16 shrink-0 flex-col items-center justify-center overflow-hidden rounded-2xl border dark:border-rose-900/60 dark:bg-rose-950/30">
-												<div className="bg-rose-100 text-rose-500 dark:bg-rose-900/50 dark:text-rose-300 flex h-9 w-9 items-center justify-center rounded-xl">
-													<TicketPercent className="h-4.5 w-4.5" strokeWidth={1.9} />
-												</div>
-												<span className="mt-1 text-[10px] font-semibold text-rose-400 dark:text-rose-300">
-													Deal24
-												</span>
-												{isActive && (
-													<div className="bg-info ring-info/30 absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full ring-[4px]" />
-												)}
-											</div>
-											<div className="min-w-0 flex-1">
-												<div className="mb-1 flex flex-wrap items-center gap-1.5">
-													<span className="bg-rose-100 text-rose-500 dark:bg-rose-900/50 dark:text-rose-300 inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] uppercase">
-														{voucher.type === "SHIPPING" ? "Ship" : "Voucher"}
-													</span>
-													{voucher.discountValueType === "PERCENTAGE" && (
-														<span className="bg-rose-500 text-white inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold tracking-[0.08em] uppercase">
-															Extra
-														</span>
-													)}
-												</div>
-												<Typography className="text-rose-500 dark:text-rose-300 text-sm font-bold sm:text-[15px]">
-													{voucher.title}
-												</Typography>
-												<Typography className="text-foreground/78 dark:text-foreground/72 mt-0.5 text-xs leading-relaxed">
-													{voucher.description}
-												</Typography>
-												<Typography className="text-muted-foreground mt-1.5 text-[11px] font-semibold uppercase">
-													{voucher.code}
-												</Typography>
-											</div>
-											<Button
-												variant={isActive ? "destructive-outline" : "info"}
-												size="sm"
-												className={cn(
-													"h-9 shrink-0 rounded-xl px-4 text-xs font-bold shadow-sm transition-all",
-													isActive && "border-rose-400/60 text-rose-500 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
-												)}
-												onClick={(event) => {
-													event.stopPropagation();
-													if (isActive) {
-														if (isAppliedVoucher) {
-															void onRemoveVoucher();
-														} else {
-															setValue("promoCode", "", { shouldDirty: true, shouldTouch: true });
-														}
-													} else {
-														selectVoucher(voucher.code);
-													}
-												}}
-												disabled={isRemoving}
-											>
-												{isActive ? (
-													<>
-														<X className="mr-1 h-3.5 w-3.5" />
-														{isRemoving
-															? "..."
-															: isAppliedVoucher
-																? safeT("remove", "Gỡ")
-																: safeT("clearSelection", "Bỏ chọn")}
-													</>
-												) : (
-													<>
-														<Check className="mr-1 h-3.5 w-3.5" />
-														{t("useVoucher")}
-													</>
-												)}
-											</Button>
-										</div>
-									);
-								})}
-
-								{!isLoadingVouchers && voucherItems.length === 0 && (
-									<div className="border-border rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
-										{t("noAvailableVouchers")}
-									</div>
-								)}
-							</div>
-						</Scrollbar>
-					</div>
-				</div>
-			</DialogContent>
-		</Dialog>
+			{isMobile ? (
+				<Drawer open={isOpen} onOpenChange={setIsOpen}>
+					<DrawerContent className="bg-card flex max-h-[85svh] w-full flex-col gap-0 overflow-hidden rounded-t-2xl border-border/55 p-0">
+						{modalContent}
+					</DrawerContent>
+				</Drawer>
+			) : (
+				<Dialog open={isOpen} onOpenChange={setIsOpen}>
+					<DialogContent className="bg-card flex max-h-[85vh] w-full max-w-full translate-x-[-50%] translate-y-0 flex-col gap-0 overflow-hidden rounded-t-2xl border-border/55 p-0 top-auto right-auto bottom-0 left-1/2 sm:top-[50%] sm:bottom-auto sm:max-h-[min(78vh,560px)] sm:w-[min(560px,calc(100vw-2rem))] sm:max-w-[min(560px,calc(100vw-2rem))] sm:translate-y-[-50%] sm:rounded-2xl">
+						{modalContent}
+					</DialogContent>
+				</Dialog>
+			)}
+		</>
 	);
 };

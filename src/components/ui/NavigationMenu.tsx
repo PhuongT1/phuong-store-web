@@ -53,6 +53,7 @@ const NavigationMenuTrigger = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
 	<NavigationMenuPrimitive.Trigger
 		ref={ref}
+		suppressHydrationWarning
 		className={cn(navigationMenuTriggerStyle(), "group", className)}
 		{...props}
 	>
@@ -71,6 +72,7 @@ const NavigationMenuContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<NavigationMenuPrimitive.Content
 		ref={ref}
+		suppressHydrationWarning
 		className={cn(
 			"bg-popover text-popover-foreground backdrop-blur-2xl shadow-xl",
 			"animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95",
@@ -90,6 +92,7 @@ const NavigationMenuViewport = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<div className={cn("absolute top-full left-0 flex justify-center")}>
 		<NavigationMenuPrimitive.Viewport
+			suppressHydrationWarning
 			className={cn(
 				"origin-top-center bg-popover text-popover-foreground backdrop-blur-2xl",
 				"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90",

@@ -24,7 +24,7 @@ const ProductCardPrice = ({
 	return (
 		<div className="flex flex-1 flex-col gap-2 px-0.5">
 			{/* Product name — first for context */}
-			<h3 className="text-card-foreground/94 line-clamp-2 text-[13px] leading-[1.35] font-semibold tracking-[-0.01em] transition-colors duration-300 group-hover:text-foreground sm:text-[15px] lg:text-[15px]">
+			<h3 className="text-card-foreground/95 line-clamp-2 text-[13px] leading-[1.35] font-semibold tracking-[-0.01em] transition-colors duration-300 group-hover:text-foreground sm:text-[15px] lg:text-[15px]">
 				{name}
 			</h3>
 
@@ -42,14 +42,12 @@ const ProductCardPrice = ({
 					{price ?? "-"}
 				</span>
 				{savingsFormatted && (
-					<span className="text-savings inline-flex w-fit rounded-full bg-savings/12 px-2 py-0.5 text-[11px] font-semibold tracking-[-0.01em] sm:text-[12px] lg:text-[13px]">
+					<span className="text-savings inline-flex w-fit rounded-full bg-savings/14 px-2 py-0.5 text-[11px] font-semibold tracking-[-0.01em] sm:text-[12px] lg:text-[13px]">
 						{t("savingsPrefix")}
 						{savingsFormatted}
 					</span>
 				)}
 			</div>
-
-
 
 			{/* Spec attribute chips */}
 			{specChips.length > 0 && (
@@ -57,7 +55,7 @@ const ProductCardPrice = ({
 					{specChips.map((chip, i) => (
 						<span
 							key={i}
-							className="border-border/75 bg-secondary/72 text-muted-foreground rounded-full border px-2 py-0.5 text-[10px] font-semibold tracking-[-0.01em] truncate max-w-full sm:text-[11px]"
+							className="border-border/72 bg-secondary/74 text-muted-foreground rounded-full border px-2 py-0.5 text-[10px] font-semibold tracking-[-0.01em] truncate max-w-full sm:text-[11px]"
 						>
 							{chip}
 						</span>

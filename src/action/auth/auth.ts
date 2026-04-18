@@ -25,10 +25,9 @@ const clearAuthCookies = async () => {
 
 	// cookieStore.delete(CONFIG.COOKIE_KEY.accessToken);
 	// cookieStore.delete(CONFIG.COOKIE_KEY.refreshToken);
-	// Note: checkoutId is intentionally NOT cleared on sign-out.
-	// The cart/checkout belongs to the shopping session, not the auth session.
-	// It is only cleared after a successful order (useCheckoutComplete) or
-	// when Saleor returns NOT_FOUND/INVALID for a stale checkout (cart.service).
+	// Clear checkoutId on sign-out because the cart belongs to the authenticated user.
+	// Leaving it causes permission errors for the next anonymous session or another user.
+	cookieStore.delete(CONFIG.COOKIE_KEY.checkoutId);
 	void cookieStore; // prevent unused variable lint error
 };
 
@@ -53,6 +52,78 @@ const TOKEN_CREATE_MUTATION = `
 		}
 	}
 `;
+
+const ATTACH_CHECKOUT_MUTATION = `
+	mutation CheckoutCustomerAttach($checkoutId: ID!) {
+		checkoutCustomerAttach(id: $checkoutId) {
+			checkout { id }
+			errors { code message }
+		}
+	}
+`;
+
+const FETCH_USER_CHECKOUT = `
+	query FetchUserCheckout {
+		me {
+			checkouts(first: 1) {
+				edges { node { id } }
+			}
+		}
+	}
+`;
+
+const syncCheckoutWithUser = async (token: string) => {
+	try {
+		const cookieStore = await cookies();
+		let currentCheckoutId = cookieStore.get(CONFIG.COOKIE_KEY.checkoutId)?.value;
+		const saleorApiUrl = process.env.NEXT_PUBLIC_SALEOR_API_URL;
+		if (!saleorApiUrl) return;
+
+		// 1. If anonymous checkout exists, attach it to this user
+		if (currentCheckoutId) {
+			const attachRes = await fetch(saleorApiUrl, {
+				method: "POST",
+				headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+				cache: "no-store",
+				body: JSON.stringify({ query: ATTACH_CHECKOUT_MUTATION, variables: { checkoutId: currentCheckoutId } })
+			});
+			const attachJson = (await attachRes.json()) as any;
+			const errors = attachJson?.data?.checkoutCustomerAttach?.errors;
+			
+			// If attachment fails (maybe it belongs to someone else?), fallback to fetching their own cart
+			if (errors && errors.length > 0) {
+				currentCheckoutId = undefined;
+			} else {
+				return; // Successfully attached anonymous cart to user
+			}
+		}
+
+		// 2. Otherwise fetch the user's existing cart from the server
+		if (!currentCheckoutId) {
+			const fetchRes = await fetch(saleorApiUrl, {
+				method: "POST",
+				headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+				cache: "no-store",
+				body: JSON.stringify({ query: FETCH_USER_CHECKOUT })
+			});
+			const fetchJson = (await fetchRes.json()) as any;
+			const edges = fetchJson?.data?.me?.checkouts?.edges;
+
+			if (edges && edges.length > 0) {
+				const userCheckoutId = edges[0].node.id;
+				cookieStore.set(CONFIG.COOKIE_KEY.checkoutId, userCheckoutId, {
+					maxAge: CONFIG.COOKIE_MAX_AGE.checkout,
+					httpOnly: true,
+					path: "/"
+				});
+			} else {
+				cookieStore.delete(CONFIG.COOKIE_KEY.checkoutId);
+			}
+		}
+	} catch (error) {
+		console.error("Failed to sync checkout:", error);
+	}
+};
 
 const login = async ({ email, password }: { email: string; password: string }) => {
 	try {
@@ -87,4 +158,4 @@ const login = async ({ email, password }: { email: string; password: string }) =
 	}
 };
 
-export { setAccessToken, setRefreshToken, clearSessionToken, login, clearAuthCookies, revalidateCurrentUser };
+export { setAccessToken, setRefreshToken, clearSessionToken, login, clearAuthCookies, revalidateCurrentUser, syncCheckoutWithUser };

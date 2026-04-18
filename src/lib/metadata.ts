@@ -1,7 +1,6 @@
 import { type Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-
-const STORE_NAME = "Phuong Store";
+import { SITE_CONFIG } from "@/config/site";
 
 const metadataBase = process.env.NEXT_PUBLIC_STOREFRONT_URL
 	? new URL(process.env.NEXT_PUBLIC_STOREFRONT_URL)
@@ -15,8 +14,35 @@ type MetadataPage =
 	| "signIn"
 	| "signUp"
 	| "account"
+	| "profile"
+	| "address"
+	| "settings"
 	| "orders"
-	| "rating";
+	| "orderConfirmation"
+	| "orderDetail"
+	| "rating"
+	| "blog";
+
+const resolveMetadataValue = (...candidates: Array<string | null | undefined>) =>
+	candidates.find((candidate) => candidate?.trim());
+
+const buildMetadata = ({
+	title,
+	description,
+	alternates,
+	openGraph
+}: {
+	title?: string | null;
+	description?: string | null;
+	alternates?: Metadata["alternates"];
+	openGraph?: Metadata["openGraph"];
+} = {}): Metadata => ({
+	...(title ? { title } : {}),
+	...(description ? { description } : {}),
+	...(alternates ? { alternates } : {}),
+	...(openGraph ? { openGraph } : {}),
+	metadataBase
+});
 
 /**
  * Generate i18n-aware metadata for a static page.
@@ -25,11 +51,10 @@ type MetadataPage =
 const generatePageMetadata = async (page: MetadataPage): Promise<Metadata> => {
 	const t = await getTranslations("metadata");
 
-	return {
+	return buildMetadata({
 		title: t(`${page}.title`),
-		description: t(`${page}.description`),
-		metadataBase
-	};
+		description: t(`${page}.description`)
+	});
 };
 
 /**
@@ -41,8 +66,8 @@ const generateDefaultMetadata = async (): Promise<Metadata> => {
 
 	return {
 		title: {
-			default: t("defaultTitle"),
-			template: `%s | ${STORE_NAME}`
+			default: SITE_CONFIG.name,
+			template: SITE_CONFIG.titleTemplate
 		},
 		description: t("defaultDescription"),
 		icons: {
@@ -52,4 +77,4 @@ const generateDefaultMetadata = async (): Promise<Metadata> => {
 	};
 };
 
-export { generatePageMetadata, generateDefaultMetadata, STORE_NAME, metadataBase };
+export { buildMetadata, generatePageMetadata, generateDefaultMetadata, metadataBase, resolveMetadataValue };

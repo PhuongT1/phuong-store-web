@@ -29,9 +29,9 @@ export const SummaryItemMoneyInfo: React.FC<SummaryItemMoneyInfoProps> = (props)
 	return (
 		<div className="flex flex-col items-end">
 			{isOnSale && (
-				<MoneyDisplay money={originalTotal} className="text-muted-foreground text-xs line-through" />
+				<MoneyDisplay money={originalTotal} className="text-muted-foreground text-[11px] line-through sm:text-xs" />
 			)}
-			<MoneyDisplay aria-label="total price" money={discountedTotal} />
+			<MoneyDisplay aria-label="total price" money={discountedTotal} className="text-price text-sm font-semibold sm:text-base" />
 		</div>
 	);
 };

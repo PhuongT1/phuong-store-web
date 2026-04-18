@@ -62,7 +62,7 @@ const SignUp = () => {
 			} else {
 				const msg = result.errors.map((e) => e.message ?? e.code).join(", ");
 				setError("root", {
-					message: msg ?? "Đăng ký thất bại. Vui lòng thêm localhost vào Saleor Trusted Origins."
+					message: msg ?? "Đăng ký thất bại. Vui lòng thêm localhost vào Trusted Origins."
 				});
 			}
 			return;

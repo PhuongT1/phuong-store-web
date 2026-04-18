@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Trash2 } from "lucide-react";
+import { SITE_CONFIG } from "@/config/site";
 import { useChat } from "@/hooks/useChat";
 import { cn } from "@/lib/utils";
 import { ChatInput } from "./ChatInput";
@@ -34,7 +35,9 @@ export function ChatWidget() {
 					<div className="bg-primary flex items-center justify-between rounded-t-2xl px-4 py-3">
 						<div className="flex items-center gap-2">
 							<MessageCircle size={18} className="text-primary-foreground" />
-							<span className="text-primary-foreground text-sm font-semibold">Trợ lý Phương Store</span>
+							<span className="text-primary-foreground text-sm font-semibold">
+								{`Trợ lý ${SITE_CONFIG.name}`}
+							</span>
 						</div>
 						<div className="flex items-center gap-1">
 							{messages.length > 0 && (

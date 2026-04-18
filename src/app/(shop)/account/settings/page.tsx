@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { generatePageMetadata } from "@/lib/metadata";
 import { PasswordChangeForm } from "./PasswordChangeForm";
 
-export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("account");
+export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("settings");
 
 export default async function SettingsPage() {
 	const t = await getTranslations("account");

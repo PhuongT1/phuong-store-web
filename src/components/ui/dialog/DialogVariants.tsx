@@ -106,7 +106,7 @@ const BaseDialog = ({
 							<DialogClose asChild>
 								<Button
 									type="button"
-									variant="destructive"
+									variant="default"
 									className={cn("max-w-full min-w-32", confirmButtonProps?.className)}
 									{...confirmButtonProps}
 								>

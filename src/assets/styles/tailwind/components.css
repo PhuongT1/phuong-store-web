@@ -16,23 +16,23 @@
 	}
 
 	.surface-card {
-		@apply relative rounded-[calc(var(--radius)+2px)] border border-border/70 bg-card text-card-foreground shadow-[0_10px_30px_-24px_rgba(15,23,42,0.25)] ring-1 ring-black/[0.015] dark:border-border/75 dark:bg-card dark:shadow-[0_16px_34px_-24px_rgba(0,0,0,0.72)] dark:ring-white/[0.02];
+		@apply relative rounded-[calc(var(--radius)+2px)] border border-border/62 bg-card text-card-foreground shadow-[0_12px_34px_-26px_rgba(15,23,42,0.30)] ring-1 ring-black/[0.02] dark:border-border/68 dark:bg-card dark:shadow-[0_20px_44px_-28px_rgba(0,0,0,0.82)] dark:ring-white/[0.035];
 	}
 
 	.surface-card-interactive {
-		@apply transition-all duration-300 will-change-transform hover:-translate-y-0.5 hover:border-border/90 hover:shadow-[0_16px_38px_-24px_rgba(15,23,42,0.30)] dark:hover:border-border/90 dark:hover:shadow-[0_22px_48px_-30px_rgba(0,0,0,0.86)];
+		@apply transition-all duration-300 will-change-transform hover:-translate-y-0.5 hover:border-border/82 hover:shadow-[0_18px_40px_-24px_rgba(15,23,42,0.34)] dark:hover:border-border/82 dark:hover:shadow-[0_28px_56px_-30px_rgba(0,0,0,0.9)];
 	}
 
 	.surface-panel {
-		@apply rounded-[calc(var(--radius)+2px)] border border-border/65 bg-card/96 text-card-foreground shadow-[0_12px_32px_-24px_rgba(15,23,42,0.35)] backdrop-blur-sm ring-1 ring-black/[0.02] dark:border-border/70 dark:bg-card/94 dark:ring-white/[0.03] dark:shadow-[0_20px_42px_-30px_rgba(0,0,0,0.84)];
+		@apply rounded-[calc(var(--radius)+2px)] border border-border/62 bg-card/96 text-card-foreground shadow-[0_14px_34px_-24px_rgba(15,23,42,0.36)] backdrop-blur-md ring-1 ring-black/[0.025] dark:border-border/66 dark:bg-card/95 dark:ring-white/[0.04] dark:shadow-[0_24px_48px_-30px_rgba(0,0,0,0.86)];
 	}
 
 	.surface-overlay {
-		@apply rounded-[calc(var(--radius)+4px)] border border-border/50 bg-popover/98 text-popover-foreground shadow-[0_24px_58px_-36px_rgba(15,23,42,0.52)] backdrop-blur-xl ring-1 ring-black/[0.02] dark:border-border/65 dark:ring-white/[0.04];
+		@apply rounded-[calc(var(--radius)+4px)] border border-border/50 bg-popover/98 text-popover-foreground shadow-[0_26px_62px_-34px_rgba(15,23,42,0.56)] backdrop-blur-xl ring-1 ring-black/[0.025] dark:border-border/62 dark:ring-white/[0.05] dark:shadow-[0_34px_74px_-34px_rgba(0,0,0,0.88)];
 	}
 
 	.surface-subtle {
-		@apply rounded-[calc(var(--radius)-2px)] border border-border/60 bg-muted/60 text-foreground ring-1 ring-black/[0.015] dark:border-border/70 dark:bg-muted/50 dark:ring-white/[0.02];
+		@apply rounded-[calc(var(--radius)-2px)] border border-border/58 bg-muted/62 text-foreground ring-1 ring-black/[0.015] dark:border-border/62 dark:bg-muted/52 dark:ring-white/[0.03];
 	}
 
 	.product-grid-premium > li {
@@ -64,7 +64,7 @@
 		pointer-events: none;
 		background: radial-gradient(120% 88% at 50% 6%, rgb(255 255 255 / 0.16), transparent 62%),
 			linear-gradient(180deg, transparent 74%, rgb(255 255 255 / 0.04));
-		opacity: 0.28;
+		opacity: 0.26;
 		transition: opacity 280ms ease;
 		z-index: 0;
 	}
@@ -72,7 +72,7 @@
 	.dark .product-card-premium::before {
 		background: radial-gradient(120% 88% at 50% 6%, rgb(255 255 255 / 0.08), transparent 60%),
 			linear-gradient(180deg, transparent 76%, rgb(255 255 255 / 0.03));
-		opacity: 0.36;
+		opacity: 0.34;
 	}
 
 	.product-card-premium::after {
@@ -82,11 +82,11 @@
 		width: auto;
 		height: 46%;
 		pointer-events: none;
-		background: radial-gradient(60% 100% at 50% 100%, rgb(56 189 248 / 0.16), transparent 70%);
-		filter: blur(20px);
+		background: radial-gradient(60% 100% at 50% 100%, rgb(56 189 248 / 0.14), transparent 72%);
+		filter: blur(18px);
 		opacity: 0;
 		transform: translate3d(0, 10px, 0);
-		transition: opacity 320ms ease, transform 320ms ease;
+		transition: opacity 260ms ease, transform 260ms ease;
 		z-index: 0;
 	}
 

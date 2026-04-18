@@ -54,7 +54,10 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
 								<hr className="border-border mb-4" />
 								<button
 									type="button"
-									onClick={() => signOutUser({ callbackUrl: pathname ?? undefined })}
+									onClick={async () => {
+										await signOutUser({ redirect: false });
+										window.location.href = pathname ?? "/";
+									}}
 									className="text-destructive hover:bg-destructive/10 flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors"
 								>
 									<LogOut className="h-5 w-5" />

@@ -15,12 +15,14 @@ type SummaryProps = {
 	editable?: boolean;
 	lines: CartLine[];
 	classNameCard?: string;
+	compact?: boolean;
 } & Omit<Checkout, "lines">;
 
 const Summary: FC<SummaryProps> = ({
 	editable = true,
 	lines,
 	classNameCard,
+	compact = false,
 	totalPrice,
 	subtotalPrice,
 	giftCards = [],
@@ -63,12 +65,13 @@ const Summary: FC<SummaryProps> = ({
 		<SummaryCard className={classNameCard}>
 			{editable && (
 				<>
-					<PromoCodeAdd />
+					<PromoCodeAdd compact={compact} />
 					<Separator />
 				</>
 			)}
-			<div className="flex max-w-full flex-col">
+				<div className="flex max-w-full flex-col gap-1 min-[1025px]:gap-0">
 				<SummaryMoneyRow
+					compact={compact}
 					label={t("subtotal")}
 					money={subtotalPrice?.gross}
 					aria-label="subtotal price"
@@ -76,6 +79,7 @@ const Summary: FC<SummaryProps> = ({
 				/>
 				{hasSavings && savingsMoney && (
 					<SummaryMoneyRow
+						compact={compact}
 						label={t("savings")}
 						money={savingsMoney}
 						aria-label="savings"
@@ -86,6 +90,7 @@ const Summary: FC<SummaryProps> = ({
 				)}
 				{voucherCode && (
 					<SummaryPromoCodeRow
+						compact={compact}
 						editable={editable}
 						promoCode={voucherCode}
 						aria-label="voucher"
@@ -96,6 +101,7 @@ const Summary: FC<SummaryProps> = ({
 				)}
 				{giftCards.map(({ currentBalance, displayCode, id }) => (
 					<SummaryPromoCodeRow
+						compact={compact}
 						key={id}
 						editable={editable}
 						promoCodeId={id}
@@ -106,22 +112,23 @@ const Summary: FC<SummaryProps> = ({
 					/>
 				))}
 				<SummaryMoneyRow
+					compact={compact}
 					label={t("shipping")}
 					aria-label="shipping cost"
 					money={shippingPrice?.gross}
 					isLoading={isLoading}
 				/>
-				<Separator className="my-4" />
-				<div className="flex flex-row items-baseline justify-between pb-4">
-					<div className="flex flex-row items-baseline gap-2">
-						<p className="font-bold">{t("total")}</p>
-						<span className="text-muted-foreground bg-muted rounded-full px-2 py-0.5 text-[13px] font-semibold">
-							({totalQuantity})
-						</span>
-						<p color="secondary" className="text-xs">
-							{t("taxIncluded", { tax: getFormattedMoney(totalPrice?.tax) })}
-						</p>
-					</div>
+					<Separator className="my-3.5 min-[1025px]:my-4" />
+					<div className="flex flex-row items-baseline justify-between pb-1.5 min-[1025px]:pb-4">
+						<div className="flex flex-row items-baseline gap-2">
+							<p className="text-[15px] font-bold tracking-[-0.01em] min-[1025px]:text-base">{t("total")}</p>
+							<span className="bg-secondary/42 text-muted-foreground rounded-full px-1.5 py-0.5 text-[11px] font-semibold min-[1025px]:px-2 min-[1025px]:text-[13px]">
+								({totalQuantity})
+							</span>
+							<p color="secondary" className="text-muted-foreground hidden text-xs min-[1025px]:block">
+								{t("taxIncluded", { tax: getFormattedMoney(totalPrice?.tax) })}
+							</p>
+						</div>
 					{isLoading ? (
 						<Skeleton className="h-6 w-24 rounded" />
 					) : (
@@ -129,7 +136,7 @@ const Summary: FC<SummaryProps> = ({
 							aria-label="total price"
 							money={totalPrice?.gross}
 							data-testid="totalOrderPrice"
-							className="font-bold"
+							className="text-price text-[18px] font-bold tracking-[-0.02em] min-[1025px]:text-[20px]"
 						/>
 					)}
 				</div>

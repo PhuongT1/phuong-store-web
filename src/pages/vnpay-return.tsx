@@ -30,17 +30,24 @@ export default function VNPayReturnPage() {
 			transactionNo: vnpTransactionNo
 		});
 
-		// Check if opened in popup (has opener window)
+		const parentWindow =
+			window.opener && window.opener !== window
+				? window.opener
+				: window.parent && window.parent !== window
+					? window.parent
+					: null;
 		const isPopup = window.opener && window.opener !== window;
+		const isEmbedded = !!parentWindow;
 
 		if (vnpResponseCode === "00") {
 			// Payment success
 			console.log("✅ VNPay payment successful");
 
-			if (isPopup) {
-				// Send success message to parent window
-				window.opener.postMessage(
+			if (isEmbedded && parentWindow) {
+				// Send success message to popup opener or iframe parent window
+				parentWindow.postMessage(
 					{
+						source: "hosted-payment-return",
 						type: "PAYMENT_SUCCESS",
 						data: {
 							// All vnp_* params for server-side signature verification
@@ -55,10 +62,12 @@ export default function VNPayReturnPage() {
 					window.location.origin
 				);
 
-				// Close popup after short delay
-				setTimeout(() => {
-					window.close();
-				}, 500);
+				if (isPopup) {
+					// Close popup after short delay
+					setTimeout(() => {
+						window.close();
+					}, 500);
+				}
 			} else {
 				// Full redirect scenario - redirect to checkout with success
 				const checkoutId = params.get("checkout") || sessionStorage.getItem("checkoutId");
@@ -72,10 +81,11 @@ export default function VNPayReturnPage() {
 			// Payment failed or cancelled
 			console.error("❌ VNPay payment failed:", vnpResponseCode);
 
-			if (isPopup) {
-				// Send error message to parent window
-				window.opener.postMessage(
+			if (isEmbedded && parentWindow) {
+				// Send error message to popup opener or iframe parent window
+				parentWindow.postMessage(
 					{
+						source: "hosted-payment-return",
 						type: vnpResponseCode === "24" ? "PAYMENT_CANCELLED" : "PAYMENT_ERROR",
 						data: {
 							responseCode: vnpResponseCode,
@@ -86,9 +96,11 @@ export default function VNPayReturnPage() {
 					window.location.origin
 				);
 
-				setTimeout(() => {
-					window.close();
-				}, 500);
+				if (isPopup) {
+					setTimeout(() => {
+						window.close();
+					}, 500);
+				}
 			} else {
 				// Full redirect scenario - redirect to checkout with error
 				const checkoutId = params.get("checkout") || sessionStorage.getItem("checkoutId");

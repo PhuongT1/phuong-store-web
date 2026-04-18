@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const toggleVariants = cva(
 	cn(
 		"inline-flex items-center justify-center gap-2 rounded-full text-[12px] font-semibold tracking-[-0.01em] transition-[background-color,color,border-color,box-shadow] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/45 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-		"border border-border/70 bg-card/95 text-muted-foreground hover:bg-accent/70 hover:text-foreground data-[state=on]:border-info/55 data-[state=on]:bg-info/12 data-[state=on]:text-info data-[state=on]:shadow-[inset_0_1px_0_rgba(255,255,255,0.24)] dark:data-[state=on]:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+		"border border-border/68 bg-card/96 text-muted-foreground hover:bg-accent/75 hover:text-foreground data-[state=on]:border-info/52 data-[state=on]:bg-info/11 data-[state=on]:text-info data-[state=on]:shadow-[0_10px_18px_-16px_rgba(2,132,199,0.58),inset_0_1px_0_rgba(255,255,255,0.24)] dark:data-[state=on]:shadow-[0_12px_22px_-16px_rgba(2,132,199,0.55),inset_0_1px_0_rgba(255,255,255,0.08)]"
 	),
 	{
 		variants: {

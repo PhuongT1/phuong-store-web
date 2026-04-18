@@ -12,8 +12,10 @@ interface LineItemQuantitySelectorProps {
 export const SummaryItemMoneySection: React.FC<LineItemQuantitySelectorProps> = ({ line }) => {
 	const t = useTranslations("checkout");
 	return (
-		<div className="flex flex-col items-end">
-			<p>{t("quantity")}: {line.quantity}</p>
+		<div className="flex flex-col items-end gap-0.5">
+			<p className="text-muted-foreground text-xs sm:text-sm">
+				{t("quantity")}: <span className="text-foreground font-semibold">{line.quantity}</span>
+			</p>
 			<SummaryItemMoneyInfo {...line} />
 		</div>
 	);

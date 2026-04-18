@@ -24,6 +24,7 @@ export * from "./FieldWrapper";
 export * from "./Sheet";
 export * from "./DropdownMenu";
 export * from "./DropdownMenuElement";
+export * from "./Drawer";
 export * from "./Toggle";
 export * from "./ToggleGroup";
 export * from "./Slider";

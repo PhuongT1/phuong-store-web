@@ -2,7 +2,7 @@ import { type Metadata } from "next";
 import { generatePageMetadata } from "@/lib/metadata";
 import { OrderConfirmationWrapper } from "./OrderConfirmationWrapper";
 
-export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("checkout");
+export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("orderConfirmation");
 
 type OrderConfirmationPageParams = Promise<{ order?: string }>;
 

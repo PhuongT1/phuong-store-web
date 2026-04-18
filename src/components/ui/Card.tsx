@@ -50,7 +50,7 @@ CardFooter.displayName = "CardFooter";
 
 const CardBox = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
 	return (
-		<Card className={cn("bg-muted/70 border-border/40 shadow-none hover:translate-y-0 hover:shadow-none", className)} {...props}>
+		<Card className={cn("bg-muted/62 border-border/52 shadow-none hover:translate-y-0 hover:shadow-none", className)} {...props}>
 			{children}
 		</Card>
 	);

@@ -20,7 +20,7 @@ const SelectTrigger = React.forwardRef<
 		suppressHydrationWarning
 		ref={ref}
 		className={cn(
-			"border-border/70 bg-input/95 placeholder:text-muted-foreground focus:ring-info/30 focus:border-info/70 flex h-10 w-full items-center justify-between rounded-[calc(var(--radius)-3px)] border px-3 py-2 text-sm whitespace-nowrap shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] [&>span]:line-clamp-1",
+			"border-border/70 bg-input/96 placeholder:text-muted-foreground focus:ring-info/30 focus:border-info/70 flex h-10 w-full items-center justify-between rounded-[calc(var(--radius)-4px)] border px-3 py-2 text-sm whitespace-nowrap shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] [&>span]:line-clamp-1",
 			className
 		)}
 		{...props}
@@ -70,7 +70,7 @@ const SelectContent = React.forwardRef<
 			suppressHydrationWarning
 			ref={ref}
 			className={cn(
-				"surface-overlay rounded-[calc(var(--radius)+2px)]",
+				"surface-overlay rounded-[calc(var(--radius)+3px)]",
 				"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
 				"data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
 				"relative z-50 max-h-96 min-w-[8rem] overflow-hidden",
@@ -116,7 +116,7 @@ const SelectItem = React.forwardRef<
 	<SelectPrimitive.Item
 		ref={ref}
 		className={cn(
-			"focus:bg-accent/70 focus:text-accent-foreground relative flex w-full cursor-default items-center rounded-lg py-2.5 pr-8 pl-3 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+			"focus:bg-accent/75 focus:text-accent-foreground relative flex w-full cursor-default items-center rounded-lg py-2.5 pr-8 pl-3 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
 		)}
 		{...props}

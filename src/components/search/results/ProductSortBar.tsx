@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Sheet, SheetContent, SheetTitle } from "@ui";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@ui";
 import { SlidersHorizontal } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { OrderDirection, ProductOrderField } from "@/gql/graphql";
@@ -111,25 +111,22 @@ const ProductSortBar = ({ resultCount }: ProductSortBarProps) => {
 				</div>
 			</div>
 
-			{/* ── Filter Drawer (mobile) — slides bottom → top ── */}
-			<Sheet open={filterOpen} onOpenChange={setFilterOpen}>
-				<SheetContent
-					forceMount
-					side="bottom"
-					className="surface-overlay data-[state=closed]:duration-150 data-[state=open]:duration-220 flex h-[60svh] max-h-[60svh] flex-col gap-0 overflow-hidden rounded-t-[24px] border-t p-0 transform-gpu will-change-transform [&>button]:hidden"
+			{/* ── Filter Drawer (mobile) — Vaul/shadcn style ── */}
+			<Drawer open={filterOpen} onOpenChange={setFilterOpen}>
+				<DrawerContent
+					onOpenAutoFocus={(event) => event.preventDefault()}
+					className="surface-overlay flex h-[60svh] max-h-[60svh] flex-col gap-0 overflow-hidden rounded-t-[24px] border-t p-0 [contain:layout_paint]"
 				>
-					{/* Handle bar */}
-					<div className="bg-border/60 mx-auto mb-0 mt-1.5 h-1 w-10 shrink-0 rounded-full" />
-					{/* Header */}
-					<div className="border-border/65 bg-popover/90 flex shrink-0 items-center justify-between border-b px-3 pt-1.5 pb-2 sm:px-4">
-						<SheetTitle className="leading-none text-[15px] font-semibold sm:text-base">{tf("title")}</SheetTitle>
-					</div>
-					{/* Scrollable filter content — fills remaining height */}
+					<DrawerHeader className="border-border/65 bg-popover/90 shrink-0 border-b px-3 pt-2.5 pb-2 sm:px-4">
+						<DrawerTitle className="leading-none text-[15px] font-semibold sm:text-base">
+							{tf("title")}
+						</DrawerTitle>
+					</DrawerHeader>
 					<div className="min-h-0 flex-1 overflow-hidden">
 						<ProductFilter onClickBtnSubmit={() => setFilterOpen(false)} />
 					</div>
-				</SheetContent>
-			</Sheet>
+				</DrawerContent>
+			</Drawer>
 		</>
 	);
 };

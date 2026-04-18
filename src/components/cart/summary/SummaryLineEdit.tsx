@@ -27,6 +27,7 @@ export type SummaryLineEditProps = {
 	editable?: boolean;
 	isSelected?: boolean;
 	onToggleSelect?: (id: string) => void;
+	compact?: boolean;
 };
 
 const SummaryLineEdit = React.memo(
@@ -36,7 +37,8 @@ const SummaryLineEdit = React.memo(
 		index: indexLine,
 		editable = true,
 		isSelected = false,
-		onToggleSelect
+		onToggleSelect,
+		compact = false
 	}: SummaryLineEditProps) => {
 		const t = useTranslations("cart");
 		const { control, watch, setError, setValue } = useFormContext<SummaryLines>();
@@ -115,39 +117,66 @@ const SummaryLineEdit = React.memo(
 			handleChangeQuantity(quantity);
 		};
 
-		return (
-			<li
-				key={line.id}
-				className={cn(
-					"border-border flex flex-wrap items-center gap-2 border-b py-3 transition-opacity duration-300 last:border-none sm:py-4",
-					isUpdating && "pointer-events-none",
-					isSelected && "bg-info/5"
-				)}
-				data-testid="SummaryItem"
-				>
+			return (
+				<li
+					key={line.id}
+					className={cn(
+						compact
+							? "bg-secondary/28 ring-border/38 flex flex-wrap items-start gap-2 rounded-2xl px-2.5 py-2.5 ring-1 transition-opacity duration-300 min-[1025px]:rounded-none min-[1025px]:bg-transparent min-[1025px]:px-0 min-[1025px]:py-4 min-[1025px]:ring-0 min-[1025px]:last:border-none"
+							: "border-border/55 bg-card/58 flex flex-wrap items-start gap-2 rounded-xl border px-2 py-2 transition-opacity duration-300 dark:bg-card/52 sm:rounded-none sm:border-0 sm:border-b sm:bg-transparent sm:px-0 sm:py-4 sm:last:border-none",
+						isUpdating && "pointer-events-none",
+						isSelected &&
+							(compact
+								? "bg-info/10 ring-info/35 shadow-[0_14px_28px_-24px_rgba(56,189,248,0.44)]"
+								: "border-info/45 bg-info/8 dark:bg-info/10")
+					)}
+					data-testid="SummaryItem"
+					>
 					{editable && onToggleSelect && (
 						<Checkbox
 							checked={isSelected}
 							onCheckedChange={() => onToggleSelect(line._id)}
-							className="mt-1 self-start"
+							className={cn("self-start", compact ? "mt-1 h-4 w-4 min-[1025px]:h-4 min-[1025px]:w-4" : "mt-1")}
 						/>
 					)}
-				<div className="bg-product-image-bg border-border/65 flex aspect-square h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border ring-1 ring-black/[0.04] dark:ring-white/[0.06] sm:h-16 sm:w-16 sm:rounded-xl md:h-[72px] md:w-[72px]">
-					{productImage ? (
-						<ImageItem
-							src={productImage.url}
-							alt={productImage.alt}
-							className="object-contain p-1 drop-shadow-[0_8px_16px_rgba(15,23,42,0.16)] dark:drop-shadow-[0_12px_24px_rgba(0,0,0,0.56)]"
-						/>
-					) : (
-						<ImageIcon className="text-muted-foreground/50 h-7 w-7 sm:h-8 sm:w-8" />
-					)}
-				</div>
-				<div className="relative flex flex-1 flex-col justify-between gap-2">
-					<div className="flex justify-between justify-items-start gap-1">
-						<div className="flex flex-col gap-y-1">
-							<p className="text-sm font-medium sm:text-base">{productName}</p>
-							<div className="flex flex-wrap gap-1.5 sm:gap-2">
+					<div
+						className={cn(
+							"bg-product-image-bg border-border/68 flex aspect-square shrink-0 items-center justify-center overflow-hidden border ring-1 ring-black/[0.04] dark:ring-white/[0.08]",
+							compact
+								? "h-14 w-14 rounded-xl min-[1025px]:h-16 min-[1025px]:w-16 min-[1025px]:rounded-xl xl:h-[72px] xl:w-[72px]"
+								: "h-12 w-12 rounded-lg sm:h-16 sm:w-16 sm:rounded-xl md:h-[72px] md:w-[72px]"
+						)}
+					>
+						{productImage ? (
+							<ImageItem
+								src={productImage.url}
+								alt={productImage.alt}
+								className={cn(
+									"object-contain drop-shadow-[0_8px_16px_rgba(15,23,42,0.18)] dark:brightness-[1.08] dark:contrast-[1.08] dark:drop-shadow-[0_14px_28px_rgba(0,0,0,0.62)]",
+									compact ? "p-0.5 min-[1025px]:p-1" : "p-1"
+								)}
+							/>
+						) : (
+							<ImageIcon
+								className={cn(
+									"text-muted-foreground/50",
+									compact ? "h-6 w-6 min-[1025px]:h-8 min-[1025px]:w-8" : "h-7 w-7 sm:h-8 sm:w-8"
+								)}
+							/>
+						)}
+					</div>
+					<div className="relative flex flex-1 flex-col justify-between gap-1">
+						<div className={cn("flex justify-between justify-items-start", compact ? "gap-1" : "gap-1.5")}>
+							<div className="min-w-0 flex flex-col gap-y-0.5">
+								<p
+									className={cn(
+										"truncate font-semibold",
+										compact ? "text-[15px] leading-5 min-[1025px]:text-base" : "text-[15px] leading-5 sm:text-base"
+									)}
+								>
+									{productName}
+								</p>
+								<div className={cn("flex flex-wrap", compact ? "gap-1 min-[1025px]:gap-2" : "gap-1.5 sm:gap-2")}>
 								{editable &&
 									line.variant?.assignedAttributes?.map((item: unknown, index: number) => {
 										const { attribute } = item as AssignedSingleChoiceAttribute;
@@ -158,8 +187,13 @@ const SummaryLineEdit = React.memo(
 										}));
 
 										return (
-											<div key={index} className="flex flex-col gap-0.5 sm:gap-1">
-												<p className="text-muted-foreground text-[11px] font-medium sm:text-xs">
+											<div key={index} className={cn("flex flex-col", compact ? "gap-0.5 min-[1025px]:gap-1" : "gap-0.5 sm:gap-1")}>
+												<p
+													className={cn(
+														"text-muted-foreground font-medium",
+														compact ? "text-[10px] min-[1025px]:text-xs" : "text-[11px] sm:text-xs"
+													)}
+												>
 													{attribute.name}
 												</p>
 												<FormCombobox
@@ -197,48 +231,77 @@ const SummaryLineEdit = React.memo(
 										);
 									})}
 								{!editable && line.variant?.name && (
-									<p className="text-muted-foreground text-xs sm:text-sm">{line.variant.name}</p>
+									<p className={cn("text-muted-foreground", compact ? "text-[11px] min-[1025px]:text-sm" : "text-xs sm:text-sm")}>
+										{line.variant.name}
+									</p>
 								)}
 							</div>
 						</div>
 						<div className={cn(isUpdating && "animate-pulse")}>{children}</div>
 					</div>
 				</div>
-				{editable && (
-					<div className="flex w-full items-center justify-end gap-2.5 sm:gap-3">
-						<ConfirmDeleteDialog confirmButtonProps={{ onClick: () => checkoutDelete(line._id) }} />
-						<div className="bg-card border-border/60 inline-flex h-8 items-center overflow-hidden rounded-lg border shadow-sm sm:h-9">
-							<Button
-								variant="ghost"
-								size="icon"
-								className="border-border/60 text-muted-foreground hover:bg-accent/40 hover:text-foreground h-full w-8 rounded-none border-r shadow-none sm:w-9 transition-colors"
-								onClick={() => handleUpdateQuantity(quantity - 1)}
+					{editable && (
+						<div
+							className={cn(
+								"mt-1 flex w-full items-center",
+								compact ? "justify-between gap-1.5 min-[1025px]:mt-0 min-[1025px]:justify-end min-[1025px]:gap-3" : "justify-between gap-2 sm:mt-0 sm:justify-end sm:gap-3"
+							)}
+						>
+							<ConfirmDeleteDialog
+								confirmButtonProps={{ onClick: () => checkoutDelete(line._id) }}
+								triggerButtonClassName={cn(
+									compact ? "h-8 w-8 min-[1025px]:h-9 min-[1025px]:w-9" : undefined
+								)}
+								triggerIconClassName={cn(compact ? "h-4 w-4 min-[1025px]:h-5 min-[1025px]:w-5" : undefined)}
+							/>
+							<div
+								className={cn(
+									"border-border/72 bg-card/98 dark:bg-muted/36 inline-flex items-center overflow-hidden rounded-lg border shadow-sm",
+									compact ? "h-8 min-[1025px]:h-9" : "h-[34px] sm:h-9"
+								)}
 							>
-								<Minus size={14} />
+								<Button
+									variant="ghost"
+									size="icon"
+									className={cn(
+										"border-border/68 text-foreground/85 hover:bg-accent/48 hover:text-foreground h-full rounded-none border-r shadow-none transition-colors",
+										compact ? "w-[30px] min-[1025px]:w-9" : "w-8 sm:w-9"
+									)}
+									onClick={() => handleUpdateQuantity(quantity - 1)}
+								>
+									<Minus size={14} />
 							</Button>
-							<FormInput
+								<FormInput
 								type="number"
 								name={quantityPath}
-								control={control}
-								affixWrapperProps={{
-									className: "rounded-none border-0 focus-within:ring-0 bg-transparent h-8 px-0.5 sm:h-9 sm:px-1 shadow-none"
-								}}
-								inputProps={{
-									sizeVariant: "small",
-									min: 1,
-									max: 50,
-									required: true,
-									allowLeadingZeros: false,
-									className: "w-[38px] text-center text-xs font-medium sm:w-[44px] sm:text-sm",
-									onValueCommit: handleChangeQuantity
-								}}
-							/>
-							<Button
-								variant="ghost"
-								size="icon"
-								className="border-border/60 text-muted-foreground hover:bg-accent/40 hover:text-foreground h-full w-8 rounded-none border-l shadow-none sm:w-9 transition-colors"
-								onClick={() => handleUpdateQuantity(quantity + 1)}
-							>
+									control={control}
+									affixWrapperProps={{
+										className: cn(
+											"rounded-none border-0 bg-transparent shadow-none focus-within:ring-0",
+											compact ? "h-8 px-0 min-[1025px]:h-9 min-[1025px]:px-1" : "h-[34px] px-0 sm:h-9 sm:px-1"
+										)
+									}}
+									inputProps={{
+										sizeVariant: "small",
+										min: 1,
+										max: 50,
+										required: true,
+										allowLeadingZeros: false,
+										className: compact
+											? "text-foreground w-[32px] text-center text-[11px] font-semibold min-[1025px]:w-[46px] min-[1025px]:text-sm"
+											: "text-foreground w-[38px] text-center text-xs font-semibold sm:w-[46px] sm:text-sm",
+										onValueCommit: handleChangeQuantity
+									}}
+								/>
+								<Button
+									variant="ghost"
+									size="icon"
+									className={cn(
+										"border-border/68 text-foreground/85 hover:bg-accent/48 hover:text-foreground h-full rounded-none border-l shadow-none transition-colors",
+										compact ? "w-[30px] min-[1025px]:w-9" : "w-8 sm:w-9"
+									)}
+									onClick={() => handleUpdateQuantity(quantity + 1)}
+								>
 								<Plus size={14} />
 							</Button>
 						</div>

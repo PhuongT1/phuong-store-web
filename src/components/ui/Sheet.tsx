@@ -21,7 +21,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<SheetPrimitive.Overlay
 		className={cn(
-			"fixed inset-0 z-50 bg-overlay backdrop-blur-[2px] sm:backdrop-blur-[6px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+			"fixed inset-0 z-50 bg-overlay backdrop-blur-0 transition-opacity data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=open]:duration-300 data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:backdrop-blur-[5px]",
 			className
 		)}
 		{...props}
@@ -31,7 +31,7 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-	"surface-overlay fixed z-50 gap-4 rounded-[calc(var(--radius)+4px)] transition ease-out data-[state=closed]:duration-180 data-[state=open]:duration-260 data-[state=open]:animate-in data-[state=closed]:animate-out",
+	"surface-overlay fixed z-50 gap-4 rounded-[calc(var(--radius)+4px)] transform-gpu will-change-transform transition-[transform,opacity] ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=closed]:duration-200 data-[state=open]:duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out motion-reduce:transition-none",
 	{
 		variants: {
 			side: {

@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { ContainerLayout } from "@/components/layouts";
 import { PageGetBySlugDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
+import { buildMetadata, resolveMetadataValue } from "@/lib/metadata";
 import { RenderRichText } from "@components/product";
 
 const parser = edjsHTML();
@@ -16,10 +17,10 @@ export const generateMetadata = async ({ params }: { params: { slug: string } })
 		}
 	});
 
-	return {
-		title: `${page?.seoTitle || page?.title || "Page"}`,
-		description: page?.seoDescription || page?.seoTitle || page?.title
-	};
+	return buildMetadata({
+		title: resolveMetadataValue(page?.seoTitle, page?.title, "Page"),
+		description: resolveMetadataValue(page?.seoDescription, page?.title)
+	});
 };
 
 export default async function Page({ params }: { params: { slug: string } }) {

@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import { login } from "@/action/auth";
+import { login, syncCheckoutWithUser } from "@/action/auth";
 import { deriveAutoPassword } from "@/lib/auth/deriveAutoPassword";
 
 export const authProviders = [
@@ -29,6 +29,9 @@ export const authProviders = [
 				if (!data?.token) {
 					return null;
 				}
+
+				// Sync checkout: attach anonymous cart or fetch existing cart
+				await syncCheckoutWithUser(data.token);
 
 				return {
 					id: "CredentialsProviderID",

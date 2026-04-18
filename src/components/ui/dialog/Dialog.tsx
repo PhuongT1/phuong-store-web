@@ -20,7 +20,7 @@ const DialogOverlay = React.forwardRef<
 	<DialogPrimitive.Overlay
 		ref={ref}
 		className={cn(
-			"bg-overlay fixed inset-0 z-50 backdrop-blur-[6px] transition-all duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+			"bg-overlay fixed inset-0 z-50 backdrop-blur-0 transition-opacity data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=open]:duration-300 data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 sm:backdrop-blur-[5px]",
 			className
 		)}
 		{...props}
@@ -34,24 +34,26 @@ const DialogContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
 	<DialogPortal>
 		<DialogOverlay />
-		<DialogPrimitive.Content
-			ref={ref}
-			className={cn(
-				"surface-overlay",
-				"data-[state=open]:animate-in data-[state=closed]:animate-out",
-				"data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-				"data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-				"data-[state=open]:slide-in-from-bottom-1 data-[state=closed]:slide-out-to-bottom-1",
-				"fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%]",
-				"gap-4 p-6 duration-300 ease-out",
-				"rounded-[calc(var(--radius)+4px)] focus:outline-none sm:max-w-lg",
-				"dark:[--input:oklch(1_0_0_/_0.05)]",
-				className
-			)}
+			<DialogPrimitive.Content
+				ref={ref}
+				className={cn(
+					"surface-overlay",
+					"transform-gpu will-change-transform",
+					"data-[state=open]:animate-in data-[state=closed]:animate-out",
+					"data-[state=closed]:duration-200 data-[state=open]:duration-300",
+					"data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+					"data-[state=open]:slide-in-from-bottom-2 data-[state=closed]:slide-out-to-bottom-2",
+					"fixed top-auto right-auto bottom-0 left-[50%] z-50 grid w-full max-w-full translate-x-[-50%] translate-y-0",
+					"gap-4 p-6 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+					"rounded-t-[calc(var(--radius)+10px)] rounded-b-none focus:outline-none sm:top-[50%] sm:bottom-auto sm:max-w-lg sm:translate-y-[-50%] sm:rounded-[calc(var(--radius)+4px)]",
+					"sm:data-[state=closed]:zoom-out-95 sm:data-[state=open]:zoom-in-95 sm:data-[state=open]:slide-in-from-bottom-1 sm:data-[state=closed]:slide-out-to-bottom-1",
+					"dark:[--input:oklch(1_0_0_/_0.05)]",
+					className
+				)}
 			{...props}
 		>
 			{children}
-			<DialogPrimitive.Close className="text-muted-foreground hover:text-foreground hover:bg-accent/75 focus:ring-ring absolute top-3.5 right-4 inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none">
+			<DialogPrimitive.Close className="text-muted-foreground hover:text-foreground hover:bg-accent/75 focus:ring-ring absolute top-3.5 right-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-transparent transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none">
 				<Cross2Icon className="h-4 w-4" />
 				<span className="sr-only">Close</span>
 			</DialogPrimitive.Close>

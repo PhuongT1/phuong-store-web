@@ -34,7 +34,7 @@ const SearchSuggestionsPanel = ({ query, channel, onClose, onNavigate }: SearchS
 	const showCategories = isLoading || relatedCategories.length > 0;
 
 	return (
-		<div className="bg-popover/95 text-popover-foreground flex flex-col">
+		<div className="bg-popover/95 text-popover-foreground flex flex-col overflow-hidden rounded-[inherit]">
 			{showCategories && (
 				<div className="border-border/45 bg-muted/25 border-b px-4 py-3">
 					<SuggestionLabel label={t("relatedCategories")} />

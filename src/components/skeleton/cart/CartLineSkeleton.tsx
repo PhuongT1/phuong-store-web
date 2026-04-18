@@ -6,11 +6,11 @@ import { Skeleton } from "../Skeleton";
 
 const CartLineSkeleton = () => {
 	return (
-		<li className="border-border/40 flex gap-5 border-b p-5 last:border-none lg:gap-6 lg:p-6">
-			<ImageSkeleton
-				skeletonProps={{ className: "h-24 w-24 shrink-0 rounded-xl sm:h-28 sm:w-28" }}
-				imageProps={{ size: 68 }}
-			/>
+		<li className="border-border/55 bg-card/52 flex gap-3 rounded-xl border p-3 sm:gap-5 sm:p-5 lg:gap-6 lg:p-6">
+				<ImageSkeleton
+					skeletonProps={{ className: "h-[64px] w-[64px] shrink-0 rounded-lg sm:h-28 sm:w-28 sm:rounded-xl" }}
+					imageProps={{ size: 68 }}
+				/>
 			<div className="flex flex-1 flex-col justify-between gap-3">
 				<div className="flex items-start justify-between gap-2">
 					<div className="flex flex-1 flex-col gap-1.5">

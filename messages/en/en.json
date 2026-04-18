@@ -1,6 +1,6 @@
 {
 	"metadata": {
-		"defaultTitle": "Phuong Store - Online Shopping",
+		"defaultTitle": "Deal24",
 		"defaultDescription": "Shop authentic products online at the best prices. Nationwide delivery.",
 		"home": {
 			"title": "Home",
@@ -30,13 +30,37 @@
 			"title": "Account",
 			"description": "Manage your account and orders"
 		},
+		"profile": {
+			"title": "My profile",
+			"description": "View and update your account information"
+		},
+		"address": {
+			"title": "Address book",
+			"description": "Manage your shipping and billing addresses"
+		},
+		"settings": {
+			"title": "Settings",
+			"description": "Manage your account preferences and security"
+		},
 		"orders": {
 			"title": "Orders",
 			"description": "View your order history"
 		},
+		"orderConfirmation": {
+			"title": "Order confirmation",
+			"description": "Review your order confirmation and payment status"
+		},
+		"orderDetail": {
+			"title": "Order details #{id}",
+			"description": "Review the status, items, and shipping details of your order"
+		},
 		"rating": {
 			"title": "Product Reviews",
 			"description": "Read customer reviews"
+		},
+		"blog": {
+			"title": "Blog",
+			"description": "News, guides, and fresh style inspiration"
 		}
 	},
 	"common": {
@@ -195,7 +219,7 @@
 		"viewAll": "View all results"
 	},
 	"footer": {
-		"description": "Modern shopping experience with Saleor. We offer the highest quality products with dedicated service.",
+		"description": "A modern shopping experience with authentic products, curated selections, and dedicated service.",
 		"about": "Company",
 		"introduction": "About us",
 		"careers": "Careers",
@@ -287,8 +311,8 @@
 		"apply": "Apply",
 		"promoSuccess": "Discount code applied successfully",
 		"promoInvalid": "Invalid discount code",
-		"promoRemoved": "Discount code removed",
-		"remove": "Remove",
+		"promoRemoved": "Discount code unapplied",
+		"remove": "Unapply",
 		"clearSelection": "Clear",
 		"deleteAddress": "Delete address",
 		"editAddress": "Edit address",

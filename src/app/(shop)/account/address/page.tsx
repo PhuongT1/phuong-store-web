@@ -4,7 +4,7 @@ import { executeGraphQL } from "@/lib/api/fetchGraphQL";
 import { generatePageMetadata } from "@/lib/metadata";
 import { AddressView } from "./AddressView";
 
-export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("account");
+export const generateMetadata = (): Promise<Metadata> => generatePageMetadata("address");
 
 export default async function AddressPage() {
 	const { me: user } = await executeGraphQL(CurrentUserDocument, {

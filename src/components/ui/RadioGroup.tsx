@@ -30,14 +30,15 @@ const RadioGroupItem = React.forwardRef<
 		<RadioGroupPrimitive.Item
 			ref={ref}
 			className={cn(
-				"border-border/80 focus-visible:ring-info/40 relative isolate aspect-square h-[18px] w-[18px] shrink-0 rounded-full border-2 bg-transparent transition-colors duration-200 focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
-				"data-[state=checked]:border-info",
+				"border-border/72 focus-visible:ring-focus-ring/40 relative isolate aspect-square h-[18px] w-[18px] shrink-0 rounded-full border-[1.5px] bg-background/92 transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out focus:outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-card/88",
+				"data-[state=checked]:border-info data-[state=checked]:bg-background dark:data-[state=checked]:bg-card",
+				"data-[state=checked]:shadow-[0_0_0_3px_rgba(14,165,233,0.16)] dark:data-[state=checked]:shadow-[0_0_0_3px_rgba(56,189,248,0.18)]",
 				className
 			)}
 			{...props}
 		>
 			<RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-				<span className="bg-info h-2 w-2 rounded-full" />
+				<span className="bg-info h-[8px] w-[8px] rounded-full" />
 			</RadioGroupPrimitive.Indicator>
 		</RadioGroupPrimitive.Item>
 	);
@@ -66,24 +67,26 @@ const radioVariants = cva("relative flex items-center space-x-2", {
 	variants: {
 		variant: {
 			default: "",
-			border: [
-				"group",
-				"cursor-pointer",
-				"touch-manipulation",
-				"flex flex-row items-center gap-3 space-x-0",
-				"border border-border/65",
-				"hover:border-border/90",
-				"bg-card",
-				"p-4",
-				"rounded-2xl",
-				"transition-all duration-200",
-				"shadow-sm",
-				"has-[button[data-state='checked']]:border-info/55",
-				"has-[button[data-state='checked']]:bg-info/8",
-				"has-[button[data-state='checked']]:shadow-md"
-			]
-		}
-	},
+				border: [
+					"group",
+					"cursor-pointer",
+					"touch-manipulation",
+					"flex flex-row items-center gap-3 space-x-0",
+					"border border-border/55",
+					"hover:border-border/78",
+					"bg-card/94",
+					"p-4",
+					"rounded-2xl",
+					"transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out",
+					"shadow-sm",
+					"has-[button[data-state='checked']]:border-info/45",
+					"has-[button[data-state='checked']]:bg-info/[0.06]",
+					"has-[button[data-state='checked']]:shadow-[0_10px_24px_rgba(15,23,42,0.08)]",
+					"dark:has-[button[data-state='checked']]:bg-info/[0.08]",
+					"dark:has-[button[data-state='checked']]:shadow-[0_10px_28px_rgba(2,8,23,0.3)]"
+				]
+			}
+		},
 	defaultVariants: {
 		variant: "default"
 	}
@@ -121,7 +124,7 @@ const RadioItem = React.forwardRef<HTMLLabelElement, RadioItemProps>(
 					onKeyDown?.(event);
 				}}
 				className={cn(radioVariants({ variant }), safeDivProps?.className, {
-					"border-info/60": variant === "border" && isActive,
+					"border-info/45 bg-info/[0.06] dark:bg-info/[0.08]": variant === "border" && isActive,
 					"pointer-events-none opacity-50": disabled
 				})}
 			>

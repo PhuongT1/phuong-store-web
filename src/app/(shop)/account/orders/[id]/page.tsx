@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { GetOrderDetailDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/api/fetchGraphQL";
+import { buildMetadata } from "@/lib/metadata";
 import { formatDate, formatMoney } from "@/lib/utils";
 import { OrderLineThumbnail } from "@/ui/atoms/OrderLineThumbnail";
 
@@ -14,7 +15,12 @@ export const generateMetadata = async ({
 	params: Promise<{ id: string }>;
 }): Promise<Metadata> => {
 	const { id } = await params;
-	return { title: `Chi tiết đơn hàng #${id}` };
+	const t = await getTranslations("metadata");
+
+	return buildMetadata({
+		title: t("orderDetail.title", { id: decodeURIComponent(id) }),
+		description: t("orderDetail.description")
+	});
 };
 
 export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {

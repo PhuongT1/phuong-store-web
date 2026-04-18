@@ -9,9 +9,9 @@ export const PaymentSection = () => {
 	return (
 		<>
 			<Separator />
-			<div className="py-2 sm:py-4" data-testid="paymentMethods">
-				<div className="mb-3 flex items-center gap-2.5">
-					<div className="bg-icon-bg flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
+			<div className="py-4 min-[1025px]:py-4" data-testid="paymentMethods">
+				<div className="mb-3.5 flex items-center gap-3">
+					<div className="bg-secondary/42 flex h-9 w-9 shrink-0 items-center justify-center rounded-(--radius)">
 						<Wallet className="text-info h-5 w-5" strokeWidth={1.5} />
 					</div>
 					<Typography

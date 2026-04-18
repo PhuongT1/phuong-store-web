@@ -32,12 +32,12 @@ export const OrderCreatingOverlay = ({ isOpen }: OrderCreatingOverlayProps) => {
 	if (!isOpen || !mounted) return null;
 
 	return createPortal(
-		<div className="fixed inset-0 z-[120] flex items-center justify-center">
+		<div className="fixed inset-0 z-[130] flex items-center justify-center p-4">
 			{/* Backdrop */}
-			<div className="bg-overlay absolute inset-0 backdrop-blur-sm" />
+			<div className="bg-overlay absolute inset-0 backdrop-blur-[1.5px] sm:backdrop-blur-[5px]" />
 
 			{/* Card */}
-			<div className="surface-overlay relative z-10 w-full max-w-md p-8 text-center">
+			<div className="surface-overlay relative z-10 w-full max-w-[min(26rem,calc(100vw-2rem))] p-7 text-center sm:p-8">
 				{/* Spinner */}
 				<div className="mx-auto mb-6 h-20 w-20">
 					<div className="border-muted/80 border-t-info h-full w-full animate-spin rounded-full border-4" />
@@ -47,9 +47,9 @@ export const OrderCreatingOverlay = ({ isOpen }: OrderCreatingOverlayProps) => {
 				<p className="text-muted-foreground">{t("creatingOrderWait")}</p>
 
 				{/* Pulse dot row */}
-				<div className="bg-info/12 border-info/25 mt-6 flex items-center justify-center gap-2 rounded-lg border p-3">
+				<div className="bg-info/12 border-info/28 mt-6 flex items-center justify-center gap-2 rounded-xl border p-3" aria-live="polite">
 					<div className="bg-info h-2 w-2 animate-pulse rounded-full" />
-					<p className="text-info text-sm">{t("processing")}</p>
+					<p className="text-info text-sm font-medium">{t("processing")}</p>
 				</div>
 			</div>
 		</div>,

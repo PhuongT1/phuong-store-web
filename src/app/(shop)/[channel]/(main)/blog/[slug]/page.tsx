@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { ContainerLayout } from "@/components/layouts";
 import { RenderRichText } from "@components/product";
 import { SAMPLE_BLOG_POSTS, BLOG_META, TAG_STYLES_DETAIL } from "@/lib/blog-samples";
+import { buildMetadata, resolveMetadataValue } from "@/lib/metadata";
 
 type PageProps = {
 	params: Promise<{ channel: string; slug: string }>;
@@ -12,11 +13,17 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
 	const { slug } = await params;
 	const post = SAMPLE_BLOG_POSTS.find((p) => p.slug === slug);
-	if (!post) return { title: "Blog — Phương Store" };
-	return {
-		title: post.seoTitle ?? post.title,
-		description: post.seoDescription ?? post.title
-	};
+	if (!post) {
+		return buildMetadata({
+			title: "Blog",
+			description: "Tin tức, hướng dẫn và cảm hứng thời trang mỗi tuần."
+		});
+	}
+
+	return buildMetadata({
+		title: resolveMetadataValue(post.seoTitle, post.title, "Blog"),
+		description: resolveMetadataValue(post.seoDescription, post.title)
+	});
 }
 
 export default async function BlogPostPage({ params }: PageProps) {

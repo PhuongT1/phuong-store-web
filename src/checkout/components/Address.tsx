@@ -6,24 +6,7 @@ interface AddressProps {
 	address: AddressFragment;
 }
 
-const normalizeAddressPart = (value?: string | null) => {
-	if (!value) return "";
-
-	const trimmed = value.trim();
-	if (!trimmed) return "";
-
-	const letterCount = (trimmed.match(/\p{L}/gu) || []).length;
-	const upperCount = (trimmed.match(/\p{Lu}/gu) || []).length;
-	const isMostlyUppercase = letterCount > 0 && upperCount / letterCount > 0.8;
-
-	if (!isMostlyUppercase) {
-		return trimmed;
-	}
-
-	return trimmed
-		.toLocaleLowerCase("vi-VN")
-		.replace(/\b(\p{L})/gu, (match) => match.toLocaleUpperCase("vi-VN"));
-};
+const normalizeAddressPart = (value?: string | null) => value?.trim() ?? "";
 
 export const Address: React.FC<PropsWithChildren<AddressProps>> = ({ address, children, ...textProps }) => {
 	const name = `${address.firstName} ${address.lastName}`;
@@ -40,12 +23,12 @@ export const Address: React.FC<PropsWithChildren<AddressProps>> = ({ address, ch
 	return (
 		<div className="pointer-events-none flex flex-col gap-y-1">
 			{nameValid && (
-				<p {...textProps} className="text-foreground mb-1 text-base font-semibold">
+				<p {...textProps} className="text-foreground mb-1 text-[15px] font-semibold min-[1025px]:text-base">
 					{name}
 				</p>
 			)}
 			{!!phone && (
-				<div className="text-muted-foreground mb-1 flex items-center gap-2 text-sm">
+				<div className="text-muted-foreground mb-1 flex items-center gap-2 text-[13px] min-[1025px]:text-sm">
 					<svg
 						className="text-muted-foreground h-4 w-4"
 						fill="none"
@@ -63,7 +46,7 @@ export const Address: React.FC<PropsWithChildren<AddressProps>> = ({ address, ch
 				</div>
 			)}
 			{!!addressLine && (
-				<div className="text-muted-foreground flex items-start gap-2 text-sm">
+				<div className="text-muted-foreground flex items-start gap-2 text-[13px] leading-5 min-[1025px]:text-sm">
 					<svg
 						className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0"
 						fill="none"

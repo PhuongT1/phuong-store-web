@@ -1,9 +1,19 @@
 import { Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 import { Button, ConfirmDialog } from "@components/ui";
 
-type ConfirmDeleteDialogProps = React.ComponentPropsWithoutRef<typeof ConfirmDialog>;
-const ConfirmDeleteDialog = ({ confirmButtonProps, ...rest }: ConfirmDeleteDialogProps) => {
+type ConfirmDeleteDialogProps = React.ComponentPropsWithoutRef<typeof ConfirmDialog> & {
+	triggerButtonClassName?: string;
+	triggerIconClassName?: string;
+};
+
+const ConfirmDeleteDialog = ({
+	confirmButtonProps,
+	triggerButtonClassName,
+	triggerIconClassName,
+	...rest
+}: ConfirmDeleteDialogProps) => {
 	const t = useTranslations("cart");
 	return (
 		<ConfirmDialog
@@ -12,8 +22,8 @@ const ConfirmDeleteDialog = ({ confirmButtonProps, ...rest }: ConfirmDeleteDialo
 			showConfirmButton
 			dialogTriggerProps={{
 				children: (
-					<Button variant="icon" size="icon">
-						<Trash2 size={20} strokeWidth={1} />
+					<Button variant="icon" size="icon" className={triggerButtonClassName}>
+						<Trash2 size={20} strokeWidth={1} className={cn(triggerIconClassName)} />
 					</Button>
 				)
 			}}

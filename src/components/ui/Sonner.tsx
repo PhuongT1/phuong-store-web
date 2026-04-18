@@ -41,7 +41,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
 					"--error-border": "var(--destructive)"
 				} as React.CSSProperties
 			}
-			position="top-right"
+			position="bottom-right"
 			icons={{
 				success: <CircleCheck className="size-5" style={{ color: "var(--success)" }} />,
 				error: <CircleAlert className="size-5" style={{ color: "var(--destructive)" }} />,
