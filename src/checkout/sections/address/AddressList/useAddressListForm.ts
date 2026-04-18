@@ -95,6 +95,17 @@ export const useAddressListForm = ({
 		return handleSubmit((data) => onSubmit(data))();
 	}, [handleSubmit, onSubmit]);
 
+	// Direct submit with a specific address id — bypasses the setValue/useEffect race condition.
+	// Call this when user explicitly picks an address from a modal/list.
+	const applyAddressById = useCallback(
+		async (id: string) => {
+			const currentList = getValues("addressList") ?? [];
+			setValue("selectedAddressId", id, { shouldDirty: true });
+			await onSubmit({ addressList: currentList, selectedAddressId: id });
+		},
+		[getValues, onSubmit, setValue]
+	);
+
 	// Debounce is used for text field changes (avoid spamming API while typing).
 	// Address selection from the list is a single deliberate click — submit immediately.
 	const debouncedSubmit = useDebouncedSubmit(submit, 1000);
@@ -187,7 +198,8 @@ export const useAddressListForm = ({
 		userAddressActions: {
 			onAddressCreateSuccess,
 			onAddressUpdateSuccess,
-			onAddressDeleteSuccess
+			onAddressDeleteSuccess,
+			applyAddressById
 		}
 	};
 };
