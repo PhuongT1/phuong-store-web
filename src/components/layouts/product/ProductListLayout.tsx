@@ -21,8 +21,8 @@ const ProductListLayout = ({ children, className, title, textHeading }: ProductL
 		<div className={cn("mt-3 flex w-full items-start gap-4 md:mt-4 md:gap-6", className)}>
 			{/* Sticky filter sidebar — needs `self-start` so sticky works inside flex */}
 			<div
-				className="sticky top-[var(--header-height,88px)] hidden w-1/4 max-w-[280px] shrink-0 self-start md:block"
-				style={{ maxHeight: "calc(100vh - var(--header-height, 88px) - 16px)" }}
+				className="sticky top-[var(--header-height,88px)] hidden w-1/4 max-w-[280px] shrink-0 self-start md:block [transform:translate3d(0,calc(var(--header-shift,0px)*-1),0)] transition-transform duration-300 ease-in-out will-change-transform motion-reduce:transition-none"
+				style={{ maxHeight: "calc(100vh - var(--header-height, 88px) - 16px + var(--header-shift, 0px))" }}
 			>
 				<ProductFilter />
 			</div>

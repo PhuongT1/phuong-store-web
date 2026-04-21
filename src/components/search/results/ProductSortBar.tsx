@@ -37,7 +37,7 @@ const ProductSortBar = ({ resultCount }: ProductSortBarProps) => {
 
 	return (
 		<>
-			<div className="surface-panel sticky top-[var(--header-height,88px)] z-30 mb-4 md:mb-5">
+			<div className="surface-panel sticky top-[var(--header-height,88px)] z-30 mb-4 md:mb-5 [transform:translate3d(0,calc(var(--header-shift,0px)*-1),0)] transition-transform duration-300 ease-in-out will-change-transform motion-reduce:transition-none">
 				{/* ── Mobile: horizontal scroll chips with fixed Filter button ── */}
 				<div className="relative flex items-center pr-[108px] md:hidden">
 					<div className="flex min-w-0 [touch-action:pan-x] items-center gap-2 overflow-x-auto px-3 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

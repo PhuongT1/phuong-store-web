@@ -27,7 +27,7 @@ const ProductFilter = ({ onClickBtnSubmit }: ProductFilterProps) => {
 		<aside
 			className={`flex flex-col overflow-hidden ${
 				!isMobile
-					? "surface-panel sticky top-[calc(var(--header-height)+1.5rem)] z-10 max-h-[calc(100vh-var(--header-height)-1.5rem)]"
+					? "surface-panel sticky top-[calc(var(--header-height,88px)+1.5rem)] z-10 max-h-[calc(100vh-var(--header-height,88px)-1.5rem+var(--header-shift,0px))] [transform:translate3d(0,calc(var(--header-shift,0px)*-1),0)] transition-transform duration-300 ease-in-out will-change-transform motion-reduce:transition-none"
 					: "h-full min-h-0"
 			}`}
 		>
