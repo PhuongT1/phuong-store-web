@@ -14,7 +14,7 @@ const RadioGroup = React.forwardRef<
 >(({ className, ...props }, ref) => {
 	return (
 		<RadioGroupPrimitive.Root
-			className={cn("grid grid-cols-1 gap-3 sm:grid-cols-2", className)}
+			className={cn("flex flex-col gap-3", className)}
 			{...props}
 			ref={ref}
 		/>
@@ -50,6 +50,7 @@ type RadioListProps = {
 	children?: React.ReactNode;
 	radioItemProps?: RadioItemProps;
 	allowDeselect?: boolean;
+	onValueChange?: (value: string) => void;
 } & OptionList<Option<string>> &
 	Omit<React.ComponentPropsWithoutRef<typeof RadioGroup>, "value" | "defaultValue" | "onValueChange">;
 
@@ -129,7 +130,7 @@ const RadioItem = React.forwardRef<HTMLLabelElement, RadioItemProps>(
 				})}
 			>
 				<RadioGroupItem value={value} id={value} disabled={disabled} />
-				<span {...labelProps} className={cn("w-full cursor-pointer text-left", labelProps?.className)}>
+				<span {...labelProps} className={cn("w-auto flex-1 cursor-pointer text-center", labelProps?.className)}>
 					{label}
 				</span>
 			</label>
@@ -139,7 +140,7 @@ const RadioItem = React.forwardRef<HTMLLabelElement, RadioItemProps>(
 RadioItem.displayName = "RadioItem";
 
 const RadioList = React.forwardRef<React.ElementRef<typeof RadioGroup>, RadioListProps>(
-	({ name, options, children, radioItemProps, allowDeselect = false, ...rest }, ref) => {
+	({ name, options, children, radioItemProps, allowDeselect = false, onValueChange, ...rest }, ref) => {
 		const { control } = useFormContext();
 		const { field } = useController({ name, control });
 
@@ -147,7 +148,10 @@ const RadioList = React.forwardRef<React.ElementRef<typeof RadioGroup>, RadioLis
 			<RadioGroup
 				{...rest}
 				ref={ref}
-				onValueChange={field.onChange}
+				onValueChange={(value) => {
+					field.onChange(value);
+					onValueChange?.(value);
+				}}
 				value={(field.value as string | undefined) ?? ""}
 			>
 				{children ? (

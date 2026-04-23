@@ -12,15 +12,18 @@ import { ratingFields } from "@/constants";
 import { useMuteProduct } from "@/hooks/useRatingProduct";
 import { type ProductItem } from "@/lib/utils";
 import { type RatingFrom } from "@/types";
+import { notify } from "@components/ui";
 import { Star, getStars } from "./HandleRender";
 import { ProductContext } from "./ProductContext";
 
 type RatingFormProps = {
 	onSuccess?: () => void;
+	onSettled?: () => void;
 } & Partial<ProductItem>;
 
-const RatingForm = ({ onSuccess, product: productDetail }: RatingFormProps) => {
+const RatingForm = ({ onSuccess, onSettled, product: productDetail }: RatingFormProps) => {
 	const t = useTranslations("rating");
+	const tc = useTranslations("common");
 	const productContext = useContext(ProductContext);
 	const product = productDetail ?? productContext.product;
 
@@ -64,47 +67,77 @@ const RatingForm = ({ onSuccess, product: productDetail }: RatingFormProps) => {
 			await trigger({ ...values, refProduct: product?.id || "" });
 			onSuccess?.();
 			method.reset();
-		} catch {}
+			notify.success(tc("updateSuccess"));
+		} catch (error) {
+			const message = error instanceof Error ? error.message : "Submit review failed";
+			notify.error(t("title"), { description: message });
+		} finally {
+			onSettled?.();
+		}
 	};
 
 	const form = () => (
 		<FormProvider methods={method} formProps={{ onSubmit: handleSubmit(onSubmit) }}>
-			<div className="flex flex-col gap-4">
-				<div className="flex flex-col items-center gap-3">
-					<ImageItem src={product?.thumbnail?.url || ""} />
-					<h3>{product?.name}</h3>
-					<FieldWrapper error={errors.rating?.message} className="items-center">
+			<div className="flex flex-col gap-3">
+				<div className="border-border/40 flex flex-col items-center gap-2 border-b pb-4">
+					{product?.thumbnail?.url && (
+						<div className="relative h-20 w-20 overflow-hidden rounded-xl border border-black/10 bg-black/5 p-2 dark:border-white/10 dark:bg-white/5">
+							<ImageItem
+								src={product.thumbnail.url}
+								alt={product.name}
+								className="h-full w-full object-contain mix-blend-multiply dark:mix-blend-normal"
+							/>
+						</div>
+					)}
+					<h3 className="text-foreground text-center text-lg font-medium">{product?.name}</h3>
+					<FieldWrapper error={errors.rating?.message} className="mt-2 items-center">
 						<div className="flex gap-2">
 							{getStars(rating).map((item, index) => (
-								<div className="cursor-pointer" key={index} onClick={() => setValue("rating", index + 1)}>
+								<div
+									className="cursor-pointer transition-transform hover:scale-110 active:scale-95"
+									key={index}
+									onClick={() => setValue("rating", index + 1)}
+								>
 									{Star(item, {
 										svgProps: {
-											width: 50,
-											height: 50
+											width: 28,
+											height: 28
 										}
 									})}
 								</div>
 							))}
 						</div>
 					</FieldWrapper>
-					<div className="flex w-full gap-2">
-						<FormInput
-							name="name"
-							inputProps={{
-								placeholder: ratingFields["name"],
-								required: true
-							}}
-						/>
-						<FormInput
-							name="phoneNumber"
-							inputProps={{
-								placeholder: ratingFields["phoneNumber"],
-								required: true
-							}}
-						/>
+					<div className="mt-4 flex w-full flex-col gap-3 sm:flex-row">
+						<div className="w-full">
+							<FormInput
+								name="name"
+								inputProps={{
+									placeholder: ratingFields["name"],
+									required: true,
+									className: "rounded-xl"
+								}}
+							/>
+						</div>
+						<div className="w-full">
+							<FormInput
+								name="phoneNumber"
+								inputProps={{
+									placeholder: ratingFields["phoneNumber"],
+									required: true,
+									className: "rounded-xl"
+								}}
+							/>
+						</div>
 					</div>
 				</div>
-				<Textarea {...method.register("shareFeelings")} placeholder={t("placeholder")} />
+				<div className="w-full">
+					<Textarea
+						{...method.register("shareFeelings")}
+						placeholder={t("placeholder")}
+						className="bg-background border-border text-foreground placeholder:text-muted-foreground focus-within:border-info focus-within:ring-info hover:border-foreground/30 min-h-[80px] resize-none rounded-xl border p-3 shadow-xs transition-[border-color] duration-200 ease-out focus-within:ring-[1px]"
+					/>
+				</div>
 			</div>
 		</FormProvider>
 	);

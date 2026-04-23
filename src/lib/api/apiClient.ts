@@ -1,5 +1,20 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
 
+const parseApiResponse = async <T>(response: Response): Promise<T> => {
+	const contentType = response.headers.get("content-type") ?? "";
+	const raw = await response.text();
+
+	if (!raw.trim()) {
+		return undefined as T;
+	}
+
+	if (contentType.includes("application/json")) {
+		return JSON.parse(raw) as T;
+	}
+
+	return raw as T;
+};
+
 export async function getAPI<T>(endpoint: string, headers: HeadersInit = {}): Promise<T> {
 	try {
 		const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -13,15 +28,14 @@ export async function getAPI<T>(endpoint: string, headers: HeadersInit = {}): Pr
 		if (!response.ok) {
 			let errorDetails;
 			try {
-				errorDetails = await response.json();
+				errorDetails = await parseApiResponse(response);
 			} catch {
 				errorDetails = await response.text();
 			}
 			throw new Error(`Request failed with status ${response.status}: ${JSON.stringify(errorDetails)}`);
 		}
 
-		// Explicitly cast to T
-		return (await response.json()) as T;
+		return await parseApiResponse<T>(response);
 	} catch (error) {
 		console.error("GET API Error:", (error as Error).message);
 		throw error;
@@ -50,13 +64,13 @@ export async function postAPI<T, U>(
 		if (!response.ok) {
 			let errorDetails;
 			try {
-				errorDetails = await response.json();
+				errorDetails = await parseApiResponse(response);
 			} catch {
 				errorDetails = response;
 			}
 			throw new Error(`Request failed with status ${response.status}: ${JSON.stringify(errorDetails)}`);
 		}
-		return (await response.json()) as U;
+		return await parseApiResponse<U>(response);
 	} catch (error) {
 		console.error("POST API Error:", (error as Error).message);
 		throw error;
